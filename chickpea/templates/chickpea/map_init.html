@@ -2,8 +2,7 @@
     <script type="text/javascript">
         map_settings = {
             "chickpea_id": {{ map.pk }},
-            "lng": {{ map.center.x }},
-            "lat": {{ map.center.y }},
+            "center": {{ map.center.geojson|safe }},
             "categories": {{ categories|safe }},
             "urls": {{ urls|safe }},
             "default_icon_url": "{{ STATIC_URL }}chickpea/src/img/marker.png",
