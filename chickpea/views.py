@@ -174,10 +174,7 @@ class UpdateMapTileLayers(TemplateView):
                 else:
                     # TODO manage rank
                     MapToTileLayer.objects.create(map=map_inst, tilelayer_id=pk)
-        response = {
-            "redirect": map_inst.get_absolute_url()
-        }
-        return HttpResponse(simplejson.dumps(response))
+        return simple_json_response(redirect=map_inst.get_absolute_url())
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
