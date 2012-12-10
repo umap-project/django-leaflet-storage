@@ -4,6 +4,7 @@ from django.contrib.gis.db import models
 from django.db.models import get_model as dj_get_model
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 
 class Licence(models.Model):
@@ -54,6 +55,7 @@ class Map(models.Model):
     licence = models.ForeignKey(Licence, help_text="Choose the map licence.")
     modified_at = models.DateTimeField(auto_now=True)
     tilelayers = models.ManyToManyField(TileLayer, through="MapToTileLayer")
+    owner = models.ForeignKey(User)
 
     objects = models.GeoManager()
 

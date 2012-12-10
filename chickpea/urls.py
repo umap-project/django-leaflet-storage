@@ -1,11 +1,14 @@
 from django.conf.urls import patterns, url
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.views import login
 
 from chickpea import views
+from .decorators import login_required, jsonize_view
 
 urlpatterns = patterns('',
-    url(r'^map/add/$', views.QuickMapCreate.as_view(), name='map_add'),
-    url(r'^map/update/(?P<pk>[\d]+)/$', views.QuickMapUpdate.as_view(), name='map_update'),
+    url(r'^login/$', jsonize_view(login), name='login'),
+    url(r'^map/add/$', login_required(views.QuickMapCreate.as_view()), name='map_add'),
+    url(r'^map/update/(?P<pk>[\d]+)/$', login_required(views.QuickMapUpdate.as_view()), name='map_update'),
     url(r'^map/embed/(?P<pk>[\d]+)/$', views.EmbedMap.as_view(), name='map_embed'),
     url(r'^map/update-extent/(?P<pk>[\d]+)/$', csrf_exempt(views.UpdateMapExtent.as_view()), name='map_update_extent'),
     url(r'^map/update-tilelayers/(?P<pk>[\d]+)/$', csrf_exempt(views.UpdateMapTileLayers.as_view()), name='map_update_tilelayers'),
