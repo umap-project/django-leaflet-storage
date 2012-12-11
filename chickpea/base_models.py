@@ -46,6 +46,14 @@ class Map(models.Model):
     """
     A single thematical map.
     """
+    ANONYMOUS = 1
+    EDITORS = 2
+    OWNER = 3
+    EDIT_STATUS = (
+        (ANONYMOUS, 'Everyone can edit'),
+        (EDITORS, 'Only editors can edit'),
+        (OWNER, 'Only owner can edit'),
+    )
     name = models.CharField(max_length=100)
     slug = models.SlugField(db_index=True)
     description = models.TextField(blank=True, null=True)
@@ -55,7 +63,9 @@ class Map(models.Model):
     licence = models.ForeignKey(Licence, help_text="Choose the map licence.")
     modified_at = models.DateTimeField(auto_now=True)
     tilelayers = models.ManyToManyField(TileLayer, through="MapToTileLayer")
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, related_name="owned_maps")
+    editors = models.ManyToManyField(User)
+    edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER)
 
     objects = models.GeoManager()
 
@@ -74,6 +84,18 @@ class Map(models.Model):
 
     def get_absolute_url(self):
         return reverse("map", kwargs={'slug': self.slug})
+
+    def can_edit(self, user):
+        """
+        Define if an already authenticated user can edit or not the instance.
+        """
+        if user == self.owner or self.edit_status == self.ANONYMOUS:
+            can = True
+        elif self.edit_status == self.EDITORS and user in self.editors:
+            can = True
+        else:
+            can = False
+        return can
 
 
 class MapToTileLayer(models.Model):

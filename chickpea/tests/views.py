@@ -7,19 +7,14 @@ from django.core.urlresolvers import reverse
 from chickpea.models import Map, Category, Marker, Polygon, Polyline
 
 from .base import (TileLayerFactory, LicenceFactory, MapFactory,
-                   CategoryFactory, MarkerFactory)
+                   CategoryFactory, MarkerFactory, UserFactory, BaseTest)
 
 
-class MapViews(TestCase):
-
-    def setUp(self):
-        # We need a default tilelayer
-        self.default_tilelayer = TileLayerFactory()
-        # We need a default licence
-        self.licence = LicenceFactory()
+class MapViews(BaseTest):
 
     def test_quick_create_GET(self):
         url = reverse('map_add')
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
@@ -34,56 +29,131 @@ class MapViews(TestCase):
             'name': name,
             'licence': self.licence.pk
         }
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
-        created_map = Map.objects.get(pk=1)
+        created_map = Map.objects.latest('pk')
         self.assertEqual(json['redirect'], created_map.get_absolute_url())
         self.assertEqual(created_map.name, name)
         # A category must have been created automatically
         self.assertEqual(Category.objects.filter(map=created_map).count(), 1)
         # Default tilelayer must have been linked to the map
         self.assertEqual(created_map.tilelayers.count(), 1)
-        self.assertEqual(created_map.tilelayers.all()[0], self.default_tilelayer)
+        self.assertEqual(created_map.tilelayers.all()[0], self.tilelayer)
 
     def test_quick_update_GET(self):
-        map_inst = MapFactory()
-        url = reverse('map_update', kwargs={'pk': map_inst.pk})
+        url = reverse('map_update', kwargs={'map_id': self.map.pk})
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
         self.assertIn("html", json)
-        self.assertIn(map_inst.name, json['html'])
+        self.assertIn(self.map.name, json['html'])
 
     def test_quick_update_POST(self):
-        map_inst = MapFactory()
-        url = reverse('map_update', kwargs={'pk': map_inst.pk})
+        url = reverse('map_update', kwargs={'map_id': self.map.pk})
         # POST only mendatory fields
         new_name = 'new map name'
         post_data = {
             'name': new_name,
-            'licence': map_inst.licence.pk
+            'licence': self.map.licence.pk
         }
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
         self.assertNotIn("html", json)
-        updated_map = Map.objects.get(pk=map_inst.pk)
+        updated_map = Map.objects.get(pk=self.map.pk)
         self.assertEqual(json['redirect'], updated_map.get_absolute_url())
         self.assertEqual(updated_map.name, new_name)
 
 
-class BaseFeatureViews(TestCase):
+class ViewsPermissionsTest(BaseTest):
 
     def setUp(self):
-        self.map = MapFactory()
-        self.category = CategoryFactory(map=self.map)
+        super(ViewsPermissionsTest, self).setUp()
+        self.other_user = UserFactory(username="Bob", password="123123")
+
+    def check_url_permissions(self, url):
+        # GET anonymous
+        response = self.client.get(url)
+        self.assertLoginRequired(response)
+        # POST anonymous
+        response = self.client.post(url, {})
+        self.assertLoginRequired(response)
+        # GET with wrong permissions
+        self.client.login(username=self.other_user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # POST with wrong permissions
+        self.client.login(username=self.other_user.username, password="123123")
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 403)
 
 
-class MarkerViews(BaseFeatureViews):
+class MapViewsPermissions(ViewsPermissionsTest):
+
+    def test_map_add_permissions(self):
+        url = reverse('map_add')
+        # GET anonymous
+        response = self.client.get(url)
+        self.assertLoginRequired(response)
+        # POST anonymous
+        response = self.client.post(url, {})
+        self.assertLoginRequired(response)
+
+    def test_map_update_permissions(self):
+        url = reverse('map_update', kwargs={'map_id': self.map.pk})
+        self.check_url_permissions(url)
+
+    def test_upload_data_permissions(self):
+        url = reverse('upload_data', kwargs={'map_id': self.map.pk})
+        self.check_url_permissions(url)
+
+    def test_map_update_extend_permissions(self):
+        # only POST is available for this view
+        url = reverse('map_update_extent', kwargs={'map_id': self.map.pk})
+        # POST anonymous
+        response = self.client.post(url, {})
+        self.assertLoginRequired(response)
+        # POST with wrong permissions
+        self.client.login(username=self.other_user.username, password="123123")
+        response = self.client.post(url, {})
+        self.assertEqual(response.status_code, 403)
+
+    def test_embed_view_should_be_open_bar(self):
+        url = reverse('map_embed', kwargs={'map_id': self.map.pk})
+        # HTTP_HOST is needed by the view for now
+        response = self.client.get(url, HTTP_HOST="local.local")
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertIn("html", json)
+        self.assertIn("iframe", json['html'])
+
+
+class MarkerViewsPermissions(ViewsPermissionsTest):
+
+    def test_marker_add(self):
+        url = reverse('marker_add', kwargs={'map_id': self.map.pk})
+        self.check_url_permissions(url)
+
+    def test_marker_update(self):
+        marker = MarkerFactory(category=self.category)
+        url = reverse('marker_update', kwargs={'map_id': self.map.pk, 'pk': marker.pk})
+        self.check_url_permissions(url)
+
+    def test_marker_delete(self):
+        marker = MarkerFactory(category=self.category)
+        url = reverse('marker_delete', kwargs={'map_id': self.map.pk, 'pk': marker.pk})
+        self.check_url_permissions(url)
+
+
+class MarkerViews(BaseTest):
 
     def test_add_GET(self):
         url = reverse('marker_add', args=(self.map.pk, ))
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
@@ -98,6 +168,7 @@ class MarkerViews(BaseFeatureViews):
             'category': self.category.pk,
             'latlng': '{"type": "Point","coordinates": [-0.1318359375,51.474540439419755]}'
         }
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data, follow=True)
         self.assertEqual(response.status_code, 200)
         created_marker = Marker.objects.latest('pk')
@@ -109,6 +180,7 @@ class MarkerViews(BaseFeatureViews):
     def test_delete_GET(self):
         marker = MarkerFactory(category=self.category)
         url = reverse('marker_delete', args=(self.map.pk, marker.pk))
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         json = simplejson.loads(response.content)
@@ -121,6 +193,7 @@ class MarkerViews(BaseFeatureViews):
         post_data = {
             'confirm': "yes",
         }
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(pk=marker.pk).count(), 0)
@@ -135,8 +208,12 @@ class MarkerViews(BaseFeatureViews):
 class UploadData(TransactionTestCase):
 
     def setUp(self):
-        self.map = MapFactory()
+        self.user = UserFactory(password="123123")
+        self.map = MapFactory(owner=self.user)
         self.category = CategoryFactory(map=self.map)
+
+    def tearDown(self):
+        self.user.delete()
 
     def process_file(self, filename):
         """
@@ -154,12 +231,14 @@ class UploadData(TransactionTestCase):
             'category': self.category.pk,
             'data_file': f
         }
+        self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         return response
 
     def test_generic(self):
         # Contains tow Point, two Polygons and one Polyline
         response = self.process_file("test_upload_data.json")
+        self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 2)

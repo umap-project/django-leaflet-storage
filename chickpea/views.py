@@ -4,7 +4,6 @@ from django.http import HttpResponse
 from django.db.utils import DatabaseError
 from django.template import RequestContext
 from django.views.generic import DetailView
-from django.shortcuts import get_object_or_404
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.list import BaseListView
@@ -103,6 +102,7 @@ class QuickMapCreate(CreateView):
         """
         Provide default values, to keep form simple.
         """
+        form.instance.owner = self.request.user
         self.object = form.save()
         layer = TileLayer.get_default()
         MapToTileLayer.objects.create(map=self.object, tilelayer=layer, rank=1)
@@ -123,6 +123,7 @@ class QuickMapCreate(CreateView):
 class QuickMapUpdate(UpdateView):
     model = Map
     form_class = QuickMapCreateForm
+    pk_url_kwarg = 'map_id'
 
     def form_valid(self, form):
         self.object = form.save()
@@ -141,9 +142,10 @@ class QuickMapUpdate(UpdateView):
 class UpdateMapExtent(UpdateView):
     model = Map
     form_class = UpdateMapExtentForm
+    pk_url_kwarg = 'map_id'
 
     def form_invalid(self, form):
-        return HttpResponse(form.errors)
+        return simple_json_response(info=form.errors)
 
     def form_valid(self, form):
         self.object = form.save()
@@ -152,17 +154,17 @@ class UpdateMapExtent(UpdateView):
 
 class UpdateMapTileLayers(TemplateView):
     template_name = "chickpea/map_update_tilelayers.html"
+    pk_url_kwarg = 'map_id'
 
     def get_context_data(self, **kwargs):
-        map_inst = get_object_or_404(Map, pk=kwargs['pk'])
         return {
             "tilelayers": TileLayer.objects.all(),
-            'map': map_inst
+            'map': kwargs['map_inst']
         }
 
     def post(self, request, *args, **kwargs):
         # TODO: manage with a proper form
-        map_inst = get_object_or_404(Map, pk=kwargs['pk'])
+        map_inst = kwargs['map_inst']
         # Empty relations (we don't keep trace of unchecked box for now)
         MapToTileLayer.objects.filter(map=map_inst).delete()
         for key, value in request.POST.iteritems():
@@ -183,10 +185,11 @@ class UpdateMapTileLayers(TemplateView):
 class UploadData(FormView):
     template_name = "chickpea/upload_form.html"
     form_class = UploadDataForm
+    pk_url_kwarg = 'map_id'
 
     def get_form(self, form_class):
         form = super(UploadData, self).get_form(form_class)
-        map_inst = get_object_or_404(Map, pk=self.kwargs['map_id'])
+        map_inst = self.kwargs['map_inst']
         form.fields['category'].queryset = Category.objects.filter(map=map_inst)
         return form
 
@@ -245,6 +248,7 @@ class UploadData(FormView):
 class EmbedMap(DetailView):
     model = Map
     template_name = "chickpea/map_embed.html"
+    pk_url_kwarg = 'map_id'
 
     def get_context_data(self, **kwargs):
         # FIXME use settings for SITE_URL?
@@ -320,7 +324,7 @@ class FeatureAdd(CreateView):
 
     def get_form(self, form_class):
         form = super(FeatureAdd, self).get_form(form_class)
-        map_inst = get_object_or_404(Map, pk=self.kwargs['map_id'])
+        map_inst = self.kwargs['map_inst']
         form.fields['category'].queryset = Category.objects.filter(map=map_inst)
         return form
 
@@ -342,7 +346,7 @@ class FeatureUpdate(UpdateView):
     # TODO: factorize with FeatureAdd!
     def get_form(self, form_class):
         form = super(FeatureUpdate, self).get_form(form_class)
-        map_inst = get_object_or_404(Map, pk=self.kwargs['map_id'])
+        map_inst = self.kwargs['map_inst']
         form.fields['category'].queryset = Category.objects.filter(map=map_inst)
         return form
 
@@ -456,7 +460,7 @@ class CategoryCreate(CreateView):
 
     def get_initial(self):
         initial = super(CategoryCreate, self).get_initial()
-        map_inst = get_object_or_404(Map, pk=self.kwargs['map_id'])
+        map_inst = self.kwargs['map_inst']
         initial.update({
             "map": map_inst
         })

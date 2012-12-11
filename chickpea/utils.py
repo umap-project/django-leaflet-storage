@@ -1,4 +1,6 @@
 from django.core.urlresolvers import get_resolver
+from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
+from django.conf.urls.defaults import patterns
 
 from vectorformats.Formats import Django, GeoJSON
 
@@ -65,3 +67,40 @@ def instances_to_geojson(instances, geo_field, properties):
     djf = Django.Django(geodjango=geo_field, properties=properties)
     geoj = GeoJSON.GeoJSON()
     return geoj.encode(djf.decode(instances))
+
+
+class DecoratedURLPattern(RegexURLPattern):
+    def resolve(self, *args, **kwargs):
+        result = RegexURLPattern.resolve(self, *args, **kwargs)
+        if result:
+            result.func = self._decorate_with(result.func)
+        return result
+
+
+def decorated_patterns(prefix, func, *args):
+    """
+    Utility function to decorate a group of url in urls.py
+
+    Taken from http://djangosnippets.org/snippets/532/ + comments
+    See also http://friendpaste.com/6afByRiBB9CMwPft3a6lym
+
+    Example:
+    urlpatterns = patterns('',
+        url(r'^language/(?P<lang_code>[a-z]+)$', 'ops.common.views.change_language', name='change_language'),
+
+        ) + decorated_patterns('', login_required, url(r'^', include('cms.urls')),
+    )
+    """
+    result = patterns(prefix, *args)
+    if func:
+        for p in result:
+            if isinstance(p, RegexURLPattern):
+                p.__class__ = DecoratedURLPattern
+                p._decorate_with = func
+            elif isinstance(p, RegexURLResolver):
+                for pp in p.url_patterns:
+                    if isinstance(pp, RegexURLPattern):
+                        pp.__class__ = DecoratedURLPattern
+                        pp._decorate_with = func
+
+    return result

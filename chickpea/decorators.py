@@ -1,8 +1,11 @@
 from functools import wraps
 
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseForbidden
 
 from .views import simple_json_response
+from .models import Map
 
 
 def login_required(view_func):
@@ -10,6 +13,24 @@ def login_required(view_func):
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated():
             return simple_json_response(login_required=reverse("login"))
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+def map_permissions_check(view_func):
+    """
+    Used for URLs dealing with the map.
+    """
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        map_inst = get_object_or_404(Map, pk=kwargs['map_id'])
+        user = request.user
+        kwargs['map_inst'] = map_inst  # Avoid rerequesting the map in the view
+        if map_inst.edit_status >= map_inst.EDITORS:
+            if not user.is_authenticated():
+                return simple_json_response(login_required=reverse("login"))
+            elif not map_inst.can_edit(user):
+                return HttpResponseForbidden('Action not allowed for user.')
         return view_func(request, *args, **kwargs)
     return wrapper
 
