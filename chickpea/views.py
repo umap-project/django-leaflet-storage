@@ -8,6 +8,7 @@ from django.contrib.gis.geos import GEOSGeometry
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.list import BaseListView
 from django.views.generic.base import TemplateView
+from django.contrib.auth import logout as do_logout
 from django.template.loader import render_to_string
 from django.views.generic.detail import BaseDetailView
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
@@ -502,3 +503,8 @@ class CategoryUpdate(UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return simple_json_response(category=self.object.json)
+
+
+def logout(request):
+    do_logout(request)
+    return simple_json_response(redirect="/")

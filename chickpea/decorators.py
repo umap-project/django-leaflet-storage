@@ -42,7 +42,7 @@ def jsonize_view(view_func):
         response_kwargs = {}
         if hasattr(response, 'rendered_content'):
             response_kwargs['html'] = response.rendered_content
-        if hasattr(response, 'location'):
-            response_kwargs['redirect'] = response.location
+        if response.has_header('location'):
+            response_kwargs['redirect'] = response['location']
         return simple_json_response(**response_kwargs)
     return wrapper
