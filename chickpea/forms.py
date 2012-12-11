@@ -46,6 +46,13 @@ class UpdateMapExtentForm(forms.ModelForm):
         fields = ('zoom', 'center')
 
 
+class UpdateMapEditorsForm(forms.ModelForm):
+
+    class Meta:
+        model = Map
+        fields = ('editors', )
+
+
 class CategoryForm(forms.ModelForm):
 
     class Meta:

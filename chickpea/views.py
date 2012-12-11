@@ -18,7 +18,7 @@ from .models import (Map, Marker, Category, Polyline, TileLayer,
                      MapToTileLayer, Polygon)
 from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
-                    UploadDataForm)
+                    UploadDataForm, UpdateMapEditorsForm)
 
 
 def _urls_for_js(urls=None):
@@ -42,6 +42,7 @@ def _urls_for_js(urls=None):
             'polygon_delete',
             'map_update_extent',
             'map_update_tilelayers',
+            'map_update_editors',
             'map_update',
             'upload_data',
             'map_embed',
@@ -150,6 +151,20 @@ class UpdateMapExtent(UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return simple_json_response(info="Zoom and center updated with success!")
+
+
+class UpdateMapEditors(UpdateView):
+    template_name = "chickpea/map_update_editors.html"
+    model = Map
+    form_class = UpdateMapEditorsForm
+    pk_url_kwarg = 'map_id'
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return simple_json_response(info="Map editors updated with success!")
+
+    def render_to_response(self, context, **response_kwargs):
+        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
 
 class UpdateMapTileLayers(TemplateView):

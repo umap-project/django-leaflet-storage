@@ -64,7 +64,7 @@ class Map(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
     tilelayers = models.ManyToManyField(TileLayer, through="MapToTileLayer")
     owner = models.ForeignKey(User, related_name="owned_maps")
-    editors = models.ManyToManyField(User)
+    editors = models.ManyToManyField(User, blank=True)
     edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER)
 
     objects = models.GeoManager()
@@ -83,7 +83,7 @@ class Map(models.Model):
         return tilelayers_data
 
     def get_absolute_url(self):
-        return reverse("map", kwargs={'slug': self.slug})
+        return reverse("map", kwargs={'slug': self.slug, 'username': self.owner.username})
 
     def can_edit(self, user):
         """
