@@ -7,6 +7,6 @@
 [submodule "chickpea/static/hash"]
 	path = chickpea/static/hash
 	url = git://github.com/mlevans/leaflet-hash.git
-[submodule "chickpea/static/chickpea"]
-	path = chickpea/static/chickpea
-	url = git://github.com/yohanboniface/leaflet-chickpea.git
+[submodule "chickpea/static/storage"]
+	path = chickpea/static/storage
+	url = git://github.com/yohanboniface/Leaflet.Storage.git
