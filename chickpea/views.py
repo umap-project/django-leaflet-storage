@@ -94,7 +94,7 @@ class MapView(DetailView):
         if self.request.user.is_authenticated():
             allow_edit = int(self.object.can_edit(self.request.user))
         else:
-            # Default to 1: display buttons for anonymous, they can
+            # Default to 1: display buttons for anonymous, they can
             # login from action process
             allow_edit = self.get_int_from_request("allowEdit", 1)
         context['allowEdit'] = allow_edit
