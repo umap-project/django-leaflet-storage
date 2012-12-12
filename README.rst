@@ -123,15 +123,3 @@ Again, this have to be done in JavaScript::
     <script>
         map_settings.allowEdit = false;
     </script>
-
-
------
-#TODO
------
-
-- unittests! (Javascript side also)
-- support of Circle
-- batch import of features, from standards geoformats (geojson, kml...)
-- export of features to standards geoformats
-- manage deleting feature inplace
-- light "per map" edit permission management
