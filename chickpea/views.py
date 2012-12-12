@@ -160,6 +160,13 @@ class UpdateMapPermissions(UpdateView):
     form_class = UpdateMapPermissionsForm
     pk_url_kwarg = 'map_id'
 
+    def get_form(self, form_class):
+        form = super(UpdateMapPermissions, self).get_form(form_class)
+        user = self.request.user
+        if not user == self.object.owner:
+            del form.fields['edit_status']
+        return form
+
     def form_valid(self, form):
         self.object = form.save()
         return simple_json_response(info="Map editors updated with success!")
