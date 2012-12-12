@@ -91,7 +91,13 @@ class MapView(DetailView):
         context['urls'] = simplejson.dumps(_urls_for_js())
         tilelayers_data = self.object.tilelayers_data
         context['tilelayers'] = simplejson.dumps(tilelayers_data)
-        context['allowEdit'] = self.get_int_from_request("allowEdit", 1)  # TODO manage permissions
+        if self.request.user.is_authenticated():
+            allow_edit = int(self.object.can_edit(self.request.user))
+        else:
+            # Default to 1: display buttons for anonymous, they can
+            # login from action process
+            allow_edit = self.get_int_from_request("allowEdit", 1)
+        context['allowEdit'] = allow_edit
         context['embedControl'] = self.get_int_from_request("embedControl", 1)  # TODO manage permissions
         return context
 
