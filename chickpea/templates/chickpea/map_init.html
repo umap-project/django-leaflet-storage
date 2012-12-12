@@ -1,7 +1,7 @@
     <div id="map"></div>
     <script type="text/javascript">
         map_settings = {
-            "chickpea_id": {{ map.pk }},
+            "storage_id": {{ map.pk }},
             "center": {{ map.center.geojson|safe }},
             "categories": {{ categories|safe }},
             "urls": {{ urls|safe }},
@@ -14,5 +14,5 @@
         {% if map.locate %}
             map_settings['locate'] = {"setView": true}
         {% endif %}
-        var MAP = new L.ChickpeaMap("map", map_settings);
+        var MAP = new L.Storage.Map("map", map_settings);
     </script>

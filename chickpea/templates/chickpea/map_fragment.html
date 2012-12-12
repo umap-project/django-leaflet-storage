@@ -1,7 +1,7 @@
     <div id="map_{{ map.pk }}" class="map_fragment"></div>
     <script type="text/javascript">
         map_fragment_settings = {
-            "chickpea_id": {{ map.pk }},
+            "storage_id": {{ map.pk }},
             "center": {{ map.center.geojson|safe }},
             "zoom": {{ map.zoom }},
             "tilelayers": [{{ tilelayer|safe }}],
@@ -16,5 +16,5 @@
             'layersControl': false,
             'zoomControl': false
         }
-        new L.ChickpeaMap("map_{{ map.pk }}", map_fragment_settings);
+        new L.Storage.Map("map_{{ map.pk }}", map_fragment_settings);
     </script>
