@@ -91,7 +91,7 @@ class Map(models.Model):
         """
         if user == self.owner or self.edit_status == self.ANONYMOUS:
             can = True
-        elif self.edit_status == self.EDITORS and user in self.editors:
+        elif self.edit_status == self.EDITORS and user in self.editors.all():
             can = True
         else:
             can = False

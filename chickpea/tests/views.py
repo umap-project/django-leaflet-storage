@@ -1,13 +1,13 @@
 import os
 
-from django.test import TestCase, TransactionTestCase
+from django.test import TransactionTestCase
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 
 from chickpea.models import Map, Category, Marker, Polygon, Polyline
 
-from .base import (TileLayerFactory, LicenceFactory, MapFactory,
-                   CategoryFactory, MarkerFactory, UserFactory, BaseTest)
+from .base import (MapFactory, CategoryFactory, MarkerFactory,
+                   UserFactory, BaseTest)
 
 
 class MapViews(BaseTest):
