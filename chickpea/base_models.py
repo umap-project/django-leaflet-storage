@@ -132,11 +132,11 @@ class Category(models.Model):
     map = models.ForeignKey(Map)
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
-    color = models.CharField(max_length=32, default="DarkBlue")
+    color = models.CharField(max_length=32, default="DarkBlue", help_text="Must be a CSS valid name (eg.: DarkBlue or #123456")
     pictogram = models.ForeignKey(Pictogram, null=True, blank=True)
     icon_class = models.CharField(choices=ICON_CLASS, max_length=32, default="Default")
     preset = models.BooleanField(default=False, help_text="Display this category on load.")
-    rank = models.IntegerField(null=True, blank=True)
+    rank = models.IntegerField(null=True, blank=True, help_text="Rank to order the categories")
 
     def __unicode__(self):
         return self.name
