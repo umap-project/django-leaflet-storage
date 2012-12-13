@@ -98,7 +98,9 @@ class MapView(DetailView):
         else:
             # Default to 1: display buttons for anonymous, they can
             # login from action process
-            allow_edit = self.get_int_from_request("allowEdit", 1)
+            allow_edit = 1
+        # Precedence to GET param
+        allow_edit = self.get_int_from_request("allowEdit", allow_edit)
         context['allowEdit'] = allow_edit
         context['embedControl'] = self.get_int_from_request("embedControl", 1)  # TODO manage permissions
         return context
