@@ -5,6 +5,7 @@ from django.db.utils import DatabaseError
 from django.template import RequestContext
 from django.views.generic import DetailView
 from django.contrib.gis.geos import GEOSGeometry
+from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic.list import BaseListView
 from django.views.generic.base import TemplateView
@@ -19,7 +20,7 @@ from .models import (Map, Marker, Category, Polyline, TileLayer,
                      MapToTileLayer, Polygon)
 from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
-                    UploadDataForm, UpdateMapPermissionsForm)
+                    UploadDataForm, UpdateMapPermissionsForm, FeatureForm)
 
 
 def _urls_for_js(urls=None):
@@ -344,6 +345,7 @@ class FeatureView(DetailView):
 
 
 class FeatureAdd(CreateView):
+    form_class = FeatureForm
 
     def get_success_url(self):
         return reverse_lazy(self.geojson_url, kwargs={"pk": self.object.pk})
@@ -352,6 +354,7 @@ class FeatureAdd(CreateView):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
     def get_form(self, form_class):
+        form_class = modelform_factory(self.model, form=form_class)
         form = super(FeatureAdd, self).get_form(form_class)
         map_inst = self.kwargs['map_inst']
         form.fields['category'].queryset = Category.objects.filter(map=map_inst)
@@ -359,6 +362,7 @@ class FeatureAdd(CreateView):
 
 
 class FeatureUpdate(UpdateView):
+    form_class = FeatureForm
 
     def get_success_url(self):
         return reverse_lazy(self.geojson_url, kwargs={"pk": self.object.pk})
@@ -374,6 +378,7 @@ class FeatureUpdate(UpdateView):
 
     # TODO: factorize with FeatureAdd!
     def get_form(self, form_class):
+        form_class = modelform_factory(self.model, form=form_class)
         form = super(FeatureUpdate, self).get_form(form_class)
         map_inst = self.kwargs['map_inst']
         form.fields['category'].queryset = Category.objects.filter(map=map_inst)

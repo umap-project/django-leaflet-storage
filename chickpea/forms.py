@@ -83,3 +83,16 @@ class UploadDataForm(forms.Form):
         else:
             raise forms.ValidationError('Invalid content_type: %s' % f.content_type)
         return features
+
+
+class FeatureForm(forms.ModelForm):
+
+    class Meta:
+        # model is added at runtime by the views
+        fields = ('name', 'description', 'color', 'category', 'latlng')
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
+            'color': forms.TextInput(attrs={'placeholder': 'Color (optional)'}),
+            'description': forms.Textarea(attrs={'placeholder': 'Description'}),
+            'latlng': forms.HiddenInput(),
+        }
