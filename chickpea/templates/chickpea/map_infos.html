@@ -1,0 +1,12 @@
+<h4>{{ map.name }}</h4>
+<div>{% firstof map.description "No caption yet." %}</div>
+<hr />
+<h5>User content credits</h5>
+<div>Map user content has been published under licence {{ map.licence }}</div>
+<h5>Tile layers credits</h5>
+<div>
+    {% for tilelayer in map.tilelayers.all %}
+        <p><strong>{{ tilelayer.name }}</strong> {{ tilelayer.attribution }}</p>
+    {% endfor %}
+</div>
+<div>Powered by <a href="http://leafletjs.com">Leaflet</a> and <a href="https://www.djangoproject.com">Django</a>, glued by <a href="#">u{Map} project</a>.</div>

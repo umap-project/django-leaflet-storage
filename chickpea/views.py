@@ -46,8 +46,9 @@ def _urls_for_js(urls=None):
             'map_update_tilelayers',
             'map_update_permissions',
             'map_update',
-            'upload_data',
             'map_embed',
+            'map_infos',
+            'upload_data',
             'category_add',
             'category_update',
         ]
@@ -101,6 +102,15 @@ class MapView(DetailView):
         context['allowEdit'] = allow_edit
         context['embedControl'] = self.get_int_from_request("embedControl", 1)  # TODO manage permissions
         return context
+
+
+class MapInfos(DetailView):
+    model = Map
+    template_name = "chickpea/map_infos.html"
+    pk_url_kwarg = 'map_id'
+
+    def render_to_response(self, context, **response_kwargs):
+        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
 
 class QuickMapCreate(CreateView):
