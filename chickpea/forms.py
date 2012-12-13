@@ -7,7 +7,17 @@ from vectorformats.Formats import GeoJSON
 from chickpea.models import Map, Category
 
 
-class QuickMapCreateForm(forms.ModelForm):
+class PlaceholderForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(PlaceholderForm, self).__init__(*args, **kwargs)
+        for name, field in self.fields.iteritems():
+            if isinstance(field.widget, (forms.Textarea, forms.TextInput)):
+                field.widget.attrs['placeholder'] = field.label
+                field.label = ""
+
+
+class QuickMapCreateForm(PlaceholderForm):
 
     # center and slug must be set as not required for this form
     center = forms.CharField(required=False, widget=forms.HiddenInput())
@@ -16,10 +26,6 @@ class QuickMapCreateForm(forms.ModelForm):
     class Meta:
         model = Map
         fields = ('name', 'description', 'licence', 'slug', 'center')
-        widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Type here the map name'}),
-            'description': forms.Textarea(attrs={'placeholder': 'Type here the map caption'})
-        }
 
     def clean_slug(self):
         slug = self.cleaned_data.get('slug', None)
@@ -53,7 +59,7 @@ class UpdateMapPermissionsForm(forms.ModelForm):
         fields = ('edit_status', 'editors')
 
 
-class CategoryForm(forms.ModelForm):
+class CategoryForm(PlaceholderForm):
 
     class Meta:
         model = Category
@@ -85,14 +91,11 @@ class UploadDataForm(forms.Form):
         return features
 
 
-class FeatureForm(forms.ModelForm):
+class FeatureForm(PlaceholderForm):
 
     class Meta:
         # model is added at runtime by the views
         fields = ('name', 'description', 'color', 'category', 'latlng')
         widgets = {
-            'name': forms.TextInput(attrs={'placeholder': 'Name'}),
-            'color': forms.TextInput(attrs={'placeholder': 'Color (optional)'}),
-            'description': forms.Textarea(attrs={'placeholder': 'Description'}),
             'latlng': forms.HiddenInput(),
         }
