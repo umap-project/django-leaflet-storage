@@ -360,6 +360,15 @@ class FeatureAdd(CreateView):
         form.fields['category'].queryset = Category.objects.filter(map=map_inst)
         return form
 
+    def get_template_names(self):
+        """
+        Add a fallback, but keep the default templates to make it easily
+        extendable.
+        """
+        templates = super(FeatureAdd, self).get_template_names()
+        templates.append("chickpea/feature_form.html")
+        return templates
+
 
 class FeatureUpdate(UpdateView):
     form_class = FeatureForm
@@ -383,6 +392,15 @@ class FeatureUpdate(UpdateView):
         map_inst = self.kwargs['map_inst']
         form.fields['category'].queryset = Category.objects.filter(map=map_inst)
         return form
+
+    def get_template_names(self):
+        """
+        Add a fallback, but keep the default templates to make it easily
+        extendable.
+        """
+        templates = super(FeatureUpdate, self).get_template_names()
+        templates.append("chickpea/feature_form.html")
+        return templates
 
 
 class FeatureDelete(DeleteView):
