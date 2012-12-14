@@ -28,30 +28,9 @@ def _urls_for_js(urls=None):
     Return templated URLs prepared for javascript.
     """
     if urls is None:
-        urls = [
-            'marker_update',
-            'marker_add',
-            'marker_delete',
-            'marker',
-            'feature_geojson_list',
-            'polyline',
-            'polyline_add',
-            'polyline_update',
-            'polyline_delete',
-            'polygon',
-            'polygon_add',
-            'polygon_update',
-            'polygon_delete',
-            'map_update_extent',
-            'map_update_tilelayers',
-            'map_update_permissions',
-            'map_update',
-            'map_embed',
-            'map_infos',
-            'upload_data',
-            'category_add',
-            'category_update',
-        ]
+        # prevent circular import
+        from .urls import urlpatterns
+        urls = [url.name for url in urlpatterns if url.name]
     return dict(zip(urls, [get_uri_template(url) for url in urls]))
 
 
