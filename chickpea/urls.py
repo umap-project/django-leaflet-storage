@@ -19,7 +19,6 @@ urlpatterns = patterns('',
     url(r'^polygon/json/(?P<pk>[\d]+)/$', views.PolygonGeoJSONView.as_view(), name='polygon_geojson'),
     url(r'^map/(?P<map_id>[\d]+)/export/iframe/$', views.EmbedMap.as_view(), name='map_embed'),
     url(r'^map/(?P<map_id>[\d]+)/infos/caption/$', views.MapInfos.as_view(), name='map_infos'),
-    url(r'^success/$', views.SuccessView.as_view(), name='success'),
 )
 urlpatterns += decorated_patterns('', login_required,
     url(r'^map/add/$', views.QuickMapCreate.as_view(), name='map_add'),

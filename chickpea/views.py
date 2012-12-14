@@ -480,14 +480,6 @@ class PolygonGeoJSONView(BaseDetailView, GeoJSONMixin):
         return Polygon.objects.filter(pk=self.kwargs['pk'])
 
 
-class SuccessView(TemplateView):
-    """
-    Generic view to say "hey, you have made this action success".
-    Should be splitted in the future.
-    """
-    template_name = "chickpea/success.html"
-
-
 class CategoryCreate(CreateView):
     model = Category
     form_class = CategoryForm
