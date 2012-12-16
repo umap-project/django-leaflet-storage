@@ -24,7 +24,7 @@ class MapViews(BaseTest):
     def test_quick_create_POST(self):
         url = reverse('map_add')
         # POST only mendatory fields
-        name = 'test-map'
+        name = 'test-map-with-new-name'
         post_data = {
             'name': name,
             'licence': self.licence.pk
@@ -41,6 +41,20 @@ class MapViews(BaseTest):
         # Default tilelayer must have been linked to the map
         self.assertEqual(created_map.tilelayers.count(), 1)
         self.assertEqual(created_map.tilelayers.all()[0], self.tilelayer)
+
+    def test_quick_create_with_existing_name_should_not_succeed(self):
+        url = reverse('map_add')
+        # POST only mendatory fields
+        post_data = {
+            'name': self.map.name,
+            'licence': self.licence.pk
+        }
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertIn('html', json)
+        self.assertEqual(Map.objects.filter(name=self.map.name, owner=self.map.owner).count(), 1)
 
     def test_quick_update_GET(self):
         url = reverse('map_update', kwargs={'map_id': self.map.pk})
@@ -67,6 +81,21 @@ class MapViews(BaseTest):
         updated_map = Map.objects.get(pk=self.map.pk)
         self.assertEqual(json['redirect'], updated_map.get_absolute_url())
         self.assertEqual(updated_map.name, new_name)
+
+    def test_quick_update_with_existing_name_should_no_succeed(self):
+        url = reverse('map_update', kwargs={'map_id': self.map.pk})
+        other_map = MapFactory(name="existing name", slug="existing-name", owner=self.user)
+        # POST only mendatory fields
+        post_data = {
+            'name': other_map.name,
+            'licence': self.map.licence.pk
+        }
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertIn("html", json)
+        self.assertEqual(Map.objects.filter(name=other_map.name, owner=self.map.owner).count(), 1)
 
 
 class ViewsPermissionsTest(BaseTest):

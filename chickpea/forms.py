@@ -19,7 +19,11 @@ class PlaceholderForm(forms.ModelForm):
 
 class QuickMapCreateForm(PlaceholderForm):
 
-    # center and slug must be set as not required for this form
+    def __init__(self, *args, **kwargs):
+        self.owner = kwargs.pop('owner')
+        super(QuickMapCreateForm, self).__init__(*args, **kwargs)
+
+    # don't bother the user with the slug and center, instead calculate them
     center = forms.CharField(required=False, widget=forms.HiddenInput())
     slug = forms.CharField(required=False, widget=forms.HiddenInput())
 
@@ -43,6 +47,19 @@ class QuickMapCreateForm(PlaceholderForm):
             point = Point(2, 51)
             self.cleaned_data['center'] = point
         return self.cleaned_data['center']
+
+    def clean(self):
+        # slug is not displayed, so check that it's unique on name
+        slug = self.cleaned_data.get('slug', None)
+        if slug:
+            try:
+                existing_map = Map.objects.get(owner=self.owner, slug=slug)
+            except Map.DoesNotExist:
+                pass
+            else:
+                if existing_map.pk != self.instance.pk:
+                    raise forms.ValidationError("You already have a map with this name.")
+        return self.cleaned_data
 
 
 class UpdateMapExtentForm(forms.ModelForm):

@@ -109,6 +109,11 @@ class QuickMapCreate(CreateView):
         Category.objects.create(map=self.object, name="POIs", preset=True)
         return simple_json_response(redirect=self.get_success_url())
 
+    def get_form_kwargs(self):
+        kwargs = super(QuickMapCreate, self).get_form_kwargs()
+        kwargs.update({'owner': self.request.user})
+        return kwargs
+
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
@@ -124,6 +129,11 @@ class QuickMapUpdate(UpdateView):
     model = Map
     form_class = QuickMapCreateForm
     pk_url_kwarg = 'map_id'
+
+    def get_form_kwargs(self):
+        kwargs = super(QuickMapUpdate, self).get_form_kwargs()
+        kwargs.update({'owner': self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         self.object = form.save()
