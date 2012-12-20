@@ -3,6 +3,7 @@ import os
 from django.test import TransactionTestCase
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from chickpea.models import Map, Category, Marker, Polygon, Polyline
 
@@ -96,6 +97,39 @@ class MapViews(BaseTest):
         json = simplejson.loads(response.content)
         self.assertIn("html", json)
         self.assertEqual(Map.objects.filter(name=other_map.name, owner=self.map.owner).count(), 1)
+
+    def test_delete_GET(self):
+        url = reverse('map_delete', args=(self.map.pk, ))
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertIn("html", json)
+        self.assertIn("form", json['html'])
+
+    def test_delete_POST(self):
+        # create some features
+        marker1 = MarkerFactory(category=self.category)
+        marker2 = MarkerFactory(category=self.category)
+        marker3 = MarkerFactory(category=self.category)
+        url = reverse('map_delete', args=(self.map.pk, ))
+        post_data = {
+            'confirm': "yes",
+        }
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, post_data, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 0)
+        self.assertEqual(Category.objects.filter(pk=self.category.pk).count(), 0)
+        # Check that features have been delete
+        self.assertEqual(Marker.objects.filter(pk=marker1.pk).count(), 0)
+        self.assertEqual(Marker.objects.filter(pk=marker2.pk).count(), 0)
+        self.assertEqual(Marker.objects.filter(pk=marker3.pk).count(), 0)
+        # Check that user has not been impacted
+        self.assertEqual(User.objects.filter(pk=self.user.pk).count(), 1)
+        # Test response is a json
+        json = simplejson.loads(response.content)
+        self.assertIn("redirect", json)
 
 
 class ViewsPermissionsTest(BaseTest):

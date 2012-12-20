@@ -1,0 +1,10 @@
+<h5>Delete <em>«{{ map }}»</em>?</h5>
+{% if map.category_set.all %}
+    <p>This will also delete the {{ map.category_set.all|length }} category(ies) of this map and all their features.</p>
+{% endif %}
+    <p><strong>This action can't be cancelled.</strong></p>
+<form method="post" action="{{ action_url }}" id="map_delete" onsubmit="return false;">
+    {% csrf_token %}
+    <input type="hidden" name="confirm" value="yes" />
+    <input type="submit" value="yes" class="button" />
+</form>

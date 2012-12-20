@@ -1,6 +1,5 @@
 from django.db import transaction
 from django.utils import simplejson
-from django.http import HttpResponse
 from django.db.utils import DatabaseError
 from django.template import RequestContext
 from django.views.generic import DetailView
@@ -13,6 +12,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import logout as do_logout
 from django.template.loader import render_to_string
 from django.views.generic.detail import BaseDetailView
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
 
 from vectorformats.Formats import Django, GeoJSON
@@ -145,7 +145,8 @@ class QuickMapUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'action_url': reverse_lazy('map_update', args=[self.object.pk])
+            'action_url': reverse_lazy('map_update', args=[self.object.pk]),
+            'delete_url': reverse_lazy('map_delete', args=[self.object.pk])
         })
         return super(QuickMapUpdate, self).get_context_data(**kwargs)
 
@@ -298,6 +299,27 @@ class EmbedMap(DetailView):
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
+
+
+class MapDelete(DeleteView):
+    model = Map
+    pk_url_kwarg = "map_id"
+
+    def render_to_response(self, context, **response_kwargs):
+        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
+
+    def delete(self, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.request.user == self.object.owner:
+            return HttpResponseNotAllowed('Only its owner can delete the map.')
+        self.object.delete()
+        return simple_json_response(redirect="/")
+
+    def get_context_data(self, **kwargs):
+        kwargs.update({
+            'action_url': reverse_lazy('map_delete', kwargs={'map_id': self.kwargs['map_id']})
+        })
+        return super(MapDelete, self).get_context_data(**kwargs)
 
 
 class GeoJSONMixin(object):

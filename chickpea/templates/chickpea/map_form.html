@@ -1,4 +1,7 @@
 <form action="." method="post">
     {{ form }}
     <input type="submit" />
+    {% if delete_url and map and user == map.owner %}
+        <a href="{{ delete_url }}" id="delete_map_button" >Delete</a>
+    {% endif %}
 </form>
