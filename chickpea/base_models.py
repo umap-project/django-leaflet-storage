@@ -152,6 +152,16 @@ class Category(models.Model):
             "preset": self.preset,
         }
 
+    @property
+    def features(self):
+        filters = {
+            "category": self
+        }
+        markers = Marker.objects.filter(**filters)
+        polylines = Polyline.objects.filter(**filters)
+        polygons = Polygon.objects.filter(**filters)
+        return list(markers) + list(polylines) + list(polygons)
+
     class Meta:
         ordering = ["rank"]
 

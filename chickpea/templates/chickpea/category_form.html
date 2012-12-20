@@ -2,4 +2,7 @@
     {% csrf_token %}
     {{ form }}
     <input type="submit" />
+    {% if delete_url %}
+        <a href="{{ delete_url }}" id="delete_category_button" >Delete</a>
+    {% endif %}
 </form>

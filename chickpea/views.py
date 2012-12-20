@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.db.utils import DatabaseError
 from django.template import RequestContext
 from django.views.generic import DetailView
+from django.shortcuts import get_object_or_404
 from django.contrib.gis.geos import GEOSGeometry
 from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse_lazy
@@ -312,13 +313,8 @@ class GeoJSONMixin(object):
 class FeatureGeoJSONListView(BaseListView, GeoJSONMixin):
 
     def get_queryset(self):
-        filters = {
-            "category": self.kwargs['category_id']
-        }
-        markers = Marker.objects.filter(**filters)
-        polylines = Polyline.objects.filter(**filters)
-        polygons = Polygon.objects.filter(**filters)
-        return list(markers) + list(polylines) + list(polygons)
+        category = get_object_or_404(Category, pk=self.kwargs['category_id'])
+        return category.features
 
 
 class MarkerGeoJSONView(BaseDetailView, GeoJSONMixin):
@@ -525,13 +521,26 @@ class CategoryUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'action_url': reverse_lazy('category_update', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk})
+            'action_url': reverse_lazy('category_update', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk}),
+            'delete_url': reverse_lazy('category_delete', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk})
         })
         return super(CategoryUpdate, self).get_context_data(**kwargs)
 
     def form_valid(self, form):
         self.object = form.save()
         return simple_json_response(category=self.object.json)
+
+
+class CategoryDelete(DeleteView):
+    model = Category
+
+    def render_to_response(self, context, **response_kwargs):
+        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
+
+    def delete(self, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return simple_json_response(info="Category successfully deleted.")
 
 
 def logout(request):

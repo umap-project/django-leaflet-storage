@@ -297,3 +297,38 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 1)
+
+
+class CategoryViews(BaseTest):
+
+    def test_delete_GET(self):
+        url = reverse('category_delete', args=(self.map.pk, self.category.pk))
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertIn("html", json)
+        self.assertIn("form", json['html'])
+
+    def test_delete_POST(self):
+        # create some features
+        marker1 = MarkerFactory(category=self.category)
+        marker2 = MarkerFactory(category=self.category)
+        marker3 = MarkerFactory(category=self.category)
+        url = reverse('category_delete', args=(self.map.pk, self.category.pk))
+        post_data = {
+            'confirm': "yes",
+        }
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, post_data, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Category.objects.filter(pk=self.category.pk).count(), 0)
+        # Check that features have been delete
+        self.assertEqual(Marker.objects.filter(pk=marker1.pk).count(), 0)
+        self.assertEqual(Marker.objects.filter(pk=marker2.pk).count(), 0)
+        self.assertEqual(Marker.objects.filter(pk=marker3.pk).count(), 0)
+        # Check that map has not been impacted
+        self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
+        # Test response is a json
+        json = simplejson.loads(response.content)
+        self.assertIn("info", json)
