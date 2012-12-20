@@ -194,6 +194,16 @@ class MapViewsPermissions(ViewsPermissionsTest):
         self.assertIn("html", json)
         self.assertIn("iframe", json['html'])
 
+    def test_only_owner_can_delete(self):
+        self.map.editors.add(self.other_user)
+        url = reverse('map_delete', kwargs={'map_id': self.map.pk})
+        post_data = {
+            'confirm': "yes",
+        }
+        self.client.login(username=self.other_user.username, password="123123")
+        response = self.client.post(url, post_data, follow=True)
+        self.assertEqual(response.status_code, 403)
+
 
 class MarkerViewsPermissions(ViewsPermissionsTest):
 
