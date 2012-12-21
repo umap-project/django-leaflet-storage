@@ -1,8 +1,11 @@
 <h4>{{ map.name }}</h4>
-<div>{% firstof map.description "No caption yet." %}</div>
+<p>{% firstof map.description "No caption yet." %}</p>
+{% for category in map.category_set.all %}
+    <p><strong>{{ category }}</strong> {{ category.description }}</p>
+{% endfor %}
 <hr />
 <h5>User content credits</h5>
-<div>Map user content has been published under licence {{ map.licence }}</div>
+<p>Map user content has been published under licence {{ map.licence }}</p>
 <h5>Tile layers credits</h5>
 <div>
     {% for tilelayer in map.tilelayers.all %}
