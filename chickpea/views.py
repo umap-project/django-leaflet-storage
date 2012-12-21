@@ -200,19 +200,15 @@ class UpdateMapTileLayers(TemplateView):
         map_inst = kwargs['map_inst']
         # Empty relations (we don't keep trace of unchecked box for now)
         MapToTileLayer.objects.filter(map=map_inst).delete()
-        for key, value in request.POST.iteritems():
-            if key.startswith('tilelayer_'):
-                try:
-                    pk = int(value)
-                except ValueError:
-                    pass
-                else:
-                    # TODO manage rank
-                    MapToTileLayer.objects.create(map=map_inst, tilelayer_id=pk)
-        # Don't let a map without tilelayer
-        if not map_inst.tilelayers.all():
+        try:
+            layer_id = int(request.POST['tilelayer'])
+        except (KeyError, ValueError):
+            # Don't let a map without tilelayer
             layer = TileLayer.get_default()
-            MapToTileLayer.objects.create(map=map_inst, tilelayer=layer, rank=1)
+            layer_id = layer.pk
+        finally:
+            # TODO manage rank and multiselection
+            MapToTileLayer.objects.create(map=map_inst, tilelayer_id=layer_id)
         return simple_json_response(tilelayers=map_inst.tilelayers_data)
 
     def render_to_response(self, context, **response_kwargs):
