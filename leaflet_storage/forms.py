@@ -5,7 +5,7 @@ from django.contrib.gis.geos import Point
 from django.utils.translation import ugettext as _
 from django.template.defaultfilters import slugify
 
-from vectorformats.Formats import GeoJSON
+from VectorFormats.Formats import GeoJSON, KML
 
 from .models import Map, Category
 
@@ -137,7 +137,13 @@ class UploadDataForm(forms.Form):
             try:
                 features = geoj.decode(content)
             except:
-                raise forms.ValidationError('Invalid geojson')
+                raise forms.ValidationError('Invalid GeoJSON')
+        elif content_type == "application/vnd.google-earth.kml+xml":
+            kml = KML.KML()
+            try:
+                features = kml.decode(content)
+            except:
+                raise forms.ValidationError('Invalid KML')
         else:
             raise forms.ValidationError(_('Unsupported content_type: %s') % content_type)
         return features

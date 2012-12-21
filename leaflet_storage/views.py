@@ -18,7 +18,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
 from django.contrib.auth.models import User
 
-from vectorformats.Formats import Django, GeoJSON
+from VectorFormats.Formats import Django, GeoJSON
 
 from .models import (Map, Marker, Category, Polyline, TileLayer,
                      MapToTileLayer, Polygon)
@@ -253,7 +253,13 @@ class UploadData(FormView):
             'LineString': Polyline,
             'Polygon': Polygon
         }
-        FIELDS = ['name', 'description', 'color']
+        # Use a tuple to add more source possible
+        # first item is field name
+        FIELDS = [
+            ('name', 'title'),
+            'description',
+            'color'
+        ]
         features = form.cleaned_data.get('data_file', form.cleaned_data.get('data_url'))
         category = form.cleaned_data.get('category')
         counter = 0
@@ -261,9 +267,27 @@ class UploadData(FormView):
             klass = FEATURE_TO_MODEL.get(feature.geometry['type'], None)
             if not klass:
                 continue  # TODO notify user
+            # Remove altitude, if there
             try:
-                latlng = GEOSGeometry(str(feature.geometry))
-            except:
+                if feature.geometry['type'] == "LineString":
+                    feature.geometry['coordinates'] = map(
+                        lambda x: x[:2],
+                        feature.geometry['coordinates']
+                    )
+                elif feature.geometry['type'] == "Point":
+                    feature.geometry['coordinates'] = feature.geometry['coordinates'][:2]
+                elif feature.geometry['type'] == "Polygon":
+                    feature.geometry['coordinates'] = map(
+                        lambda x: map(lambda y: y[:2], x),
+                        feature.geometry['coordinates']
+                    )
+            except Exception, e:
+                print e
+                continue
+            try:
+                latlng = GEOSGeometry(repr(feature.geometry))
+            except Exception, e:
+                print e
                 continue  # TODO notify user
             if latlng.empty:
                 continue  # TODO notify user
@@ -272,8 +296,16 @@ class UploadData(FormView):
                 'category': category
             }
             for field in FIELDS:
-                if field in feature.properties:
-                    kwargs[field] = feature.properties[field]
+                if isinstance(field, tuple):
+                    name = field[0]
+                    candidates = field
+                else:
+                    name = field
+                    candidates = [field]
+                for candidate in candidates:
+                    if candidate in feature.properties:
+                        kwargs[name] = feature.properties[candidate]
+                        break
             try:
                 klass.objects.create(**kwargs)
             except DatabaseError:

@@ -308,7 +308,7 @@ class UploadData(TransactionTestCase):
         response = self.client.post(url, post_data)
         return response
 
-    def test_generic(self):
+    def test_GeoJSON_generic(self):
         # Contains tow Point, two Polygons and one Polyline
         response = self.process_file("test_upload_data.json")
         self.client.login(username=self.user.username, password="123123")
@@ -326,7 +326,7 @@ class UploadData(TransactionTestCase):
         self.assertEqual(marker.description, "")
         self.assertEqual(marker.color, None)
 
-    def test_empty_coordinates_should_not_be_imported(self):
+    def test_GeoJSON_empty_coordinates_should_not_be_imported(self):
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
@@ -336,12 +336,12 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
 
-    def test_non_linear_ring_should_not_be_imported(self):
+    def test_GeoJSON_non_linear_ring_should_not_be_imported(self):
         response = self.process_file("test_upload_non_linear_ring.json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
 
-    def test_missing_name_should_not_stop_import(self):
+    def test_GeoJSON_missing_name_should_not_stop_import(self):
         # One feature is missing a name
         # We have to make sure that the other feature are imported
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
@@ -371,6 +371,15 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 2)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
+
+    def test_KML_generic(self):
+        # Contains one Polyline
+        response = self.process_file("test_upload_data.kml")
+        self.client.login(username=self.user.username, password="123123")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 1)
 
 
 class CategoryViews(BaseTest):
