@@ -12,7 +12,9 @@
             },
             "type": "Feature",
             "properties": {
-                "name": "London"
+                "name": "London",
+                "description": "London description",
+                "color": "Pink"
             }
         },
         {
@@ -25,7 +27,8 @@
             },
             "type": "Feature",
             "properties": {
-                "name": "Antwerpen"
+                "name": "Antwerpen",
+                "description": ""
             }
         },
         {

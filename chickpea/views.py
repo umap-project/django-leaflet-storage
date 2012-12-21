@@ -239,7 +239,7 @@ class UploadData(FormView):
             'LineString': Polyline,
             'Polygon': Polygon
         }
-        FIELDS = ['name', 'description']
+        FIELDS = ['name', 'description', 'color']
         features = form.cleaned_data.get('data_file')
         category = form.cleaned_data.get('category')
         counter = 0
