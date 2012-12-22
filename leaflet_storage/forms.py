@@ -1,3 +1,5 @@
+import urllib2
+
 from django import forms
 from django.template.defaultfilters import slugify
 from django.contrib.gis.geos import Point
@@ -87,7 +89,8 @@ class CategoryForm(PlaceholderForm):
 
 class UploadDataForm(forms.Form):
 
-    data_file = forms.FileField(help_text="Supported format: GeoJSON.")
+    data_file = forms.FileField(required=False)
+    data_url = forms.URLField(required=False)
     category = forms.ModelChoiceField([])  # queryset is set by view
 
     def clean_data_file(self):
@@ -97,14 +100,45 @@ class UploadDataForm(forms.Form):
         """
         features = []
         f = self.cleaned_data.get('data_file')
-        if f.content_type == "application/json":
+        if f:
+            features = self.content_to_features(f.read(), f.content_type)
+        return features
+
+    def clean_data_url(self):
+        url = self.cleaned_data.get('data_url')
+        features = []
+        if url:
+            try:
+                response = urllib2.urlopen(url)
+            except urllib2.URLError:
+                raise forms.ValidationError('Unable to fetch content from URL.')
+            else:
+                content = response.read()
+                content_type = response.headers['Content-Type']
+                features = self.content_to_features(content, content_type)
+        return features
+
+    def clean(self):
+        cleaned_data = super(UploadDataForm, self).clean()
+        data_file = cleaned_data.get("data_file")
+        data_url = cleaned_data.get("data_url")
+        data_sources = [data_file, data_url]
+        if not any(data_sources):
+            raise forms.ValidationError('You must provide an URL or a file.')
+        elif all(data_sources):
+            raise forms.ValidationError("You can't provide both a file and an URL.")
+        return cleaned_data
+
+    def content_to_features(self, content, content_type):
+        features = []
+        if content_type == "application/json":
             geoj = GeoJSON.GeoJSON()
             try:
-                features = geoj.decode(f.read())
+                features = geoj.decode(content)
             except:
                 raise forms.ValidationError('Invalid geojson')
         else:
-            raise forms.ValidationError('Invalid content_type: %s' % f.content_type)
+            raise forms.ValidationError('Unsupported content_type: %s' % content_type)
         return features
 
 

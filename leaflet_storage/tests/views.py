@@ -351,6 +351,27 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 1)
 
+    def test_import_data_from_url(self):
+        url = reverse('upload_data', kwargs={'map_id': self.map.pk})
+        current_path = os.path.dirname(os.path.realpath(__file__))
+        fixture_path = os.path.join(
+            current_path,
+            'fixtures',
+            "test_upload_data.json"
+        )
+        post_data = {
+            'category': self.category.pk,
+            'data_file': "file://%s" % fixture_path
+        }
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, post_data)
+        response = self.process_file("test_upload_data.json")
+        self.client.login(username=self.user.username, password="123123")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
+        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 2)
+        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
+
 
 class CategoryViews(BaseTest):
 

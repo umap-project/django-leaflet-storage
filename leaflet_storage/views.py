@@ -246,7 +246,7 @@ class UploadData(FormView):
             'Polygon': Polygon
         }
         FIELDS = ['name', 'description', 'color']
-        features = form.cleaned_data.get('data_file')
+        features = form.cleaned_data.get('data_file', form.cleaned_data.get('data_url'))
         category = form.cleaned_data.get('category')
         counter = 0
         for feature in features:

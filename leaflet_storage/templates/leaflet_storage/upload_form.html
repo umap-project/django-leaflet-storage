@@ -1,4 +1,5 @@
 <h3>Upload features</h3>
+<p>Format supported: GeoJSON (properties used: name or title, description, color). More formats to come.</p>
 <form action="{{ action_url }}" method="post" enctype="multipart/form-data" id="upload_data">
     {% csrf_token %}
     {{ form }}
