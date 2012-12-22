@@ -14,6 +14,7 @@ from django.template.loader import render_to_string
 from django.views.generic.detail import BaseDetailView
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
+from django.contrib.auth.models import User
 
 from vectorformats.Formats import Django, GeoJSON
 
@@ -64,6 +65,10 @@ class MapView(DetailView):
         except (ValueError, KeyError):
             output = fallback
         return output
+
+    def get_object(self, queryset=None):
+        owner = get_object_or_404(User, username=self.kwargs['username'])
+        return get_object_or_404(Map, slug=self.kwargs['slug'], owner=owner)
 
     def get_context_data(self, **kwargs):
         context = super(MapView, self).get_context_data(**kwargs)
