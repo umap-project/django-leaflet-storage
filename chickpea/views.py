@@ -83,6 +83,7 @@ class MapView(DetailView):
         allow_edit = self.get_int_from_request("allowEdit", allow_edit)
         context['allowEdit'] = allow_edit
         context['embedControl'] = self.get_int_from_request("embedControl", 1)  # TODO manage permissions
+        context['homeControl'] = self.get_int_from_request("homeControl", 1)  # TODO manage permissions
         return context
 
 
@@ -289,6 +290,7 @@ class EmbedMap(DetailView):
         qs_kwargs = {
             'allowEdit': 0,
             'embedControl': 0,
+            'homeControl': 0
         }
         query_string = "&".join("%s=%s" % (k, v) for k, v in qs_kwargs.iteritems())
         iframe_url = "%s?%s" % (iframe_url, query_string)
