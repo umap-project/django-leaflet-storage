@@ -1,12 +1,12 @@
-[submodule "chickpea/static/leaflet"]
-	path = chickpea/static/leaflet
+[submodule "leaflet_storage/static/leaflet"]
+	path = leaflet_storage/static/leaflet
 	url = git://github.com/CloudMade/Leaflet.git
-[submodule "chickpea/static/draw"]
-	path = chickpea/static/draw
+[submodule "leaflet_storage/static/draw"]
+	path = leaflet_storage/static/draw
 	url = git://github.com/jacobtoye/Leaflet.draw.git
-[submodule "chickpea/static/hash"]
-	path = chickpea/static/hash
+[submodule "leaflet_storage/static/hash"]
+	path = leaflet_storage/static/hash
 	url = git://github.com/mlevans/leaflet-hash.git
-[submodule "chickpea/static/storage"]
-	path = chickpea/static/storage
+[submodule "leaflet_storage/static/storage"]
+	path = leaflet_storage/static/storage
 	url = git://github.com/yohanboniface/Leaflet.Storage.git

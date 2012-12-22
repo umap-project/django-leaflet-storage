@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
-from chickpea.models import Map, Marker, Category, Pictogram, TileLayer, Polyline,\
-                            Licence
+from .models import Map, Marker, Category, Pictogram, TileLayer, Polyline,\
+                    Licence
 
 
 class MapToTileLayerAdmin(admin.TabularInline):

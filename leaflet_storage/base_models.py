@@ -229,13 +229,13 @@ class Polygon(AbstractPolygon):
 def get_model(name):
     """
     Example of settings:
-    CHICKPEA_MODELS = {
+    LEAFLET_STORAGE_MODELS = {
         "Marker": ('app_name', 'ModelName'),
     }
     """
-    CHICKPEA_MODELS = getattr(settings, "CHICKPEA_MODELS", {})
-    if not name in CHICKPEA_MODELS:
+    LEAFLET_STORAGE_MODELS = getattr(settings, "LEAFLET_STORAGE_MODELS", {})
+    if not name in LEAFLET_STORAGE_MODELS:
         model = globals()[name]
     else:
-        model = dj_get_model(*CHICKPEA_MODELS[name])
+        model = dj_get_model(*LEAFLET_STORAGE_MODELS[name])
     return model

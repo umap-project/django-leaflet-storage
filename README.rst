@@ -1,9 +1,11 @@
-===============
-Django-Chickpea
-===============
+======================
+Django-Leaflet-Storage
+======================
 
 Provide collaborative maps for your Django project.
-Built on top of `Geodjango <http://geodjango.org/>`_ and `Leaflet <http://leaflet.cloudmade.com/>`_.
+
+Django-Leaflet-Storage is a backend for `Leaflet.Storage <https://github.com/yohanboniface/Leaflet.Storage>`_, built on top of `Geodjango <http://geodjango.org/>`_ and `Leaflet <http://leaflet.cloudmade.com/>`_.
+
 It's in "molto alpha" stage, but already usable for proof-of-concept projects. Demo `here <http://youmap.fluv.io>`_
 
 Goals:
@@ -39,18 +41,18 @@ Installation
 
 Then you can pip install the rep, only from its repo for now::
 
-    pip install git+git://github.com/yohanboniface/django-chickpea.git
+    pip install git+git://github.com/yohanboniface/django-leaflet-storage.git
 
-Add `chickpea` to you apps::
+Add `leaflet_storage` to you apps::
 
     INSTALLED_APPS = (
         ...
-        "chickpea",
+        "leaflet_storage",
     )
 
-Include `chickpea` urls::
+Include `leaflet_storage` urls::
 
-   (r'', include('chickpea.urls')),
+   (r'', include('leaflet_storage.urls')),
 
 Create tables::
 
@@ -77,11 +79,11 @@ Advanced configuration
 Use your own models
 -------------------
 
-Sometimes, you will need to add specific properties to the Marker, Polyline or Polygon. Its easy to do so with `chickpea`.
+Sometimes, you will need to add specific properties to the Marker, Polyline or Polygon. Its easy to do so with `leaflet_storage`.
 
 Create a model that inherit from `AbstractMarker` (for Marker example)::
 
-    from chickpea.base_models import AbstractMarker
+    from leaflet_storage.base_models import AbstractMarker
 
 
     class MyMarker(AbstractMarker):
@@ -89,7 +91,7 @@ Create a model that inherit from `AbstractMarker` (for Marker example)::
 
 Then, in your settings, add::
 
-    CHICKPEA_MODELS = {
+    LEAFLET_STORAGE_MODELS = {
         "Marker": ('my_app', 'MyModel'),
     }
 
@@ -100,7 +102,7 @@ Then, in your settings, add::
 Decide which features are editable
 ----------------------------------
 
-For now, only Marker, Polyline and Poygon features are supported.
+For now, only Marker, Polyline and Polygon features are supported.
 Maybe you just want for example the Marker to be editable.
 For this, you will need to override the map configuration in JavaScript.
 You will have to explicity prevent the Polyline and Polygon editing,

@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.views import login
 
-from chickpea import views
+from . import views
 from .decorators import login_required, jsonize_view, map_permissions_check
 from .utils import decorated_patterns
 

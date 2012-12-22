@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 import factory
 
-from chickpea.models import Map, TileLayer, Licence, Category, Marker
+from leaflet_storage.models import Map, TileLayer, Licence, Category, Marker
 
 
 class LicenceFactory(factory.Factory):

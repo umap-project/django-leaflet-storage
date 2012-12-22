@@ -1,16 +1,16 @@
 {% extends "base.html" %}
-{% load chickpea_tags %}
+{% load leaflet_storage_tags %}
 {% block title %}{{ map.name }}{% endblock %}
 {% block body_class %}map_detail{% endblock %}
 
 {% block extra_head %}
     {{ block.super }}
-    {% chickpea_css %}
-    {% chickpea_js %}
+    {% leaflet_storage_css %}
+    {% leaflet_storage_js %}
 {% endblock %}
 
 {% block content %}
     {% block map_init %}
-        {% include "chickpea/map_init.html" %}
+        {% include "leaflet_storage/map_init.html" %}
     {% endblock %}
 {% endblock %}

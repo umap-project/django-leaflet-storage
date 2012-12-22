@@ -5,7 +5,7 @@ from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from chickpea.models import Map, Category, Marker, Polygon, Polyline
+from leaflet_storage.models import Map, Category, Marker, Polygon, Polyline
 
 from .base import (MapFactory, CategoryFactory, MarkerFactory,
                    UserFactory, BaseTest)

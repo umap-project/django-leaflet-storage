@@ -94,7 +94,7 @@ class MapView(DetailView):
 
 class MapInfos(DetailView):
     model = Map
-    template_name = "chickpea/map_infos.html"
+    template_name = "leaflet_storage/map_infos.html"
     pk_url_kwarg = 'map_id'
 
     def render_to_response(self, context, **response_kwargs):
@@ -171,7 +171,7 @@ class UpdateMapExtent(UpdateView):
 
 
 class UpdateMapPermissions(UpdateView):
-    template_name = "chickpea/map_update_permissions.html"
+    template_name = "leaflet_storage/map_update_permissions.html"
     model = Map
     form_class = UpdateMapPermissionsForm
     pk_url_kwarg = 'map_id'
@@ -192,7 +192,7 @@ class UpdateMapPermissions(UpdateView):
 
 
 class UpdateMapTileLayers(TemplateView):
-    template_name = "chickpea/map_update_tilelayers.html"
+    template_name = "leaflet_storage/map_update_tilelayers.html"
     pk_url_kwarg = 'map_id'
 
     def get_context_data(self, **kwargs):
@@ -222,7 +222,7 @@ class UpdateMapTileLayers(TemplateView):
 
 
 class UploadData(FormView):
-    template_name = "chickpea/upload_form.html"
+    template_name = "leaflet_storage/upload_form.html"
     form_class = UploadDataForm
     pk_url_kwarg = 'map_id'
 
@@ -286,7 +286,7 @@ class UploadData(FormView):
 
 class EmbedMap(DetailView):
     model = Map
-    template_name = "chickpea/map_embed.html"
+    template_name = "leaflet_storage/map_embed.html"
     pk_url_kwarg = 'map_id'
 
     def get_context_data(self, **kwargs):
@@ -366,7 +366,7 @@ class FeatureView(DetailView):
         extendable.
         """
         templates = super(FeatureView, self).get_template_names()
-        templates.append("chickpea/feature_detail.html")
+        templates.append("leaflet_storage/feature_detail.html")
         return templates
 
 
@@ -392,7 +392,7 @@ class FeatureAdd(CreateView):
         extendable.
         """
         templates = super(FeatureAdd, self).get_template_names()
-        templates.append("chickpea/feature_form.html")
+        templates.append("leaflet_storage/feature_form.html")
         return templates
 
 
@@ -425,13 +425,13 @@ class FeatureUpdate(UpdateView):
         extendable.
         """
         templates = super(FeatureUpdate, self).get_template_names()
-        templates.append("chickpea/feature_form.html")
+        templates.append("leaflet_storage/feature_form.html")
         return templates
 
 
 class FeatureDelete(DeleteView):
     context_object_name = "feature"
-    template_name = "chickpea/feature_confirm_delete.html"
+    template_name = "leaflet_storage/feature_confirm_delete.html"
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)

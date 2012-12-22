@@ -4,7 +4,7 @@ from django.contrib.gis.geos import Point
 
 from vectorformats.Formats import GeoJSON
 
-from chickpea.models import Map, Category
+from .models import Map, Category
 
 
 class PlaceholderForm(forms.ModelForm):
