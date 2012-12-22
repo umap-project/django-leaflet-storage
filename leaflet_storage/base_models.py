@@ -75,10 +75,10 @@ class Map(models.Model):
     @property
     def tilelayers_data(self):
         tilelayers_data = []
-        for m2t in MapToTileLayer.objects.filter(map=self):
+        for rank, m2t in enumerate(MapToTileLayer.objects.filter(map=self), start=1):
             tilelayers_data.append({
                 "tilelayer": m2t.tilelayer.json,
-                "rank": m2t.rank or 1  # default rank
+                "rank": rank
             })
         return tilelayers_data
 
@@ -104,7 +104,7 @@ class MapToTileLayer(models.Model):
     rank = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        ordering = ['rank']
+        ordering = ['rank', 'tilelayer__name']
 
 
 class Pictogram(models.Model):
