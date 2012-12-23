@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import transaction
 from django.utils import simplejson
 from django.db.utils import DatabaseError
@@ -78,6 +79,11 @@ class MapView(DetailView):
         context['urls'] = simplejson.dumps(_urls_for_js())
         tilelayers_data = self.object.tilelayers_data
         context['tilelayers'] = simplejson.dumps(tilelayers_data)
+        if settings.USE_I18N:
+            context['locale'] = self.request.GET.get(
+                'locale',
+                settings.LANGUAGE_CODE
+            )
         if self.request.user.is_authenticated():
             allow_edit = int(self.object.can_edit(self.request.user))
         else:

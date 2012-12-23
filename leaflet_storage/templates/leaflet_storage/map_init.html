@@ -1,5 +1,8 @@
     <div id="map"></div>
     <script type="text/javascript">
+        {% if locale %}
+            L.S.setLocale("{{ locale }}");
+        {% endif %}
         map_settings = {
             "storage_id": {{ map.pk }},
             "center": {{ map.center.geojson|safe }},
