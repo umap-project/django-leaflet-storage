@@ -389,7 +389,10 @@ class FeatureAdd(CreateView):
         form_class = modelform_factory(self.model, form=form_class)
         form = super(FeatureAdd, self).get_form(form_class)
         map_inst = self.kwargs['map_inst']
-        form.fields['category'].queryset = Category.objects.filter(map=map_inst)
+        categories = Category.objects.filter(map=map_inst)
+        form.fields['category'].queryset = categories
+        if categories:
+            form.fields['category'].initial = categories[0]
         return form
 
     def get_template_names(self):
