@@ -81,10 +81,11 @@ class MapView(DetailView):
         tilelayers_data = self.object.tilelayers_data
         context['tilelayers'] = simplejson.dumps(tilelayers_data)
         if settings.USE_I18N:
-            context['locale'] = self.request.GET.get(
-                'locale',
-                settings.LANGUAGE_CODE
-            )
+            locale = settings.LANGUAGE_CODE
+            # Check attr in case the middleware is not active
+            if hasattr(self.request, "LANGUAGE_CODE"):
+                locale = self.request.LANGUAGE_CODE
+            context['locale'] = locale
         if self.request.user.is_authenticated():
             allow_edit = int(self.object.can_edit(self.request.user))
         else:
