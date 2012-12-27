@@ -18,7 +18,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
 from django.contrib.auth.models import User
 
-from VectorFormats.Formats import Django, GeoJSON
+from vectorformats.formats import django, geojson
 
 from .models import (Map, Marker, Category, Polyline, TileLayer,
                      MapToTileLayer, Polygon)
@@ -373,8 +373,8 @@ class GeoJSONMixin(object):
 
     def render_to_response(self, context):
         qs = self.get_queryset()
-        djf = Django.Django(geodjango="latlng", properties=['name', 'category_id', 'color'])
-        geoj = GeoJSON.GeoJSON()
+        djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'color'])
+        geoj = geojson.GeoJSON()
         output = geoj.encode(djf.decode(qs))
         return HttpResponse(output)
 

@@ -2,7 +2,7 @@ from django.core.urlresolvers import get_resolver
 from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
 from django.conf.urls.defaults import patterns
 
-from VectorFormats.Formats import Django, GeoJSON
+from vectorformats.formats import django, geojson
 
 
 def get_uri_template(urlname, args=None, prefix=""):
@@ -28,7 +28,7 @@ def get_uri_template(urlname, args=None, prefix=""):
 
     resolver = get_resolver(None)
     parts = urlname.split(':')
-    if len(parts) > 1 and resolver.namespace_dict.has_key(parts[0]):
+    if len(parts) > 1 and parts[0] in resolver.namespace_dict:
         namespace = parts[0]
         urlname = parts[1]
         nprefix, resolver = resolver.namespace_dict[namespace]
@@ -64,8 +64,8 @@ def instances_to_geojson(instances, geo_field, properties):
     """
     Return a FeatureCollection from Geo instances.
     """
-    djf = Django.Django(geodjango=geo_field, properties=properties)
-    geoj = GeoJSON.GeoJSON()
+    djf = django.Django(geodjango=geo_field, properties=properties)
+    geoj = geojson.GeoJSON()
     return geoj.encode(djf.decode(instances))
 
 
