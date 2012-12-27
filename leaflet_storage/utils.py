@@ -2,7 +2,7 @@ from django.core.urlresolvers import get_resolver
 from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
 from django.conf.urls.defaults import patterns
 
-from vectorformats.Formats import Django, GeoJSON
+from VectorFormats.Formats import Django, GeoJSON
 
 
 def get_uri_template(urlname, args=None, prefix=""):
