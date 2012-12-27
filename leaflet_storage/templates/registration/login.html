@@ -1,6 +1,7 @@
-<h5>Please log in to proceed</h5>
+{% load i18n %}
+<h5>{% trans "Please log in to proceed" %}</h5>
 {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
+    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
 {% endif %}
 
 <form method="post" action="{% url login %}" id="login_form">

@@ -1,7 +1,7 @@
 # DJANGO-LEAFLET-STORAGE.
 # Copyleft (C) 2012
 # This file is distributed under the same license as the 
-# DJANGO-LEAFLET-STORAGE package.
+#  DJANGO-LEAFLET-STORAGE package.
 # YOHAN BONIFACE <yb@enix.org>, 2012.
 #
 #, fuzzy
@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-27 13:38+0100\n"
+"POT-Creation-Date: 2012-12-27 15:04+0100\n"
 "PO-Revision-Date: 2012-12-27 11:09+0100\n"
 "Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
 "Language-Team: FR <LL@li.org>\n"
@@ -140,25 +140,25 @@ msgstr "Vous ne pouvez pas définir à la fois une URL et un fichier."
 msgid "Unsupported content_type: %s"
 msgstr "Content-Type non pris en charge: %s"
 
-#: views.py:177
+#: views.py:178
 msgid "Zoom and center updated with success!"
 msgstr "Zoom et centre mis à jour!"
 
-#: views.py:195
+#: views.py:196
 msgid "Map editors updated with success!"
 msgstr "Éditeurs de la carte mis à jour!"
 
-#: views.py:328
+#: views.py:329
 msgid "Only its owner can delete the map."
 msgstr "Seul le créateur de la carte peut la supprimer."
 
 #. Translators: "feature" is a feature type: Marker, Polyline, Polygon
-#: views.py:454
+#: views.py:455
 #, python-format
 msgid "%(feature)s successfully deleted."
 msgstr "%(feature)s supprimé(e)."
 
-#: views.py:585
+#: views.py:586
 msgid "Category successfully deleted."
 msgstr "Catégorie supprimée."
 
@@ -243,3 +243,11 @@ msgid ""
 msgstr ""
 "Format pris en charge: GeoJSON (properties prises en compte: name ou title, "
 "description, color. D'autres formats pris en charge bientôt."
+
+#: templates/registration/login.html:2
+msgid "Please log in to proceed"
+msgstr "Merci de vous identifier pour continuer"
+
+#: templates/registration/login.html:4
+msgid "Your username and password didn't match. Please try again."
+msgstr "Nom d'utilisateur ou mot de passe incorrect. Merci de corriger."
