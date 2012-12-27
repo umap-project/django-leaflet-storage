@@ -5,30 +5,34 @@ from django.db.models import get_model as dj_get_model
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.utils.translation import ugettext as _
 
 
-class Licence(models.Model):
-    """
-    The licence one map is published on.
-    """
-    name = models.CharField(max_length=100)
+class NamedModel(models.Model):
+    name = models.CharField(max_length=200, verbose_name=_("name"))
+
+    class Meta:
+        abstract = True
 
     def __unicode__(self):
         return self.name
 
 
-class TileLayer(models.Model):
-    name = models.CharField(max_length=50)
+class Licence(NamedModel):
+    """
+    The licence one map is published on.
+    """
+    pass
+
+
+class TileLayer(NamedModel):
     url_template = models.CharField(
         max_length=200,
-        help_text="URL template using OSM tile format"
+        help_text=_("URL template using OSM tile format")
     )
     minZoom = models.IntegerField(default=0)
     maxZoom = models.IntegerField(default=18)
     attribution = models.CharField(max_length=300)
-
-    def __unicode__(self):
-        return self.name
 
     @property
     def json(self):
@@ -42,7 +46,7 @@ class TileLayer(models.Model):
         return cls.objects.order_by('pk')[0]  # FIXME, make it administrable
 
 
-class Map(models.Model):
+class Map(NamedModel):
     """
     A single thematical map.
     """
@@ -50,27 +54,23 @@ class Map(models.Model):
     EDITORS = 2
     OWNER = 3
     EDIT_STATUS = (
-        (ANONYMOUS, 'Everyone can edit'),
-        (EDITORS, 'Only editors can edit'),
-        (OWNER, 'Only owner can edit'),
+        (ANONYMOUS, _('Everyone can edit')),
+        (EDITORS, _('Only editors can edit')),
+        (OWNER, _('Only owner can edit')),
     )
-    name = models.CharField(max_length=100)
     slug = models.SlugField(db_index=True)
-    description = models.TextField(blank=True, null=True)
-    center = models.PointField(geography=True)
-    zoom = models.IntegerField(default=7)
-    locate = models.BooleanField(default=False)
-    licence = models.ForeignKey(Licence, help_text="Choose the map licence.")
+    description = models.TextField(blank=True, null=True, verbose_name=_("description"))
+    center = models.PointField(geography=True, verbose_name=_("center"))
+    zoom = models.IntegerField(default=7, verbose_name=_("zoom"))
+    locate = models.BooleanField(default=False, verbose_name=_("locate"), help_text=_("Locate user on load?"))
+    licence = models.ForeignKey(Licence, help_text=_("Choose the map licence."), verbose_name=_('licence'))
     modified_at = models.DateTimeField(auto_now=True)
     tilelayers = models.ManyToManyField(TileLayer, through="MapToTileLayer")
-    owner = models.ForeignKey(User, related_name="owned_maps")
-    editors = models.ManyToManyField(User, blank=True)
-    edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER)
+    owner = models.ForeignKey(User, related_name="owned_maps", verbose_name=_("owner"))
+    editors = models.ManyToManyField(User, blank=True, verbose_name=_("editors"))
+    edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER, verbose_name=_("edit status"))
 
     objects = models.GeoManager()
-
-    def __unicode__(self):
-        return self.name
 
     @property
     def tilelayers_data(self):
@@ -107,19 +107,15 @@ class MapToTileLayer(models.Model):
         ordering = ['rank', 'tilelayer__name']
 
 
-class Pictogram(models.Model):
+class Pictogram(NamedModel):
     """
     An image added to an icon of the map.
     """
-    name = models.CharField(max_length=50)
     attribution = models.CharField(max_length=300)
     pictogram = models.ImageField(upload_to="pictogram")
 
-    def __unicode__(self):
-        return self.name
 
-
-class Category(models.Model):
+class Category(NamedModel):
     """
     Category of a Marker.
     """
@@ -130,16 +126,40 @@ class Category(models.Model):
         ('Ball', 'Ball'),
     )
     map = models.ForeignKey(Map)
-    name = models.CharField(max_length=50)
-    description = models.TextField(blank=True, null=True)
-    color = models.CharField(max_length=32, default="DarkBlue", help_text="Must be a CSS valid name (eg.: DarkBlue or #123456)")
-    pictogram = models.ForeignKey(Pictogram, null=True, blank=True)
-    icon_class = models.CharField(choices=ICON_CLASS, max_length=32, default="Default")
-    preset = models.BooleanField(default=False, help_text="Display this category on load.")
-    rank = models.IntegerField(null=True, blank=True, help_text="Rank to order the categories")
-
-    def __unicode__(self):
-        return self.name
+    description = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("description")
+    )
+    color = models.CharField(
+        max_length=32,
+        default="DarkBlue",
+        help_text=_("Must be a CSS valid name (eg.: DarkBlue or #123456)"),
+        verbose_name=_("color")
+    )
+    pictogram = models.ForeignKey(
+        Pictogram,
+        null=True,
+        blank=True,
+        verbose_name=_("pictogram")
+    )
+    icon_class = models.CharField(
+        choices=ICON_CLASS,
+        max_length=32,
+        default="Default",
+        verbose_name="icon type"
+    )
+    preset = models.BooleanField(
+        default=False,
+        verbose_name=_("preset"),
+        help_text=_("Display this category on load.")
+    )
+    rank = models.IntegerField(
+        null=True,
+        blank=True,
+        help_text=_("Rank to order the categories"),
+        verbose_name=_("rank")
+    )
 
     @property
     def json(self):
@@ -166,16 +186,21 @@ class Category(models.Model):
         ordering = ["rank"]
 
 
-class BaseFeature(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField(blank=True, null=True)
-    color = models.CharField(max_length=32, blank=True, null=True)
-    category = models.ForeignKey(Category)
+class BaseFeature(NamedModel):
+    description = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("description")
+    )
+    color = models.CharField(
+        max_length=32,
+        blank=True,
+        null=True,
+        verbose_name=_("color")
+    )
+    category = models.ForeignKey(Category, verbose_name=_("category"))
 
     objects = models.GeoManager()
-
-    def __unicode__(self):
-        return self.name
 
     class Meta:
         abstract = True

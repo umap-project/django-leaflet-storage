@@ -1,8 +1,9 @@
 import urllib2
 
 from django import forms
-from django.template.defaultfilters import slugify
 from django.contrib.gis.geos import Point
+from django.utils.translation import ugettext as _
+from django.template.defaultfilters import slugify
 
 from vectorformats.Formats import GeoJSON
 
@@ -60,7 +61,7 @@ class QuickMapCreateForm(PlaceholderForm):
                 pass
             else:
                 if existing_map.pk != self.instance.pk:
-                    raise forms.ValidationError("You already have a map with this name.")
+                    raise forms.ValidationError(_("You already have a map with this name."))
         return self.cleaned_data
 
 
@@ -89,9 +90,9 @@ class CategoryForm(PlaceholderForm):
 
 class UploadDataForm(forms.Form):
 
-    data_file = forms.FileField(required=False)
-    data_url = forms.URLField(required=False)
-    category = forms.ModelChoiceField([])  # queryset is set by view
+    data_file = forms.FileField(required=False, label=_("file"))
+    data_url = forms.URLField(required=False, label=_("URL"))
+    category = forms.ModelChoiceField([], label=_("category"))  # queryset is set by view
 
     def clean_data_file(self):
         """
@@ -111,7 +112,7 @@ class UploadDataForm(forms.Form):
             try:
                 response = urllib2.urlopen(url)
             except urllib2.URLError:
-                raise forms.ValidationError('Unable to fetch content from URL.')
+                raise forms.ValidationError(_('Unable to fetch content from URL.'))
             else:
                 content = response.read()
                 content_type = response.headers['Content-Type']
@@ -124,9 +125,9 @@ class UploadDataForm(forms.Form):
         data_url = cleaned_data.get("data_url")
         data_sources = [data_file, data_url]
         if not any(data_sources):
-            raise forms.ValidationError('You must provide an URL or a file.')
+            raise forms.ValidationError(_('You must provide an URL or a file.'))
         elif all(data_sources):
-            raise forms.ValidationError("You can't provide both a file and an URL.")
+            raise forms.ValidationError(_("You can't provide both a file and an URL."))
         return cleaned_data
 
     def content_to_features(self, content, content_type):
@@ -138,7 +139,7 @@ class UploadDataForm(forms.Form):
             except:
                 raise forms.ValidationError('Invalid geojson')
         else:
-            raise forms.ValidationError('Unsupported content_type: %s' % content_type)
+            raise forms.ValidationError(_('Unsupported content_type: %s') % content_type)
         return features
 
 

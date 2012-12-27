@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.gis.geos import GEOSGeometry
 from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse_lazy
+from django.utils.translation import ugettext as _
 from django.views.generic.list import BaseListView
 from django.views.generic.base import TemplateView
 from django.contrib.auth import logout as do_logout
@@ -173,7 +174,7 @@ class UpdateMapExtent(UpdateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return simple_json_response(info="Zoom and center updated with success!")
+        return simple_json_response(info=_("Zoom and center updated with success!"))
 
 
 class UpdateMapPermissions(UpdateView):
@@ -191,7 +192,7 @@ class UpdateMapPermissions(UpdateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return simple_json_response(info="Map editors updated with success!")
+        return simple_json_response(info=_("Map editors updated with success!"))
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
@@ -324,7 +325,7 @@ class MapDelete(DeleteView):
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
         if not self.request.user == self.object.owner:
-            return HttpResponseNotAllowed('Only its owner can delete the map.')
+            return HttpResponseNotAllowed(_('Only its owner can delete the map.'))
         self.object.delete()
         return simple_json_response(redirect="/")
 
@@ -448,7 +449,10 @@ class FeatureDelete(DeleteView):
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
-        return simple_json_response(info="Feature successfully deleted.")
+        return simple_json_response(
+            #Translators: "feature" is a feature type: Marker, Polyline, Polygon
+            info=_("%(feature)s successfully deleted." % {"feature": self.model._meta.verbose_name})
+        )
 
 
 class MarkerDelete(FeatureDelete):
@@ -578,7 +582,7 @@ class CategoryDelete(DeleteView):
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
-        return simple_json_response(info="Category successfully deleted.")
+        return simple_json_response(info=_("Category successfully deleted."))
 
 
 def logout(request):
