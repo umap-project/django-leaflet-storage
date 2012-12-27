@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-27 15:28+0100\n"
+"POT-Creation-Date: 2012-12-27 19:10+0100\n"
 "PO-Revision-Date: 2012-12-27 11:09+0100\n"
 "Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
 "Language-Team: FR <LL@li.org>\n"
@@ -139,7 +139,15 @@ msgstr "Vous devez définir au moins une URL ou un fichier."
 msgid "You can't provide both a file and an URL."
 msgstr "Vous ne pouvez pas définir à la fois une URL et un fichier."
 
-#: forms.py:142
+#: forms.py:140
+msgid "Invalid GeoJSON"
+msgstr "GeoJSON invalide"
+
+#: forms.py:146
+msgid "Invalid KML"
+msgstr "KML invalide"
+
+#: forms.py:148
 #, python-format
 msgid "Unsupported content_type: %s"
 msgstr "Content-Type non pris en charge: %s"
@@ -152,17 +160,17 @@ msgstr "Zoom et centre mis à jour!"
 msgid "Map editors updated with success!"
 msgstr "Éditeurs de la carte mis à jour!"
 
-#: views.py:329
+#: views.py:361
 msgid "Only its owner can delete the map."
 msgstr "Seul le créateur de la carte peut la supprimer."
 
 #. Translators: "feature" is a feature type: Marker, Polyline, Polygon
-#: views.py:455
+#: views.py:487
 #, python-format
 msgid "%(feature)s successfully deleted."
 msgstr "%(feature)s supprimé(e)."
 
-#: views.py:586
+#: views.py:618
 msgid "Category successfully deleted."
 msgstr "Catégorie supprimée."
 
@@ -241,12 +249,16 @@ msgid "Upload features"
 msgstr "Importer des POI"
 
 #: templates/leaflet_storage/upload_form.html:3
-msgid ""
-"Format supported: GeoJSON (properties used: name or title, description, "
-"color). More formats to come."
-msgstr ""
-"Format pris en charge: GeoJSON (properties prises en compte: name ou title, "
-"description, color. D'autres formats pris en charge bientôt."
+msgid "Formats supported (more to come)"
+msgstr "Formats pris en charge (plus bientôt)"
+
+#: templates/leaflet_storage/upload_form.html:4
+msgid "GeoJSON (properties used: name or title, description, color)"
+msgstr "GeoJSON (propriétés utiliséees: name ou title, description color"
+
+#: templates/leaflet_storage/upload_form.html:5
+msgid "KML (properties used: name, description)"
+msgstr "KML (propriétés utilisées: name, description"
 
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"

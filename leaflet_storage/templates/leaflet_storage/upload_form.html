@@ -1,6 +1,9 @@
 {% load i18n %}
 <h3>{% trans "Upload features" %}</h3>
-<p>{% trans "Format supported: GeoJSON (properties used: name or title, description, color). More formats to come." %}</p>
+<ul>{% trans "Formats supported (more to come)" %}:
+    <li>{% trans "GeoJSON (properties used: name or title, description, color)" %}</li>
+    <li>{% trans "KML (properties used: name, description)" %}</li>
+</ul>
 <form action="{{ action_url }}" method="post" enctype="multipart/form-data" id="upload_data">
     {% csrf_token %}
     {{ form }}

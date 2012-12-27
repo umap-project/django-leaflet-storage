@@ -137,13 +137,13 @@ class UploadDataForm(forms.Form):
             try:
                 features = geoj.decode(content)
             except:
-                raise forms.ValidationError('Invalid GeoJSON')
+                raise forms.ValidationError(_('Invalid GeoJSON'))
         elif content_type == "application/vnd.google-earth.kml+xml":
             kml = KML.KML()
             try:
                 features = kml.decode(content)
             except:
-                raise forms.ValidationError('Invalid KML')
+                raise forms.ValidationError(_('Invalid KML'))
         else:
             raise forms.ValidationError(_('Unsupported content_type: %s') % content_type)
         return features
