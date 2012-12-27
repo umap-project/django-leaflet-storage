@@ -121,7 +121,7 @@ class QuickMapCreate(CreateView):
         self.object = form.save()
         layer = TileLayer.get_default()
         MapToTileLayer.objects.create(map=self.object, tilelayer=layer, rank=1)
-        Category.objects.create(map=self.object, name="POIs", preset=True)
+        Category.create_default(self.object)
         return simple_json_response(redirect=self.get_success_url())
 
     def get_form_kwargs(self):

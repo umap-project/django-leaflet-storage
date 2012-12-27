@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-27 15:04+0100\n"
+"POT-Creation-Date: 2012-12-27 15:28+0100\n"
 "PO-Revision-Date: 2012-12-27 11:09+0100\n"
 "Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
 "Language-Team: FR <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr "Seuls les éditeurs peuvent éditer"
 msgid "Only owner can edit"
 msgstr "Seul le créateur peut modifier"
 
-#: base_models.py:62 base_models.py:132 base_models.py:193
+#: base_models.py:62 base_models.py:132 base_models.py:201
 msgid "description"
 msgstr "description"
 
@@ -83,7 +83,7 @@ msgstr "statut d'édition"
 msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
 msgstr "Doit être une chaîne CSS valide (ex. DarkBlud ou #123456)"
 
-#: base_models.py:138 base_models.py:199
+#: base_models.py:138 base_models.py:207
 msgid "color"
 msgstr "couleur"
 
@@ -107,7 +107,11 @@ msgstr "Rang pour trier les catégories."
 msgid "rank"
 msgstr "rang"
 
-#: base_models.py:201 forms.py:95
+#: base_models.py:192
+msgid "My data"
+msgstr "Mes données"
+
+#: base_models.py:209 forms.py:95
 msgid "category"
 msgstr "catégorie"
 

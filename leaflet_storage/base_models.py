@@ -185,6 +185,14 @@ class Category(NamedModel):
     class Meta:
         ordering = ["rank"]
 
+    @classmethod
+    def create_default(cls, map_inst):
+        return Category.objects.create(
+            map=map_inst,
+            name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_CATEGORY_NAME", _("My data")),
+            preset=True
+        )
+
 
 class BaseFeature(NamedModel):
     description = models.TextField(
