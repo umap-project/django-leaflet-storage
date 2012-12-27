@@ -1,7 +1,8 @@
+{% load i18n %}
 <form action="." method="post">
     {{ form }}
     <input type="submit" />
     {% if delete_url and map and user == map.owner %}
-        <a href="{{ delete_url }}" id="delete_map_button" >Delete</a>
+        <a href="{{ delete_url }}" id="delete_map_button" >{% trans "Delete" %}</a>
     {% endif %}
 </form>

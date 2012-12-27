@@ -1,3 +1,4 @@
+{% load i18n %}
 <form method="post" action="{{ action }}" id="feature_form" onsubmit="return false;">
     {% csrf_token %}
     {{ form.errors }}
@@ -8,6 +9,6 @@
     {{ form.latlng }}
     <input type="submit" />
     {% if delete_url %}
-        <a href="{{ delete_url }}" id="delete_feature_button" >Delete</a>
+        <a href="{{ delete_url }}" id="delete_feature_button" >{% trans "Delete" %}</a>
     {% endif %}
 </form>

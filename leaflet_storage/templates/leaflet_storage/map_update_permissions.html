@@ -1,4 +1,5 @@
-<h3>Map allowed editors</h3>
+{% load i18n %}
+<h3>{% trans "Map permissions" %}</h3>
 <form action="{% url map_update_permissions map.pk %}" method="post" id="map_edit">
     {% csrf_token %}
     {{ form }}
