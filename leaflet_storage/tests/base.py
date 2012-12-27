@@ -52,7 +52,7 @@ class CategoryFactory(factory.Factory):
     name = "test category"
     description = "test description"
     color = "DarkRed"
-    preset = True
+    display_on_load = True
     rank = 1
 
 

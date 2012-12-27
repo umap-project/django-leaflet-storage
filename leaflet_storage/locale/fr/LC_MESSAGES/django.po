@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-27 19:10+0100\n"
+"POT-Creation-Date: 2012-12-27 22:31+0100\n"
 "PO-Revision-Date: 2012-12-27 11:09+0100\n"
 "Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
 "Language-Team: FR <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr "Seuls les éditeurs peuvent éditer"
 msgid "Only owner can edit"
 msgstr "Seul le créateur peut modifier"
 
-#: base_models.py:62 base_models.py:132 base_models.py:201
+#: base_models.py:62 base_models.py:132 base_models.py:202
 msgid "description"
 msgstr "description"
 
@@ -83,7 +83,7 @@ msgstr "statut d'édition"
 msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
 msgstr "Doit être une chaîne CSS valide (ex. DarkBlud ou #123456)"
 
-#: base_models.py:138 base_models.py:207
+#: base_models.py:138 base_models.py:208
 msgid "color"
 msgstr "couleur"
 
@@ -92,8 +92,8 @@ msgid "pictogram"
 msgstr "picto"
 
 #: base_models.py:154
-msgid "preset"
-msgstr "préréglé"
+msgid "display on load"
+msgstr "afficher au chargement."
 
 #: base_models.py:155
 msgid "Display this category on load."
@@ -111,7 +111,7 @@ msgstr "rang"
 msgid "My data"
 msgstr "Mes données"
 
-#: base_models.py:209 forms.py:95
+#: base_models.py:210 forms.py:95
 msgid "category"
 msgstr "catégorie"
 
@@ -152,25 +152,25 @@ msgstr "KML invalide"
 msgid "Unsupported content_type: %s"
 msgstr "Content-Type non pris en charge: %s"
 
-#: views.py:178
+#: views.py:188
 msgid "Zoom and center updated with success!"
 msgstr "Zoom et centre mis à jour!"
 
-#: views.py:196
+#: views.py:206
 msgid "Map editors updated with success!"
 msgstr "Éditeurs de la carte mis à jour!"
 
-#: views.py:361
+#: views.py:371
 msgid "Only its owner can delete the map."
 msgstr "Seul le créateur de la carte peut la supprimer."
 
 #. Translators: "feature" is a feature type: Marker, Polyline, Polygon
-#: views.py:487
+#: views.py:496
 #, python-format
 msgid "%(feature)s successfully deleted."
 msgstr "%(feature)s supprimé(e)."
 
-#: views.py:618
+#: views.py:641
 msgid "Category successfully deleted."
 msgstr "Catégorie supprimée."
 
@@ -267,3 +267,6 @@ msgstr "Merci de vous identifier pour continuer"
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
 msgstr "Nom d'utilisateur ou mot de passe incorrect. Merci de corriger."
+
+#~ msgid "preset"
+#~ msgstr "préréglé"

@@ -28,7 +28,7 @@ def map_fragment(map_instance):
         'tilelayer': map_instance.tilelayers.all()[0].json,
         "rank": 1
     }
-    categories = Category.objects.filter(map=map_instance, preset=True)
+    categories = Category.objects.filter(map=map_instance, display_on_load=True)
     category_data = [c.json for c in categories]
     return {
         'map': map_instance,

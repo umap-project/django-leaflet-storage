@@ -149,9 +149,9 @@ class Category(NamedModel):
         default="Default",
         verbose_name="icon type"
     )
-    preset = models.BooleanField(
+    display_on_load = models.BooleanField(
         default=False,
-        verbose_name=_("preset"),
+        verbose_name=_("display on load"),
         help_text=_("Display this category on load.")
     )
     rank = models.IntegerField(
@@ -169,7 +169,7 @@ class Category(NamedModel):
             "color": self.color,
             "pictogram_url": self.pictogram.pictogram.url if self.pictogram else None,
             "icon_class": self.icon_class,
-            "preset": self.preset,
+            "display_on_load": self.display_on_load,
         }
 
     @property
@@ -190,7 +190,7 @@ class Category(NamedModel):
         return Category.objects.create(
             map=map_inst,
             name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_CATEGORY_NAME", _("My data")),
-            preset=True
+            display_on_load=True
         )
 
 
