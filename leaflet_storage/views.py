@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 from django.conf import settings
 from django.db import transaction
 from django.utils import simplejson
@@ -14,7 +16,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import logout as do_logout
 from django.template.loader import render_to_string
 from django.views.generic.detail import BaseDetailView
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
 from django.contrib.auth.models import User
 
@@ -26,6 +28,10 @@ from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
                     UploadDataForm, UpdateMapPermissionsForm, FeatureForm)
 
+
+# ############## #
+#     Utils      #
+# ############## #
 
 def _urls_for_js(urls=None):
     """
@@ -56,6 +62,10 @@ def render_to_json(templates, response_kwargs, context, request):
 def simple_json_response(**kwargs):
     return HttpResponse(simplejson.dumps(kwargs))
 
+
+# ############## #
+#      Map       #
+# ############## #
 
 class MapView(DetailView):
 
@@ -369,14 +379,17 @@ class MapDelete(DeleteView):
         return super(MapDelete, self).get_context_data(**kwargs)
 
 
+# ############## #
+#    Features    #
+# ############## #
+
 class GeoJSONMixin(object):
 
-    def render_to_response(self, context):
+    def geojson(self, context):
         qs = self.get_queryset()
         djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'color'])
         geoj = geojson.GeoJSON()
-        output = geoj.encode(djf.decode(qs))
-        return HttpResponse(output)
+        return geoj.encode(djf.decode(qs), to_string=False)
 
 
 class FeatureGeoJSONListView(BaseListView, GeoJSONMixin):
@@ -385,13 +398,9 @@ class FeatureGeoJSONListView(BaseListView, GeoJSONMixin):
         category = get_object_or_404(Category, pk=self.kwargs['category_id'])
         return category.features
 
-
-class MarkerGeoJSONView(BaseDetailView, GeoJSONMixin):
-    model = Marker
-
-    def get_queryset(self):
-        # GeoJSON expects a list
-        return Marker.objects.filter(pk=self.kwargs['pk'])
+    def render_to_response(self, context, **response_kwargs):
+        geoj = self.geojson(context)
+        return HttpResponse(simplejson.dumps(geoj))
 
 
 class FeatureView(DetailView):
@@ -488,6 +497,24 @@ class FeatureDelete(DeleteView):
         )
 
 
+class FeatureGeoJSON(BaseDetailView, GeoJSONMixin):
+
+    def get_queryset(self):
+        return self.model.objects.filter(pk=self.kwargs['pk'])
+
+    def render_to_response(self, context):
+        collection = self.geojson(context)
+        try:
+            geoj = collection['features'][0]
+        except KeyError:
+            return Http404()
+        return HttpResponse(simplejson.dumps(geoj))
+
+
+class MarkerGeoJSON(FeatureGeoJSON):
+    model = Marker
+
+
 class MarkerDelete(FeatureDelete):
     model = Marker
 
@@ -526,12 +553,8 @@ class PolylineDelete(FeatureDelete):
     model = Polyline
 
 
-class PolylineGeoJSONView(BaseDetailView, GeoJSONMixin):
+class PolylineGeoJSON(FeatureGeoJSON):
     model = Polyline
-
-    def get_queryset(self):
-        # GeoJSON expects an iterable
-        return Polyline.objects.filter(pk=self.kwargs['pk'])
 
 
 class PolygonView(FeatureView):
@@ -553,13 +576,13 @@ class PolygonDelete(FeatureDelete):
     model = Polygon
 
 
-class PolygonGeoJSONView(BaseDetailView, GeoJSONMixin):
+class PolygonGeoJSON(FeatureGeoJSON):
     model = Polygon
 
-    def get_queryset(self):
-        # GeoJSON expects an iterable
-        return Polygon.objects.filter(pk=self.kwargs['pk'])
 
+# ############## #
+#    Category    #
+# ############## #
 
 class CategoryCreate(CreateView):
     model = Category
@@ -617,6 +640,10 @@ class CategoryDelete(DeleteView):
         self.object.delete()
         return simple_json_response(info=_("Category successfully deleted."))
 
+
+# ############## #
+#     Generic    #
+# ############## #
 
 def logout(request):
     do_logout(request)

@@ -195,6 +195,7 @@ class Category(NamedModel):
 
 
 class BaseFeature(NamedModel):
+
     description = models.TextField(
         blank=True,
         null=True,

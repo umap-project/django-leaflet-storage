@@ -248,7 +248,7 @@ class MarkerViews(BaseTest):
         self.assertEqual(created_marker.name, name)
         # Test response is a json
         json = simplejson.loads(response.content)
-        self.assertIn("features", json)
+        self.assertIn("geometry", json)
 
     def test_delete_GET(self):
         marker = MarkerFactory(category=self.category)
