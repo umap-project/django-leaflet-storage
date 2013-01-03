@@ -6,7 +6,7 @@
 {% endfor %}
 <hr />
 <h5>{% trans "User content credits" %}</h5>
-<p>{% blocktrans with licence=map.licence %}Map user content has been published under licence {{ licence }}{% endblocktrans %}</p>
+<p>{% blocktrans with licence=map.licence url=map.licence.details %}Map user content has been published under licence <a href="{{ url }}">{{ licence }}</a>{% endblocktrans %}</p>
 <h5>{% trans "Tile layers credits" %}</h5>
 <div>
     {% for tilelayer in map.tilelayers.all %}

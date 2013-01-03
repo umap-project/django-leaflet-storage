@@ -22,6 +22,10 @@ class Licence(NamedModel):
     """
     The licence one map is published on.
     """
+    details = models.URLField(
+        verbose_name=_('details'),
+        help_text=_('Link to a page where the licence is detailed.')
+    )
 
     @classmethod
     def get_default(cls):

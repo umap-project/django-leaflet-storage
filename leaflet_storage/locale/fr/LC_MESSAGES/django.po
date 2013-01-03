@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-03 20:23+0100\n"
+"POT-Creation-Date: 2013-01-03 21:02+0100\n"
 "PO-Revision-Date: 2012-12-27 11:09+0100\n"
 "Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
 "Language-Team: FR <LL@li.org>\n"
@@ -23,99 +23,107 @@ msgstr ""
 msgid "name"
 msgstr "nom"
 
-#: base_models.py:34
+#: base_models.py:26
+msgid "details"
+msgstr "détails"
+
+#: base_models.py:27
+msgid "Link to a page where the licence is detailed."
+msgstr "Lien vers une page détaillant la licence."
+
+#: base_models.py:38
 msgid "No licence set"
 msgstr "Aucune licence"
 
-#: base_models.py:41
+#: base_models.py:45
 msgid "URL template using OSM tile format"
 msgstr "Template d'URL au format OSM"
 
-#: base_models.py:67
+#: base_models.py:71
 msgid "Everyone can edit"
 msgstr "Tout le monde peut éditer"
 
-#: base_models.py:68
+#: base_models.py:72
 msgid "Only editors can edit"
 msgstr "Seuls les éditeurs peuvent éditer"
 
-#: base_models.py:69
+#: base_models.py:73
 msgid "Only owner can edit"
 msgstr "Seul le créateur peut modifier"
 
-#: base_models.py:72 base_models.py:147 base_models.py:217
+#: base_models.py:76 base_models.py:151 base_models.py:221
 msgid "description"
 msgstr "description"
 
-#: base_models.py:73
+#: base_models.py:77
 msgid "center"
 msgstr "centre"
 
-#: base_models.py:74
+#: base_models.py:78
 msgid "zoom"
 msgstr "zoom"
 
-#: base_models.py:75
+#: base_models.py:79
 msgid "locate"
 msgstr "géolocaliser"
 
-#: base_models.py:75
+#: base_models.py:79
 msgid "Locate user on load?"
 msgstr "Géolocaliser l'utilisateur au chargement?"
 
-#: base_models.py:78
+#: base_models.py:82
 msgid "Choose the map licence."
 msgstr "Chosir une licence pour la carte"
 
-#: base_models.py:79
+#: base_models.py:83
 msgid "licence"
 msgstr "licence"
 
-#: base_models.py:84
+#: base_models.py:88
 msgid "owner"
 msgstr "créateur"
 
-#: base_models.py:85
+#: base_models.py:89
 msgid "editors"
 msgstr "éditeurs"
 
-#: base_models.py:86
+#: base_models.py:90
 msgid "edit status"
 msgstr "statut d'édition"
 
-#: base_models.py:152
+#: base_models.py:156
 msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
 msgstr "Doit être une chaîne CSS valide (ex. DarkBlud ou #123456)"
 
-#: base_models.py:153 base_models.py:223
+#: base_models.py:157 base_models.py:227
 msgid "color"
 msgstr "couleur"
 
-#: base_models.py:159
+#: base_models.py:163
 msgid "pictogram"
 msgstr "picto"
 
-#: base_models.py:169
+#: base_models.py:173
 msgid "display on load"
 msgstr "afficher au chargement."
 
-#: base_models.py:170
+#: base_models.py:174
 msgid "Display this category on load."
 msgstr "Afficher cette catégorie au chargement."
 
-#: base_models.py:175
+#: base_models.py:179
 msgid "Rank to order the categories"
 msgstr "Rang pour trier les catégories."
 
-#: base_models.py:176
+#: base_models.py:180
 msgid "rank"
 msgstr "rang"
 
-#: base_models.py:207
+#: base_models.py:211
 msgid "My data"
 msgstr "Mes données"
 
-#: base_models.py:225 forms.py:95
+#: base_models.py:229 forms.py:95
 msgid "category"
 msgstr "catégorie"
 
@@ -224,10 +232,12 @@ msgstr "Crédits des POI de la carte"
 
 #: templates/leaflet_storage/map_infos.html:9
 #, python-format
-msgid "Map user content has been published under licence %(licence)s"
+msgid ""
+"Map user content has been published under licence <a href=\"%(url)s\">"
+"%(licence)s</a>"
 msgstr ""
 "Les contenus utilisateurs de la carte ont été publiés sous licence "
-"%(licence)s"
+"<a href=\"%(url)s\">%(licence)s</a>"
 
 #: templates/leaflet_storage/map_infos.html:10
 msgid "Tile layers credits"
