@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 
-from .base import BaseTest, UserFactory
+from leaflet_storage.models import Marker, Map, Category
+from .base import BaseTest, UserFactory, MarkerFactory
 
 
 class MapModel(BaseTest):
@@ -41,3 +42,14 @@ class MapModel(BaseTest):
         self.map.editors.add(editor)
         self.map.save()
         self.assertTrue(self.map.can_edit(editor))
+
+
+class LicenceModel(BaseTest):
+
+    def test_licence_delete_should_not_remove_linked_maps(self):
+        marker = MarkerFactory(category=self.category)
+        self.assertEqual(marker.category.map.licence, self.licence)
+        self.licence.delete()
+        self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
+        self.assertEqual(Category.objects.filter(pk=self.category.pk).count(), 1)
+        self.assertEqual(Marker.objects.filter(pk=marker.pk).count(), 1)

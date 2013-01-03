@@ -76,10 +76,10 @@ class BaseTest(TestCase):
 
     def setUp(self):
         self.user = UserFactory(password="123123")
-        self.map = MapFactory(owner=self.user)
+        self.licence = LicenceFactory()
+        self.map = MapFactory(owner=self.user, licence=self.licence)
         self.category = CategoryFactory(map=self.map)
         self.tilelayer = TileLayerFactory()
-        self.licence = LicenceFactory()
 
     def tearDown(self):
         self.user.delete()

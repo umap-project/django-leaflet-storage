@@ -22,7 +22,17 @@ class Licence(NamedModel):
     """
     The licence one map is published on.
     """
-    pass
+
+    @classmethod
+    def get_default(cls):
+        """
+        Returns a default Licence, creates it if it doesn't exist.
+        Needed to prevent a licence deletion from deleting all the linked
+        maps.
+        """
+        return cls.objects.get_or_create(
+            name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_LICENCE_NAME", _('No licence set'))
+        )[0]
 
 
 class TileLayer(NamedModel):
@@ -63,7 +73,12 @@ class Map(NamedModel):
     center = models.PointField(geography=True, verbose_name=_("center"))
     zoom = models.IntegerField(default=7, verbose_name=_("zoom"))
     locate = models.BooleanField(default=False, verbose_name=_("locate"), help_text=_("Locate user on load?"))
-    licence = models.ForeignKey(Licence, help_text=_("Choose the map licence."), verbose_name=_('licence'))
+    licence = models.ForeignKey(
+        Licence,
+        help_text=_("Choose the map licence."),
+        verbose_name=_('licence'),
+        on_delete=models.SET(Licence.get_default)
+    )
     modified_at = models.DateTimeField(auto_now=True)
     tilelayers = models.ManyToManyField(TileLayer, through="MapToTileLayer")
     owner = models.ForeignKey(User, related_name="owned_maps", verbose_name=_("owner"))

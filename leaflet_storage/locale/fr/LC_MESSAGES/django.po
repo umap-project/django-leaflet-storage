@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-27 22:31+0100\n"
+"POT-Creation-Date: 2013-01-03 20:23+0100\n"
 "PO-Revision-Date: 2012-12-27 11:09+0100\n"
 "Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
 "Language-Team: FR <LL@li.org>\n"
@@ -23,95 +23,99 @@ msgstr ""
 msgid "name"
 msgstr "nom"
 
-#: base_models.py:31
+#: base_models.py:34
+msgid "No licence set"
+msgstr "Aucune licence"
+
+#: base_models.py:41
 msgid "URL template using OSM tile format"
 msgstr "Template d'URL au format OSM"
 
-#: base_models.py:57
+#: base_models.py:67
 msgid "Everyone can edit"
 msgstr "Tout le monde peut éditer"
 
-#: base_models.py:58
+#: base_models.py:68
 msgid "Only editors can edit"
 msgstr "Seuls les éditeurs peuvent éditer"
 
-#: base_models.py:59
+#: base_models.py:69
 msgid "Only owner can edit"
 msgstr "Seul le créateur peut modifier"
 
-#: base_models.py:62 base_models.py:132 base_models.py:202
+#: base_models.py:72 base_models.py:147 base_models.py:217
 msgid "description"
 msgstr "description"
 
-#: base_models.py:63
+#: base_models.py:73
 msgid "center"
 msgstr "centre"
 
-#: base_models.py:64
+#: base_models.py:74
 msgid "zoom"
 msgstr "zoom"
 
-#: base_models.py:65
+#: base_models.py:75
 msgid "locate"
 msgstr "géolocaliser"
 
-#: base_models.py:65
+#: base_models.py:75
 msgid "Locate user on load?"
 msgstr "Géolocaliser l'utilisateur au chargement?"
 
-#: base_models.py:66
+#: base_models.py:78
 msgid "Choose the map licence."
 msgstr "Chosir une licence pour la carte"
 
-#: base_models.py:66
+#: base_models.py:79
 msgid "licence"
 msgstr "licence"
 
-#: base_models.py:69
+#: base_models.py:84
 msgid "owner"
 msgstr "créateur"
 
-#: base_models.py:70
+#: base_models.py:85
 msgid "editors"
 msgstr "éditeurs"
 
-#: base_models.py:71
+#: base_models.py:86
 msgid "edit status"
 msgstr "statut d'édition"
 
-#: base_models.py:137
+#: base_models.py:152
 msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
 msgstr "Doit être une chaîne CSS valide (ex. DarkBlud ou #123456)"
 
-#: base_models.py:138 base_models.py:208
+#: base_models.py:153 base_models.py:223
 msgid "color"
 msgstr "couleur"
 
-#: base_models.py:144
+#: base_models.py:159
 msgid "pictogram"
 msgstr "picto"
 
-#: base_models.py:154
+#: base_models.py:169
 msgid "display on load"
 msgstr "afficher au chargement."
 
-#: base_models.py:155
+#: base_models.py:170
 msgid "Display this category on load."
 msgstr "Afficher cette catégorie au chargement."
 
-#: base_models.py:160
+#: base_models.py:175
 msgid "Rank to order the categories"
 msgstr "Rang pour trier les catégories."
 
-#: base_models.py:161
+#: base_models.py:176
 msgid "rank"
 msgstr "rang"
 
-#: base_models.py:192
+#: base_models.py:207
 msgid "My data"
 msgstr "Mes données"
 
-#: base_models.py:210 forms.py:95
+#: base_models.py:225 forms.py:95
 msgid "category"
 msgstr "catégorie"
 
