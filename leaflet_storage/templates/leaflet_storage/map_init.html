@@ -13,7 +13,8 @@
             "tilelayers": {{ tilelayers|safe }},
             "allowEdit": {{ allowEdit }},
             "embedControl": {{ embedControl }},
-            "homeControl": {{ homeControl }}
+            "homeControl": {{ homeControl }},
+            "locateControl": {{ locateControl }}
         }
         {% if map.locate %}
             map_settings['locate'] = {"setView": true}
