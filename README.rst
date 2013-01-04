@@ -28,6 +28,14 @@ Screenshots:
 .. image:: http://i.imgur.com/cSJmN.jpg
 
 
+-----------------------
+Maintained repositories
+-----------------------
+
+* `Github <https://github.com/yohanboniface/django-leaflet-storage>`_
+* `Bitbucket <https://bitbucket.org/yohanboniface/django-leaflet-storage>`_
+
+
 ------------
 Installation
 ------------
