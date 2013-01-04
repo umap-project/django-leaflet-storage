@@ -224,7 +224,8 @@ class BaseFeature(NamedModel):
         max_length=32,
         blank=True,
         null=True,
-        verbose_name=_("color")
+        verbose_name=_("color"),
+        help_text=_("Optional. Uses category color if not set. "),
     )
     category = models.ForeignKey(Category, verbose_name=_("category"))
 
