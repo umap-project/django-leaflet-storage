@@ -288,7 +288,7 @@ class UploadData(TransactionTestCase):
     def tearDown(self):
         self.user.delete()
 
-    def process_file(self, filename):
+    def process_file(self, filename, content_type):
         """
         Process a file stored in tests/fixtures/
         """
@@ -302,7 +302,8 @@ class UploadData(TransactionTestCase):
         f = open(fixture_path)
         post_data = {
             'category': self.category.pk,
-            'data_file': f
+            'data_file': f,
+            'content_type': content_type
         }
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
@@ -310,7 +311,7 @@ class UploadData(TransactionTestCase):
 
     def test_GeoJSON_generic(self):
         # Contains tow Point, two Polygons and one Polyline
-        response = self.process_file("test_upload_data.json")
+        response = self.process_file("test_upload_data.json", "json")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
@@ -330,14 +331,14 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
-        response = self.process_file("test_upload_empty_coordinates.json")
+        response = self.process_file("test_upload_empty_coordinates.json", "json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
 
     def test_GeoJSON_non_linear_ring_should_not_be_imported(self):
-        response = self.process_file("test_upload_non_linear_ring.json")
+        response = self.process_file("test_upload_non_linear_ring.json", "json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
 
@@ -345,7 +346,7 @@ class UploadData(TransactionTestCase):
         # One feature is missing a name
         # We have to make sure that the other feature are imported
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
-        response = self.process_file("test_upload_missing_name.json")
+        response = self.process_file("test_upload_missing_name.json", "json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
@@ -361,11 +362,12 @@ class UploadData(TransactionTestCase):
         )
         post_data = {
             'category': self.category.pk,
-            'data_file': "file://%s" % fixture_path
+            'data_file': "file://%s" % fixture_path,
+            'content_type': 'json'
         }
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
-        response = self.process_file("test_upload_data.json")
+        response = self.process_file("test_upload_data.json", "json")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
@@ -373,13 +375,19 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
 
     def test_KML_generic(self):
-        # Contains one Polyline
-        response = self.process_file("test_upload_data.kml")
+        response = self.process_file("test_upload_data.kml", "kml")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 1)
+
+    def test_GPX_generic(self):
+        response = self.process_file("test_upload_data.gpx", "gpx")
+        self.client.login(username=self.user.username, password="123123")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
 
 
 class CategoryViews(BaseTest):

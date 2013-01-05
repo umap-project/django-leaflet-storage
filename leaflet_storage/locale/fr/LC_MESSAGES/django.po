@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-03 21:02+0100\n"
+"POT-Creation-Date: 2013-01-05 00:43+0100\n"
 "PO-Revision-Date: 2012-12-27 11:09+0100\n"
 "Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
 "Language-Team: FR <LL@li.org>\n"
@@ -123,7 +123,11 @@ msgstr "rang"
 msgid "My data"
 msgstr "Mes données"
 
-#: base_models.py:229 forms.py:95
+#: base_models.py:228
+msgid "Optional. Uses category color if not set. "
+msgstr "Laisser vide pour utiliser la couleur de la catégorie."
+
+#: base_models.py:230 forms.py:105
 msgid "category"
 msgstr "catégorie"
 
@@ -131,65 +135,66 @@ msgstr "catégorie"
 msgid "You already have a map with this name."
 msgstr "Vous avez déjà une carte portant ce nom."
 
-#: forms.py:93
+#: forms.py:102
+msgid "Content type"
+msgstr "Type de contenu"
+
+#: forms.py:103
 msgid "file"
 msgstr "fichier"
 
-#: forms.py:94
+#: forms.py:104
 msgid "URL"
 msgstr "URL"
 
-#: forms.py:115
+#: forms.py:128
 msgid "Unable to fetch content from URL."
 msgstr "Impossible de récupérer le contenu de cette URL."
 
-#: forms.py:128
+#: forms.py:140
 msgid "You must provide an URL or a file."
 msgstr "Vous devez définir au moins une URL ou un fichier."
 
-#: forms.py:130
+#: forms.py:142
 msgid "You can't provide both a file and an URL."
 msgstr "Vous ne pouvez pas définir à la fois une URL et un fichier."
 
-#: forms.py:140
-msgid "Invalid GeoJSON"
-msgstr "GeoJSON invalide"
-
-#: forms.py:146
-msgid "Invalid KML"
-msgstr "KML invalide"
-
-#: forms.py:148
+#: forms.py:154
 #, python-format
 msgid "Unsupported content_type: %s"
 msgstr "Content-Type non pris en charge: %s"
 
-#: views.py:188
+#: forms.py:159
+#, python-format
+msgid "Invalid %(content_type)s"
+msgstr "Fichier %(content_type)s invalide"
+
+#: views.py:189
 msgid "Zoom and center updated with success!"
 msgstr "Zoom et centre mis à jour!"
 
-#: views.py:206
+#: views.py:207
 msgid "Map editors updated with success!"
 msgstr "Éditeurs de la carte mis à jour!"
 
-#: views.py:371
+#: views.py:373
 msgid "Only its owner can delete the map."
 msgstr "Seul le créateur de la carte peut la supprimer."
 
 #. Translators: "feature" is a feature type: Marker, Polyline, Polygon
-#: views.py:496
+#: views.py:498
 #, python-format
 msgid "%(feature)s successfully deleted."
 msgstr "%(feature)s supprimé(e)."
 
-#: views.py:641
+#: views.py:643
 msgid "Category successfully deleted."
 msgstr "Catégorie supprimée."
 
 #: templates/leaflet_storage/category_confirm_delete.html:2
 #: templates/leaflet_storage/category_form.html:7
 #: templates/leaflet_storage/feature_confirm_delete.html:2
-#: templates/leaflet_storage/feature_form.html:12
+#: templates/leaflet_storage/feature_form.html:7
 #: templates/leaflet_storage/map_confirm_delete.html:2
 #: templates/leaflet_storage/map_form.html:6
 msgid "Delete"
@@ -236,8 +241,8 @@ msgid ""
 "Map user content has been published under licence <a href=\"%(url)s\">"
 "%(licence)s</a>"
 msgstr ""
-"Les contenus utilisateurs de la carte ont été publiés sous licence "
-"<a href=\"%(url)s\">%(licence)s</a>"
+"Les contenus utilisateurs de la carte ont été publiés sous licence <a href="
+"\"%(url)s\">%(licence)s</a>"
 
 #: templates/leaflet_storage/map_infos.html:10
 msgid "Tile layers credits"
@@ -274,6 +279,10 @@ msgstr "GeoJSON (propriétés utiliséees: name ou title, description color"
 msgid "KML (properties used: name, description)"
 msgstr "KML (propriétés utilisées: name, description"
 
+#: templates/leaflet_storage/upload_form.html:6
+msgid "GPX (properties used: name, desc)"
+msgstr "GPX (propriétés utilisées: name, desc"
+
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"
 msgstr "Merci de vous identifier pour continuer"
@@ -281,6 +290,3 @@ msgstr "Merci de vous identifier pour continuer"
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
 msgstr "Nom d'utilisateur ou mot de passe incorrect. Merci de corriger."
-
-#~ msgid "preset"
-#~ msgstr "préréglé"

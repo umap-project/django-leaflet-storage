@@ -5,7 +5,7 @@ from django.contrib.gis.geos import Point
 from django.utils.translation import ugettext as _
 from django.template.defaultfilters import slugify
 
-from vectorformats.formats import geojson, kml
+from vectorformats.formats import geojson, kml, gpx
 
 from .models import Map, Category
 
@@ -90,6 +90,19 @@ class CategoryForm(PlaceholderForm):
 
 class UploadDataForm(forms.Form):
 
+    JSON = "json"
+    KML = "kml"
+    GPX = "gpx"
+    CONTENT_TYPES = (
+        (JSON, "JSON"),
+        (KML, "KML"),
+        (GPX, "GPX"),
+    )
+
+    # GPX has no official content_type, so we can't guess it's type when
+    # fetched from an URL which doesn't give us a file name in responses
+    # headers. So for now ask user the content_type...
+    content_type = forms.ChoiceField(CONTENT_TYPES, label=_("Content type"))
     data_file = forms.FileField(required=False, label=_("file"))
     data_url = forms.URLField(required=False, label=_("URL"))
     category = forms.ModelChoiceField([], label=_("category"))  # queryset is set by view
@@ -102,7 +115,7 @@ class UploadDataForm(forms.Form):
         features = []
         f = self.cleaned_data.get('data_file')
         if f:
-            features = self.content_to_features(f.read(), f.content_type)
+            features = self.content_to_features(f.read())
         return features
 
     def clean_data_url(self):
@@ -115,8 +128,7 @@ class UploadDataForm(forms.Form):
                 raise forms.ValidationError(_('Unable to fetch content from URL.'))
             else:
                 content = response.read()
-                content_type = response.headers['Content-Type']
-                features = self.content_to_features(content, content_type)
+                features = self.content_to_features(content)
         return features
 
     def clean(self):
@@ -130,22 +142,21 @@ class UploadDataForm(forms.Form):
             raise forms.ValidationError(_("You can't provide both a file and an URL."))
         return cleaned_data
 
-    def content_to_features(self, content, content_type):
+    def content_to_features(self, content):
         features = []
-        if content_type == "application/json":
-            geoj = geojson.GeoJSON()
-            try:
-                features = geoj.decode(content)
-            except:
-                raise forms.ValidationError(_('Invalid GeoJSON'))
-        elif content_type == "application/vnd.google-earth.kml+xml":
-            k = kml.KML()
-            try:
-                features = k.decode(content)
-            except:
-                raise forms.ValidationError(_('Invalid KML'))
-        else:
+        content_type = self.cleaned_data.get('content_type')
+        MAP = {
+            self.JSON: geojson.GeoJSON,
+            self.KML: kml.KML,
+            self.GPX: gpx.GPX
+        }
+        if not content_type in MAP:
             raise forms.ValidationError(_('Unsupported content_type: %s') % content_type)
+        format = MAP[content_type]()
+        try:
+            features = format.decode(content)
+        except:
+            raise forms.ValidationError(_('Invalid %(content_type)s') % {'content_type': content_type})
         return features
 
 

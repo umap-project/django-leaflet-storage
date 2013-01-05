@@ -3,6 +3,7 @@
 <ul>{% trans "Formats supported (more to come)" %}:
     <li>{% trans "GeoJSON (properties used: name or title, description, color)" %}</li>
     <li>{% trans "KML (properties used: name, description)" %}</li>
+    <li>{% trans "GPX (properties used: name, desc)" %}</li>
 </ul>
 <form action="{{ action_url }}" method="post" enctype="multipart/form-data" id="upload_data">
     {% csrf_token %}
