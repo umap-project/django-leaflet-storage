@@ -6,26 +6,7 @@ Provide collaborative maps for your Django project.
 
 Django-Leaflet-Storage is a backend for `Leaflet.Storage <https://github.com/yohanboniface/Leaflet.Storage>`_, built on top of `Geodjango <http://geodjango.org/>`_ and `Leaflet <http://leaflet.cloudmade.com/>`_.
 
-It's in "molto alpha" stage, but already usable for proof-of-concept projects. Demo `here <http://youmap.fluv.io>`_
-
-Goals:
-
-- plugable
-- extendable
-- light
-- edit in place
-
-
-Supported features (others are planned: Circle, etc.):
-
-- Marker
-- Polyline
-- Polygon
-
-Screenshots:
-
-.. image:: http://i.imgur.com/IL1I7.jpg
-.. image:: http://i.imgur.com/cSJmN.jpg
+Check the demo `here <http://umap.fluv.io>`_
 
 
 -----------------------
@@ -43,13 +24,9 @@ Installation
 .. note::
    You will need a geo aware database. See `Geodjango doc <https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/>`_ for backend installation.
 
-.. note::
-   You will need Leaflet, Leaflet.Draw, Leaflet.Hash and Leaflet.Storage.
-   They are submodules of this module, but pip will not fetch them automatically (will be the case in future version of pip).
+Then you can pip install the app::
 
-Then you can pip install the rep, only from its repo for now::
-
-    pip install git+git://github.com/yohanboniface/django-leaflet-storage.git
+    pip install django-leaflet-storage
 
 Add `leaflet_storage` to you apps::
 
@@ -62,9 +39,9 @@ Include `leaflet_storage` urls::
 
    (r'', include('leaflet_storage.urls')),
 
-Create tables::
+Create tables (add `--migrate` if you are using `South <http://south.aeracode.org/>`_::
 
-    python manage.py syncdb
+    python manage.py syncdb --migrate
 
 
 -----------
@@ -74,8 +51,7 @@ Basic usage
 From the Django admin (for now), you need to create at least:
 
 - one TileLayer instance
-- one Map instance
-- one Category instance
+- one Licence instance
 
 Then, go to the map front page (something like http://localhost:8017/map/my-map-slug), and you will be able to add features (Marker, Polygon...).
 
