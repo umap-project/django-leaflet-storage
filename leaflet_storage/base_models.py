@@ -81,7 +81,8 @@ class Map(NamedModel):
         Licence,
         help_text=_("Choose the map licence."),
         verbose_name=_('licence'),
-        on_delete=models.SET(Licence.get_default)
+        on_delete=models.SET_DEFAULT,
+        default=Licence.get_default
     )
     modified_at = models.DateTimeField(auto_now=True)
     tilelayers = models.ManyToManyField(TileLayer, through="MapToTileLayer")
