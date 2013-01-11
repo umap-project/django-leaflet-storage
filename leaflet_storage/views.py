@@ -652,3 +652,11 @@ class CategoryDelete(DeleteView):
 def logout(request):
     do_logout(request)
     return simple_json_response(redirect="/")
+
+
+class LoginPopupEnd(TemplateView):
+    """
+    End of a loggin process in popup.
+    Basically close the popup.
+    """
+    template_name = "leaflet_storage/login_popup_end.html"

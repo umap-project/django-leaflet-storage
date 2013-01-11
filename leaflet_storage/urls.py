@@ -8,6 +8,7 @@ from .utils import decorated_patterns
 
 urlpatterns = patterns('',
     url(r'^login/$', jsonize_view(login), name='login'),
+    url(r'^login/popup/end/$', views.LoginPopupEnd.as_view(), name='login_popup_end'),
     url(r'^logout/$', views.logout, name='logout'),
     url(r'^map/(?P<username>[-_\w]+)/(?P<slug>[-_\w]+)/$', views.MapView.as_view(), name='map'),
     url(r'^feature/json/category/(?P<category_id>[\d]+)/$', views.FeatureGeoJSONListView.as_view(), name='feature_geojson_list'),
