@@ -15,9 +15,12 @@
             "embedControl": {{ embedControl }},
             "homeControl": {{ homeControl }},
             "locateControl": {{ locateControl }},
-            "jumpToLocationControl": {{ jumpToLocationControl }}
+            "jumpToLocationControl": {{ jumpToLocationControl }},
+            "enableMarkerDraw": {{ enableMarkerDraw }},
+            "enablePolylineDraw": {{ enablePolylineDraw }},
+            "enablePolygonDraw": {{ enablePolygonDraw }}
         }
-        {% if map.locate %}
+        {% if locateOnLoad %}
             map_settings['locate'] = {"setView": true}
         {% endif %}
         var MAP = new L.Storage.Map("map", map_settings);

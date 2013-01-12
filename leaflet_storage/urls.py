@@ -26,6 +26,7 @@ urlpatterns += decorated_patterns('', login_required,
 )
 urlpatterns += decorated_patterns('', map_permissions_check,
     url(r'^map/(?P<map_id>[\d]+)/update/metadata/$', views.QuickMapUpdate.as_view(), name='map_update'),
+    url(r'^map/(?P<map_id>[\d]+)/update/settings/$', views.UpdateMapSettings.as_view(), name='map_update_settings'),
     url(r'^map/(?P<map_id>[\d]+)/update/extent/$', csrf_exempt(views.UpdateMapExtent.as_view()), name='map_update_extent'),
     url(r'^map/(?P<map_id>[\d]+)/update/tilelayers/$', views.UpdateMapTileLayers.as_view(), name='map_update_tilelayers'),
     url(r'^map/(?P<map_id>[\d]+)/update/permissions/$', views.UpdateMapPermissions.as_view(), name='map_update_permissions'),

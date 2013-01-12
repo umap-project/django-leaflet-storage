@@ -26,7 +26,8 @@ from .models import (Map, Marker, Category, Polyline, TileLayer,
                      MapToTileLayer, Polygon)
 from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
-                    UploadDataForm, UpdateMapPermissionsForm, FeatureForm)
+                    UploadDataForm, UpdateMapPermissionsForm, FeatureForm,
+                    MapSettingsForm)
 
 
 # ############## #
@@ -105,10 +106,13 @@ class MapView(DetailView):
         # Precedence to GET param
         allow_edit = self.get_int_from_request("allowEdit", allow_edit)
         context['allowEdit'] = allow_edit
-        context['embedControl'] = self.get_int_from_request("embedControl", 1)
-        context['homeControl'] = self.get_int_from_request("homeControl", 1)
-        context['locateControl'] = self.get_int_from_request("locateControl", 1)
-        context['jumpToLocationControl'] = self.get_int_from_request("jumpToLocationControl", 1)
+        for name, label, default in MapSettingsForm.SETTINGS:
+            value = self.get_int_from_request(name, self.object.settings.get(name, default))
+            try:
+                value = int(value)
+            except ValueError:
+                value = default
+            context[name] = value
         return context
 
 
@@ -206,6 +210,23 @@ class UpdateMapPermissions(UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return simple_json_response(info=_("Map editors updated with success!"))
+
+    def render_to_response(self, context, **response_kwargs):
+        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
+
+
+class UpdateMapSettings(UpdateView):
+    template_name = "leaflet_storage/map_update_settings.html"
+    model = Map
+    form_class = MapSettingsForm
+    pk_url_kwarg = 'map_id'
+
+    def form_valid(self, form):
+        self.object.settings = form.cleaned_data
+        self.object.save()
+        # We need to reload the page, to make the UI take into account the new
+        # settings
+        return simple_json_response(redirect=self.object.get_absolute_url())
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)

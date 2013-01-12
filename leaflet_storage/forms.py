@@ -168,3 +168,29 @@ class FeatureForm(PlaceholderForm):
         widgets = {
             'latlng': forms.HiddenInput(),
         }
+
+
+class MapSettingsForm(forms.Form):
+
+    SETTINGS = (
+        # name, help_text, default
+        ("locateControl", _("Do you want to display the locate control?"), True),
+        ("jumpToLocationControl", _("Do you want to display the 'quick search' control?"), True),
+        ("homeControl", _("Do you want to display the 'back to home page' control?"), True),
+        ("embedControl", _("Do you want to display the embed control?"), True),
+        ("locateOnLoad", _("Do you want to locate user on load?"), False),
+        ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
+        ("enablePolylineDraw", _("Do you want to enable Polyline drawing?"), True),
+        ("enablePolygonDraw", _("Do you want to enable Polygon drawing?"), True),
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.pop('instance')
+        super(MapSettingsForm, self).__init__(*args, **kwargs)
+        for name, help_text, default in self.SETTINGS:
+            attrs = {
+                "required": False,
+                "help_text": help_text,
+                "initial": self.instance.settings[name] if name in self.instance.settings else default
+            }
+            self.fields[name] = forms.BooleanField(**attrs)

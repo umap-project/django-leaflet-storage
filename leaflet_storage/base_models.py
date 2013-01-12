@@ -7,6 +7,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 
+from .fields import DictField
+
 
 class NamedModel(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("name"))
@@ -89,6 +91,7 @@ class Map(NamedModel):
     owner = models.ForeignKey(User, related_name="owned_maps", verbose_name=_("owner"))
     editors = models.ManyToManyField(User, blank=True, verbose_name=_("editors"))
     edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER, verbose_name=_("edit status"))
+    settings = DictField(blank=True, null=True, verbose_name=_("settings"))
 
     objects = models.GeoManager()
 
