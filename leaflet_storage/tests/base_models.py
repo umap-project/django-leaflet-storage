@@ -53,3 +53,14 @@ class LicenceModel(BaseTest):
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
         self.assertEqual(Category.objects.filter(pk=self.category.pk).count(), 1)
         self.assertEqual(Marker.objects.filter(pk=marker.pk).count(), 1)
+
+
+class CategoryModel(BaseTest):
+
+    def test_features_should_be_locally_cached(self):
+        MarkerFactory(category=self.category)
+        MarkerFactory(category=self.category)
+        MarkerFactory(category=self.category)
+        self.category.features
+        with self.assertNumQueries(0):
+            self.category.features

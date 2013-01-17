@@ -197,13 +197,15 @@ class Category(NamedModel):
 
     @property
     def features(self):
-        filters = {
-            "category": self
-        }
-        markers = Marker.objects.filter(**filters)
-        polylines = Polyline.objects.filter(**filters)
-        polygons = Polygon.objects.filter(**filters)
-        return list(markers) + list(polylines) + list(polygons)
+        if not hasattr(self, "_features"):
+            filters = {
+                "category": self
+            }
+            markers = Marker.objects.filter(**filters)
+            polylines = Polyline.objects.filter(**filters)
+            polygons = Polygon.objects.filter(**filters)
+            self._features = list(markers) + list(polylines) + list(polygons)
+        return self._features
 
     class Meta:
         ordering = ["rank"]
