@@ -201,9 +201,9 @@ class Category(NamedModel):
             filters = {
                 "category": self
             }
-            markers = Marker.objects.filter(**filters)
-            polylines = Polyline.objects.filter(**filters)
-            polygons = Polygon.objects.filter(**filters)
+            markers = get_model("Marker").objects.filter(**filters)
+            polylines = get_model("Polyline").objects.filter(**filters)
+            polygons = get_model("Polygon").objects.filter(**filters)
             self._features = list(markers) + list(polylines) + list(polygons)
         return self._features
 
