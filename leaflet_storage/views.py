@@ -41,7 +41,7 @@ def _urls_for_js(urls=None):
     if urls is None:
         # prevent circular import
         from .urls import urlpatterns
-        urls = [url.name for url in urlpatterns if url.name]
+        urls = [url.name for url in urlpatterns if getattr(url, 'name', None)]
     return dict(zip(urls, [get_uri_template(url) for url in urls]))
 
 
