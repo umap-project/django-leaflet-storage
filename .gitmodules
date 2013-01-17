@@ -1,12 +1,12 @@
 [submodule "leaflet_storage/static/leaflet"]
 	path = leaflet_storage/static/leaflet
-	url = git://github.com/CloudMade/Leaflet.git
-[submodule "leaflet_storage/static/draw"]
-	path = leaflet_storage/static/draw
-	url = git://github.com/jacobtoye/Leaflet.draw.git
+	url = git://github.com/Leaflet/Leaflet.git
 [submodule "leaflet_storage/static/hash"]
 	path = leaflet_storage/static/hash
 	url = git://github.com/mlevans/leaflet-hash.git
 [submodule "leaflet_storage/static/storage"]
 	path = leaflet_storage/static/storage
 	url = git://github.com/yohanboniface/Leaflet.Storage.git
+[submodule "leaflet_storage/static/draw"]
+	path = leaflet_storage/static/draw
+	url = git://github.com/Leaflet/Leaflet.draw.git
