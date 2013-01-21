@@ -20,6 +20,33 @@ class PlaceholderForm(forms.ModelForm):
                 field.label = ""
 
 
+class OptionsForm(PlaceholderForm):
+    """
+    Manage options DictField.
+    """
+
+    PREFIX = "options_"
+
+    def __init__(self, *args, **kwargs):
+        self.options_data = {}
+        super(OptionsForm, self).__init__(*args, **kwargs)
+        for option_name, value in self.instance.options.iteritems():
+            option_name = "%s%s" % (self.PREFIX, option_name)
+            if option_name in self.fields:
+                self.fields[option_name].initial = value
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        for field_name, value in cleaned_data.iteritems():
+            if field_name.startswith(self.PREFIX):
+                self.options_data[field_name[8:]] = value
+        return cleaned_data
+
+    def save(self, *args):
+        self.instance.options = self.options_data
+        return super(OptionsForm, self).save(*args)
+
+
 class QuickMapCreateForm(PlaceholderForm):
 
     def __init__(self, *args, **kwargs):
@@ -79,7 +106,13 @@ class UpdateMapPermissionsForm(forms.ModelForm):
         fields = ('edit_status', 'editors')
 
 
-class CategoryForm(PlaceholderForm):
+class CategoryForm(OptionsForm):
+
+    options_color = forms.CharField(
+        required=False,
+        label=_('color'),
+        help_text=_("Must be a CSS valid name (eg.: DarkBlue or #123456)")
+    )
 
     class Meta:
         model = Category
@@ -160,11 +193,17 @@ class UploadDataForm(forms.Form):
         return features
 
 
-class FeatureForm(PlaceholderForm):
+class FeatureForm(OptionsForm):
+
+    options_color = forms.CharField(
+        required=False,
+        label=_('color'),
+        help_text=_("Optional. Uses category color if not set. ")
+    )
 
     class Meta:
         # model is added at runtime by the views
-        fields = ('name', 'description', 'color', 'category', 'latlng')
+        fields = ('name', 'description', 'category', 'latlng')
         widgets = {
             'latlng': forms.HiddenInput(),
         }

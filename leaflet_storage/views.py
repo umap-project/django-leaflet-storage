@@ -286,7 +286,7 @@ class UploadData(FormView):
             'LineString': Polyline,
             'Polygon': Polygon
         }
-        # Use a tuple to add more source possible
+        # Use a tuple to add more sources possible
         # first item is field name
         FIELDS = [
             ('name', 'title'),
@@ -337,7 +337,14 @@ class UploadData(FormView):
                     candidates = [field]
                 for candidate in candidates:
                     if candidate in feature.properties:
-                        kwargs[name] = feature.properties[candidate]
+                        value = feature.properties[candidate]
+                        if name in klass._meta.get_all_field_names():
+                            kwargs[name] = value
+                        else:
+                            # it's an option
+                            if not "options" in kwargs:
+                                kwargs['options'] = {}
+                            kwargs['options'][name] = value
                         break
             try:
                 klass.objects.create(**kwargs)
@@ -412,7 +419,7 @@ class GeoJSONMixin(object):
 
     def geojson(self, context):
         qs = self.get_queryset()
-        djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'color'])
+        djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'options'])
         geoj = geojson.GeoJSON()
         return geoj.encode(djf.decode(qs), to_string=False)
 

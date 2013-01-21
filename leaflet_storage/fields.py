@@ -15,7 +15,7 @@ class DictField(models.TextField):
         return simplejson.dumps(value)
 
     def to_python(self, value):
-        if value is None:
+        if not value:
             value = {}
         if isinstance(value, basestring):
             return simplejson.loads(value)

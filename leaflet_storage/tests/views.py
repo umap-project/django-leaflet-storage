@@ -321,11 +321,11 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Marker.objects.filter(category=self.category, name="London").count(), 1)
         marker = Marker.objects.get(category=self.category, name="London")
         self.assertEqual(marker.description, "London description")
-        self.assertEqual(marker.color, "Pink")
+        self.assertEqual(marker.options["color"], "Pink")
         self.assertEqual(Marker.objects.filter(category=self.category, name="Antwerpen").count(), 1)
         marker = Marker.objects.get(category=self.category, name="Antwerpen")
         self.assertEqual(marker.description, "")
-        self.assertEqual(marker.color, None)
+        self.assertFalse("color" in marker.options)
 
     def test_GeoJSON_empty_coordinates_should_not_be_imported(self):
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)

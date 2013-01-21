@@ -51,7 +51,6 @@ class CategoryFactory(factory.Factory):
     map = factory.SubFactory(MapFactory)
     name = "test category"
     description = "test description"
-    color = "DarkRed"
     display_on_load = True
     rank = 1
 
@@ -60,7 +59,6 @@ class BaseFeatureFactory(factory.Factory):
     ABSTRACT_FACTORY = True
     name = "test feature"
     description = "test description"
-    color = None  # Having a color on a feature is not the normal case
     category = factory.SubFactory(CategoryFactory)
 
 

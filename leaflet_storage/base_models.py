@@ -140,7 +140,7 @@ class Pictogram(NamedModel):
 
 class Category(NamedModel):
     """
-    Category of a Marker.
+    Category of a Feature.
     """
     ICON_CLASS = (
         ('Default', 'Default'),
@@ -154,12 +154,7 @@ class Category(NamedModel):
         null=True,
         verbose_name=_("description")
     )
-    color = models.CharField(
-        max_length=32,
-        default="DarkBlue",
-        help_text=_("Must be a CSS valid name (eg.: DarkBlue or #123456)"),
-        verbose_name=_("color")
-    )
+    options = DictField(blank=True, null=True, verbose_name=_("options"))
     pictogram = models.ForeignKey(
         Pictogram,
         null=True,
@@ -189,10 +184,10 @@ class Category(NamedModel):
         return {
             "name": self.name,
             "pk": self.pk,
-            "color": self.color,
             "pictogram_url": self.pictogram.pictogram.url if self.pictogram else None,
             "icon_class": self.icon_class,
             "display_on_load": self.display_on_load,
+            "options": self.options,
         }
 
     @property
@@ -226,14 +221,8 @@ class BaseFeature(NamedModel):
         null=True,
         verbose_name=_("description")
     )
-    color = models.CharField(
-        max_length=32,
-        blank=True,
-        null=True,
-        verbose_name=_("color"),
-        help_text=_("Optional. Uses category color if not set. "),
-    )
     category = models.ForeignKey(Category, verbose_name=_("category"))
+    options = DictField(blank=True, null=True, verbose_name=_("options"))
 
     objects = models.GeoManager()
 
