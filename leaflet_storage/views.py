@@ -26,8 +26,8 @@ from .models import (Map, Marker, Category, Polyline, TileLayer,
                      MapToTileLayer, Polygon)
 from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
-                    UploadDataForm, UpdateMapPermissionsForm, FeatureForm,
-                    MapSettingsForm)
+                    UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
+                    MarkerForm, PolygonForm, PolylineForm)
 
 
 # ############## #
@@ -452,7 +452,6 @@ class FeatureView(DetailView):
 
 
 class FeatureAdd(CreateView):
-    form_class = FeatureForm
 
     def get_success_url(self):
         return reverse_lazy(self.geojson_url, kwargs={"pk": self.object.pk})
@@ -461,7 +460,6 @@ class FeatureAdd(CreateView):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
     def get_form(self, form_class):
-        form_class = modelform_factory(self.model, form=form_class)
         form = super(FeatureAdd, self).get_form(form_class)
         map_inst = self.kwargs['map_inst']
         categories = Category.objects.filter(map=map_inst)
@@ -481,7 +479,6 @@ class FeatureAdd(CreateView):
 
 
 class FeatureUpdate(UpdateView):
-    form_class = FeatureForm
 
     def get_success_url(self):
         return reverse_lazy(self.geojson_url, kwargs={"pk": self.object.pk})
@@ -497,7 +494,6 @@ class FeatureUpdate(UpdateView):
 
     # TODO: factorize with FeatureAdd!
     def get_form(self, form_class):
-        form_class = modelform_factory(self.model, form=form_class)
         form = super(FeatureUpdate, self).get_form(form_class)
         map_inst = self.kwargs['map_inst']
         form.fields['category'].queryset = Category.objects.filter(map=map_inst)
@@ -559,11 +555,13 @@ class MarkerUpdate(FeatureUpdate):
     model = Marker
     geojson_url = 'marker_geojson'
     delete_url = "marker_delete"
+    form_class = MarkerForm
 
 
 class MarkerAdd(FeatureAdd):
     model = Marker
     geojson_url = 'marker_geojson'
+    form_class = MarkerForm
 
 
 class PolylineView(FeatureView):
@@ -573,12 +571,14 @@ class PolylineView(FeatureView):
 class PolylineAdd(FeatureAdd):
     model = Polyline
     geojson_url = 'polyline_geojson'
+    form_class = PolylineForm
 
 
 class PolylineUpdate(FeatureUpdate):
     model = Polyline
     geojson_url = 'polyline_geojson'
     delete_url = "polyline_delete"
+    form_class = PolylineForm
 
 
 class PolylineDelete(FeatureDelete):
@@ -596,12 +596,14 @@ class PolygonView(FeatureView):
 class PolygonAdd(FeatureAdd):
     model = Polygon
     geojson_url = 'polygon_geojson'
+    form_class = PolygonForm
 
 
 class PolygonUpdate(FeatureUpdate):
     model = Polygon
     geojson_url = 'polygon_geojson'
     delete_url = "polygon_delete"
+    form_class = PolygonForm
 
 
 class PolygonDelete(FeatureDelete):

@@ -7,7 +7,7 @@ from django.template.defaultfilters import slugify
 
 from vectorformats.formats import geojson, kml, gpx
 
-from .models import Map, Category
+from .models import Map, Category, Polyline, Polygon, Marker
 
 
 class PlaceholderForm(forms.ModelForm):
@@ -106,21 +106,6 @@ class UpdateMapPermissionsForm(forms.ModelForm):
         fields = ('edit_status', 'editors')
 
 
-class CategoryForm(OptionsForm):
-
-    options_color = forms.CharField(
-        required=False,
-        label=_('color'),
-        help_text=_("Must be a CSS valid name (eg.: DarkBlue or #123456)")
-    )
-
-    class Meta:
-        model = Category
-        widgets = {
-            "map": forms.HiddenInput()
-        }
-
-
 class UploadDataForm(forms.Form):
 
     JSON = "json"
@@ -193,17 +178,111 @@ class UploadDataForm(forms.Form):
         return features
 
 
+class PathStyleMixin(forms.ModelForm):
+    options_smoothFactor = forms.FloatField(
+        required=False,
+        label=_('Path smooth factor'),
+        help_text=_("How much to simplify the polyline on each zoom level "
+                    "(more = better performance and smoother look, less = more accurate)")
+    )
+    options_opacity = forms.FloatField(
+        required=False,
+        min_value=0.1,
+        max_value=10,
+        label=_('Path opacity'),
+        help_text=_("Opacity, from 0.1 to 1.0 (opaque).")
+    )
+    options_stroke = forms.BooleanField(
+        required=False,
+        initial=True,
+        label=_('Polygon stroke'),
+        help_text=_("Whether to display or not the Polygon path.")
+    )
+    options_weight = forms.IntegerField(
+        required=False,
+        min_value=0,
+        max_value=10,
+        label=_('Path weight'),
+        help_text=_("Path weight in pixels. Max: 10.")
+    )
+    options_fill = forms.BooleanField(
+        required=False,
+        initial=True,
+        label=_('Path fill'),
+        help_text=_("Whether to fill the path with color.")
+    )
+    options_fillOpacity = forms.FloatField(
+        required=False,
+        min_value=0.1,
+        max_value=10,
+        label=_('Fill opacity'),
+        help_text=_("Fill opacity, from 0.1 to 1.0 (opaque).")
+    )
+    options_fillColor = forms.CharField(
+        required=False,
+        label=_('Fill color'),
+        help_text=_("Optional. Same as color if not set.")
+    )
+    options_dashArray = forms.CharField(
+        required=False,
+        label=_('Dash array'),
+        help_text=_("A string that defines the stroke dash pattern. Ex.: '5, 10, 15'.")
+    )
+
+
+class CategoryForm(OptionsForm, PathStyleMixin):
+
+    options_color = forms.CharField(
+        required=False,
+        label=_('color'),
+        help_text=_("Must be a CSS valid name (eg.: DarkBlue or #123456)")
+    )
+
+    class Meta:
+        model = Category
+        widgets = {
+            "map": forms.HiddenInput()
+        }
+
+
 class FeatureForm(OptionsForm):
 
     options_color = forms.CharField(
         required=False,
         label=_('color'),
-        help_text=_("Optional. Uses category color if not set. ")
+        help_text=_("Optional. Category color is used if not set.")
     )
 
+
+class PolygonForm(FeatureForm, PathStyleMixin):
+
     class Meta:
-        # model is added at runtime by the views
+        model = Polygon
         fields = ('name', 'description', 'category', 'latlng')
+        widgets = {
+            'latlng': forms.HiddenInput(),
+        }
+
+
+class PolylineForm(FeatureForm, PathStyleMixin):
+
+    def __init__(self, *args, **kwargs):
+        super(PolylineForm, self).__init__(*args, **kwargs)
+        self.fields["options_fill"].initial = False
+
+    class Meta:
+        fields = ('name', 'description', 'category', 'latlng')
+        model = Polyline
+        widgets = {
+            'latlng': forms.HiddenInput(),
+        }
+
+
+class MarkerForm(FeatureForm):
+
+    class Meta:
+        fields = ('name', 'description', 'category', 'latlng')
+        model = Marker
         widgets = {
             'latlng': forms.HiddenInput(),
         }
