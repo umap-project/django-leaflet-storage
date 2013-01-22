@@ -8,7 +8,6 @@ from django.template import RequestContext
 from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
 from django.contrib.gis.geos import GEOSGeometry
-from django.forms.models import modelform_factory
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
 from django.views.generic.list import BaseListView

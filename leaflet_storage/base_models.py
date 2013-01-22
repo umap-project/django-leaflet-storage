@@ -15,6 +15,7 @@ class NamedModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ('name', )
 
     def __unicode__(self):
         return self.name
@@ -172,12 +173,6 @@ class Category(NamedModel):
         verbose_name=_("display on load"),
         help_text=_("Display this category on load.")
     )
-    rank = models.IntegerField(
-        null=True,
-        blank=True,
-        help_text=_("Rank to order the categories"),
-        verbose_name=_("rank")
-    )
 
     @property
     def json(self):
@@ -201,9 +196,6 @@ class Category(NamedModel):
             polygons = get_model("Polygon").objects.filter(**filters)
             self._features = list(markers) + list(polylines) + list(polygons)
         return self._features
-
-    class Meta:
-        ordering = ["rank"]
 
     @classmethod
     def create_default(cls, map_inst):

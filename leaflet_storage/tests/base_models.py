@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 
 from leaflet_storage.models import Marker, Map, Category
-from .base import BaseTest, UserFactory, MarkerFactory
+from .base import BaseTest, UserFactory, MarkerFactory, CategoryFactory
 
 
 class MapModel(BaseTest):
@@ -64,3 +64,13 @@ class CategoryModel(BaseTest):
         self.category.features
         with self.assertNumQueries(0):
             self.category.features
+
+    def test_categories_should_be_ordered_by_name(self):
+        c4 = CategoryFactory(map=self.map, name="eeeeeee")
+        c1 = CategoryFactory(map=self.map, name="1111111")
+        c3 = CategoryFactory(map=self.map, name="ccccccc")
+        c2 = CategoryFactory(map=self.map, name="aaaaaaa")
+        self.assertEqual(
+            list(self.map.category_set.all()),
+            [c1, c2, c3, c4, self.category]
+        )

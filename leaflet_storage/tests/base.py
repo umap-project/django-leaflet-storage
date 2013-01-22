@@ -52,7 +52,6 @@ class CategoryFactory(factory.Factory):
     name = "test category"
     description = "test description"
     display_on_load = True
-    rank = 1
 
 
 class BaseFeatureFactory(factory.Factory):
