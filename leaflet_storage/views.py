@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.gis.geos import GEOSGeometry
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
-from django.views.generic.list import BaseListView
+from django.views.generic.list import BaseListView, ListView
 from django.views.generic.base import TemplateView
 from django.contrib.auth import logout as do_logout
 from django.template.loader import render_to_string
@@ -22,7 +22,7 @@ from django.contrib.auth.models import User
 from vectorformats.formats import django, geojson
 
 from .models import (Map, Marker, Category, Polyline, TileLayer,
-                     MapToTileLayer, Polygon)
+                     MapToTileLayer, Polygon, Pictogram)
 from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
                     UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
@@ -672,6 +672,18 @@ class CategoryDelete(DeleteView):
         self.object = self.get_object()
         self.object.delete()
         return simple_json_response(info=_("Category successfully deleted."))
+
+
+# ############## #
+#     Picto      #
+# ############## #
+
+class PictogramJsonList(ListView):
+    model = Pictogram
+
+    def render_to_response(self, context, **response_kwargs):
+        content = [p.json for p in Pictogram.objects.all()]
+        return simple_json_response(pictogram_list=content)
 
 
 # ############## #

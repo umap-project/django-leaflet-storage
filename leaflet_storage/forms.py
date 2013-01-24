@@ -241,7 +241,9 @@ class CategoryForm(OptionsForm, PathStyleMixin):
     class Meta:
         model = Category
         widgets = {
-            "map": forms.HiddenInput()
+            "map": forms.HiddenInput(),
+            "icon_class": forms.HiddenInput(),
+            "pictogram": forms.HiddenInput()
         }
 
 

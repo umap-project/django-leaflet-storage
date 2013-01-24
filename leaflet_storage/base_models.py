@@ -138,6 +138,15 @@ class Pictogram(NamedModel):
     attribution = models.CharField(max_length=300)
     pictogram = models.ImageField(upload_to="pictogram")
 
+    @property
+    def json(self):
+        return {
+            "id": self.pk,
+            "attribution": self.attribution,
+            "name": self.name,
+            "src": self.pictogram.url
+        }
+
 
 class Category(NamedModel):
     """
@@ -166,7 +175,8 @@ class Category(NamedModel):
         choices=ICON_CLASS,
         max_length=32,
         default="Default",
-        verbose_name="icon type"
+        verbose_name=_("icon type"),
+        help_text=_("Choose the style of the marker.")
     )
     display_on_load = models.BooleanField(
         default=False,
