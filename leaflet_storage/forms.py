@@ -283,10 +283,12 @@ class PolylineForm(FeatureForm, PathStyleMixin):
 class MarkerForm(FeatureForm):
 
     class Meta:
-        fields = ('name', 'description', 'category', 'latlng')
+        fields = ('name', 'description', 'category', 'latlng', 'icon_class', 'pictogram')
         model = Marker
         widgets = {
             'latlng': forms.HiddenInput(),
+            "icon_class": forms.HiddenInput(),
+            "pictogram": forms.HiddenInput()
         }
 
 

@@ -148,23 +148,14 @@ class Pictogram(NamedModel):
         }
 
 
-class Category(NamedModel):
-    """
-    Category of a Feature.
-    """
+class IconConfigMixin(models.Model):
+
     ICON_CLASS = (
         ('Default', 'Default'),
         ('Circle', 'Circle'),
         ('Drop', 'Drop'),
         ('Ball', 'Ball'),
     )
-    map = models.ForeignKey(Map)
-    description = models.TextField(
-        blank=True,
-        null=True,
-        verbose_name=_("description")
-    )
-    options = DictField(blank=True, null=True, verbose_name=_("options"))
     pictogram = models.ForeignKey(
         Pictogram,
         null=True,
@@ -172,12 +163,29 @@ class Category(NamedModel):
         verbose_name=_("pictogram")
     )
     icon_class = models.CharField(
+        null=True,
+        blank=True,
         choices=ICON_CLASS,
         max_length=32,
-        default="Default",
         verbose_name=_("icon type"),
         help_text=_("Choose the style of the marker.")
     )
+
+    class Meta:
+        abstract = True
+
+
+class Category(NamedModel, IconConfigMixin):
+    """
+    Category of a Feature.
+    """
+    map = models.ForeignKey(Map)
+    description = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name=_("description")
+    )
+    options = DictField(blank=True, null=True, verbose_name=_("options"))
     display_on_load = models.BooleanField(
         default=False,
         verbose_name=_("display on load"),
@@ -228,15 +236,30 @@ class BaseFeature(NamedModel):
 
     objects = models.GeoManager()
 
+    @property
+    def icon(self):
+        # All the features are processed the same way by vectoformats
+        # so they need to share all exported properties
+        return {}
+
     class Meta:
         abstract = True
 
 
-class AbstractMarker(BaseFeature):
+class AbstractMarker(BaseFeature, IconConfigMixin):
     """
     Point of interest.
     """
     latlng = models.PointField(geography=True)
+
+    @property
+    def icon(self):
+        # All the features are processed the same way by vectoformats
+        # so they need to share all exported properties
+        return {
+            "class": self.icon_class,
+            "url": self.pictogram.pictogram.url if self.pictogram else None
+        }
 
     class Meta:
         abstract = True

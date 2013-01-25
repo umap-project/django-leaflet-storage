@@ -418,7 +418,7 @@ class GeoJSONMixin(object):
 
     def geojson(self, context):
         qs = self.get_queryset()
-        djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'options'])
+        djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'options', 'icon'])
         geoj = geojson.GeoJSON()
         return geoj.encode(djf.decode(qs), to_string=False)
 
