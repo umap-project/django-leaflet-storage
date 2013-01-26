@@ -301,6 +301,7 @@ class MapSettingsForm(forms.Form):
         ("homeControl", _("Do you want to display the 'back to home page' control?"), True),
         ("embedControl", _("Do you want to display the embed control?"), True),
         ("locateOnLoad", _("Do you want to locate user on load?"), False),
+        ("editInOSMControl", _("Do you want to display control with links to edit in OSM?"), False),
         ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
         ("enablePolylineDraw", _("Do you want to enable Polyline drawing?"), True),
         ("enablePolygonDraw", _("Do you want to enable Polygon drawing?"), True),

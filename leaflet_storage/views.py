@@ -377,6 +377,7 @@ class EmbedMap(DetailView):
             'homeControl': 0,
             'locateControl': 0,
             'jumpToLocationControl': 0,
+            'editInOSMControl': 0,
         }
         query_string = "&".join("%s=%s" % (k, v) for k, v in qs_kwargs.iteritems())
         iframe_url = "%s?%s" % (iframe_url, query_string)
