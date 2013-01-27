@@ -2,6 +2,7 @@
 <form method="post" action="{{ action }}" id="feature_form" onsubmit="return false;">
     {% csrf_token %}
     {{ form.as_p }}
+    <div id="storage-form-iconfield"></div>
     <input type="submit" />
     {% if delete_url %}
         <a href="{{ delete_url }}" id="delete_feature_button" >{% trans "Delete" %}</a>
