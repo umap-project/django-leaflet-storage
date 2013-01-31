@@ -300,6 +300,7 @@ class MapSettingsForm(forms.Form):
         ("jumpToLocationControl", _("Do you want to display the 'quick search' control?"), True),
         ("homeControl", _("Do you want to display the 'back to home page' control?"), True),
         ("embedControl", _("Do you want to display the embed control?"), True),
+        ("scaleControl", _("Do you want to display the scale control?"), True),
         ("locateOnLoad", _("Do you want to locate user on load?"), False),
         ("editInOSMControl", _("Do you want to display control with links to edit in OSM?"), False),
         ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
