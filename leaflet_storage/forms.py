@@ -29,17 +29,27 @@ class OptionsForm(PlaceholderForm):
 
     def __init__(self, *args, **kwargs):
         self.options_data = {}
+        self.options_names = []
         super(OptionsForm, self).__init__(*args, **kwargs)
+        # Get rid of PREFIX, Leaflet.Storage expects clean form elements names
+        for field_name, field in dict(self.fields).iteritems():
+            if field_name.startswith(self.PREFIX):
+                name = self.cut_prefix(field_name)
+                self.options_names.append(name)
+                del self.fields[field_name]
+                self.fields[name] = field
         for option_name, value in self.instance.options.iteritems():
-            option_name = "%s%s" % (self.PREFIX, option_name)
             if option_name in self.fields:
                 self.fields[option_name].initial = value
+
+    def cut_prefix(self, name):
+        return name[len(self.PREFIX):] if name.startswith(self.PREFIX) else name
 
     def clean(self):
         cleaned_data = self.cleaned_data
         for field_name, value in cleaned_data.iteritems():
-            if field_name.startswith(self.PREFIX):
-                self.options_data[field_name[8:]] = value
+            if field_name in self.options_names:
+                self.options_data[field_name] = value
         return cleaned_data
 
     def save(self, *args):
