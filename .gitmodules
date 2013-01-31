@@ -13,3 +13,6 @@
 [submodule "leaflet_storage/static/edit_in_osm"]
 	path = leaflet_storage/static/edit_in_osm
 	url = git://github.com/yohanboniface/Leaflet.EditInOSM.git
+[submodule "leaflet_storage/static/minimap"]
+	path = leaflet_storage/static/minimap
+	url = git://github.com/Norkart/Leaflet-MiniMap.git
