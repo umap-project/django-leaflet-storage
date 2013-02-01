@@ -280,7 +280,7 @@ class PolylineForm(FeatureForm, PathStyleMixin):
 
     def __init__(self, *args, **kwargs):
         super(PolylineForm, self).__init__(*args, **kwargs)
-        self.fields["options_fill"].initial = False
+        self.fields["fill"].initial = False
 
     class Meta:
         fields = ('name', 'description', 'category', 'latlng')
