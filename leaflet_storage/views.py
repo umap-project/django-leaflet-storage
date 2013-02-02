@@ -84,18 +84,19 @@ class MapView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(MapView, self).get_context_data(**kwargs)
+        map_settings = {}
         categories = Category.objects.filter(map=self.object)  # TODO manage state
         category_data = [c.json for c in categories]
-        context['categories'] = simplejson.dumps(category_data)
-        context['urls'] = simplejson.dumps(_urls_for_js())
+        map_settings['categories'] = category_data
+        map_settings['urls'] = _urls_for_js()
         tilelayers_data = self.object.tilelayers_data
-        context['tilelayers'] = simplejson.dumps(tilelayers_data)
+        map_settings['tilelayers'] = tilelayers_data
         if settings.USE_I18N:
             locale = settings.LANGUAGE_CODE
             # Check attr in case the middleware is not active
             if hasattr(self.request, "LANGUAGE_CODE"):
                 locale = self.request.LANGUAGE_CODE
-            context['locale'] = locale
+            map_settings['locale'] = locale
         if self.request.user.is_authenticated():
             allow_edit = int(self.object.can_edit(self.request.user))
         else:
@@ -104,14 +105,25 @@ class MapView(DetailView):
             allow_edit = 1
         # Precedence to GET param
         allow_edit = self.get_int_from_request("allowEdit", allow_edit)
-        context['allowEdit'] = allow_edit
+        map_settings['allowEdit'] = allow_edit
         for name, label, default in MapSettingsForm.SETTINGS:
             value = self.get_int_from_request(name, self.object.settings.get(name, default))
             try:
                 value = int(value)
             except ValueError:
                 value = default
-            context[name] = value
+            map_settings[name] = value
+        map_settings["default_iconUrl"] = "%sstorage/src/img/marker.png" % settings.STATIC_URL
+        map_settings['center'] = simplejson.loads(self.object.center.geojson)
+        map_settings['storage_id'] = self.object.pk
+        map_settings['zoom'] = self.object.zoom
+        if map_settings['locateOnLoad']:
+            map_settings['locate'] = {
+                'setView': True,
+                'enableHighAccuracy': True,
+                'timeout': 3000
+            }
+        context['map_settings'] = simplejson.dumps(map_settings)
         return context
 
 
