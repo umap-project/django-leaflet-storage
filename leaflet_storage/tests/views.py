@@ -362,7 +362,7 @@ class UploadData(TransactionTestCase):
         )
         post_data = {
             'category': self.category.pk,
-            'data_file': "file://%s" % fixture_path,
+            'data_url': "file://%s" % fixture_path,
             'content_type': 'geojson'
         }
         self.client.login(username=self.user.username, password="123123")
