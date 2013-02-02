@@ -311,7 +311,7 @@ class UploadData(TransactionTestCase):
 
     def test_GeoJSON_generic(self):
         # Contains tow Point, two Polygons and one Polyline
-        response = self.process_file("test_upload_data.json", "json")
+        response = self.process_file("test_upload_data.json", "geojson")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
@@ -331,21 +331,21 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
-        response = self.process_file("test_upload_empty_coordinates.json", "json")
+        response = self.process_file("test_upload_empty_coordinates.json", "geojson")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 0)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
 
     def test_GeoJSON_non_linear_ring_should_not_be_imported(self):
-        response = self.process_file("test_upload_non_linear_ring.json", "json")
+        response = self.process_file("test_upload_non_linear_ring.json", "geojson")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
 
     def test_GeoJSON_missing_name_should_be_set_with_category_name(self):
         # One feature is missing a name
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
-        response = self.process_file("test_upload_missing_name.json", "json")
+        response = self.process_file("test_upload_missing_name.json", "geojson")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
         self.assertEqual(Marker.objects.filter(category=self.category, name=self.category.name).count(), 1)
@@ -363,11 +363,11 @@ class UploadData(TransactionTestCase):
         post_data = {
             'category': self.category.pk,
             'data_file': "file://%s" % fixture_path,
-            'content_type': 'json'
+            'content_type': 'geojson'
         }
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
-        response = self.process_file("test_upload_data.json", "json")
+        response = self.process_file("test_upload_data.json", "geojson")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)

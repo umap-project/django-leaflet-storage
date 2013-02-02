@@ -118,11 +118,11 @@ class UpdateMapPermissionsForm(forms.ModelForm):
 
 class UploadDataForm(forms.Form):
 
-    JSON = "json"
+    GEOJSON = "geojson"
     KML = "kml"
     GPX = "gpx"
     CONTENT_TYPES = (
-        (JSON, "JSON"),
+        (GEOJSON, "GeoJSON"),
         (KML, "KML"),
         (GPX, "GPX"),
     )
@@ -174,7 +174,7 @@ class UploadDataForm(forms.Form):
         features = []
         content_type = self.cleaned_data.get('content_type')
         MAP = {
-            self.JSON: geojson.GeoJSON,
+            self.GEOJSON: geojson.GeoJSON,
             self.KML: kml.KML,
             self.GPX: gpx.GPX
         }
