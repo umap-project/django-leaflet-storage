@@ -131,6 +131,12 @@ class MapViews(BaseTest):
         json = simplejson.loads(response.content)
         self.assertIn("redirect", json)
 
+    def test_short_url_should_redirect_to_canonical(self):
+        url = reverse('map_short_url', kwargs={'pk': self.map.pk})
+        canonical = reverse('map', kwargs={'username': self.map.owner.username, 'slug': self.map.slug})
+        response = self.client.get(url)
+        self.assertRedirects(response, canonical, status_code=301)
+
 
 class ViewsPermissionsTest(BaseTest):
 

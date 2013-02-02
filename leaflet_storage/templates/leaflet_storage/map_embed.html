@@ -1,3 +1,5 @@
 {% load i18n %}
 <h3>{% trans "Embed this map" %}</h3>
 <textarea><iframe width="500" height="300" frameBorder="0" src="{{ iframe_url }}"></iframe></textarea>
+<h3>{% trans "Short URL" %}</h3>
+<input type="text" value="{{ map_short_url }}" />

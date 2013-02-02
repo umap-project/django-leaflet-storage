@@ -11,10 +11,10 @@ from django.contrib.gis.geos import GEOSGeometry
 from django.core.urlresolvers import reverse_lazy
 from django.utils.translation import ugettext as _
 from django.views.generic.list import BaseListView, ListView
-from django.views.generic.base import TemplateView
 from django.contrib.auth import logout as do_logout
 from django.template.loader import render_to_string
 from django.views.generic.detail import BaseDetailView
+from django.views.generic.base import TemplateView, RedirectView
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
 from django.contrib.auth.models import User
@@ -372,8 +372,10 @@ class EmbedMap(DetailView):
     pk_url_kwarg = 'map_id'
 
     def get_context_data(self, **kwargs):
-        # FIXME use settings for SITE_URL?
-        iframe_url = 'http://%s%s' % (self.request.META['HTTP_HOST'], self.object.get_absolute_url())
+        site_url = (settings.SHORT_SITE_URL if hasattr(settings, 'SHORT_SITE_URL')
+                   else settings.SITE_URL if hasattr(settings, 'SITE_URL')
+                   else 'http://%s' % self.request.META['HTTP_HOST'])
+        iframe_url = '%s%s' % (site_url, self.object.get_absolute_url())
         qs_kwargs = {
             'allowEdit': 0,
             'embedControl': 0,
@@ -386,8 +388,10 @@ class EmbedMap(DetailView):
         }
         query_string = "&".join("%s=%s" % (k, v) for k, v in qs_kwargs.iteritems())
         iframe_url = "%s?%s" % (iframe_url, query_string)
+        map_short_url = "%s%s" % (site_url, reverse_lazy('map_short_url', kwargs={'pk': self.object.pk}))
         kwargs.update({
-            'iframe_url': iframe_url
+            'iframe_url': iframe_url,
+            'map_short_url': map_short_url
         })
         return super(EmbedMap, self).get_context_data(**kwargs)
 
@@ -414,6 +418,19 @@ class MapDelete(DeleteView):
             'action_url': reverse_lazy('map_delete', kwargs={'map_id': self.kwargs['map_id']})
         })
         return super(MapDelete, self).get_context_data(**kwargs)
+
+
+class MapShortUrl(RedirectView):
+    query_string = True
+
+    def get_redirect_url(self, **kwargs):
+        map_inst = get_object_or_404(Map, pk=kwargs['pk'])
+        url = reverse_lazy('map', kwargs={"username": map_inst.owner.username, "slug": map_inst.slug})
+        if self.query_string:
+            args = self.request.META.get('QUERY_STRING', '')
+            if args:
+                url = "%s?%s" % (url, args)
+        return url
 
 
 # ############## #
