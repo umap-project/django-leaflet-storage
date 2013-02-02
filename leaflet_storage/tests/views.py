@@ -324,7 +324,7 @@ class UploadData(TransactionTestCase):
         self.assertEqual(marker.options["color"], "Pink")
         self.assertEqual(Marker.objects.filter(category=self.category, name="Antwerpen").count(), 1)
         marker = Marker.objects.get(category=self.category, name="Antwerpen")
-        self.assertEqual(marker.description, "")
+        self.assertEqual(marker.description, None)
         self.assertFalse("color" in marker.options)
 
     def test_GeoJSON_empty_coordinates_should_not_be_imported(self):
@@ -342,13 +342,13 @@ class UploadData(TransactionTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
 
-    def test_GeoJSON_missing_name_should_not_stop_import(self):
+    def test_GeoJSON_missing_name_should_be_set_with_category_name(self):
         # One feature is missing a name
-        # We have to make sure that the other feature are imported
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
         response = self.process_file("test_upload_missing_name.json", "json")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
+        self.assertEqual(Marker.objects.filter(category=self.category, name=self.category.name).count(), 1)
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
         self.assertEqual(Polygon.objects.filter(category=self.category).count(), 1)
 

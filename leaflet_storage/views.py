@@ -325,7 +325,8 @@ class UploadData(FormView):
                 continue  # TODO notify user
             kwargs = {
                 'latlng': latlng,
-                'category': category
+                'category': category,
+                'name': category.name  # Default
             }
             for field in FIELDS:
                 if isinstance(field, tuple):
@@ -337,6 +338,8 @@ class UploadData(FormView):
                 for candidate in candidates:
                     if candidate in feature.properties:
                         value = feature.properties[candidate]
+                        if not value:
+                            continue
                         if name in klass._meta.get_all_field_names():
                             kwargs[name] = value
                         else:
