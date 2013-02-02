@@ -4,10 +4,15 @@ from django import forms
 from django.contrib.gis.geos import Point
 from django.utils.translation import ugettext as _
 from django.template.defaultfilters import slugify
+from django.conf import settings
 
 from vectorformats.formats import geojson, kml, gpx
 
 from .models import Map, Category, Polyline, Polygon, Marker
+
+DEFAULT_lATITUDE = settings.LEAFLET_LATITUDE if hasattr(settings, "LEAFLET_LATITUDE") else 51
+DEFAULT_LONGITUDE = settings.LEAFLET_LONGITUDE if hasattr(settings, "LEAFLET_LONGITUDE") else 2
+DEFAULT_CENTER = Point(DEFAULT_LONGITUDE, DEFAULT_lATITUDE)
 
 
 class PlaceholderForm(forms.ModelForm):
@@ -84,7 +89,7 @@ class QuickMapCreateForm(PlaceholderForm):
 
     def clean_center(self):
         if not self.cleaned_data['center']:
-            point = Point(2, 51)
+            point = DEFAULT_CENTER
             self.cleaned_data['center'] = point
         return self.cleaned_data['center']
 

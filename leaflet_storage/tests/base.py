@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.contrib.gis.geos import Point
 from django.contrib.auth.models import User
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
@@ -7,6 +6,7 @@ from django.core.urlresolvers import reverse
 import factory
 
 from leaflet_storage.models import Map, TileLayer, Licence, Category, Marker
+from leaflet_storage.forms import DEFAULT_CENTER
 
 
 class LicenceFactory(factory.Factory):
@@ -41,7 +41,7 @@ class MapFactory(factory.Factory):
     FACTORY_FOR = Map
     name = "test map"
     slug = "test-map"
-    center = Point(2, 51)
+    center = DEFAULT_CENTER
     licence = factory.SubFactory(LicenceFactory)
     owner = factory.SubFactory(UserFactory)
 
