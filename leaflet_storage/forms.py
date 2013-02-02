@@ -137,7 +137,12 @@ class UploadDataForm(forms.Form):
     # headers. So for now ask user the content_type...
     content_type = forms.ChoiceField(CONTENT_TYPES, label=_("Content type"))
     data_file = forms.FileField(required=False, label=_("file"))
-    data_url = forms.URLField(required=False, label=_("URL"))
+    data_url = forms.URLField(
+        required=False,
+        label=_("URL"),
+        help_text=_("Supported values that will dynamically replaced: ") +\
+                    "{bbox}, {lat}, {lng}, {zoom}, {east}, {north}..., {left}, {top}..."
+    )
     category = forms.ModelChoiceField([], label=_("category"))  # queryset is set by view
 
     def clean_data_file(self):
