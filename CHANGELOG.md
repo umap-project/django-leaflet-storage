@@ -8,6 +8,7 @@
 - Marker has now icon_class and pictogram fields (https://github.com/yohanboniface/django-leaflet-storage/issues/21)
 - handle scale control
 - basic short URL management
+- fixed a bug where imports were failing if the category had a custom marker image
 
 ## 0.1.0
 
