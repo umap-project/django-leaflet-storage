@@ -290,6 +290,7 @@ class UploadData(FormView):
         })
         return super(UploadData, self).get_context_data(**kwargs)
 
+    @transaction.commit_manually
     def form_valid(self, form):
         FEATURE_TO_MODEL = {
             'Point': Marker,
@@ -307,6 +308,7 @@ class UploadData(FormView):
         category = form.cleaned_data.get('category')
         counter = 0
         for feature in features:
+            sid = transaction.savepoint()
             klass = FEATURE_TO_MODEL.get(feature.geometry['type'], None)
             if not klass:
                 continue  # TODO notify user
@@ -359,15 +361,15 @@ class UploadData(FormView):
                                 kwargs['options'] = {}
                             kwargs['options'][name] = value
                         break
-            with transaction.commit_manually():
-                try:
-                    klass.objects.create(**kwargs)
-                except DatabaseError:
-                    transaction.rollback()
-                    continue  # TODO notify user
-                else:
-                    transaction.commit()
+            try:
+                klass.objects.create(**kwargs)
+            except DatabaseError:
+                transaction.savepoint_rollback(sid)
+                continue  # TODO notify user
+            else:
+                transaction.savepoint_commit(sid)
             counter += 1
+        transaction.commit()
         kwargs = {
             'category': category.json,
             'info': "%d features created!" % counter,
