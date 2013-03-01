@@ -193,8 +193,10 @@ class UploadDataForm(forms.Form):
         format = MAP[content_type]()
         try:
             features = format.decode(content)
-        except:
-            raise forms.ValidationError(_('Invalid %(content_type)s') % {'content_type': content_type})
+        except Exception, e:
+            msg = _('Invalid %(content_type)s') % {'content_type': content_type}
+            msg = u"%s (Detail: %s)" % (msg, e)
+            raise forms.ValidationError(msg)
         return features
 
 
