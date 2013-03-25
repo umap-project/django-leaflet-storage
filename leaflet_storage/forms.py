@@ -64,10 +64,6 @@ class OptionsForm(PlaceholderForm):
 
 class QuickMapCreateForm(PlaceholderForm):
 
-    def __init__(self, *args, **kwargs):
-        self.owner = kwargs.pop('owner')
-        super(QuickMapCreateForm, self).__init__(*args, **kwargs)
-
     # don't bother the user with the slug and center, instead calculate them
     center = forms.CharField(required=False, widget=forms.HiddenInput())
     slug = forms.CharField(required=False, widget=forms.HiddenInput())
@@ -93,19 +89,6 @@ class QuickMapCreateForm(PlaceholderForm):
             self.cleaned_data['center'] = point
         return self.cleaned_data['center']
 
-    def clean(self):
-        # slug is not displayed, so check that it's unique on name
-        slug = self.cleaned_data.get('slug', None)
-        if slug:
-            try:
-                existing_map = Map.objects.get(owner=self.owner, slug=slug)
-            except Map.DoesNotExist:
-                pass
-            else:
-                if existing_map.pk != self.instance.pk:
-                    raise forms.ValidationError(_("You already have a map with this name."))
-        return self.cleaned_data
-
 
 class UpdateMapExtentForm(forms.ModelForm):
 
@@ -119,6 +102,26 @@ class UpdateMapPermissionsForm(forms.ModelForm):
     class Meta:
         model = Map
         fields = ('edit_status', 'editors')
+
+
+class AnonymousMapPermissionsForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(AnonymousMapPermissionsForm, self).__init__(*args, **kwargs)
+        full_secret_link = "%s%s" % (settings.SITE_URL, self.instance.get_anonymous_edit_url())
+        help_text = 'Secret edit link is %s' % full_secret_link
+        self.fields['edit_status'].help_text = _(help_text)
+
+    STATUS = (
+        (Map.ANONYMOUS, _('Everyone can edit')),
+        (Map.OWNER, _('Only editable with secret edit link'))
+    )
+
+    edit_status = forms.ChoiceField(STATUS)
+
+    class Meta:
+        model = Map
+        fields = ('edit_status', )
 
 
 class UploadDataForm(forms.Form):

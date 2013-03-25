@@ -3,14 +3,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.views import login
 
 from . import views
-from .decorators import login_required, jsonize_view, map_permissions_check
+from .decorators import jsonize_view, map_permissions_check,\
+    login_required_if_not_anonymous_allowed
 from .utils import decorated_patterns
 
 urlpatterns = patterns('',
     url(r'^login/$', jsonize_view(login), name='login'),
     url(r'^login/popup/end/$', views.LoginPopupEnd.as_view(), name='login_popup_end'),
     url(r'^logout/$', views.logout, name='logout'),
-    url(r'^map/(?P<username>[-_\w]+)/(?P<slug>[-_\w]+)/$', views.MapView.as_view(), name='map'),
+    url(r'^map/(?P<slug>[-_\w]+)_(?P<pk>\d+)$', views.MapView.as_view(), name='map'),
+    url(r'^map/(?P<username>[-_\w]+)/(?P<slug>[-_\w]+)/$', views.MapOldUrl.as_view(), name='map_old_url'),
+    url(r'^map/anonymous-edit/(?P<signature>.+)$', views.MapAnonymousEditUrl.as_view(), name='map_anonymous_edit_url'),
     url(r'^m/(?P<pk>\d+)/$', views.MapShortUrl.as_view(), name='map_short_url'),
     url(r'^feature/json/category/(?P<category_id>[\d]+)/$', views.FeatureGeoJSONListView.as_view(), name='feature_geojson_list'),
     url(r'^marker/json/(?P<pk>[\d]+)/$', views.MarkerGeoJSON.as_view(), name='marker_geojson'),
@@ -23,7 +26,7 @@ urlpatterns = patterns('',
     url(r'^map/(?P<map_id>[\d]+)/infos/caption/$', views.MapInfos.as_view(), name='map_infos'),
     url(r'^pictogram/json/$', views.PictogramJsonList.as_view(), name='pictogram_list_json'),
 )
-urlpatterns += decorated_patterns('', login_required,
+urlpatterns += decorated_patterns('', login_required_if_not_anonymous_allowed,
     url(r'^map/add/$', views.QuickMapCreate.as_view(), name='map_add'),
 )
 urlpatterns += decorated_patterns('', map_permissions_check,

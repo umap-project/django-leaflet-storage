@@ -6,6 +6,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from django.core.signing import Signer
 
 from .fields import DictField
 
@@ -89,7 +90,7 @@ class Map(NamedModel):
     )
     modified_at = models.DateTimeField(auto_now=True)
     tilelayers = models.ManyToManyField(TileLayer, through="MapToTileLayer")
-    owner = models.ForeignKey(User, related_name="owned_maps", verbose_name=_("owner"))
+    owner = models.ForeignKey(User, blank=True, null=True, related_name="owned_maps", verbose_name=_("owner"))
     editors = models.ManyToManyField(User, blank=True, verbose_name=_("editors"))
     edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER, verbose_name=_("edit status"))
     settings = DictField(blank=True, null=True, verbose_name=_("settings"))
@@ -107,19 +108,47 @@ class Map(NamedModel):
         return tilelayers_data
 
     def get_absolute_url(self):
-        return reverse("map", kwargs={'slug': self.slug, 'username': self.owner.username})
+        return reverse("map", kwargs={'slug': self.slug, 'pk': self.pk})
 
-    def can_edit(self, user):
+    def get_anonymous_edit_url(self):
+        signer = Signer()
+        signature = signer.sign(self.pk)
+        return reverse('map_anonymous_edit_url', kwargs={'signature': signature})
+
+    def is_anonymous_owner(self, request):
+        if self.owner:
+            # edit cookies are only valid while map hasn't owner
+            return False
+        key, value = self.signed_cookie_elements
+        try:
+            has_anonymous_cookie = int(request.get_signed_cookie(key, False)) == value
+        except ValueError:
+            has_anonymous_cookie = False
+        return has_anonymous_cookie
+
+    def can_edit(self, user=None, request=None):
         """
-        Define if an already authenticated user can edit or not the instance.
+        Define if a user can edit or not the instance, according to his account
+        or the request.
         """
-        if user == self.owner or self.edit_status == self.ANONYMOUS:
+        can = False
+        if request and not self.owner:
+            if (getattr(settings, "LEAFLET_STORAGE_ALLOW_ANONYMOUS", False)
+                    and self.is_anonymous_owner(request)):
+                can = True
+        elif self.edit_status == self.ANONYMOUS:
+            can = True
+        elif not user.is_authenticated():
+            pass
+        elif user == self.owner:
             can = True
         elif self.edit_status == self.EDITORS and user in self.editors.all():
             can = True
-        else:
-            can = False
         return can
+
+    @property
+    def signed_cookie_elements(self):
+        return ('anonymous_owner|%s' % self.pk, self.pk)
 
 
 class MapToTileLayer(models.Model):

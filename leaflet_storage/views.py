@@ -3,8 +3,10 @@
 from django.conf import settings
 from django.db import transaction
 from django.utils import simplejson
+from django.core.signing import Signer
 from django.db.utils import DatabaseError
 from django.template import RequestContext
+from django.contrib.auth.models import User
 from django.views.generic import DetailView
 from django.shortcuts import get_object_or_404
 from django.contrib.gis.geos import GEOSGeometry
@@ -15,9 +17,8 @@ from django.contrib.auth import logout as do_logout
 from django.template.loader import render_to_string
 from django.views.generic.detail import BaseDetailView
 from django.views.generic.base import TemplateView, RedirectView
-from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
-from django.contrib.auth.models import User
+from django.http import HttpResponse, HttpResponseNotAllowed, Http404, HttpResponseRedirect
 
 from vectorformats.formats import django, geojson
 
@@ -26,7 +27,7 @@ from .models import (Map, Marker, Category, Polyline, TileLayer,
 from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
                     UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
-                    MarkerForm, PolygonForm, PolylineForm)
+                    MarkerForm, PolygonForm, PolylineForm, AnonymousMapPermissionsForm)
 
 
 # ############## #
@@ -52,10 +53,10 @@ def render_to_json(templates, response_kwargs, context, request):
         templates,
         response_kwargs,
         RequestContext(request, context)
-        )
+    )
     _json = simplejson.dumps({
         "html": html
-        })
+    })
     return HttpResponse(_json)
 
 
@@ -77,10 +78,6 @@ class MapView(DetailView):
         except (ValueError, KeyError):
             output = fallback
         return output
-
-    def get_object(self, queryset=None):
-        owner = get_object_or_404(User, username=self.kwargs['username'])
-        return get_object_or_404(Map, slug=self.kwargs['slug'], owner=owner)
 
     def get_context_data(self, **kwargs):
         context = super(MapView, self).get_context_data(**kwargs)
@@ -144,17 +141,17 @@ class QuickMapCreate(CreateView):
         """
         Provide default values, to keep form simple.
         """
-        form.instance.owner = self.request.user
+        if self.request.user.is_authenticated():
+            form.instance.owner = self.request.user
         self.object = form.save()
         layer = TileLayer.get_default()
         MapToTileLayer.objects.create(map=self.object, tilelayer=layer, rank=1)
         Category.create_default(self.object)
-        return simple_json_response(redirect=self.get_success_url())
-
-    def get_form_kwargs(self):
-        kwargs = super(QuickMapCreate, self).get_form_kwargs()
-        kwargs.update({'owner': self.request.user})
-        return kwargs
+        response = simple_json_response(redirect=self.get_success_url())
+        if not self.request.user.is_authenticated():
+            key, value = self.object.signed_cookie_elements
+            response.set_signed_cookie(key, value)
+        return response
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
@@ -171,11 +168,6 @@ class QuickMapUpdate(UpdateView):
     model = Map
     form_class = QuickMapCreateForm
     pk_url_kwarg = 'map_id'
-
-    def get_form_kwargs(self):
-        kwargs = super(QuickMapUpdate, self).get_form_kwargs()
-        kwargs.update({'owner': self.request.user})
-        return kwargs
 
     def form_valid(self, form):
         self.object = form.save()
@@ -208,13 +200,18 @@ class UpdateMapExtent(UpdateView):
 class UpdateMapPermissions(UpdateView):
     template_name = "leaflet_storage/map_update_permissions.html"
     model = Map
-    form_class = UpdateMapPermissionsForm
     pk_url_kwarg = 'map_id'
+
+    def get_form_class(self):
+        if self.object.owner:
+            return UpdateMapPermissionsForm
+        else:
+            return AnonymousMapPermissionsForm
 
     def get_form(self, form_class):
         form = super(UpdateMapPermissions, self).get_form(form_class)
         user = self.request.user
-        if not user == self.object.owner:
+        if self.object.owner and not user == self.object.owner:
             del form.fields['edit_status']
         return form
 
@@ -439,12 +436,42 @@ class MapShortUrl(RedirectView):
 
     def get_redirect_url(self, **kwargs):
         map_inst = get_object_or_404(Map, pk=kwargs['pk'])
-        url = reverse_lazy('map', kwargs={"username": map_inst.owner.username, "slug": map_inst.slug})
+        url = map_inst.get_absolute_url()
         if self.query_string:
             args = self.request.META.get('QUERY_STRING', '')
             if args:
                 url = "%s?%s" % (url, args)
         return url
+
+
+class MapOldUrl(RedirectView):
+    """
+    Handle map URLs from before anonymous allowing.
+    """
+    query_string = True
+
+    def get_redirect_url(self, **kwargs):
+        owner = get_object_or_404(User, username=self.kwargs['username'])
+        map_inst = get_object_or_404(Map, slug=self.kwargs['slug'], owner=owner)
+        url = map_inst.get_absolute_url()
+        if self.query_string:
+            args = self.request.META.get('QUERY_STRING', '')
+            if args:
+                url = "%s?%s" % (url, args)
+        return url
+
+
+class MapAnonymousEditUrl(RedirectView):
+
+    def get(self, request, *args, **kwargs):
+        signer = Signer()
+        pk = signer.unsign(self.kwargs['signature'])
+        map_inst = get_object_or_404(Map, pk=pk)
+        url = map_inst.get_absolute_url()
+        response = HttpResponseRedirect(url)
+        key, value = map_inst.signed_cookie_elements
+        response.set_signed_cookie(key, value)
+        return response
 
 
 # ############## #

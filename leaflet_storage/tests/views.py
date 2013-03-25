@@ -4,6 +4,8 @@ from django.test import TransactionTestCase
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.test.utils import override_settings
+from django.core.signing import get_cookie_signer
 
 from leaflet_storage.models import Map, Category, Marker, Polygon, Polyline
 
@@ -11,6 +13,7 @@ from .base import (MapFactory, CategoryFactory, MarkerFactory,
                    UserFactory, BaseTest)
 
 
+@override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)
 class MapViews(BaseTest):
 
     def test_quick_create_GET(self):
@@ -43,20 +46,6 @@ class MapViews(BaseTest):
         self.assertEqual(created_map.tilelayers.count(), 1)
         self.assertEqual(created_map.tilelayers.all()[0], self.tilelayer)
 
-    def test_quick_create_with_existing_name_should_not_succeed(self):
-        url = reverse('map_add')
-        # POST only mendatory fields
-        post_data = {
-            'name': self.map.name,
-            'licence': self.licence.pk
-        }
-        self.client.login(username=self.user.username, password="123123")
-        response = self.client.post(url, post_data)
-        self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
-        self.assertIn('html', json)
-        self.assertEqual(Map.objects.filter(name=self.map.name, owner=self.map.owner).count(), 1)
-
     def test_quick_update_GET(self):
         url = reverse('map_update', kwargs={'map_id': self.map.pk})
         self.client.login(username=self.user.username, password="123123")
@@ -82,21 +71,6 @@ class MapViews(BaseTest):
         updated_map = Map.objects.get(pk=self.map.pk)
         self.assertEqual(json['redirect'], updated_map.get_absolute_url())
         self.assertEqual(updated_map.name, new_name)
-
-    def test_quick_update_with_existing_name_should_no_succeed(self):
-        url = reverse('map_update', kwargs={'map_id': self.map.pk})
-        other_map = MapFactory(name="existing name", slug="existing-name", owner=self.user)
-        # POST only mendatory fields
-        post_data = {
-            'name': other_map.name,
-            'licence': self.map.licence.pk
-        }
-        self.client.login(username=self.user.username, password="123123")
-        response = self.client.post(url, post_data)
-        self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
-        self.assertIn("html", json)
-        self.assertEqual(Map.objects.filter(name=other_map.name, owner=self.map.owner).count(), 1)
 
     def test_delete_GET(self):
         url = reverse('map_delete', args=(self.map.pk, ))
@@ -133,11 +107,117 @@ class MapViews(BaseTest):
 
     def test_short_url_should_redirect_to_canonical(self):
         url = reverse('map_short_url', kwargs={'pk': self.map.pk})
-        canonical = reverse('map', kwargs={'username': self.map.owner.username, 'slug': self.map.slug})
+        canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
+        response = self.client.get(url)
+        self.assertRedirects(response, canonical, status_code=301)
+
+    def test_old_url_should_redirect_to_canonical(self):
+        url = reverse(
+            'map_old_url',
+            kwargs={'username': self.map.owner.username, 'slug': self.map.slug}
+        )
+        canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
         response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=301)
 
 
+@override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=True)
+class AnonymousMapViews(BaseTest):
+
+    def setUp(self):
+        super(AnonymousMapViews, self).setUp()
+        self.anonymous_map = MapFactory(
+            name="an-anonymous-map",
+            owner=None,
+            licence=self.licence
+        )
+        key, value = self.anonymous_map.signed_cookie_elements
+        self.anonymous_cookie_key = key
+        self.anonymous_cookie_value = get_cookie_signer(salt=key).sign(value)
+
+    def test_quick_create_GET(self):
+        url = reverse('map_add')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertIn("html", json)
+        self.assertIn("form", json['html'])
+
+    def test_quick_create_POST(self):
+        url = reverse('map_add')
+        # POST only mendatory fields
+        name = 'test-map-with-new-name'
+        post_data = {
+            'name': name,
+            'licence': self.licence.pk
+        }
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        created_map = Map.objects.latest('pk')
+        self.assertEqual(json['redirect'], created_map.get_absolute_url())
+        self.assertEqual(created_map.name, name)
+        key, value = created_map.signed_cookie_elements
+        self.assertIn(key, self.client.cookies)
+
+    def test_quick_update_no_cookie_GET(self):
+        url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertNotIn("html", json)
+        self.assertIn("login_required", json)
+
+    def test_quick_update_no_cookie_POST(self):
+        url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})
+        # POST only mendatory fields
+        new_name = 'new map name'
+        post_data = {
+            'name': new_name,
+            'licence': self.anonymous_map.licence.pk
+        }
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertNotIn("html", json)
+        self.assertIn("login_required", json)
+
+    def test_quick_update_with_cookie_GET(self):
+        url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})
+        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        self.assertIn("html", json)
+
+    def test_quick_update_with_cookie_POST(self):
+        url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})
+        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value
+        # POST only mendatory fields
+        new_name = 'new map name'
+        post_data = {
+            'name': new_name,
+            'licence': self.anonymous_map.licence.pk
+        }
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        updated_map = Map.objects.get(pk=self.anonymous_map.pk)
+        self.assertEqual(json['redirect'], updated_map.get_absolute_url())
+
+    def test_anonymous_edit_url(self):
+        url = self.anonymous_map.get_anonymous_edit_url()
+        canonical = reverse(
+            'map',
+            kwargs={'pk': self.anonymous_map.pk, 'slug': self.anonymous_map.slug}
+        )
+        response = self.client.post(url)
+        self.assertRedirects(response, canonical, status_code=302)
+        key, value = self.anonymous_map.signed_cookie_elements
+        self.assertIn(key, self.client.cookies)
+
+
+@override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)
 class ViewsPermissionsTest(BaseTest):
 
     def setUp(self):
@@ -161,6 +241,7 @@ class ViewsPermissionsTest(BaseTest):
         self.assertEqual(response.status_code, 403)
 
 
+@override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)
 class MapViewsPermissions(ViewsPermissionsTest):
 
     def test_map_add_permissions(self):
@@ -211,6 +292,7 @@ class MapViewsPermissions(ViewsPermissionsTest):
         self.assertEqual(response.status_code, 403)
 
 
+@override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)
 class MarkerViewsPermissions(ViewsPermissionsTest):
 
     def test_marker_add(self):
