@@ -216,6 +216,24 @@ class AnonymousMapViews(BaseTest):
         key, value = self.anonymous_map.signed_cookie_elements
         self.assertIn(key, self.client.cookies)
 
+    def test_authenticated_user_with_cookie_is_attached_as_owner(self):
+        url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})
+        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value
+        self.client.login(username=self.user.username, password="123123")
+        self.assertEqual(self.anonymous_map.owner, None)
+        # POST only mendatory fields
+        new_name = 'new map name for authenticated user'
+        post_data = {
+            'name': new_name,
+            'licence': self.anonymous_map.licence.pk
+        }
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        updated_map = Map.objects.get(pk=self.anonymous_map.pk)
+        self.assertEqual(json['redirect'], updated_map.get_absolute_url())
+        self.assertEqual(updated_map.owner.pk, self.user.pk)
+
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)
 class ViewsPermissionsTest(BaseTest):

@@ -136,6 +136,11 @@ class Map(NamedModel):
             if (getattr(settings, "LEAFLET_STORAGE_ALLOW_ANONYMOUS", False)
                     and self.is_anonymous_owner(request)):
                 can = True
+                if user and user.is_authenticated():
+                    # if user is authenticated, attach as owner
+                    # TODO, display a message
+                    self.owner = user
+                    self.save()
         elif self.edit_status == self.ANONYMOUS:
             can = True
         elif not user.is_authenticated():
