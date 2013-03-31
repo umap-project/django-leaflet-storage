@@ -79,7 +79,7 @@ class QuickMapCreateForm(PlaceholderForm):
             # If name is empty, don't do nothing, validation will raise
             # later on the process because name is required
             self.cleaned_data['slug'] = slugify(name)
-            return self.cleaned_data['slug']
+            return self.cleaned_data['slug'][:50]
         else:
             return ""
 
