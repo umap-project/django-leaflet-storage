@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
 
+
 from django.conf import settings
 from django.db import transaction
+from django.contrib import messages
 from django.utils import simplejson
 from django.core.signing import Signer
 from django.db.utils import DatabaseError
@@ -151,6 +153,16 @@ class QuickMapCreate(CreateView):
         if not self.request.user.is_authenticated():
             key, value = self.object.signed_cookie_elements
             response.set_signed_cookie(key, value)
+            msg = _(
+                "Your map has been created! If you want to edit this map from "
+                "another computer, please use this link: %s%s" % (
+                    settings.SITE_URL,
+                    self.object.get_anonymous_edit_url()
+                )
+            )
+        else:
+            msg = _("Congratulations, your map has been created! To start editing, click on the pen icon.")
+        messages.info(self.request, msg)
         return response
 
     def render_to_response(self, context, **response_kwargs):
