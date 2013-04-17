@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.core.signing import Signer
+from django.contrib import messages
 
 from .fields import DictField
 
@@ -138,9 +139,10 @@ class Map(NamedModel):
                 can = True
                 if user and user.is_authenticated():
                     # if user is authenticated, attach as owner
-                    # TODO, display a message
                     self.owner = user
                     self.save()
+                    msg = _("Your anonymous map has been attached to your account %s" % user)
+                    messages.info(request, msg)
         elif self.edit_status == self.ANONYMOUS:
             can = True
         elif not user.is_authenticated():

@@ -97,7 +97,7 @@ class MapView(DetailView):
                 locale = self.request.LANGUAGE_CODE
             map_settings['locale'] = locale
         if self.request.user.is_authenticated():
-            allow_edit = int(self.object.can_edit(self.request.user))
+            allow_edit = int(self.object.can_edit(self.request.user, self.request))
         else:
             # Default to 1: display buttons for anonymous, they can
             # login from action process
