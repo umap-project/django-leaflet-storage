@@ -2,7 +2,7 @@ import urllib2
 
 from django import forms
 from django.contrib.gis.geos import Point
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 from django.conf import settings
 
