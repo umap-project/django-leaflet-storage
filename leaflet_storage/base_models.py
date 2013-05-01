@@ -5,7 +5,7 @@ from django.db.models import get_model as dj_get_model
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.signing import Signer
 from django.contrib import messages
 
@@ -40,7 +40,8 @@ class Licence(NamedModel):
         maps.
         """
         return cls.objects.get_or_create(
-            name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_LICENCE_NAME", _('No licence set'))
+            # can't use ugettext_lazy for database storage, see #13965
+            name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_LICENCE_NAME", ugettext('No licence set'))
         )[0]
 
 
