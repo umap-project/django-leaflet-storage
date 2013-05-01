@@ -1,5 +1,8 @@
 # django-leaflet-storage changelog
 
+## 0.3.0
+- handle anonymous map creation
+
 ## 0.2.0
 
 - handle map settings management from front-end
