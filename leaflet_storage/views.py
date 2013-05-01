@@ -153,12 +153,14 @@ class QuickMapCreate(CreateView):
         if not self.request.user.is_authenticated():
             key, value = self.object.signed_cookie_elements
             response.set_signed_cookie(key, value)
+            anonymous_url = "%s%s" % (
+                settings.SITE_URL,
+                self.object.get_anonymous_edit_url()
+            )
             msg = _(
                 "Your map has been created! If you want to edit this map from "
-                "another computer, please use this link: %s%s" % (
-                    settings.SITE_URL,
-                    self.object.get_anonymous_edit_url()
-                )
+                "another computer, please use this link: %(anonymous_url)s"
+                % {"anonymous_url": anonymous_url}
             )
         else:
             msg = _("Congratulations, your map has been created! To start editing, click on the pen icon.")
