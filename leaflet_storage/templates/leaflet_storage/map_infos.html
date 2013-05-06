@@ -2,7 +2,7 @@
 <h4>{{ map.name }}</h4>
 <p>{% firstof map.description "No caption yet." %}</p>
 {% for category in map.category_set.all %}
-    <p><span class="category_color" style="background-color: {{ category.color }};"></span><strong>{{ category }}</strong> {{ category.description }}</p>
+    <p><span class="category_color" style="background-color: {{ category.options.color }};"></span><strong>{{ category }}</strong> {{ category.description }}</p>
 {% endfor %}
 <hr />
 <h5>{% trans "User content credits" %}</h5>
