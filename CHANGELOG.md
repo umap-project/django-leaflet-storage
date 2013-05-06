@@ -2,6 +2,10 @@
 
 ## 0.3.0
 - handle anonymous map creation
+- Fix color no more displayed in map info box (cf #70)
+- portuguese translation (thanks @FranciscoDS)
+- fix bug when the map title was too long (making the slug too long, and so over the
+  database limit for this field)
 
 ## 0.2.0
 
