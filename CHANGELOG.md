@@ -7,6 +7,7 @@
 - fix bug when the map title was too long (making the slug too long, and so over the
   database limit for this field)
 - add a setting to display map caption on map load (cf Leaflet.Storage#50)
+- update to django 1.5
 
 ## 0.2.0
 
