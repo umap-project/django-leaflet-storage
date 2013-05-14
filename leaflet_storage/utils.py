@@ -70,10 +70,12 @@ def instances_to_geojson(instances, geo_field, properties):
 
 
 class DecoratedURLPattern(RegexURLPattern):
+
     def resolve(self, *args, **kwargs):
         result = RegexURLPattern.resolve(self, *args, **kwargs)
         if result:
-            result.func = self._decorate_with(result.func)
+            for func in self._decorate_with:
+                result.func = func(result.func)
         return result
 
 
@@ -92,15 +94,26 @@ def decorated_patterns(prefix, func, *args):
     )
     """
     result = patterns(prefix, *args)
-    if func:
+
+    def decorate(result, func):
         for p in result:
             if isinstance(p, RegexURLPattern):
                 p.__class__ = DecoratedURLPattern
-                p._decorate_with = func
+                if not hasattr(p, "_decorate_with"):
+                    setattr(p, "_decorate_with", [])
+                p._decorate_with.append(func)
             elif isinstance(p, RegexURLResolver):
                 for pp in p.url_patterns:
                     if isinstance(pp, RegexURLPattern):
                         pp.__class__ = DecoratedURLPattern
-                        pp._decorate_with = func
+                        if not hasattr(pp, "_decorate_with"):
+                            setattr(pp, "_decorate_with", [])
+                        pp._decorate_with.append(func)
+    if func:
+        if isinstance(func, (list, tuple)):
+            for f in func:
+                decorate(result, f)
+        else:
+            decorate(result, func)
 
     return result

@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.views import login
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 
 from . import views
 from .decorators import jsonize_view, map_permissions_check,\
@@ -26,10 +27,10 @@ urlpatterns = patterns('',
     url(r'^map/(?P<map_id>[\d]+)/infos/caption/$', views.MapInfos.as_view(), name='map_infos'),
     url(r'^pictogram/json/$', views.PictogramJsonList.as_view(), name='pictogram_list_json'),
 )
-urlpatterns += decorated_patterns('', login_required_if_not_anonymous_allowed,
+urlpatterns += decorated_patterns('', [login_required_if_not_anonymous_allowed, never_cache, ],
     url(r'^map/add/$', views.QuickMapCreate.as_view(), name='map_add'),
 )
-urlpatterns += decorated_patterns('', map_permissions_check,
+urlpatterns += decorated_patterns('', [map_permissions_check, never_cache, ],
     url(r'^map/(?P<map_id>[\d]+)/update/metadata/$', views.QuickMapUpdate.as_view(), name='map_update'),
     url(r'^map/(?P<map_id>[\d]+)/update/settings/$', views.UpdateMapSettings.as_view(), name='map_update_settings'),
     url(r'^map/(?P<map_id>[\d]+)/update/extent/$', csrf_exempt(views.UpdateMapExtent.as_view()), name='map_update_extent'),
