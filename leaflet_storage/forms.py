@@ -327,6 +327,7 @@ class MapSettingsForm(forms.Form):
         ("embedControl", _("Do you want to display the embed control?"), True),
         ("scaleControl", _("Do you want to display the scale control?"), True),
         ("locateOnLoad", _("Do you want to locate user on load?"), False),
+        ("displayCaptionOnLoad", _("Do you want to display map caption on load?"), False),
         ("miniMap", _("Do you want to display a minimap?"), False),
         ("editInOSMControl", _("Do you want to display control with links to edit in OSM?"), False),
         ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
