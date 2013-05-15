@@ -400,7 +400,7 @@ class EmbedMap(DetailView):
         site_url = (settings.SHORT_SITE_URL if hasattr(settings, 'SHORT_SITE_URL')
                    else settings.SITE_URL if hasattr(settings, 'SITE_URL')
                    else 'http://%s' % self.request.META['HTTP_HOST'])
-        iframe_url = '%s%s' % (site_url, self.object.get_absolute_url())
+        iframe_url = map_url = '%s%s' % (site_url, self.object.get_absolute_url())
         qs_kwargs = {
             'allowEdit': 0,
             'embedControl': 0,
@@ -415,6 +415,7 @@ class EmbedMap(DetailView):
         iframe_url = "%s?%s" % (iframe_url, query_string)
         map_short_url = "%s%s" % (site_url, reverse_lazy('map_short_url', kwargs={'pk': self.object.pk}))
         kwargs.update({
+            'map_url': map_url,
             'iframe_url': iframe_url,
             'map_short_url': map_short_url
         })
