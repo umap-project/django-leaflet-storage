@@ -495,6 +495,14 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
 
+    def test_CSV_generic(self):
+        response = self.process_file("test_upload_data.csv", "csv")
+        self.client.login(username=self.user.username, password="123123")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
+        marker = Marker.objects.get(category=self.category)
+        self.assertEqual(marker.name, "a point somewhere")
+
 
 class CategoryViews(BaseTest):
 

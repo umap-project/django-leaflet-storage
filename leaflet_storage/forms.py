@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 from django.conf import settings
 
-from vectorformats.formats import geojson, kml, gpx
+from vectorformats.formats import geojson, kml, gpx, csv
 
 from .models import Map, Category, Polyline, Polygon, Marker
 
@@ -129,10 +129,12 @@ class UploadDataForm(forms.Form):
     GEOJSON = "geojson"
     KML = "kml"
     GPX = "gpx"
+    CSV = "csv"
     CONTENT_TYPES = (
         (GEOJSON, "GeoJSON"),
         (KML, "KML"),
         (GPX, "GPX"),
+        (CSV, "CSV"),
     )
 
     # GPX has no official content_type, so we can't guess it's type when
@@ -143,7 +145,7 @@ class UploadDataForm(forms.Form):
     data_url = forms.URLField(
         required=False,
         label=_("URL"),
-        help_text=_("Supported values that will dynamically replaced: ") +\
+        help_text=_("Supported values that will dynamically replaced: ") +
                     "{bbox}, {lat}, {lng}, {zoom}, {east}, {north}..., {left}, {top}..."
     )
     category = forms.ModelChoiceField([], label=_("category"))  # queryset is set by view
@@ -189,7 +191,8 @@ class UploadDataForm(forms.Form):
         MAP = {
             self.GEOJSON: geojson.GeoJSON,
             self.KML: kml.KML,
-            self.GPX: gpx.GPX
+            self.GPX: gpx.GPX,
+            self.CSV: csv.CSV,
         }
         if not content_type in MAP:
             raise forms.ValidationError(_('Unsupported content_type: %s') % content_type)
