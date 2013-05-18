@@ -315,7 +315,9 @@ class UploadData(FormView):
             ('description', 'desc'),
             'color'
         ]
-        features = form.cleaned_data.get('data_file') or form.cleaned_data.get('data_url')
+        features = (form.cleaned_data.get('data_file')
+                   or form.cleaned_data.get('data_url')
+                   or form.cleaned_data.get('data_raw'))
         category = form.cleaned_data.get('category')
         counter = 0
         for feature in features:

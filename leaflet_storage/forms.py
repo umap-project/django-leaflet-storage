@@ -148,6 +148,11 @@ class UploadDataForm(forms.Form):
         help_text=_("Supported values that will dynamically replaced: ") +
                     "{bbox}, {lat}, {lng}, {zoom}, {east}, {north}..., {left}, {top}..."
     )
+    data_raw = forms.CharField(
+        required=False,
+        label=_("Copy/paste"),
+        widget=forms.Textarea
+    )
     category = forms.ModelChoiceField([], label=_("category"))  # queryset is set by view
 
     def clean_data_file(self):
@@ -174,15 +179,21 @@ class UploadDataForm(forms.Form):
                 features = self.content_to_features(content)
         return features
 
+    def clean_data_raw(self):
+        data = self.cleaned_data.get('data_raw')
+        features = []
+        if data:
+            features = self.content_to_features(data)
+        return features
+
     def clean(self):
         cleaned_data = super(UploadDataForm, self).clean()
         data_file = cleaned_data.get("data_file")
         data_url = cleaned_data.get("data_url")
-        data_sources = [data_file, data_url]
-        if not any(data_sources):
-            raise forms.ValidationError(_('You must provide an URL or a file.'))
-        elif all(data_sources):
-            raise forms.ValidationError(_("You can't provide both a file and an URL."))
+        data_raw = cleaned_data.get("data_raw")
+        data_sources = [data_file, data_url, data_raw]
+        if sum((bool(s) for s in data_sources)) != 1:
+            raise forms.ValidationError(_("You must provide one data source."))
         return cleaned_data
 
     def content_to_features(self, content):

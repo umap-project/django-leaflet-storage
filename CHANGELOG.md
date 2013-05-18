@@ -9,6 +9,7 @@
 - add a setting to display map caption on map load (cf Leaflet.Storage#50)
 - update to django 1.5
 - first version of a CSV import
+- add a Textarea in import form
 
 ## 0.2.0
 

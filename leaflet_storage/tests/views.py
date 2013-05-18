@@ -503,6 +503,19 @@ class UploadData(TransactionTestCase):
         marker = Marker.objects.get(category=self.category)
         self.assertEqual(marker.name, "a point somewhere")
 
+    def test_import_data_from_textarea(self):
+        url = reverse('upload_data', kwargs={'map_id': self.map.pk})
+        data_raw = """latitude,longitude,name\n41.1,118,my title"""
+        post_data = {
+            'category': self.category.pk,
+            'data_raw': data_raw,
+            'content_type': 'csv'
+        }
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
+
 
 class CategoryViews(BaseTest):
 
