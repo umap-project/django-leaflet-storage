@@ -10,6 +10,7 @@
 - update to django 1.5
 - first version of a CSV import
 - add a Textarea in import form
+- first version of data export (GeoJSON only for now)
 
 ## 0.2.0
 
