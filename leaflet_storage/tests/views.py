@@ -517,6 +517,16 @@ class UploadData(TransactionTestCase):
         self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
 
 
+class DownloadDataViews(BaseTest):
+
+    def test_geojson_download(self):
+        url = reverse('download_data', kwargs={'map_id': self.map.pk})
+        response = self.client.get(url)
+        self.assertEqual(response['Content-Type'], 'application/json')
+        json = simplejson.loads(response.content)
+        self.assertIn("features", json)
+
+
 class CategoryViews(BaseTest):
 
     def test_delete_GET(self):
