@@ -3,3 +3,9 @@
 <textarea><iframe width="500" height="300" frameBorder="0" src="{{ iframe_url }}"></iframe><p><a href="{{ map_url }}">{% trans "See full screen" %}</a></p></textarea>
 <h3>{% trans "Short URL" %}</h3>
 <input type="text" value="{{ map_short_url }}" />
+<h3>{% trans "Download map data" %}</h3>
+<p>{% blocktrans with licence=map.licence %}The data is published under the <a href="{{ licence.details }}">{{ licence }}</a> licence. Please check it before using the data in your own projects.{% endblocktrans %}</p>
+<form action="{% url 'download_data' map.pk %}">
+    {{ download_form }}
+    <input type="submit" value="{% trans 'Download' %}" />
+</form>

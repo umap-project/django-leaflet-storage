@@ -29,7 +29,8 @@ from .models import (Map, Marker, Category, Polyline, TileLayer,
 from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
                     UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
-                    MarkerForm, PolygonForm, PolylineForm, AnonymousMapPermissionsForm)
+                    MarkerForm, PolygonForm, PolylineForm, AnonymousMapPermissionsForm,
+                    DownloadDataForm)
 
 
 # ############## #
@@ -69,6 +70,15 @@ def simple_json_response(**kwargs):
 # ############## #
 #      Map       #
 # ############## #
+
+class GeoJSONMixin(object):
+
+    def geojson(self, context):
+        qs = self.get_queryset()
+        djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'options', 'icon'])
+        geoj = geojson.GeoJSON()
+        return geoj.encode(djf.decode(qs), to_string=False)
+
 
 class MapView(DetailView):
 
@@ -393,6 +403,27 @@ class UploadData(FormView):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
 
+class DownloadData(GeoJSONMixin, DetailView):
+
+    model = Map
+    pk_url_kwarg = 'map_id'
+
+    def get_queryset(self):
+        features = []
+        for category in self.object.category_set.all():
+            features += category.features
+        return features
+
+    def get_object(self):
+        return get_object_or_404(Map, pk=self.kwargs[self.pk_url_kwarg])
+
+    def render_to_response(self, context):
+        response = simple_json_response(**self.geojson(context))
+        response['Content-Type'] = "application/json"
+        response['Content-Disposition'] = 'attachment; filename="features.json"'
+        return response
+
+
 class EmbedMap(DetailView):
     model = Map
     template_name = "leaflet_storage/map_embed.html"
@@ -419,7 +450,8 @@ class EmbedMap(DetailView):
         kwargs.update({
             'map_url': map_url,
             'iframe_url': iframe_url,
-            'map_short_url': map_short_url
+            'map_short_url': map_short_url,
+            'download_form': DownloadDataForm()
         })
         return super(EmbedMap, self).get_context_data(**kwargs)
 
@@ -494,14 +526,6 @@ class MapAnonymousEditUrl(RedirectView):
 # ############## #
 #    Features    #
 # ############## #
-
-class GeoJSONMixin(object):
-
-    def geojson(self, context):
-        qs = self.get_queryset()
-        djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'options', 'icon'])
-        geoj = geojson.GeoJSON()
-        return geoj.encode(djf.decode(qs), to_string=False)
 
 
 class FeatureGeoJSONListView(BaseListView, GeoJSONMixin):

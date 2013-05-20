@@ -217,6 +217,16 @@ class UploadDataForm(forms.Form):
         return features
 
 
+class DownloadDataForm(forms.Form):
+
+    GEOJSON = "geojson"
+    CONTENT_TYPES = (
+        (GEOJSON, "GeoJSON"),
+    )
+
+    content_type = forms.ChoiceField(CONTENT_TYPES, label=_("Format"))
+
+
 class PathStyleMixin(forms.ModelForm):
     options_smoothFactor = forms.FloatField(
         required=False,
