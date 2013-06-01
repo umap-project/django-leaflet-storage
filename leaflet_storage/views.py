@@ -20,7 +20,7 @@ from django.template.loader import render_to_string
 from django.views.generic.detail import BaseDetailView
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
-from django.http import HttpResponse, HttpResponseNotAllowed, Http404, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseForbidden, Http404, HttpResponseRedirect
 
 from vectorformats.formats import django, geojson
 
@@ -469,7 +469,7 @@ class MapDelete(DeleteView):
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
         if not self.request.user == self.object.owner:
-            return HttpResponseNotAllowed(_('Only its owner can delete the map.'))
+            return HttpResponseForbidden(_('Only its owner can delete the map.'))
         self.object.delete()
         return simple_json_response(redirect="/")
 
