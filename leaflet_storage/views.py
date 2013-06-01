@@ -522,8 +522,9 @@ class MapAnonymousEditUrl(RedirectView):
             map_inst = get_object_or_404(Map, pk=pk)
             url = map_inst.get_absolute_url()
             response = HttpResponseRedirect(url)
-            key, value = map_inst.signed_cookie_elements
-            response.set_signed_cookie(key, value)
+            if not map_inst.owner:
+                key, value = map_inst.signed_cookie_elements
+                response.set_signed_cookie(key, value)
             return response
 
 
