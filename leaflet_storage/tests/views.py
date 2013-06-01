@@ -211,10 +211,19 @@ class AnonymousMapViews(BaseTest):
             'map',
             kwargs={'pk': self.anonymous_map.pk, 'slug': self.anonymous_map.slug}
         )
-        response = self.client.post(url)
+        response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=302)
         key, value = self.anonymous_map.signed_cookie_elements
         self.assertIn(key, self.client.cookies)
+
+    def test_bad_anonymous_edit_url_should_return_403(self):
+        url = self.anonymous_map.get_anonymous_edit_url()
+        url = reverse(
+            'map_anonymous_edit_url',
+            kwargs={'signature': "%s:badsignature" % self.anonymous_map.pk}
+        )
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
 
     def test_authenticated_user_with_cookie_is_attached_as_owner(self):
         url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.db import transaction
 from django.contrib import messages
 from django.utils import simplejson
-from django.core.signing import Signer
+from django.core.signing import Signer, BadSignature
 from django.db.utils import DatabaseError
 from django.template import RequestContext
 from django.contrib.auth.models import User
@@ -514,13 +514,17 @@ class MapAnonymousEditUrl(RedirectView):
 
     def get(self, request, *args, **kwargs):
         signer = Signer()
-        pk = signer.unsign(self.kwargs['signature'])
-        map_inst = get_object_or_404(Map, pk=pk)
-        url = map_inst.get_absolute_url()
-        response = HttpResponseRedirect(url)
-        key, value = map_inst.signed_cookie_elements
-        response.set_signed_cookie(key, value)
-        return response
+        try:
+            pk = signer.unsign(self.kwargs['signature'])
+        except BadSignature:
+            return HttpResponseForbidden('Bad Signature')
+        else:
+            map_inst = get_object_or_404(Map, pk=pk)
+            url = map_inst.get_absolute_url()
+            response = HttpResponseRedirect(url)
+            key, value = map_inst.signed_cookie_elements
+            response.set_signed_cookie(key, value)
+            return response
 
 
 # ############## #
