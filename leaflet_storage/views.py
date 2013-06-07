@@ -73,9 +73,11 @@ def simple_json_response(**kwargs):
 
 class GeoJSONMixin(object):
 
+    geojson_fields = ['name', 'category_id', 'options', 'icon']
+
     def geojson(self, context):
         qs = self.get_queryset()
-        djf = django.Django(geodjango="latlng", properties=['name', 'category_id', 'options', 'icon'])
+        djf = django.Django(geodjango="latlng", properties=self.geojson_fields)
         geoj = geojson.GeoJSON()
         return geoj.encode(djf.decode(qs), to_string=False)
 
@@ -407,6 +409,7 @@ class DownloadData(GeoJSONMixin, DetailView):
 
     model = Map
     pk_url_kwarg = 'map_id'
+    geojson_fields = ['name', 'category_id', 'options', 'icon', 'description']
 
     def get_queryset(self):
         features = []
