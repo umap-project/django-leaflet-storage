@@ -279,6 +279,10 @@ class BaseFeature(NamedModel):
         # so they need to share all exported properties
         return {}
 
+    @property
+    def color(self):
+        return self.options['color'] if 'color' in self.options else None
+
     class Meta:
         abstract = True
 

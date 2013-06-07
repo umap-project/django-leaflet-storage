@@ -409,7 +409,7 @@ class DownloadData(GeoJSONMixin, DetailView):
 
     model = Map
     pk_url_kwarg = 'map_id'
-    geojson_fields = ['name', 'category_id', 'options', 'icon', 'description']
+    geojson_fields = ['name', 'category_id', 'options', 'icon', 'description', 'color']
 
     def get_queryset(self):
         features = []

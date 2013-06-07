@@ -530,13 +530,17 @@ class DownloadDataViews(BaseTest):
 
     def test_geojson_download(self):
         url = reverse('download_data', kwargs={'map_id': self.map.pk})
-        marker = MarkerFactory(category=self.category, description="this is a description")
+        marker = MarkerFactory(
+            category=self.category,
+            description="this is a description",
+            options={'color': '#123456'})
         response = self.client.get(url)
         self.assertEqual(response['Content-Type'], 'application/json')
         json = simplejson.loads(response.content)
         self.assertIn("features", json)
         feature = json['features'][0]
         self.assertEqual(feature['properties']['description'], marker.description)
+        self.assertEqual(feature['properties']['color'], marker.options['color'])
 
 
 class CategoryViews(BaseTest):
