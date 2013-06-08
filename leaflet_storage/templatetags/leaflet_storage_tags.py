@@ -24,15 +24,11 @@ def leaflet_storage_js():
 
 @register.inclusion_tag('leaflet_storage/map_fragment.html')
 def map_fragment(map_instance):
-    tilelayer_data = {
-        'tilelayer': map_instance.tilelayers.all()[0].json,
-        "rank": 1
-    }
     categories = Category.objects.filter(map=map_instance, display_on_load=True)
     category_data = [c.json for c in categories]
     return {
         'map': map_instance,
-        'tilelayer': simplejson.dumps(tilelayer_data),
+        'tilelayer': simplejson.dumps(map_instance.tilelayers_data[0]),
         'categories': simplejson.dumps(category_data),
         'urls': simplejson.dumps(_urls_for_js()),
         'STATIC_URL': settings.STATIC_URL,
