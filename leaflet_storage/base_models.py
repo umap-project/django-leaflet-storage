@@ -53,6 +53,11 @@ class TileLayer(NamedModel):
     minZoom = models.IntegerField(default=0)
     maxZoom = models.IntegerField(default=18)
     attribution = models.CharField(max_length=300)
+    rank = models.SmallIntegerField(
+        blank=True,
+        null=True,
+        help_text=_('Order of the tilelayers in the edit box')
+    )
 
     @property
     def json(self):
@@ -63,7 +68,10 @@ class TileLayer(NamedModel):
         """
         Returns the default tile layer (used for a map when no layer is set).
         """
-        return cls.objects.order_by('pk')[0]  # FIXME, make it administrable
+        return cls.objects.order_by('rank')[0]  # FIXME, make it administrable
+
+    class Meta:
+        ordering = ('rank', 'name', )
 
 
 class Map(NamedModel):
