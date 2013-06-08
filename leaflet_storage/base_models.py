@@ -110,9 +110,9 @@ class Map(NamedModel):
     @property
     def tilelayers_data(self):
         tilelayers_data = []
-        for rank, m2t in enumerate(MapToTileLayer.objects.filter(map=self), start=1):
+        for rank, t in enumerate(self.tilelayers.order_by('maptotilelayer__rank', 'rank'), start=1):
             tilelayers_data.append({
-                "tilelayer": m2t.tilelayer.json,
+                "tilelayer": t.json,
                 "rank": rank
             })
         return tilelayers_data
