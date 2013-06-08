@@ -1,5 +1,11 @@
 # django-leaflet-storage changelog
 
+## 0.4.x
+- renamed internally category in datalayer
+- add a rank column to tilelayer to control their order in the tilelayer edit box
+- fix description that was not exported in the GeoJSON export
+- return proper 403 if bad signature on anonymous_edit_url access
+
 ## 0.3.0
 - handle anonymous map creation
 - Fix color no more displayed in map info box (cf #70)
