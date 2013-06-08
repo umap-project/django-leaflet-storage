@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 import os
 
 from django.test import TransactionTestCase
@@ -45,6 +47,24 @@ class MapViews(BaseTest):
         # Default tilelayer must have been linked to the map
         self.assertEqual(created_map.tilelayers.count(), 1)
         self.assertEqual(created_map.tilelayers.all()[0], self.tilelayer)
+
+    def test_map_creation_should_allow_unicode_names(self):
+        url = reverse('map_add')
+        # POST only mendatory fields
+        name = u'Академический'
+        post_data = {
+            'name': name,
+            'licence': self.licence.pk
+        }
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        created_map = Map.objects.latest('pk')
+        self.assertEqual(json['redirect'], created_map.get_absolute_url())
+        self.assertEqual(created_map.name, name)
+        # Lower case of the russian original name
+        self.assertEqual(created_map.slug, u"академический")
 
     def test_quick_update_GET(self):
         url = reverse('map_update', kwargs={'map_id': self.map.pk})

@@ -4,3 +4,4 @@ PIL
 git+git://github.com/yohanboniface/vectorformats.git@leafletstorage
 South
 simplejson
+unicode-slugify==0.1

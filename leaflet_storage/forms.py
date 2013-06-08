@@ -3,10 +3,10 @@ import urllib2
 from django import forms
 from django.contrib.gis.geos import Point
 from django.utils.translation import ugettext_lazy as _
-from django.template.defaultfilters import slugify
 from django.conf import settings
 
 from vectorformats.formats import geojson, kml, gpx, csv
+from slugify import slugify
 
 from .models import Map, Category, Polyline, Polygon, Marker
 
