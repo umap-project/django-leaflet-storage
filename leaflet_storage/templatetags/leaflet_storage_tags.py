@@ -2,7 +2,7 @@ from django.utils import simplejson
 from django import template
 from django.conf import settings
 
-from ..models import Category
+from ..models import DataLayer
 from ..views import _urls_for_js
 
 register = template.Library()
@@ -24,12 +24,12 @@ def leaflet_storage_js():
 
 @register.inclusion_tag('leaflet_storage/map_fragment.html')
 def map_fragment(map_instance):
-    categories = Category.objects.filter(map=map_instance, display_on_load=True)
-    category_data = [c.json for c in categories]
+    layers = DataLayer.objects.filter(map=map_instance, display_on_load=True)
+    datalayer_data = [c.json for c in layers]
     return {
         'map': map_instance,
         'tilelayer': simplejson.dumps(map_instance.tilelayers_data[0]),
-        'categories': simplejson.dumps(category_data),
+        'datalayers': simplejson.dumps(datalayer_data),
         'urls': simplejson.dumps(_urls_for_js()),
         'STATIC_URL': settings.STATIC_URL,
     }

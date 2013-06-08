@@ -8,7 +8,7 @@ from django.conf import settings
 
 from vectorformats.formats import geojson, kml, gpx, csv
 
-from .models import Map, Category, Polyline, Polygon, Marker
+from .models import Map, DataLayer, Polyline, Polygon, Marker
 
 DEFAULT_lATITUDE = settings.LEAFLET_LATITUDE if hasattr(settings, "LEAFLET_LATITUDE") else 51
 DEFAULT_LONGITUDE = settings.LEAFLET_LONGITUDE if hasattr(settings, "LEAFLET_LONGITUDE") else 2
@@ -153,7 +153,7 @@ class UploadDataForm(forms.Form):
         label=_("Copy/paste"),
         widget=forms.Textarea
     )
-    category = forms.ModelChoiceField([], label=_("category"))  # queryset is set by view
+    datalayer = forms.ModelChoiceField([], label=_("datalayer"))  # queryset is set by view
 
     def clean_data_file(self):
         """
@@ -279,7 +279,7 @@ class PathStyleMixin(forms.ModelForm):
     )
 
 
-class CategoryForm(OptionsForm, PathStyleMixin):
+class DataLayerForm(OptionsForm, PathStyleMixin):
 
     options_color = forms.CharField(
         required=False,
@@ -288,7 +288,7 @@ class CategoryForm(OptionsForm, PathStyleMixin):
     )
 
     class Meta:
-        model = Category
+        model = DataLayer
         widgets = {
             "map": forms.HiddenInput(),
             "icon_class": forms.HiddenInput(),
@@ -301,7 +301,7 @@ class FeatureForm(OptionsForm):
     options_color = forms.CharField(
         required=False,
         label=_('color'),
-        help_text=_("Optional. Category color is used if not set.")
+        help_text=_("Optional. Layer color is used if not set.")
     )
 
 
@@ -309,7 +309,7 @@ class PolygonForm(FeatureForm, PathStyleMixin):
 
     class Meta:
         model = Polygon
-        fields = ('name', 'description', 'category', 'latlng')
+        fields = ('name', 'description', 'datalayer', 'latlng')
         widgets = {
             'latlng': forms.HiddenInput(),
         }
@@ -322,7 +322,7 @@ class PolylineForm(FeatureForm, PathStyleMixin):
         self.fields["fill"].initial = False
 
     class Meta:
-        fields = ('name', 'description', 'category', 'latlng')
+        fields = ('name', 'description', 'datalayer', 'latlng')
         model = Polyline
         widgets = {
             'latlng': forms.HiddenInput(),
@@ -332,7 +332,7 @@ class PolylineForm(FeatureForm, PathStyleMixin):
 class MarkerForm(FeatureForm):
 
     class Meta:
-        fields = ('name', 'description', 'category', 'latlng', 'icon_class', 'pictogram')
+        fields = ('name', 'description', 'datalayer', 'latlng', 'icon_class', 'pictogram')
         model = Marker
         widgets = {
             'latlng': forms.HiddenInput(),

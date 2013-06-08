@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .base_models import (Category, Map, TileLayer, Pictogram, Licence,
+from .base_models import (DataLayer, Map, TileLayer, Pictogram, Licence,
                                   MapToTileLayer, get_model)
 
 # Marker is the only model configurable for now

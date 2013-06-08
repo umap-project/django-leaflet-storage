@@ -7,9 +7,9 @@ from django.contrib.auth.models import User
 from django.test.utils import override_settings
 from django.core.signing import get_cookie_signer
 
-from leaflet_storage.models import Map, Category, Marker, Polygon, Polyline
+from leaflet_storage.models import Map, DataLayer, Marker, Polygon, Polyline
 
-from .base import (MapFactory, CategoryFactory, MarkerFactory,
+from .base import (MapFactory, DataLayerFactory, MarkerFactory,
                    UserFactory, BaseTest)
 
 
@@ -40,8 +40,8 @@ class MapViews(BaseTest):
         created_map = Map.objects.latest('pk')
         self.assertEqual(json['redirect'], created_map.get_absolute_url())
         self.assertEqual(created_map.name, name)
-        # A category must have been created automatically
-        self.assertEqual(Category.objects.filter(map=created_map).count(), 1)
+        # A datalayer must have been created automatically
+        self.assertEqual(DataLayer.objects.filter(map=created_map).count(), 1)
         # Default tilelayer must have been linked to the map
         self.assertEqual(created_map.tilelayers.count(), 1)
         self.assertEqual(created_map.tilelayers.all()[0], self.tilelayer)
@@ -83,9 +83,9 @@ class MapViews(BaseTest):
 
     def test_delete_POST(self):
         # create some features
-        marker1 = MarkerFactory(category=self.category)
-        marker2 = MarkerFactory(category=self.category)
-        marker3 = MarkerFactory(category=self.category)
+        marker1 = MarkerFactory(datalayer=self.datalayer)
+        marker2 = MarkerFactory(datalayer=self.datalayer)
+        marker3 = MarkerFactory(datalayer=self.datalayer)
         url = reverse('map_delete', args=(self.map.pk, ))
         post_data = {
             'confirm': "yes",
@@ -94,7 +94,7 @@ class MapViews(BaseTest):
         response = self.client.post(url, post_data, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 0)
-        self.assertEqual(Category.objects.filter(pk=self.category.pk).count(), 0)
+        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 0)
         # Check that features have been delete
         self.assertEqual(Marker.objects.filter(pk=marker1.pk).count(), 0)
         self.assertEqual(Marker.objects.filter(pk=marker2.pk).count(), 0)
@@ -327,12 +327,12 @@ class MarkerViewsPermissions(ViewsPermissionsTest):
         self.check_url_permissions(url)
 
     def test_marker_update(self):
-        marker = MarkerFactory(category=self.category)
+        marker = MarkerFactory(datalayer=self.datalayer)
         url = reverse('marker_update', kwargs={'map_id': self.map.pk, 'pk': marker.pk})
         self.check_url_permissions(url)
 
     def test_marker_delete(self):
-        marker = MarkerFactory(category=self.category)
+        marker = MarkerFactory(datalayer=self.datalayer)
         url = reverse('marker_delete', kwargs={'map_id': self.map.pk, 'pk': marker.pk})
         self.check_url_permissions(url)
 
@@ -353,7 +353,7 @@ class MarkerViews(BaseTest):
         name = 'test-marker'
         post_data = {
             'name': name,
-            'category': self.category.pk,
+            'datalayer': self.datalayer.pk,
             'latlng': '{"type": "Point","coordinates": [-0.1318359375,51.474540439419755]}'
         }
         self.client.login(username=self.user.username, password="123123")
@@ -366,7 +366,7 @@ class MarkerViews(BaseTest):
         self.assertIn("geometry", json)
 
     def test_delete_GET(self):
-        marker = MarkerFactory(category=self.category)
+        marker = MarkerFactory(datalayer=self.datalayer)
         url = reverse('marker_delete', args=(self.map.pk, marker.pk))
         self.client.login(username=self.user.username, password="123123")
         response = self.client.get(url)
@@ -376,7 +376,7 @@ class MarkerViews(BaseTest):
         self.assertIn("form", json['html'])
 
     def test_delete_POST(self):
-        marker = MarkerFactory(category=self.category)
+        marker = MarkerFactory(datalayer=self.datalayer)
         url = reverse('marker_delete', args=(self.map.pk, marker.pk))
         post_data = {
             'confirm': "yes",
@@ -385,9 +385,9 @@ class MarkerViews(BaseTest):
         response = self.client.post(url, post_data, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Marker.objects.filter(pk=marker.pk).count(), 0)
-        # Check that category and map have not been impacted
+        # Check that datalayer and map have not been impacted
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
-        self.assertEqual(Category.objects.filter(pk=self.category.pk).count(), 1)
+        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 1)
         # Test response is a json
         json = simplejson.loads(response.content)
         self.assertIn("info", json)
@@ -398,7 +398,7 @@ class UploadData(TransactionTestCase):
     def setUp(self):
         self.user = UserFactory(password="123123")
         self.map = MapFactory(owner=self.user)
-        self.category = CategoryFactory(map=self.map)
+        self.datalayer = DataLayerFactory(map=self.map)
 
     def tearDown(self):
         self.user.delete()
@@ -416,7 +416,7 @@ class UploadData(TransactionTestCase):
         )
         f = open(fixture_path)
         post_data = {
-            'category': self.category.pk,
+            'datalayer': self.datalayer.pk,
             'data_file': f,
             'content_type': content_type
         }
@@ -429,43 +429,43 @@ class UploadData(TransactionTestCase):
         response = self.process_file("test_upload_data.json", "geojson")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
-        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 2)
-        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 2)
+        self.assertEqual(Polygon.objects.filter(datalayer=self.datalayer).count(), 2)
+        self.assertEqual(Polyline.objects.filter(datalayer=self.datalayer).count(), 1)
         # Check properties population
-        self.assertEqual(Marker.objects.filter(category=self.category, name="London").count(), 1)
-        marker = Marker.objects.get(category=self.category, name="London")
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer, name="London").count(), 1)
+        marker = Marker.objects.get(datalayer=self.datalayer, name="London")
         self.assertEqual(marker.description, "London description")
         self.assertEqual(marker.options["color"], "Pink")
-        self.assertEqual(Marker.objects.filter(category=self.category, name="Antwerpen").count(), 1)
-        marker = Marker.objects.get(category=self.category, name="Antwerpen")
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer, name="Antwerpen").count(), 1)
+        marker = Marker.objects.get(datalayer=self.datalayer, name="Antwerpen")
         self.assertEqual(marker.description, None)
         self.assertFalse("color" in marker.options)
 
     def test_GeoJSON_empty_coordinates_should_not_be_imported(self):
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
-        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 0)
-        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 0)
+        self.assertEqual(Polyline.objects.filter(datalayer=self.datalayer).count(), 0)
+        self.assertEqual(Polygon.objects.filter(datalayer=self.datalayer).count(), 0)
         response = self.process_file("test_upload_empty_coordinates.json", "geojson")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
-        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 0)
-        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 0)
+        self.assertEqual(Polyline.objects.filter(datalayer=self.datalayer).count(), 0)
+        self.assertEqual(Polygon.objects.filter(datalayer=self.datalayer).count(), 0)
 
     def test_GeoJSON_non_linear_ring_should_not_be_imported(self):
         response = self.process_file("test_upload_non_linear_ring.json", "geojson")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 0)
+        self.assertEqual(Polygon.objects.filter(datalayer=self.datalayer).count(), 0)
 
-    def test_GeoJSON_missing_name_should_be_set_with_category_name(self):
+    def test_GeoJSON_missing_name_should_be_set_with_datalayer_name(self):
         # One feature is missing a name
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 0)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 0)
         response = self.process_file("test_upload_missing_name.json", "geojson")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
-        self.assertEqual(Marker.objects.filter(category=self.category, name=self.category.name).count(), 1)
-        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
-        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 2)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer, name=self.datalayer.name).count(), 1)
+        self.assertEqual(Polyline.objects.filter(datalayer=self.datalayer).count(), 1)
+        self.assertEqual(Polygon.objects.filter(datalayer=self.datalayer).count(), 1)
 
     def test_import_data_from_url(self):
         url = reverse('upload_data', kwargs={'map_id': self.map.pk})
@@ -476,7 +476,7 @@ class UploadData(TransactionTestCase):
             "test_upload_data.json"
         )
         post_data = {
-            'category': self.category.pk,
+            'datalayer': self.datalayer.pk,
             'data_url': "file://%s" % fixture_path,
             'content_type': 'geojson'
         }
@@ -485,45 +485,45 @@ class UploadData(TransactionTestCase):
         response = self.process_file("test_upload_data.json", "geojson")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 2)
-        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 2)
-        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 2)
+        self.assertEqual(Polygon.objects.filter(datalayer=self.datalayer).count(), 2)
+        self.assertEqual(Polyline.objects.filter(datalayer=self.datalayer).count(), 1)
 
     def test_KML_generic(self):
         response = self.process_file("test_upload_data.kml", "kml")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
-        self.assertEqual(Polygon.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Polyline.objects.filter(datalayer=self.datalayer).count(), 1)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 1)
+        self.assertEqual(Polygon.objects.filter(datalayer=self.datalayer).count(), 1)
 
     def test_GPX_generic(self):
         response = self.process_file("test_upload_data.gpx", "gpx")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Polyline.objects.filter(category=self.category).count(), 1)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Polyline.objects.filter(datalayer=self.datalayer).count(), 1)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 1)
 
     def test_CSV_generic(self):
         response = self.process_file("test_upload_data.csv", "csv")
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
-        marker = Marker.objects.get(category=self.category)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 1)
+        marker = Marker.objects.get(datalayer=self.datalayer)
         self.assertEqual(marker.name, "a point somewhere")
 
     def test_import_data_from_textarea(self):
         url = reverse('upload_data', kwargs={'map_id': self.map.pk})
         data_raw = """latitude,longitude,name\n41.1,118,my title"""
         post_data = {
-            'category': self.category.pk,
+            'datalayer': self.datalayer.pk,
             'data_raw': data_raw,
             'content_type': 'csv'
         }
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Marker.objects.filter(category=self.category).count(), 1)
+        self.assertEqual(Marker.objects.filter(datalayer=self.datalayer).count(), 1)
 
 
 class DownloadDataViews(BaseTest):
@@ -531,7 +531,7 @@ class DownloadDataViews(BaseTest):
     def test_geojson_download(self):
         url = reverse('download_data', kwargs={'map_id': self.map.pk})
         marker = MarkerFactory(
-            category=self.category,
+            datalayer=self.datalayer,
             description="this is a description",
             options={'color': '#123456'})
         response = self.client.get(url)
@@ -543,10 +543,10 @@ class DownloadDataViews(BaseTest):
         self.assertEqual(feature['properties']['color'], marker.options['color'])
 
 
-class CategoryViews(BaseTest):
+class DataLayerViews(BaseTest):
 
     def test_delete_GET(self):
-        url = reverse('category_delete', args=(self.map.pk, self.category.pk))
+        url = reverse('datalayer_delete', args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -556,17 +556,17 @@ class CategoryViews(BaseTest):
 
     def test_delete_POST(self):
         # create some features
-        marker1 = MarkerFactory(category=self.category)
-        marker2 = MarkerFactory(category=self.category)
-        marker3 = MarkerFactory(category=self.category)
-        url = reverse('category_delete', args=(self.map.pk, self.category.pk))
+        marker1 = MarkerFactory(datalayer=self.datalayer)
+        marker2 = MarkerFactory(datalayer=self.datalayer)
+        marker3 = MarkerFactory(datalayer=self.datalayer)
+        url = reverse('datalayer_delete', args=(self.map.pk, self.datalayer.pk))
         post_data = {
             'confirm': "yes",
         }
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data, follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Category.objects.filter(pk=self.category.pk).count(), 0)
+        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 0)
         # Check that features have been delete
         self.assertEqual(Marker.objects.filter(pk=marker1.pk).count(), 0)
         self.assertEqual(Marker.objects.filter(pk=marker2.pk).count(), 0)

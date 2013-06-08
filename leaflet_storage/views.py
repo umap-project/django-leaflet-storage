@@ -24,10 +24,10 @@ from django.http import HttpResponse, HttpResponseForbidden, Http404, HttpRespon
 
 from vectorformats.formats import django, geojson
 
-from .models import (Map, Marker, Category, Polyline, TileLayer,
+from .models import (Map, Marker, DataLayer, Polyline, TileLayer,
                      MapToTileLayer, Polygon, Pictogram)
 from .utils import get_uri_template
-from .forms import (QuickMapCreateForm, UpdateMapExtentForm, CategoryForm,
+from .forms import (QuickMapCreateForm, UpdateMapExtentForm, DataLayerForm,
                     UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
                     MarkerForm, PolygonForm, PolylineForm, AnonymousMapPermissionsForm,
                     DownloadDataForm)
@@ -73,7 +73,7 @@ def simple_json_response(**kwargs):
 
 class GeoJSONMixin(object):
 
-    geojson_fields = ['name', 'category_id', 'options', 'icon']
+    geojson_fields = ['name', 'datalayer_id', 'options', 'icon']
 
     def geojson(self, context):
         qs = self.get_queryset()
@@ -96,12 +96,11 @@ class MapView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(MapView, self).get_context_data(**kwargs)
         map_settings = {}
-        categories = Category.objects.filter(map=self.object)  # TODO manage state
-        category_data = [c.json for c in categories]
-        map_settings['categories'] = category_data
+        datalayers = DataLayer.objects.filter(map=self.object)  # TODO manage state
+        datalayer_data = [l.json for l in datalayers]
+        map_settings['datalayers'] = datalayer_data
         map_settings['urls'] = _urls_for_js()
-        tilelayers_data = self.object.tilelayers_data
-        map_settings['tilelayers'] = tilelayers_data
+        map_settings['tilelayers'] = self.object.tilelayers_data
         if settings.USE_I18N:
             locale = settings.LANGUAGE_CODE
             # Check attr in case the middleware is not active
@@ -160,7 +159,7 @@ class QuickMapCreate(CreateView):
         self.object = form.save()
         layer = TileLayer.get_default()
         MapToTileLayer.objects.create(map=self.object, tilelayer=layer, rank=1)
-        Category.create_default(self.object)
+        DataLayer.create_default(self.object)
         response = simple_json_response(redirect=self.get_success_url())
         if not self.request.user.is_authenticated():
             key, value = self.object.signed_cookie_elements
@@ -304,7 +303,7 @@ class UploadData(FormView):
     def get_form(self, form_class):
         form = super(UploadData, self).get_form(form_class)
         map_inst = self.kwargs['map_inst']
-        form.fields['category'].queryset = Category.objects.filter(map=map_inst)
+        form.fields['datalayer'].queryset = DataLayer.objects.filter(map=map_inst)
         return form
 
     def get_context_data(self, **kwargs):
@@ -330,7 +329,7 @@ class UploadData(FormView):
         features = (form.cleaned_data.get('data_file')
                    or form.cleaned_data.get('data_url')
                    or form.cleaned_data.get('data_raw'))
-        category = form.cleaned_data.get('category')
+        datalayer = form.cleaned_data.get('datalayer')
         counter = 0
         for feature in features:
             sid = transaction.savepoint()
@@ -363,8 +362,8 @@ class UploadData(FormView):
                 continue  # TODO notify user
             kwargs = {
                 'latlng': latlng,
-                'category': category,
-                'name': category.name  # Default
+                'datalayer': datalayer,
+                'name': datalayer.name  # Default
             }
             for field in FIELDS:
                 if isinstance(field, tuple):
@@ -396,7 +395,7 @@ class UploadData(FormView):
             counter += 1
         transaction.commit()
         kwargs = {
-            'category': category.json,
+            'datalayer': datalayer.json,
             'info': "%d features created!" % counter,
         }
         return simple_json_response(**kwargs)
@@ -409,12 +408,12 @@ class DownloadData(GeoJSONMixin, DetailView):
 
     model = Map
     pk_url_kwarg = 'map_id'
-    geojson_fields = ['name', 'category_id', 'options', 'icon', 'description', 'color']
+    geojson_fields = ['name', 'datalayer_id', 'options', 'icon', 'description', 'color']
 
     def get_queryset(self):
         features = []
-        for category in self.object.category_set.all():
-            features += category.features
+        for datalayer in self.object.datalayer_set.all():
+            features += datalayer.features
         return features
 
     def get_object(self):
@@ -539,8 +538,8 @@ class MapAnonymousEditUrl(RedirectView):
 class FeatureGeoJSONListView(BaseListView, GeoJSONMixin):
 
     def get_queryset(self):
-        category = get_object_or_404(Category, pk=self.kwargs['category_id'])
-        return category.features
+        datalayer = get_object_or_404(DataLayer, pk=self.kwargs['datalayer_id'])
+        return datalayer.features
 
     def render_to_response(self, context, **response_kwargs):
         geoj = self.geojson(context)
@@ -574,10 +573,10 @@ class FeatureAdd(CreateView):
     def get_form(self, form_class):
         form = super(FeatureAdd, self).get_form(form_class)
         map_inst = self.kwargs['map_inst']
-        categories = Category.objects.filter(map=map_inst)
-        form.fields['category'].queryset = categories
-        if categories:
-            form.fields['category'].initial = categories[0]
+        layers = DataLayer.objects.filter(map=map_inst)
+        form.fields['datalayer'].queryset = layers
+        if layers:
+            form.fields['datalayer'].initial = layers[0]
         return form
 
     def get_template_names(self):
@@ -608,7 +607,7 @@ class FeatureUpdate(UpdateView):
     def get_form(self, form_class):
         form = super(FeatureUpdate, self).get_form(form_class)
         map_inst = self.kwargs['map_inst']
-        form.fields['category'].queryset = Category.objects.filter(map=map_inst)
+        form.fields['datalayer'].queryset = DataLayer.objects.filter(map=map_inst)
         return form
 
     def get_template_names(self):
@@ -727,24 +726,24 @@ class PolygonGeoJSON(FeatureGeoJSON):
 
 
 # ############## #
-#    Category    #
+#    DataLayer   #
 # ############## #
 
-class CategoryCreate(CreateView):
-    model = Category
-    form_class = CategoryForm
+class DataLayerCreate(CreateView):
+    model = DataLayer
+    form_class = DataLayerForm
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'action_url': reverse_lazy('category_add', kwargs={'map_id': self.kwargs['map_id']})
+            'action_url': reverse_lazy('datalayer_add', kwargs={'map_id': self.kwargs['map_id']})
         })
-        return super(CategoryCreate, self).get_context_data(**kwargs)
+        return super(DataLayerCreate, self).get_context_data(**kwargs)
 
     def get_initial(self):
-        initial = super(CategoryCreate, self).get_initial()
+        initial = super(DataLayerCreate, self).get_initial()
         map_inst = self.kwargs['map_inst']
         initial.update({
             "map": map_inst
@@ -753,30 +752,30 @@ class CategoryCreate(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return simple_json_response(category=self.object.json)
+        return simple_json_response(datalayer=self.object.json)
 
 
-class CategoryUpdate(UpdateView):
-    model = Category
-    form_class = CategoryForm
+class DataLayerUpdate(UpdateView):
+    model = DataLayer
+    form_class = DataLayerForm
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
     def get_context_data(self, **kwargs):
         kwargs.update({
-            'action_url': reverse_lazy('category_update', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk}),
-            'delete_url': reverse_lazy('category_delete', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk})
+            'action_url': reverse_lazy('datalayer_update', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk}),
+            'delete_url': reverse_lazy('datalayer_delete', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk})
         })
-        return super(CategoryUpdate, self).get_context_data(**kwargs)
+        return super(DataLayerUpdate, self).get_context_data(**kwargs)
 
     def form_valid(self, form):
         self.object = form.save()
-        return simple_json_response(category=self.object.json)
+        return simple_json_response(datalayer=self.object.json)
 
 
-class CategoryDelete(DeleteView):
-    model = Category
+class DataLayerDelete(DeleteView):
+    model = DataLayer
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
@@ -784,7 +783,7 @@ class CategoryDelete(DeleteView):
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
-        return simple_json_response(info=_("Category successfully deleted."))
+        return simple_json_response(info=_("Layer successfully deleted."))
 
 
 # ############## #

@@ -1,8 +1,8 @@
 {% load i18n %}
 <h4>{{ map.name }}</h4>
 <p>{% firstof map.description "No caption yet." %}</p>
-{% for category in map.category_set.all %}
-    <p><span class="category_color" {% if category.options.color %}style="background-color: {{ category.options.color }};"{% endif %}></span><strong>{{ category }}</strong> {{ category.description }}</p>
+{% for datalayer in map.datalayer_set.all %}
+    <p><span class="datalayer_color" {% if datalayer.options.color %}style="background-color: {{ datalayer.options.color }};"{% endif %}></span><strong>{{ datalayer }}</strong> {{ datalayer.description }}</p>
 {% endfor %}
 <hr />
 <h5>{% trans "User content credits" %}</h5>

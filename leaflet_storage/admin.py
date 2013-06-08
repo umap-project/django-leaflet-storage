@@ -1,5 +1,5 @@
 from django.contrib.gis import admin
-from .models import Map, Marker, Category, Pictogram, TileLayer, Polyline,\
+from .models import Map, Marker, DataLayer, Pictogram, TileLayer, Polyline,\
                     Licence
 
 
@@ -15,7 +15,7 @@ class MapAdmin(admin.OSMGeoAdmin):
 admin.site.register(Map, MapAdmin)
 admin.site.register(Marker, admin.OSMGeoAdmin)
 admin.site.register(Polyline, admin.OSMGeoAdmin)
-admin.site.register(Category)
+admin.site.register(DataLayer)
 admin.site.register(Pictogram)
 admin.site.register(TileLayer)
 admin.site.register(Licence)

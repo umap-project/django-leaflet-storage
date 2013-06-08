@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-16 12:20+0200\n"
+"POT-Creation-Date: 2013-06-08 12:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,97 +38,101 @@ msgstr ""
 msgid "URL template using OSM tile format"
 msgstr ""
 
-#: base_models.py:77 forms.py:116
+#: base_models.py:59
+msgid "Order of the tilelayers in the edit box"
+msgstr ""
+
+#: base_models.py:85 forms.py:116
 msgid "Everyone can edit"
 msgstr ""
 
-#: base_models.py:78
+#: base_models.py:86
 msgid "Only editors can edit"
 msgstr ""
 
-#: base_models.py:79
+#: base_models.py:87
 msgid "Only owner can edit"
 msgstr ""
 
-#: base_models.py:82 base_models.py:223 base_models.py:269
+#: base_models.py:90 base_models.py:231 base_models.py:277
 msgid "description"
 msgstr ""
 
-#: base_models.py:83
+#: base_models.py:91
 msgid "center"
 msgstr ""
 
-#: base_models.py:84
+#: base_models.py:92
 msgid "zoom"
 msgstr ""
 
-#: base_models.py:85
+#: base_models.py:93
 msgid "locate"
 msgstr ""
 
-#: base_models.py:85
+#: base_models.py:93
 msgid "Locate user on load?"
 msgstr ""
 
-#: base_models.py:88
+#: base_models.py:96
 msgid "Choose the map licence."
 msgstr ""
 
-#: base_models.py:89
+#: base_models.py:97
 msgid "licence"
 msgstr ""
 
-#: base_models.py:95
+#: base_models.py:103
 msgid "owner"
 msgstr ""
 
-#: base_models.py:96
+#: base_models.py:104
 msgid "editors"
 msgstr ""
 
-#: base_models.py:97
+#: base_models.py:105
 msgid "edit status"
 msgstr ""
 
-#: base_models.py:98
+#: base_models.py:106
 msgid "settings"
 msgstr ""
 
-#: base_models.py:145
+#: base_models.py:153
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr ""
 
-#: base_models.py:200
+#: base_models.py:208
 msgid "pictogram"
 msgstr ""
 
-#: base_models.py:207
+#: base_models.py:215
 msgid "icon type"
 msgstr ""
 
-#: base_models.py:208
+#: base_models.py:216
 msgid "Choose the style of the marker."
 msgstr ""
 
-#: base_models.py:225 base_models.py:272
+#: base_models.py:233 base_models.py:280
 msgid "options"
 msgstr ""
 
-#: base_models.py:228
+#: base_models.py:236
 msgid "display on load"
 msgstr ""
 
-#: base_models.py:229
-msgid "Display this category on load."
+#: base_models.py:237
+msgid "Display this layer on load."
 msgstr ""
 
-#: base_models.py:259
-msgid "My data"
+#: base_models.py:267
+msgid "Layer 1"
 msgstr ""
 
-#: base_models.py:271 forms.py:149
-msgid "category"
+#: base_models.py:279
+msgid "layer"
 msgstr ""
 
 #: forms.py:112
@@ -140,207 +144,215 @@ msgstr ""
 msgid "Only editable with secret edit link"
 msgstr ""
 
-#: forms.py:141
+#: forms.py:143
 msgid "Content type"
 msgstr ""
 
-#: forms.py:142
+#: forms.py:144
 msgid "file"
 msgstr ""
 
-#: forms.py:145
+#: forms.py:147
 msgid "URL"
 msgstr ""
 
-#: forms.py:146
+#: forms.py:148
 msgid "Supported values that will dynamically replaced: "
 msgstr ""
 
-#: forms.py:169
+#: forms.py:153
+msgid "Copy/paste"
+msgstr ""
+
+#: forms.py:156
+msgid "datalayer"
+msgstr ""
+
+#: forms.py:176
 msgid "Unable to fetch content from URL."
 msgstr ""
 
-#: forms.py:181
-msgid "You must provide an URL or a file."
+#: forms.py:196
+msgid "You must provide one data source."
 msgstr ""
 
-#: forms.py:183
-msgid "You can't provide both a file and an URL."
-msgstr ""
-
-#: forms.py:195
+#: forms.py:209
 #, python-format
 msgid "Unsupported content_type: %s"
 msgstr ""
 
-#: forms.py:200
+#: forms.py:214
 #, python-format
 msgid "Invalid %(content_type)s"
 msgstr ""
 
-#: forms.py:209
+#: forms.py:227
+msgid "Format"
+msgstr ""
+
+#: forms.py:233
 msgid "Path smooth factor"
 msgstr ""
 
-#: forms.py:210
+#: forms.py:234
 msgid ""
 "How much to simplify the polyline on each zoom level (more = better "
 "performance and smoother look, less = more accurate)"
 msgstr ""
 
-#: forms.py:217
+#: forms.py:241
 msgid "Path opacity"
 msgstr ""
 
-#: forms.py:218
+#: forms.py:242
 msgid "Opacity, from 0.1 to 1.0 (opaque)."
 msgstr ""
 
-#: forms.py:223
+#: forms.py:247
 msgid "Polygon stroke"
 msgstr ""
 
-#: forms.py:224
+#: forms.py:248
 msgid "Whether to display or not the Polygon path."
 msgstr ""
 
-#: forms.py:230
+#: forms.py:254
 msgid "Path weight"
 msgstr ""
 
-#: forms.py:231
+#: forms.py:255
 msgid "Path weight in pixels. Max: 10."
 msgstr ""
 
-#: forms.py:236
+#: forms.py:260
 msgid "Path fill"
 msgstr ""
 
-#: forms.py:237
+#: forms.py:261
 msgid "Whether to fill the path with color."
 msgstr ""
 
-#: forms.py:243
+#: forms.py:267
 msgid "Fill opacity"
 msgstr ""
 
-#: forms.py:244
+#: forms.py:268
 msgid "Fill opacity, from 0.1 to 1.0 (opaque)."
 msgstr ""
 
-#: forms.py:248
+#: forms.py:272
 msgid "Fill color"
 msgstr ""
 
-#: forms.py:249
+#: forms.py:273
 msgid "Optional. Same as color if not set."
 msgstr ""
 
-#: forms.py:253
+#: forms.py:277
 msgid "Dash array"
 msgstr ""
 
-#: forms.py:254
+#: forms.py:278
 msgid "A string that defines the stroke dash pattern. Ex.: '5, 10, 15'."
 msgstr ""
 
-#: forms.py:262 forms.py:279
+#: forms.py:286 forms.py:303
 msgid "color"
 msgstr ""
 
-#: forms.py:263
+#: forms.py:287
 msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
 msgstr ""
 
-#: forms.py:280
-msgid "Optional. Category color is used if not set."
+#: forms.py:304
+msgid "Optional. Layer color is used if not set."
 msgstr ""
 
-#: forms.py:324
+#: forms.py:348
 msgid "Do you want to display the locate control?"
 msgstr ""
 
-#: forms.py:325
+#: forms.py:349
 msgid "Do you want to display the 'quick search' control?"
 msgstr ""
 
-#: forms.py:326
+#: forms.py:350
 msgid "Do you want to display the 'back to home page' control?"
 msgstr ""
 
-#: forms.py:327
+#: forms.py:351
 msgid "Do you want to display the embed control?"
 msgstr ""
 
-#: forms.py:328
+#: forms.py:352
 msgid "Do you want to display the scale control?"
 msgstr ""
 
-#: forms.py:329
+#: forms.py:353
 msgid "Do you want to locate user on load?"
 msgstr ""
 
-#: forms.py:330
+#: forms.py:354
 msgid "Do you want to display map caption on load?"
 msgstr ""
 
-#: forms.py:331
+#: forms.py:355
 msgid "Do you want to display a minimap?"
 msgstr ""
 
-#: forms.py:332
+#: forms.py:356
 msgid "Do you want to display control with links to edit in OSM?"
 msgstr ""
 
-#: forms.py:333
+#: forms.py:357
 msgid "Do you want to enable Marker drawing?"
 msgstr ""
 
-#: forms.py:334
+#: forms.py:358
 msgid "Do you want to enable Polyline drawing?"
 msgstr ""
 
-#: forms.py:335
+#: forms.py:359
 msgid "Do you want to enable Polygon drawing?"
 msgstr ""
 
-#: views.py:161
+#: views.py:173
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:166
+#: views.py:178
 msgid ""
 "Congratulations, your map has been created! To start editing, click on the "
 "pen icon."
 msgstr ""
 
-#: views.py:211
+#: views.py:223
 msgid "Zoom and center updated with success!"
 msgstr ""
 
-#: views.py:234
+#: views.py:246
 msgid "Map editors updated with success!"
 msgstr ""
 
-#: views.py:438
+#: views.py:475
 msgid "Only its owner can delete the map."
 msgstr ""
 
 #. Translators: "feature" is a feature type: Marker, Polyline, Polygon
-#: views.py:602
+#: views.py:636
 #, python-format
 msgid "%(feature)s successfully deleted."
 msgstr ""
 
-#: views.py:753
-msgid "Category successfully deleted."
+#: views.py:787
+msgid "Layer successfully deleted."
 msgstr ""
 
-#: templates/leaflet_storage/category_confirm_delete.html:2
-#: templates/leaflet_storage/category_form.html:7
+#: templates/leaflet_storage/datalayer_confirm_delete.html:2
+#: templates/leaflet_storage/datalayer_form.html:7
 #: templates/leaflet_storage/feature_confirm_delete.html:2
 #: templates/leaflet_storage/feature_form.html:8
 #: templates/leaflet_storage/map_confirm_delete.html:2
@@ -348,13 +360,13 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: templates/leaflet_storage/category_confirm_delete.html:4
+#: templates/leaflet_storage/datalayer_confirm_delete.html:4
 #, python-format
 msgid ""
-"This will also delete all the %(category_count)s feature(s) of this category."
+"This will also delete all the %(feature_count)s feature(s) of this datalayer."
 msgstr ""
 
-#: templates/leaflet_storage/category_confirm_delete.html:9
+#: templates/leaflet_storage/datalayer_confirm_delete.html:9
 #: templates/leaflet_storage/feature_confirm_delete.html:6
 #: templates/leaflet_storage/map_confirm_delete.html:10
 msgid "yes"
@@ -367,8 +379,8 @@ msgstr ""
 #: templates/leaflet_storage/map_confirm_delete.html:4
 #, python-format
 msgid ""
-"This will also delete the %(category_count)s category(ies) of this map and "
-"all their features."
+"This will also delete the %(datalayer_count)s layer(s) of this map and all "
+"their features."
 msgstr ""
 
 #: templates/leaflet_storage/map_confirm_delete.html:6
@@ -385,6 +397,21 @@ msgstr ""
 
 #: templates/leaflet_storage/map_embed.html:4
 msgid "Short URL"
+msgstr ""
+
+#: templates/leaflet_storage/map_embed.html:6
+msgid "Download map data"
+msgstr ""
+
+#: templates/leaflet_storage/map_embed.html:7
+#, python-format
+msgid ""
+"The data is published under the <a href=\"%(licence.details)s\">%(licence)s</"
+"a> licence. Please check it before using the data in your own projects."
+msgstr ""
+
+#: templates/leaflet_storage/map_embed.html:10
+msgid "Download"
 msgstr ""
 
 #: templates/leaflet_storage/map_form.html:6
@@ -425,6 +452,10 @@ msgstr ""
 
 #: templates/leaflet_storage/map_update_settings.html:2
 msgid "Map settings"
+msgstr ""
+
+#: templates/leaflet_storage/map_update_tilelayers.html:2
+msgid "Choose your tilelayer"
 msgstr ""
 
 #: templates/leaflet_storage/upload_form.html:2

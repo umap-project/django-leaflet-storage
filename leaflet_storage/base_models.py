@@ -220,9 +220,9 @@ class IconConfigMixin(models.Model):
         abstract = True
 
 
-class Category(NamedModel, IconConfigMixin):
+class DataLayer(NamedModel, IconConfigMixin):
     """
-    Category of a Feature.
+    Layer to store Features in.
     """
     map = models.ForeignKey(Map)
     description = models.TextField(
@@ -234,7 +234,7 @@ class Category(NamedModel, IconConfigMixin):
     display_on_load = models.BooleanField(
         default=False,
         verbose_name=_("display on load"),
-        help_text=_("Display this category on load.")
+        help_text=_("Display this layer on load.")
     )
 
     @property
@@ -252,7 +252,7 @@ class Category(NamedModel, IconConfigMixin):
     def features(self):
         if not hasattr(self, "_features"):
             filters = {
-                "category": self
+                "datalayer": self
             }
             markers = get_model("Marker").objects.filter(**filters)
             polylines = get_model("Polyline").objects.filter(**filters)
@@ -262,9 +262,9 @@ class Category(NamedModel, IconConfigMixin):
 
     @classmethod
     def create_default(cls, map_inst):
-        return Category.objects.create(
+        return DataLayer.objects.create(
             map=map_inst,
-            name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_CATEGORY_NAME", _("My data")),
+            name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_LAYER_NAME", _("Layer 1")),
             display_on_load=True
         )
 
@@ -276,7 +276,7 @@ class BaseFeature(NamedModel):
         null=True,
         verbose_name=_("description")
     )
-    category = models.ForeignKey(Category, verbose_name=_("category"))
+    datalayer = models.ForeignKey(DataLayer, verbose_name=_("layer"))
     options = DictField(blank=True, null=True, verbose_name=_("options"))
 
     objects = models.GeoManager()

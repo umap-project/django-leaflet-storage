@@ -5,7 +5,7 @@
             "center": {{ map.center.geojson|safe }},
             "zoom": {{ map.zoom }},
             "tilelayers": [{{ tilelayer|safe }}],
-            "categories": {{ categories|safe }},
+            "datalayers": {{ datalayers|safe }},
             "urls": {{ urls|safe }},
             "default_iconUrl": "{{ STATIC_URL }}storage/src/img/marker.png",
             "allowEdit": false,

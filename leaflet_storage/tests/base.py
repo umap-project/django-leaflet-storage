@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 
 import factory
 
-from leaflet_storage.models import Map, TileLayer, Licence, Category, Marker
+from leaflet_storage.models import Map, TileLayer, Licence, DataLayer, Marker
 from leaflet_storage.forms import DEFAULT_CENTER
 
 
@@ -46,10 +46,10 @@ class MapFactory(factory.Factory):
     owner = factory.SubFactory(UserFactory)
 
 
-class CategoryFactory(factory.Factory):
-    FACTORY_FOR = Category
+class DataLayerFactory(factory.Factory):
+    FACTORY_FOR = DataLayer
     map = factory.SubFactory(MapFactory)
-    name = "test category"
+    name = "test datalayer"
     description = "test description"
     display_on_load = True
 
@@ -58,7 +58,7 @@ class BaseFeatureFactory(factory.Factory):
     ABSTRACT_FACTORY = True
     name = "test feature"
     description = "test description"
-    category = factory.SubFactory(CategoryFactory)
+    datalayer = factory.SubFactory(DataLayerFactory)
 
 
 class MarkerFactory(BaseFeatureFactory):
@@ -75,13 +75,13 @@ class BaseTest(TestCase):
         self.user = UserFactory(password="123123")
         self.licence = LicenceFactory()
         self.map = MapFactory(owner=self.user, licence=self.licence)
-        self.category = CategoryFactory(map=self.map)
+        self.datalayer = DataLayerFactory(map=self.map)
         self.tilelayer = TileLayerFactory()
 
     def tearDown(self):
         self.user.delete()
         self.map.delete()
-        self.category.delete()
+        self.datalayer.delete()
 
     def assertLoginRequired(self, response):
         self.assertEqual(response.status_code, 200)

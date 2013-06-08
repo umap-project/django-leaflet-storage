@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 
-from leaflet_storage.models import Marker, Map, Category
-from .base import BaseTest, UserFactory, MarkerFactory, CategoryFactory
+from leaflet_storage.models import Marker, Map, DataLayer
+from .base import BaseTest, UserFactory, MarkerFactory, DataLayerFactory
 
 
 class MapModel(BaseTest):
@@ -47,30 +47,30 @@ class MapModel(BaseTest):
 class LicenceModel(BaseTest):
 
     def test_licence_delete_should_not_remove_linked_maps(self):
-        marker = MarkerFactory(category=self.category)
-        self.assertEqual(marker.category.map.licence, self.licence)
+        marker = MarkerFactory(datalayer=self.datalayer)
+        self.assertEqual(marker.datalayer.map.licence, self.licence)
         self.licence.delete()
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
-        self.assertEqual(Category.objects.filter(pk=self.category.pk).count(), 1)
+        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 1)
         self.assertEqual(Marker.objects.filter(pk=marker.pk).count(), 1)
 
 
-class CategoryModel(BaseTest):
+class DataLayerModel(BaseTest):
 
     def test_features_should_be_locally_cached(self):
-        MarkerFactory(category=self.category)
-        MarkerFactory(category=self.category)
-        MarkerFactory(category=self.category)
-        self.category.features
+        MarkerFactory(datalayer=self.datalayer)
+        MarkerFactory(datalayer=self.datalayer)
+        MarkerFactory(datalayer=self.datalayer)
+        self.datalayer.features
         with self.assertNumQueries(0):
-            self.category.features
+            self.datalayer.features
 
-    def test_categories_should_be_ordered_by_name(self):
-        c4 = CategoryFactory(map=self.map, name="eeeeeee")
-        c1 = CategoryFactory(map=self.map, name="1111111")
-        c3 = CategoryFactory(map=self.map, name="ccccccc")
-        c2 = CategoryFactory(map=self.map, name="aaaaaaa")
+    def test_datalayers_should_be_ordered_by_name(self):
+        c4 = DataLayerFactory(map=self.map, name="eeeeeee")
+        c1 = DataLayerFactory(map=self.map, name="1111111")
+        c3 = DataLayerFactory(map=self.map, name="ccccccc")
+        c2 = DataLayerFactory(map=self.map, name="aaaaaaa")
         self.assertEqual(
-            list(self.map.category_set.all()),
-            [c1, c2, c3, c4, self.category]
+            list(self.map.datalayer_set.all()),
+            [c1, c2, c3, c4, self.datalayer]
         )
