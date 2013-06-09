@@ -312,6 +312,7 @@ class AbstractMarker(BaseFeature, IconConfigMixin):
 
     class Meta:
         abstract = True
+        ordering = ('name', )
 
 
 class AbstractPolyline(BaseFeature):
@@ -319,6 +320,7 @@ class AbstractPolyline(BaseFeature):
 
     class Meta:
         abstract = True
+        ordering = ('name', )
 
 
 class AbstractPolygon(BaseFeature):
@@ -326,6 +328,7 @@ class AbstractPolygon(BaseFeature):
 
     class Meta:
         abstract = True
+        ordering = ('name', )
 
 
 # ############## #
