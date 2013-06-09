@@ -352,6 +352,8 @@ class MapSettingsForm(forms.Form):
         ("scaleControl", _("Do you want to display the scale control?"), True),
         ("locateOnLoad", _("Do you want to locate user on load?"), False),
         ("displayCaptionOnLoad", _("Do you want to display map caption on load?"), False),
+        ("displayDataBrowserOnLoad", _("Do you want to display data browser on load?"), False),
+        ("displayPopupFooter", _("Do you want to display popup footer?"), False),
         ("miniMap", _("Do you want to display a minimap?"), False),
         ("editInOSMControl", _("Do you want to display control with links to edit in OSM?"), False),
         ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
