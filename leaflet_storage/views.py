@@ -324,7 +324,7 @@ class UploadData(FormView):
         # first item is field name
         FIELDS = [
             ('name', 'title'),
-            ('description', 'desc'),
+            ('description', 'desc', 'text'),
             'color'
         ]
         features = (form.cleaned_data.get('data_file')
