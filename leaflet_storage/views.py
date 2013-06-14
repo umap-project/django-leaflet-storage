@@ -351,13 +351,11 @@ class UploadData(FormView):
                         lambda x: map(lambda y: y[:2], x),
                         feature.geometry['coordinates']
                     )
-            except Exception, e:
-                print e
+            except Exception:
                 continue
             try:
                 latlng = GEOSGeometry(repr(feature.geometry))
-            except Exception, e:
-                print e
+            except Exception:
                 continue  # TODO notify user
             if latlng.empty:
                 continue  # TODO notify user
@@ -388,7 +386,7 @@ class UploadData(FormView):
                         break
             try:
                 klass.objects.create(**kwargs)
-            except DatabaseError:
+            except Exception:
                 transaction.savepoint_rollback(sid)
                 continue  # TODO notify user
             else:
