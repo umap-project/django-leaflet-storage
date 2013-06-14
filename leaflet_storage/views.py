@@ -323,9 +323,9 @@ class UploadData(FormView):
         # Use a tuple to add more sources possible
         # first item is field name
         FIELDS = [
-            ('name', 'title'),
-            ('description', 'desc', 'text'),
-            'color'
+            ('name', 'title', ),
+            ('description', 'desc', 'text', ),
+            ('color', 'hexcolor', )
         ]
         features = (form.cleaned_data.get('data_file')
                    or form.cleaned_data.get('data_url')
