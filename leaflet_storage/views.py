@@ -102,6 +102,7 @@ class MapView(DetailView):
         map_settings['urls'] = _urls_for_js()
         map_settings['tilelayers'] = self.object.tilelayers_data
         map_settings['name'] = self.object.name
+        map_settings['description'] = self.object.description
         if settings.USE_I18N:
             locale = settings.LANGUAGE_CODE
             # Check attr in case the middleware is not active
