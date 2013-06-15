@@ -5,7 +5,8 @@ from django.core.urlresolvers import reverse
 
 import factory
 
-from leaflet_storage.models import Map, TileLayer, Licence, DataLayer, Marker
+from leaflet_storage.models import Map, TileLayer, Licence, DataLayer, Marker, Polygon,\
+                                   Polyline
 from leaflet_storage.forms import DEFAULT_CENTER
 
 
@@ -64,6 +65,16 @@ class BaseFeatureFactory(factory.Factory):
 class MarkerFactory(BaseFeatureFactory):
     FACTORY_FOR = Marker
     latlng = '{"type": "Point","coordinates": [-0.1318359375,51.474540439419755]}'
+
+
+class PolylineFactory(BaseFeatureFactory):
+    FACTORY_FOR = Polyline
+    latlng = '{"type": "LineString", "coordinates": [[8.756103515625, 49.55372551347579], [9.25048828125, 48.879167148960214], [8.580322265624998, 48.76343113791796], [8.3056640625, 48.980216985374994]]}'
+
+
+class PolygonFactory(BaseFeatureFactory):
+    FACTORY_FOR = Polygon
+    latlng = '{"type": "Polygon", "coordinates": [[[5.679931640625, 50.13466432216694], [3.8891601562499996, 49.7173764049358], [5.09765625, 49.001843917978526], [6.39404296875, 49.167338606291075], [5.679931640625, 50.13466432216694]]]}'
 
 
 class BaseTest(TestCase):

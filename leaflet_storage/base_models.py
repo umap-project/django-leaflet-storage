@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from itertools import chain
+
 from django.contrib.gis.db import models
 from django.db.models import get_model as dj_get_model
 from django.conf import settings
@@ -257,7 +259,7 @@ class DataLayer(NamedModel, IconConfigMixin):
             markers = get_model("Marker").objects.filter(**filters)
             polylines = get_model("Polyline").objects.filter(**filters)
             polygons = get_model("Polygon").objects.filter(**filters)
-            self._features = list(markers) + list(polylines) + list(polygons)
+            self._features = sorted(chain(markers, polylines, polygons), key=lambda i: i.name)
         return self._features
 
     @classmethod
