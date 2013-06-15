@@ -351,6 +351,7 @@ class MapSettingsForm(forms.Form):
         ("embedControl", _("Do you want to display the embed control?"), True),
         ("scaleControl", _("Do you want to display the scale control?"), True),
         ("locateOnLoad", _("Do you want to locate user on load?"), False),
+        ("tileLayersControl", _("Do you want to display a tilelayer switcher?"), True),
         ("displayCaptionOnLoad", _("Do you want to display map caption on load?"), False),
         ("displayDataBrowserOnLoad", _("Do you want to display data browser on load?"), False),
         ("displayPopupFooter", _("Do you want to display popup footer?"), False),

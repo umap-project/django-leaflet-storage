@@ -100,7 +100,7 @@ class MapView(DetailView):
         datalayer_data = [l.json for l in datalayers]
         map_settings['datalayers'] = datalayer_data
         map_settings['urls'] = _urls_for_js()
-        map_settings['tilelayers'] = self.object.tilelayers_data
+        map_settings['tilelayers'] = TileLayer.get_list(selected=self.object.tilelayers.all()[0])
         map_settings['name'] = self.object.name
         map_settings['description'] = self.object.description
         if settings.USE_I18N:
@@ -445,6 +445,7 @@ class EmbedMap(DetailView):
             'editInOSMControl': 0,
             'scaleControl': 0,
             'miniMap': 0,
+            'tileLayersControl': 0,
         }
         query_string = "&".join("%s=%s" % (k, v) for k, v in qs_kwargs.iteritems())
         iframe_url = "%s?%s" % (iframe_url, query_string)
@@ -790,7 +791,7 @@ class DataLayerDelete(DeleteView):
 #     Picto      #
 # ############## #
 
-class PictogramJsonList(ListView):
+class PictogramJSONList(ListView):
     model = Pictogram
 
     def render_to_response(self, context, **response_kwargs):

@@ -72,6 +72,16 @@ class TileLayer(NamedModel):
         """
         return cls.objects.order_by('rank')[0]  # FIXME, make it administrable
 
+    @classmethod
+    def get_list(cls, selected=None):
+        l = []
+        for t in cls.objects.all():
+            fields = t.json
+            if selected and selected.pk == t.pk:
+                fields['selected'] = True
+            l.append(fields)
+        return l
+
     class Meta:
         ordering = ('rank', 'name', )
 

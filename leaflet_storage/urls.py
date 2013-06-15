@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^polygon/json/(?P<pk>[\d]+)/$', views.PolygonGeoJSON.as_view(), name='polygon_geojson'),
     url(r'^map/(?P<map_id>[\d]+)/export/iframe/$', views.EmbedMap.as_view(), name='map_embed'),
     url(r'^map/(?P<map_id>[\d]+)/infos/caption/$', views.MapInfos.as_view(), name='map_infos'),
-    url(r'^pictogram/json/$', views.PictogramJsonList.as_view(), name='pictogram_list_json'),
+    url(r'^pictogram/json/$', views.PictogramJSONList.as_view(), name='pictogram_list_json'),
     url(r'^map/(?P<map_id>[\d]+)/export/data/$', views.DownloadData.as_view(), name='download_data'),
 )
 urlpatterns += decorated_patterns('', [login_required_if_not_anonymous_allowed, never_cache, ],
