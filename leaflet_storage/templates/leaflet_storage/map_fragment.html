@@ -4,7 +4,7 @@
             "storage_id": {{ map.pk }},
             "center": {{ map.center.geojson|safe }},
             "zoom": {{ map.zoom }},
-            "tilelayers": [{{ tilelayer|safe }}],
+            "tilelayers": {{ tilelayers|safe }},
             "datalayers": {{ datalayers|safe }},
             "urls": {{ urls|safe }},
             "default_iconUrl": "{{ STATIC_URL }}storage/src/img/marker.png",
@@ -21,7 +21,8 @@
             'jumpToLocationControl': false,
             'editInOSMControl': false,
             'scaleControl': false,
-            'miniMap': false
+            'miniMap': false,
+            'tileLayersControl': false
         }
         new L.Storage.Map("map_{{ map.pk }}", map_fragment_settings);
     </script>
