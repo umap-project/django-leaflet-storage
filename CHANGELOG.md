@@ -8,6 +8,7 @@
 - refactored tilelayer management
 - smarted encoding management at import
 - smarted errors management at import
+- handle other delimiters than just comma for CSV import
 
 ## 0.3.0
 - handle anonymous map creation
