@@ -5,7 +5,7 @@ from .models import Map, Marker, DataLayer, Pictogram, TileLayer, Polyline,\
 
 class TileLayerAdmin(admin.ModelAdmin):
     list_display = ('name', 'rank', )
-    list_editable =('rank', )
+    list_editable = ('rank', )
 
 admin.site.register(Map, admin.OSMGeoAdmin)
 admin.site.register(Marker, admin.OSMGeoAdmin)
