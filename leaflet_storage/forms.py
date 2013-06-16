@@ -97,6 +97,13 @@ class UpdateMapExtentForm(forms.ModelForm):
         fields = ('zoom', 'center')
 
 
+class UpdateMapTileLayerForm(forms.ModelForm):
+
+    class Meta:
+        model = Map
+        fields = ('tilelayer', )
+
+
 class UpdateMapPermissionsForm(forms.ModelForm):
 
     class Meta:

@@ -111,23 +111,13 @@ class Map(NamedModel):
         default=Licence.get_default
     )
     modified_at = models.DateTimeField(auto_now=True)
-    tilelayers = models.ManyToManyField(TileLayer, through="MapToTileLayer")
+    tilelayer = models.ForeignKey(TileLayer, blank=True, null=True, related_name="maps",  verbose_name=_("background"))
     owner = models.ForeignKey(User, blank=True, null=True, related_name="owned_maps", verbose_name=_("owner"))
     editors = models.ManyToManyField(User, blank=True, verbose_name=_("editors"))
     edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER, verbose_name=_("edit status"))
     settings = DictField(blank=True, null=True, verbose_name=_("settings"))
 
     objects = models.GeoManager()
-
-    @property
-    def tilelayers_data(self):
-        tilelayers_data = []
-        for rank, t in enumerate(self.tilelayers.order_by('maptotilelayer__rank', 'rank'), start=1):
-            tilelayers_data.append({
-                "tilelayer": t.json,
-                "rank": rank
-            })
-        return tilelayers_data
 
     def get_absolute_url(self):
         return reverse("map", kwargs={'slug': self.slug, 'pk': self.pk})
@@ -178,14 +168,8 @@ class Map(NamedModel):
     def signed_cookie_elements(self):
         return ('anonymous_owner|%s' % self.pk, self.pk)
 
-
-class MapToTileLayer(models.Model):
-    tilelayer = models.ForeignKey(TileLayer)
-    map = models.ForeignKey(Map)
-    rank = models.IntegerField(null=True, blank=True)
-
-    class Meta:
-        ordering = ['rank', 'tilelayer__name']
+    def get_tilelayer(self):
+        return self.tilelayer or TileLayer.get_default()
 
 
 class Pictogram(NamedModel):

@@ -25,12 +25,12 @@ from django.http import HttpResponse, HttpResponseForbidden, Http404, HttpRespon
 from vectorformats.formats import django, geojson
 
 from .models import (Map, Marker, DataLayer, Polyline, TileLayer,
-                     MapToTileLayer, Polygon, Pictogram)
+                     Polygon, Pictogram)
 from .utils import get_uri_template
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, DataLayerForm,
                     UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
                     MarkerForm, PolygonForm, PolylineForm, AnonymousMapPermissionsForm,
-                    DownloadDataForm)
+                    DownloadDataForm, UpdateMapTileLayerForm)
 
 
 # ############## #
@@ -100,7 +100,7 @@ class MapView(DetailView):
         datalayer_data = [l.json for l in datalayers]
         map_settings['datalayers'] = datalayer_data
         map_settings['urls'] = _urls_for_js()
-        map_settings['tilelayers'] = TileLayer.get_list(selected=self.object.tilelayers.all()[0])
+        map_settings['tilelayers'] = TileLayer.get_list(selected=self.object.get_tilelayer())
         map_settings['name'] = self.object.name
         map_settings['description'] = self.object.description
         if settings.USE_I18N:
@@ -158,9 +158,8 @@ class QuickMapCreate(CreateView):
         """
         if self.request.user.is_authenticated():
             form.instance.owner = self.request.user
+        form.instance.tilelayer = TileLayer.get_default()
         self.object = form.save()
-        layer = TileLayer.get_default()
-        MapToTileLayer.objects.create(map=self.object, tilelayer=layer, rank=1)
         DataLayer.create_default(self.object)
         response = simple_json_response(redirect=self.get_success_url())
         if not self.request.user.is_authenticated():
@@ -224,6 +223,19 @@ class UpdateMapExtent(UpdateView):
         return simple_json_response(info=_("Zoom and center updated with success!"))
 
 
+class UpdateMapTileLayer(UpdateView):
+    model = Map
+    form_class = UpdateMapTileLayerForm
+    pk_url_kwarg = 'map_id'
+
+    def form_invalid(self, form):
+        return simple_json_response(info=form.errors)
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return simple_json_response(info=_("Map background updated with success!"))
+
+
 class UpdateMapPermissions(UpdateView):
     template_name = "leaflet_storage/map_update_permissions.html"
     model = Map
@@ -262,36 +274,6 @@ class UpdateMapSettings(UpdateView):
         # We need to reload the page, to make the UI take into account the new
         # settings
         return simple_json_response(redirect=self.object.get_absolute_url())
-
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-
-class UpdateMapTileLayers(TemplateView):
-    template_name = "leaflet_storage/map_update_tilelayers.html"
-    pk_url_kwarg = 'map_id'
-
-    def get_context_data(self, **kwargs):
-        return {
-            "tilelayers": TileLayer.objects.all(),
-            'map': kwargs['map_inst']
-        }
-
-    def post(self, request, *args, **kwargs):
-        # TODO: manage with a proper form
-        map_inst = kwargs['map_inst']
-        # Empty relations (we don't keep trace of unchecked box for now)
-        MapToTileLayer.objects.filter(map=map_inst).delete()
-        try:
-            layer_id = int(request.POST['tilelayer'])
-        except (KeyError, ValueError):
-            # Don't let a map without tilelayer
-            layer = TileLayer.get_default()
-            layer_id = layer.pk
-        finally:
-            # TODO manage rank and multiselection
-            MapToTileLayer.objects.create(map=map_inst, tilelayer_id=layer_id)
-        return simple_json_response(tilelayers=map_inst.tilelayers_data)
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)

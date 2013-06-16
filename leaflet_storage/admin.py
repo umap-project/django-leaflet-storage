@@ -3,16 +3,7 @@ from .models import Map, Marker, DataLayer, Pictogram, TileLayer, Polyline,\
                     Licence
 
 
-class MapToTileLayerAdmin(admin.TabularInline):
-    model = Map.tilelayers.through
-
-
-class MapAdmin(admin.OSMGeoAdmin):
-    inlines = [
-        MapToTileLayerAdmin,
-    ]
-
-admin.site.register(Map, MapAdmin)
+admin.site.register(Map, admin.OSMGeoAdmin)
 admin.site.register(Marker, admin.OSMGeoAdmin)
 admin.site.register(Polyline, admin.OSMGeoAdmin)
 admin.site.register(DataLayer)

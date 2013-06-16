@@ -43,8 +43,7 @@ class MapViews(BaseTest):
         # A datalayer must have been created automatically
         self.assertEqual(DataLayer.objects.filter(map=created_map).count(), 1)
         # Default tilelayer must have been linked to the map
-        self.assertEqual(created_map.tilelayers.count(), 1)
-        self.assertEqual(created_map.tilelayers.all()[0], self.tilelayer)
+        self.assertEqual(created_map.tilelayer, self.tilelayer)
 
     def test_quick_update_GET(self):
         url = reverse('map_update', kwargs={'map_id': self.map.pk})
