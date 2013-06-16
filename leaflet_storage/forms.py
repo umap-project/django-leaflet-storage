@@ -199,7 +199,7 @@ class UploadDataForm(forms.Form):
         data_url = cleaned_data.get("data_url")
         data_raw = cleaned_data.get("data_raw")
         data_sources = [data_file, data_url, data_raw]
-        if sum((bool(s) for s in data_sources)) != 1:
+        if sum((bool(s) for s in data_sources)) != 1 and not self.errors:
             raise forms.ValidationError(_("You must provide one data source."))
         return cleaned_data
 
