@@ -6,8 +6,8 @@
 - fix description that was not exported in the GeoJSON export
 - return proper 403 if bad signature on anonymous_edit_url access
 - refactored tilelayer management
-- smarted encoding management at import
-- smarted errors management at import
+- smarter encoding management at import
+- smarter errors management at import
 - handle other delimiters than just comma for CSV import
 
 ## 0.3.0
