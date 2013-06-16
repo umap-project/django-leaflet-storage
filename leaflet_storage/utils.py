@@ -117,3 +117,22 @@ def decorated_patterns(prefix, func, *args):
             decorate(result, func)
 
     return result
+
+
+def smart_decode(s):
+    """Convert a str to unicode when you cannot be sure of its encoding."""
+    if isinstance(s, unicode):
+        return s
+    attempts = [
+        ('utf-8', 'strict', ),
+        ('latin-1', 'strict', ),
+        ('utf-8', 'replace', ),
+    ]
+    for args in attempts:
+        try:
+            s = s.decode(*args)
+        except:
+            continue
+        else:
+            break
+    return s

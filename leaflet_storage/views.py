@@ -6,7 +6,6 @@ from django.db import transaction
 from django.contrib import messages
 from django.utils import simplejson
 from django.core.signing import Signer, BadSignature
-from django.db.utils import DatabaseError
 from django.template import RequestContext
 from django.contrib.auth.models import User
 from django.views.generic import DetailView
@@ -26,7 +25,7 @@ from vectorformats.formats import django, geojson
 
 from .models import (Map, Marker, DataLayer, Polyline, TileLayer,
                      Polygon, Pictogram)
-from .utils import get_uri_template
+from .utils import get_uri_template, smart_decode
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, DataLayerForm,
                     UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
                     MarkerForm, PolygonForm, PolylineForm, AnonymousMapPermissionsForm,
@@ -359,6 +358,7 @@ class UploadData(FormView):
                         value = feature.properties[candidate]
                         if not value:
                             continue
+                        value = smart_decode(value)
                         if name in klass._meta.get_all_field_names():
                             kwargs[name] = value
                         else:
