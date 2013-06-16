@@ -428,6 +428,7 @@ class EmbedMap(DetailView):
             'scaleControl': 0,
             'miniMap': 0,
             'tileLayersControl': 0,
+            'scrollWheelZoom': 0,
         }
         query_string = "&".join("%s=%s" % (k, v) for k, v in qs_kwargs.iteritems())
         iframe_url = "%s?%s" % (iframe_url, query_string)

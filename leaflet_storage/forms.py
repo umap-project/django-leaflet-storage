@@ -363,6 +363,7 @@ class MapSettingsForm(forms.Form):
         ("displayDataBrowserOnLoad", _("Do you want to display data browser on load?"), False),
         ("displayPopupFooter", _("Do you want to display popup footer?"), False),
         ("miniMap", _("Do you want to display a minimap?"), False),
+        ("scrollWheelZoom", _("Allow scroll wheel zoom?"), True),
         ("editInOSMControl", _("Do you want to display control with links to edit in OSM?"), False),
         ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
         ("enablePolylineDraw", _("Do you want to enable Polyline drawing?"), True),
