@@ -5,6 +5,7 @@
 - add a rank column to tilelayer to control their order in the tilelayer edit box
 - fix description that was not exported in the GeoJSON export
 - return proper 403 if bad signature on anonymous_edit_url access
+- refactored tilelayer management
 
 ## 0.3.0
 - handle anonymous map creation
