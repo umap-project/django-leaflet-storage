@@ -437,7 +437,8 @@ class EmbedMap(DetailView):
         }
         query_string = "&".join("%s=%s" % (k, v) for k, v in qs_kwargs.iteritems())
         iframe_url = "%s?%s" % (iframe_url, query_string)
-        map_short_url = "%s%s" % (site_url, reverse_lazy('map_short_url', kwargs={'pk': self.object.pk}))
+        short_url_name = getattr(settings, 'MAP_SHORT_URL_NAME', 'map_short_url')
+        map_short_url = "%s%s" % (site_url, reverse_lazy(short_url_name, kwargs={'pk': self.object.pk}))
         kwargs.update({
             'map_url': map_url,
             'iframe_url': iframe_url,
