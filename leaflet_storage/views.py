@@ -376,10 +376,15 @@ class UploadData(FormView):
                 transaction.savepoint_commit(sid)
             counter += 1
         transaction.commit()
-        kwargs = {
-            'datalayer': datalayer.json,
-            'info': "%d features created!" % counter,
-        }
+        if counter:
+            kwargs = {
+                'datalayer': datalayer.json,
+                'info': _("%d features created!") % counter,
+            }
+        else:
+            kwargs = {
+                'error': _("No valid feature has been found :("),
+            }
         return simple_json_response(**kwargs)
 
     def render_to_response(self, context, **response_kwargs):
