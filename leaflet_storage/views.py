@@ -336,7 +336,7 @@ class UploadData(FormView):
             except Exception:
                 continue
             try:
-                latlng = GEOSGeometry(repr(feature.geometry))
+                latlng = GEOSGeometry(simplejson.dumps(feature.geometry))
             except Exception:
                 continue  # TODO notify user
             if latlng.empty:
