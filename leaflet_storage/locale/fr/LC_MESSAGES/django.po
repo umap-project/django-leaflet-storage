@@ -305,11 +305,11 @@ msgstr "Voulez-vous affichez le commutateur de fond de carte?"
 
 #: forms.py:362
 msgid "Do you want to display map caption on load?"
-msgstr "Voulez-vous afficher la minicarte?"
+msgstr "Voulez-vous afficher la légende au chargement?"
 
 #: forms.py:363
 msgid "Do you want to display data browser on load?"
-msgstr "Voulez-vous afficher la minicarte?"
+msgstr "Voulez-vous afficher le visualiseur de données au chargement?"
 
 #: forms.py:364
 msgid "Do you want to display popup footer?"
