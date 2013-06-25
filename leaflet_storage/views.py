@@ -5,6 +5,7 @@ from django.conf import settings
 from django.db import transaction
 from django.contrib import messages
 from django.utils import simplejson
+from django.views.generic import View
 from django.core.signing import Signer, BadSignature
 from django.template import RequestContext
 from django.contrib.auth.models import User
@@ -204,7 +205,8 @@ class QuickMapUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         kwargs.update({
             'action_url': reverse_lazy('map_update', args=[self.object.pk]),
-            'delete_url': reverse_lazy('map_delete', args=[self.object.pk])
+            'delete_url': reverse_lazy('map_delete', args=[self.object.pk]),
+            'clone_url': reverse_lazy('map_clone', args=[self.object.pk]),
         })
         return super(QuickMapUpdate, self).get_context_data(**kwargs)
 
@@ -470,6 +472,30 @@ class MapDelete(DeleteView):
             'action_url': reverse_lazy('map_delete', kwargs={'map_id': self.kwargs['map_id']})
         })
         return super(MapDelete, self).get_context_data(**kwargs)
+
+
+class MapClone(View):
+
+    def get(self, *args, **kwargs):
+        owner = self.request.user if self.request.user.is_authenticated() else None
+        self.object = kwargs['map_inst'].clone(owner=owner)
+        response = simple_json_response(redirect=self.object.get_absolute_url())
+        if not self.request.user.is_authenticated():
+            key, value = self.object.signed_cookie_elements
+            response.set_signed_cookie(key, value)
+            anonymous_url = "%s%s" % (
+                settings.SITE_URL,
+                self.object.get_anonymous_edit_url()
+            )
+            msg = _(
+                "Your map has been cloned! If you want to edit this map from "
+                "another computer, please use this link: %(anonymous_url)s"
+                % {"anonymous_url": anonymous_url}
+            )
+        else:
+            msg = _("Congratulations, your map has been cloned!")
+        messages.info(self.request, msg)
+        return response
 
 
 class MapShortUrl(RedirectView):

@@ -171,6 +171,19 @@ class Map(NamedModel):
     def get_tilelayer(self):
         return self.tilelayer or TileLayer.get_default()
 
+    def clone(self, **kwargs):
+        new = self.__class__.objects.get(pk=self.pk)
+        new.pk = None
+        if "owner" in kwargs:
+            # can be None in case of anonymous cloning
+            new.owner = kwargs["owner"]
+        new.save()
+        for editor in self.editors.all():
+            new.editors.add(editor)
+        for datalayer in self.datalayer_set.all():
+            datalayer.clone(map_inst=new)
+        return new
+
 
 class Pictogram(NamedModel):
     """
@@ -264,6 +277,16 @@ class DataLayer(NamedModel, IconConfigMixin):
             display_on_load=True
         )
 
+    def clone(self, map_inst=None):
+        new = self.__class__.objects.get(pk=self.pk)
+        new.pk = None
+        if map_inst:
+            new.map = map_inst
+        new.save()
+        for feature in self.features:
+            feature.clone(datalayer=new)
+        return new
+
 
 class BaseFeature(NamedModel):
 
@@ -286,6 +309,14 @@ class BaseFeature(NamedModel):
     @property
     def color(self):
         return self.options['color'] if 'color' in self.options else None
+
+    def clone(self, datalayer=None):
+        new = self.__class__.objects.get(pk=self.pk)
+        new.pk = None
+        if datalayer:
+            new.datalayer = datalayer
+        new.save()
+        return new
 
     class Meta:
         abstract = True

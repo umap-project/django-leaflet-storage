@@ -2,7 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 
 from leaflet_storage.models import Marker, Map, DataLayer
 from .base import BaseTest, UserFactory, MarkerFactory, DataLayerFactory,\
-                  PolygonFactory, PolylineFactory
+                  PolygonFactory, PolylineFactory, MapFactory
 
 
 class MapModel(BaseTest):
@@ -43,6 +43,46 @@ class MapModel(BaseTest):
         self.map.editors.add(editor)
         self.map.save()
         self.assertTrue(self.map.can_edit(editor))
+
+    def test_clone_should_return_new_instance(self):
+        clone = self.map.clone()
+        self.assertNotEqual(self.map.pk, clone.pk)
+        self.assertEqual(self.map.name, clone.name)
+        self.assertEqual(self.map.settings, clone.settings)
+        self.assertEqual(self.map.center, clone.center)
+        self.assertEqual(self.map.zoom, clone.zoom)
+        self.assertEqual(self.map.licence, clone.licence)
+        self.assertEqual(self.map.tilelayer, clone.tilelayer)
+
+    def test_clone_should_keep_editors(self):
+        editor = UserFactory(username="Mark")
+        self.map.editors.add(editor)
+        clone = self.map.clone()
+        self.assertNotEqual(self.map.pk, clone.pk)
+        self.assertIn(editor, self.map.editors.all())
+        self.assertIn(editor, clone.editors.all())
+
+    def test_clone_should_update_owner_if_passer(self):
+        new_owner = UserFactory(username="Mark")
+        clone = self.map.clone(owner=new_owner)
+        self.assertNotEqual(self.map.pk, clone.pk)
+        self.assertNotEqual(self.map.owner, clone.owner)
+        self.assertEqual(new_owner, clone.owner)
+
+    def test_clone_should_clone_datalayers_and_features_too(self):
+        marker = MarkerFactory(datalayer=self.datalayer)
+        clone = self.map.clone()
+        self.assertNotEqual(self.map.pk, clone.pk)
+        self.assertEqual(self.map.datalayer_set.count(), 1)
+        datalayer = clone.datalayer_set.all()[0]
+        self.assertIn(self.datalayer, self.map.datalayer_set.all())
+        self.assertNotEqual(self.datalayer.pk, datalayer.pk)
+        self.assertEqual(self.datalayer.name, datalayer.name)
+        self.assertEqual(len(datalayer.features), 1)
+        new_marker = datalayer.features[0]
+        self.assertNotEqual(marker.pk, new_marker.pk)
+        self.assertEqual(marker.name, new_marker.name)
+        self.assertEqual(marker.options, new_marker.options)
 
 
 class LicenceModel(BaseTest):
@@ -85,3 +125,47 @@ class DataLayerModel(BaseTest):
             list(self.datalayer.features),
             [f1, f2, f3, f4]
         )
+
+    def test_clone_should_return_new_instance(self):
+        clone = self.datalayer.clone()
+        self.assertNotEqual(self.datalayer.pk, clone.pk)
+        self.assertEqual(self.datalayer.name, clone.name)
+        self.assertEqual(self.datalayer.map, clone.map)
+
+    def test_clone_should_update_map_if_passed(self):
+        new_map = MapFactory(owner=self.user, licence=self.licence)
+        clone = self.datalayer.clone(map_inst=new_map)
+        self.assertNotEqual(self.datalayer.pk, clone.pk)
+        self.assertEqual(self.datalayer.name, clone.name)
+        self.assertNotEqual(self.datalayer.map, clone.map)
+        self.assertEqual(new_map, clone.map)
+
+    def test_clone_should_clone_features_too(self):
+        marker = MarkerFactory(datalayer=self.datalayer)
+        clone = self.datalayer.clone()
+        self.assertNotEqual(self.datalayer.pk, clone.pk)
+        self.assertEqual(len(clone.features), 1)
+        cloned_marker = clone.features[0]
+        self.assertNotEqual(marker.pk, cloned_marker.pk)
+        self.assertEqual(marker.name, cloned_marker.name)
+
+
+class MarkerModel(BaseTest):
+
+    def test_clone_should_return_new_instance(self):
+        original = MarkerFactory(datalayer=self.datalayer)
+        clone = original.clone()
+        self.assertNotEqual(original.pk, clone.pk)
+        self.assertEqual(original.name, clone.name)
+        self.assertEqual(original.datalayer, clone.datalayer)
+        self.assertEqual(original.latlng, clone.latlng)
+
+    def test_clone_should_update_datalayer_if_passed(self):
+        datalayer = DataLayerFactory(map=self.map)
+        original = MarkerFactory(datalayer=self.datalayer)
+        clone = original.clone(datalayer=datalayer)
+        self.assertNotEqual(original.pk, clone.pk)
+        self.assertNotEqual(original.datalayer, clone.datalayer)
+        self.assertEqual(datalayer, clone.datalayer)
+        self.assertEqual(original.name, clone.name)
+        self.assertEqual(original.latlng, clone.latlng)
