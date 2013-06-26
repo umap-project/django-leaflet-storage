@@ -477,6 +477,9 @@ class MapDelete(DeleteView):
 class MapClone(View):
 
     def get(self, *args, **kwargs):
+        if not getattr(settings, "LEAFLET_STORAGE_ALLOW_ANONYMOUS", False) \
+           and not self.request.user.is_authenticated():
+            return HttpResponseForbidden('Forbidden')
         owner = self.request.user if self.request.user.is_authenticated() else None
         self.object = kwargs['map_inst'].clone(owner=owner)
         response = simple_json_response(redirect=self.object.get_absolute_url())

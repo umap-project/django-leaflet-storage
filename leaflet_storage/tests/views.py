@@ -119,6 +119,50 @@ class MapViews(BaseTest):
         response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=301)
 
+    def test_clone_map_should_create_a_new_instance(self):
+        self.assertEqual(Map.objects.count(), 1)
+        url = reverse('map_clone', kwargs={'map_id': self.map.pk})
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Map.objects.count(), 2)
+        clone = Map.objects.latest('pk')
+        self.assertNotEqual(clone.pk, self.map.pk)
+        self.assertEqual(clone.name, self.map.name)
+
+    def test_clone_map_should_not_be_possible_if_user_is_not_allowed(self):
+        self.assertEqual(Map.objects.count(), 1)
+        url = reverse('map_clone', kwargs={'map_id': self.map.pk})
+        self.map.edit_status = self.map.OWNER
+        self.map.save()
+        response = self.client.get(url)
+        self.assertLoginRequired(response)
+        other_user = UserFactory(username="Bob", password="123123")
+        self.client.login(username=other_user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        self.map.edit_status = self.map.ANONYMOUS
+        self.map.save()
+        self.client.logout()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Map.objects.count(), 1)
+
+    def test_clone_should_set_cloner_as_owner(self):
+        url = reverse('map_clone', kwargs={'map_id': self.map.pk})
+        other_user = UserFactory(username="Bob", password="123123")
+        self.map.edit_status = self.map.EDITORS
+        self.map.editors.add(other_user)
+        self.map.save()
+        self.client.login(username=other_user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Map.objects.count(), 2)
+        clone = Map.objects.latest('pk')
+        self.assertNotEqual(clone.pk, self.map.pk)
+        self.assertEqual(clone.name, self.map.name)
+        self.assertEqual(clone.owner, other_user)
+
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=True)
 class AnonymousMapViews(BaseTest):
@@ -241,6 +285,32 @@ class AnonymousMapViews(BaseTest):
         updated_map = Map.objects.get(pk=self.anonymous_map.pk)
         self.assertEqual(json['redirect'], updated_map.get_absolute_url())
         self.assertEqual(updated_map.owner.pk, self.user.pk)
+
+    def test_clone_map_should_not_be_possible_if_user_is_not_allowed(self):
+        self.assertEqual(Map.objects.count(), 2)
+        url = reverse('map_clone', kwargs={'map_id': self.map.pk})
+        self.map.edit_status = self.map.OWNER
+        self.map.save()
+        response = self.client.get(url)
+        self.assertLoginRequired(response)
+        other_user = UserFactory(username="Bob", password="123123")
+        self.client.login(username=other_user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Map.objects.count(), 2)
+
+    def test_clone_map_should_be_possible_if_edit_status_is_anonnymous(self):
+        self.assertEqual(Map.objects.count(), 2)
+        url = reverse('map_clone', kwargs={'map_id': self.map.pk})
+        self.map.edit_status = self.map.ANONYMOUS
+        self.map.save()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Map.objects.count(), 3)
+        clone = Map.objects.latest('pk')
+        self.assertNotEqual(clone.pk, self.map.pk)
+        self.assertEqual(clone.name, self.map.name)
+        self.assertEqual(clone.owner, None)
 
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)
