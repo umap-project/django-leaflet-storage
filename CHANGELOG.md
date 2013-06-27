@@ -9,6 +9,8 @@
 - smarter encoding management at import
 - smarter errors management at import
 - handle other delimiters than just comma for CSV import
+- Spanish translation, thanks to @ikks
+- map clone possibility
 
 ## 0.3.0
 - handle anonymous map creation
