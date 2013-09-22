@@ -25,7 +25,7 @@ from django.http import HttpResponse, HttpResponseForbidden, Http404, HttpRespon
 from vectorformats.formats import django, geojson
 
 from .models import (Map, Marker, DataLayer, Polyline, TileLayer,
-                     Polygon, Pictogram)
+                     Polygon, Pictogram, Licence)
 from .utils import get_uri_template, smart_decode
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, DataLayerForm,
                     UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
@@ -101,8 +101,18 @@ class MapView(DetailView):
         map_settings['datalayers'] = datalayer_data
         map_settings['urls'] = _urls_for_js()
         map_settings['tilelayers'] = TileLayer.get_list(selected=self.object.get_tilelayer())
+        map_settings['tilelayer'] = self.object.get_tilelayer().json
         map_settings['name'] = self.object.name
         map_settings['description'] = self.object.description
+        if hasattr(settings, 'SHORT_SITE_URL'):
+            short_url_name = getattr(settings, 'MAP_SHORT_URL_NAME', 'map_short_url')
+            short_path = reverse_lazy(short_url_name, kwargs={'pk': self.object.pk})
+            map_settings['shortUrl'] = "%s%s" % (settings.SHORT_SITE_URL, short_path)
+
+        site_url = (settings.SHORT_SITE_URL if hasattr(settings, 'SHORT_SITE_URL')
+                   else settings.SITE_URL if hasattr(settings, 'SITE_URL')
+                   else 'http://%s' % self.request.META['HTTP_HOST'])
+
         if settings.USE_I18N:
             locale = settings.LANGUAGE_CODE
             # Check attr in case the middleware is not active
@@ -129,6 +139,8 @@ class MapView(DetailView):
         map_settings['center'] = simplejson.loads(self.object.center.geojson)
         map_settings['storage_id'] = self.object.pk
         map_settings['zoom'] = self.object.zoom
+        map_settings['licences'] = dict((l.name, l.json) for l in Licence.objects.all())
+        map_settings['licence'] = self.object.licence.json
         if map_settings['locateOnLoad']:
             map_settings['locate'] = {
                 'setView': True,
@@ -748,28 +760,19 @@ class PolygonGeoJSON(FeatureGeoJSON):
 #    DataLayer   #
 # ############## #
 
+class DataLayerView(BaseDetailView, GeoJSONMixin):
+    model = DataLayer
+
+    def render_to_response(self, context, **response_kwargs):
+        return HttpResponse(simplejson.dumps(self.object.to_geojson()))
+
+
 class DataLayerCreate(CreateView):
     model = DataLayer
     form_class = DataLayerForm
 
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-    def get_context_data(self, **kwargs):
-        kwargs.update({
-            'action_url': reverse_lazy('datalayer_add', kwargs={'map_id': self.kwargs['map_id']})
-        })
-        return super(DataLayerCreate, self).get_context_data(**kwargs)
-
-    def get_initial(self):
-        initial = super(DataLayerCreate, self).get_initial()
-        map_inst = self.kwargs['map_inst']
-        initial.update({
-            "map": map_inst
-        })
-        return initial
-
     def form_valid(self, form):
+        form.instance.map = self.kwargs['map_inst']
         self.object = form.save()
         return simple_json_response(datalayer=self.object.json)
 
@@ -778,16 +781,6 @@ class DataLayerUpdate(UpdateView):
     model = DataLayer
     form_class = DataLayerForm
 
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-    def get_context_data(self, **kwargs):
-        kwargs.update({
-            'action_url': reverse_lazy('datalayer_update', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk}),
-            'delete_url': reverse_lazy('datalayer_delete', kwargs={'map_id': self.kwargs['map_id'], 'pk': self.object.pk})
-        })
-        return super(DataLayerUpdate, self).get_context_data(**kwargs)
-
     def form_valid(self, form):
         self.object = form.save()
         return simple_json_response(datalayer=self.object.json)
@@ -795,9 +788,6 @@ class DataLayerUpdate(UpdateView):
 
 class DataLayerDelete(DeleteView):
     model = DataLayer
-
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
 
     def delete(self, *args, **kwargs):
         self.object = self.get_object()

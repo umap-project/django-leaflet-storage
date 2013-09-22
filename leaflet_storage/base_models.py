@@ -46,6 +46,13 @@ class Licence(NamedModel):
             name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_LICENCE_NAME", ugettext('No licence set'))
         )[0]
 
+    @property
+    def json(self):
+        return {
+            'name': self.name,
+            'url': self.details
+        }
+
 
 class TileLayer(NamedModel):
     url_template = models.CharField(
@@ -240,6 +247,7 @@ class DataLayer(NamedModel, IconConfigMixin):
         verbose_name=_("description")
     )
     options = DictField(blank=True, null=True, verbose_name=_("options"))
+    data = DictField(blank=True, null=True)
     display_on_load = models.BooleanField(
         default=False,
         verbose_name=_("display on load"),
@@ -248,13 +256,24 @@ class DataLayer(NamedModel, IconConfigMixin):
 
     @property
     def json(self):
-        return {
-            "name": self.name,
-            "pk": self.pk,
-            "pictogram_url": self.pictogram.pictogram.url if self.pictogram else None,
-            "icon_class": self.icon_class,
-            "display_on_load": self.display_on_load,
-            "options": self.options,
+        if '_storage' in self.data:
+            data = self.data['_storage']
+        else:
+            data = self.options
+        data['pk'] = self.pk
+        if not "name" in data:
+            data['name'] = self.name
+        return data
+
+    def to_geojson(self):
+        # this method is transitional
+        return self.data or {
+            'type': 'FeatureCollection',
+            'features': [f.to_geojson() for f in self.features],
+            '_storage': {
+                'id': self.pk,
+                'name': self.name
+            }
         }
 
     @property
@@ -317,6 +336,23 @@ class BaseFeature(NamedModel):
             new.datalayer = datalayer
         new.save()
         return new
+
+    def to_geojson(self):
+        # transitional method
+        options = self.options
+        options.update({'icon': self.icon})
+        return {
+            'type': 'Feature',
+            'geometry': {
+                'type': self.latlng.geom_type,
+                'coordinates': self.latlng.coords
+            },
+            'properties': {
+                'name': self.name,
+                'description': self.description,
+                '_storage_options': options
+            }
+        }
 
     class Meta:
         abstract = True

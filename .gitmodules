@@ -19,3 +19,12 @@
 [submodule "leaflet_storage/static/i18n"]
 	path = leaflet_storage/static/i18n
 	url = git://github.com/yohanboniface/Leaflet.i18n.git
+[submodule "leaflet_storage/static/csv2geojson"]
+	path = leaflet_storage/static/csv2geojson
+	url = https://github.com/mapbox/csv2geojson.git
+[submodule "leaflet_storage/static/togeojson"]
+	path = leaflet_storage/static/togeojson
+	url = https://github.com/mapbox/togeojson.git
+[submodule "leaflet_storage/static/osmtogeojson"]
+	path = leaflet_storage/static/osmtogeojson
+	url = https://github.com/aaronlidman/osm-and-geojson.git

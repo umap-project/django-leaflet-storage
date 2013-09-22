@@ -286,21 +286,28 @@ class PathStyleMixin(forms.ModelForm):
     )
 
 
-class DataLayerForm(OptionsForm, PathStyleMixin):
+# class DataLayerForm(OptionsForm, PathStyleMixin):
 
-    options_color = forms.CharField(
-        required=False,
-        label=_('color'),
-        help_text=_("Must be a CSS valid name (eg.: DarkBlue or #123456)")
-    )
+#     options_color = forms.CharField(
+#         required=False,
+#         label=_('color'),
+#         help_text=_("Must be a CSS valid name (eg.: DarkBlue or #123456)")
+#     )
+
+#     class Meta:
+#         model = DataLayer
+#         widgets = {
+#             "map": forms.HiddenInput(),
+#             "icon_class": forms.HiddenInput(),
+#             "pictogram": forms.HiddenInput()
+#         }
+
+
+class DataLayerForm(forms.ModelForm):
 
     class Meta:
         model = DataLayer
-        widgets = {
-            "map": forms.HiddenInput(),
-            "icon_class": forms.HiddenInput(),
-            "pictogram": forms.HiddenInput()
-        }
+        fields = ('data', 'name')
 
 
 class FeatureForm(OptionsForm):
