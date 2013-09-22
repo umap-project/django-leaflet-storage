@@ -774,7 +774,7 @@ class DataLayerCreate(CreateView):
     def form_valid(self, form):
         form.instance.map = self.kwargs['map_inst']
         self.object = form.save()
-        return simple_json_response(datalayer=self.object.json)
+        return simple_json_response(**self.object.json)
 
 
 class DataLayerUpdate(UpdateView):
@@ -783,7 +783,7 @@ class DataLayerUpdate(UpdateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return simple_json_response(datalayer=self.object.json)
+        return simple_json_response(**self.object.json)
 
 
 class DataLayerDelete(DeleteView):
