@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.views import login
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.cache import never_cache
 
 from . import views
@@ -12,7 +12,6 @@ urlpatterns = patterns('',
     url(r'^login/$', jsonize_view(login), name='login'),
     url(r'^login/popup/end/$', views.LoginPopupEnd.as_view(), name='login_popup_end'),
     url(r'^logout/$', views.logout, name='logout'),
-    url(r'^map/(?P<slug>[-_\w]+)_(?P<pk>\d+)$', views.MapView.as_view(), name='map'),
     url(r'^map/(?P<username>[-_\w]+)/(?P<slug>[-_\w]+)/$', views.MapOldUrl.as_view(), name='map_old_url'),
     url(r'^map/anonymous-edit/(?P<signature>.+)$', views.MapAnonymousEditUrl.as_view(), name='map_anonymous_edit_url'),
     url(r'^m/(?P<pk>\d+)/$', views.MapShortUrl.as_view(), name='map_short_url'),
@@ -29,12 +28,16 @@ urlpatterns = patterns('',
     url(r'^pictogram/json/$', views.PictogramJSONList.as_view(), name='pictogram_list_json'),
     url(r'^map/(?P<map_id>[\d]+)/export/data/$', views.DownloadData.as_view(), name='download_data'),
 )
+urlpatterns += decorated_patterns('', [ensure_csrf_cookie, ],
+    url(r'^map/(?P<slug>[-_\w]+)_(?P<pk>\d+)$', views.MapView.as_view(), name='map'),
+    url(r'^map/new/$', views.MapNew.as_view(), name='map_new'),
+)
 urlpatterns += decorated_patterns('', [login_required_if_not_anonymous_allowed, never_cache, ],
-    url(r'^map/add/$', views.QuickMapCreate.as_view(), name='map_add'),
+    url(r'^map/create/$', views.MapCreate.as_view(), name='map_create'),
 )
 urlpatterns += decorated_patterns('', [map_permissions_check, never_cache, ],
     url(r'^map/(?P<map_id>[\d]+)/update/metadata/$', views.QuickMapUpdate.as_view(), name='map_update'),
-    url(r'^map/(?P<map_id>[\d]+)/update/settings/$', views.UpdateMapSettings.as_view(), name='map_update_settings'),
+    url(r'^map/(?P<map_id>[\d]+)/update/settings/$', views.MapUpdate.as_view(), name='map_update'),
     url(r'^map/(?P<map_id>[\d]+)/update/extent/$', csrf_exempt(views.UpdateMapExtent.as_view()), name='map_update_extent'),
     url(r'^map/(?P<map_id>[\d]+)/update/tilelayer/$', csrf_exempt(views.UpdateMapTileLayer.as_view()), name='map_update_tilelayer'),
     url(r'^map/(?P<map_id>[\d]+)/update/permissions/$', views.UpdateMapPermissions.as_view(), name='map_update_permissions'),

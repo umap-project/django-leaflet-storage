@@ -10,9 +10,9 @@ from vectorformats.formats import geojson, kml, gpx, csv
 
 from .models import Map, DataLayer, Polyline, Polygon, Marker
 
-DEFAULT_lATITUDE = settings.LEAFLET_LATITUDE if hasattr(settings, "LEAFLET_LATITUDE") else 51
+DEFAULT_LATITUDE = settings.LEAFLET_LATITUDE if hasattr(settings, "LEAFLET_LATITUDE") else 51
 DEFAULT_LONGITUDE = settings.LEAFLET_LONGITUDE if hasattr(settings, "LEAFLET_LONGITUDE") else 2
-DEFAULT_CENTER = Point(DEFAULT_LONGITUDE, DEFAULT_lATITUDE)
+DEFAULT_CENTER = Point(DEFAULT_LONGITUDE, DEFAULT_LATITUDE)
 
 
 class PlaceholderForm(forms.ModelForm):
@@ -355,35 +355,49 @@ class MarkerForm(FeatureForm):
         }
 
 
-class MapSettingsForm(forms.Form):
+class MapSettingsForm(forms.ModelForm):
 
-    SETTINGS = (
-        # name, help_text, default
-        ("locateControl", _("Do you want to display the locate control?"), True),
-        ("jumpToLocationControl", _("Do you want to display the 'quick search' control?"), True),
-        ("homeControl", _("Do you want to display the 'back to home page' control?"), True),
-        ("embedControl", _("Do you want to display the embed control?"), True),
-        ("scaleControl", _("Do you want to display the scale control?"), True),
-        ("locateOnLoad", _("Do you want to locate user on load?"), False),
-        ("tileLayersControl", _("Do you want to display a tilelayer switcher?"), True),
-        ("displayCaptionOnLoad", _("Do you want to display map caption on load?"), False),
-        ("displayDataBrowserOnLoad", _("Do you want to display data browser on load?"), False),
-        ("displayPopupFooter", _("Do you want to display popup footer?"), False),
-        ("miniMap", _("Do you want to display a minimap?"), False),
-        ("scrollWheelZoom", _("Allow scroll wheel zoom?"), True),
-        ("editInOSMControl", _("Do you want to display control with links to edit in OSM?"), False),
-        ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
-        ("enablePolylineDraw", _("Do you want to enable Polyline drawing?"), True),
-        ("enablePolygonDraw", _("Do you want to enable Polygon drawing?"), True),
-    )
+    # SETTINGS = (
+    #     # name, help_text, default
+    #     ("locateControl", _("Do you want to display the locate control?"), True),
+    #     ("jumpToLocationControl", _("Do you want to display the 'quick search' control?"), True),
+    #     ("homeControl", _("Do you want to display the 'back to home page' control?"), True),
+    #     ("embedControl", _("Do you want to display the embed control?"), True),
+    #     ("scaleControl", _("Do you want to display the scale control?"), True),
+    #     ("locateOnLoad", _("Do you want to locate user on load?"), False),
+    #     ("tileLayersControl", _("Do you want to display a tilelayer switcher?"), True),
+    #     ("displayCaptionOnLoad", _("Do you want to display map caption on load?"), False),
+    #     ("displayDataBrowserOnLoad", _("Do you want to display data browser on load?"), False),
+    #     ("displayPopupFooter", _("Do you want to display popup footer?"), False),
+    #     ("miniMap", _("Do you want to display a minimap?"), False),
+    #     ("scrollWheelZoom", _("Allow scroll wheel zoom?"), True),
+    #     ("editInOSMControl", _("Do you want to display control with links to edit in OSM?"), False),
+    #     ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
+    #     ("enablePolylineDraw", _("Do you want to enable Polyline drawing?"), True),
+    #     ("enablePolygonDraw", _("Do you want to enable Polygon drawing?"), True),
+    # )
 
     def __init__(self, *args, **kwargs):
-        self.instance = kwargs.pop('instance')
         super(MapSettingsForm, self).__init__(*args, **kwargs)
-        for name, help_text, default in self.SETTINGS:
-            attrs = {
-                "required": False,
-                "help_text": help_text,
-                "initial": self.instance.settings[name] if name in self.instance.settings else default
-            }
-            self.fields[name] = forms.BooleanField(**attrs)
+        self.fields["slug"].required = False
+
+    def clean_slug(self):
+        slug = self.cleaned_data.get('slug', None)
+        name = self.cleaned_data.get('name', None)
+        if not slug and name:
+            # If name is empty, don't do nothing, validation will raise
+            # later on the process because name is required
+            self.cleaned_data['slug'] = slugify(name)
+            return self.cleaned_data['slug'][:50]
+        else:
+            return ""
+
+    def clean_center(self):
+        if not self.cleaned_data['center']:
+            point = DEFAULT_CENTER
+            self.cleaned_data['center'] = point
+        return self.cleaned_data['center']
+
+    class Meta:
+        fields = ('settings', 'name', 'center', 'slug')
+        model = Map

@@ -2,7 +2,7 @@ from django.utils import simplejson
 from django import template
 from django.conf import settings
 
-from ..models import DataLayer
+from ..models import DataLayer, TileLayer
 from ..views import _urls_for_js
 
 register = template.Library()
@@ -26,14 +26,36 @@ def leaflet_storage_js():
 def map_fragment(map_instance):
     layers = DataLayer.objects.filter(map=map_instance)
     datalayer_data = [c.json for c in layers]
-    tilelayer = map_instance.get_tilelayer().json
-    tilelayer['selected'] = True
-    return {
-        'map': map_instance,
-        'tilelayer': simplejson.dumps(tilelayer),
-        'datalayers': simplejson.dumps(datalayer_data),
-        'urls': simplejson.dumps(_urls_for_js()),
+    tilelayers = TileLayer.get_list()  # TODO: no need to all
+    map_settings = map_instance.settings
+    if not "properties" in map_settings:
+        map_settings['properties'] = {}
+    map_settings['properties'].update({
+        'tilelayers': tilelayers,
+        'datalayers': datalayer_data,
+        'urls': _urls_for_js(),
         'STATIC_URL': settings.STATIC_URL,
+        "allowEdit": False,
+        'hash': False,
+        'attributionControl': False,
+        'scrollWheelZoom': False,
+        'embedControl': False,
+        'datalayersControl': False,
+        'zoomControl': False,
+        'storageAttributionControl': False,
+        'homeControl': False,
+        'locateControl': False,
+        'jumpToLocationControl': False,
+        'editInOSMControl': False,
+        'scaleControl': False,
+        'miniMap': False,
+        'tilelayersControl': False,
+        'storage_id': map_instance.pk,
+        'default_iconUrl': "%sstorage/src/img/marker.png" % settings.STATIC_URL,
+    })
+    return {
+        "map_settings": simplejson.dumps(map_settings),
+        "map": map_instance
     }
 
 

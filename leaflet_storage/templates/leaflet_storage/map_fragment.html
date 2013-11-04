@@ -1,29 +1,4 @@
     <div id="map_{{ map.pk }}" class="map_fragment"></div>
     <script type="text/javascript">
-        map_fragment_settings = {
-            "storage_id": {{ map.pk }},
-            "center": {{ map.center.geojson|safe }},
-            "zoom": {{ map.zoom }},
-            "tilelayers": [{{ tilelayer|safe }}],
-            "tilelayer": {{ tilelayer|safe }},
-            "datalayers": {{ datalayers|safe }},
-            "urls": {{ urls|safe }},
-            "default_iconUrl": "{{ STATIC_URL }}storage/src/img/marker.png",
-            "allowEdit": false,
-            'hash': false,
-            'attributionControl': false,
-            'scrollWheelZoom': false,
-            'embedControl': false,
-            'datalayersControl': false,
-            'zoomControl': false,
-            'storageAttributionControl': false,
-            'homeControl': false,
-            'locateControl': false,
-            'jumpToLocationControl': false,
-            'editInOSMControl': false,
-            'scaleControl': false,
-            'miniMap': false,
-            'tilelayersControl': false
-        }
-        new L.Storage.Map("map_{{ map.pk }}", map_fragment_settings);
+        new L.Storage.Map("map_{{ map.pk }}", {{ map_settings|safe }});
     </script>

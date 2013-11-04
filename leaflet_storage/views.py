@@ -30,7 +30,8 @@ from .utils import get_uri_template, smart_decode
 from .forms import (QuickMapCreateForm, UpdateMapExtentForm, DataLayerForm,
                     UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
                     MarkerForm, PolygonForm, PolylineForm, AnonymousMapPermissionsForm,
-                    DownloadDataForm, UpdateMapTileLayerForm)
+                    DownloadDataForm, UpdateMapTileLayerForm, DEFAULT_LATITUDE, 
+                    DEFAULT_LONGITUDE)
 
 
 # ############## #
@@ -82,73 +83,168 @@ class GeoJSONMixin(object):
         return geoj.encode(djf.decode(qs), to_string=False)
 
 
-class MapView(DetailView):
+class FormLessEditMixin(object):
+
+    def form_invalid(self, form):
+        return simple_json_response(errors=form.errors, infos=_("An error occured."))
+
+
+
+class MapDetailMixin(object):
 
     model = Map
 
-    def get_int_from_request(self, key, fallback):
-        try:
-            output = int(self.request.GET[key])
-        except (ValueError, KeyError):
-            output = fallback
-        return output
-
     def get_context_data(self, **kwargs):
-        context = super(MapView, self).get_context_data(**kwargs)
-        map_settings = {}
-        datalayers = DataLayer.objects.filter(map=self.object)  # TODO manage state
-        datalayer_data = [l.json for l in datalayers]
-        map_settings['datalayers'] = datalayer_data
-        map_settings['urls'] = _urls_for_js()
-        map_settings['tilelayers'] = TileLayer.get_list(selected=self.object.get_tilelayer())
-        map_settings['tilelayer'] = self.object.get_tilelayer().json
-        map_settings['name'] = self.object.name
-        map_settings['description'] = self.object.description
-        if hasattr(settings, 'SHORT_SITE_URL'):
-            short_url_name = getattr(settings, 'MAP_SHORT_URL_NAME', 'map_short_url')
-            short_path = reverse_lazy(short_url_name, kwargs={'pk': self.object.pk})
-            map_settings['shortUrl'] = "%s%s" % (settings.SHORT_SITE_URL, short_path)
-
-        site_url = (settings.SHORT_SITE_URL if hasattr(settings, 'SHORT_SITE_URL')
-                   else settings.SITE_URL if hasattr(settings, 'SITE_URL')
-                   else 'http://%s' % self.request.META['HTTP_HOST'])
+        context = super(MapDetailMixin, self).get_context_data(**kwargs)
+        properties = {}
+        properties['datalayers'] = self.get_datalayers()
+        properties['urls'] = _urls_for_js()
+        properties['tilelayers'] = self.get_tilelayers()
+        # properties['name'] = self.object.name
+        # properties['description'] = self.object.description
+        if self.get_short_url():
+            properties['shortUrl'] = self.get_short_url()
 
         if settings.USE_I18N:
             locale = settings.LANGUAGE_CODE
             # Check attr in case the middleware is not active
             if hasattr(self.request, "LANGUAGE_CODE"):
                 locale = self.request.LANGUAGE_CODE
-            map_settings['locale'] = locale
-        if self.request.user.is_authenticated():
-            allow_edit = int(self.object.can_edit(self.request.user, self.request))
-        else:
-            # Default to 1: display buttons for anonymous, they can
-            # login from action process
-            allow_edit = 1
+            properties['locale'] = locale
         # Precedence to GET param
-        allow_edit = self.get_int_from_request("allowEdit", allow_edit)
-        map_settings['allowEdit'] = allow_edit
-        for name, label, default in MapSettingsForm.SETTINGS:
-            value = self.get_int_from_request(name, self.object.settings.get(name, default))
-            try:
-                value = int(value)
-            except ValueError:
-                value = default
-            map_settings[name] = value
-        map_settings["default_iconUrl"] = "%sstorage/src/img/marker.png" % settings.STATIC_URL
-        map_settings['center'] = simplejson.loads(self.object.center.geojson)
-        map_settings['storage_id'] = self.object.pk
-        map_settings['zoom'] = self.object.zoom
-        map_settings['licences'] = dict((l.name, l.json) for l in Licence.objects.all())
-        map_settings['licence'] = self.object.licence.json
-        if map_settings['locateOnLoad']:
-            map_settings['locate'] = {
-                'setView': True,
-                'enableHighAccuracy': True,
-                'timeout': 3000
-            }
+        # allow_edit = self.get_int_from_request("allowEdit", allow_edit) # TODO mv to js
+        properties['allowEdit'] = self.is_edit_allowed()
+        # for name, label, default in MapSettingsForm.SETTINGS:
+        #     value = self.get_int_from_request(name, self.object.settings.get(name, default))
+        #     try:
+        #         value = int(value)
+        #     except ValueError:
+        #         value = default
+        #     properties[name] = value
+        properties["default_iconUrl"] = "%sstorage/src/img/marker.png" % settings.STATIC_URL
+        # properties['center'] = simplejson.loads(self.object.center.geojson)
+        properties['storage_id'] = self.get_storage_id()
+        # properties['zoom'] = self.object.zoom
+        properties['licences'] = dict((l.name, l.json) for l in Licence.objects.all())
+        # properties['licence'] = self.object.licence.json
+        # if properties['locateOnLoad']:
+        #     properties['locate'] = {
+        #         'setView': True,
+        #         'enableHighAccuracy': True,
+        #         'timeout': 3000
+        #     }
+        map_settings = self.get_geojson()
+        if not "properties" in map_settings:
+            map_settings['properties'] = {}
+        map_settings['properties'].update(properties)
         context['map_settings'] = simplejson.dumps(map_settings)
         return context
+
+    def get_tilelayers(self):
+        return TileLayer.get_list(selected=TileLayer.get_default())
+
+    def get_datalayers(self):
+        return []
+
+    def is_edit_allowed(self):
+        return True
+
+    def get_storage_id(self):
+        return None
+
+    def get_geojson(self):
+        return {
+            "geometry": {
+                "coordinates": [DEFAULT_LONGITUDE, DEFAULT_LATITUDE],
+                "type": "Point"
+            }
+        }
+
+    def get_short_url(self):
+        return None
+
+
+class MapView(MapDetailMixin, DetailView):
+
+    def get_datalayers(self):
+        datalayers = DataLayer.objects.filter(map=self.object)  # TODO manage state
+        return [l.json for l in datalayers]
+
+    def get_tilelayers(self):
+        return TileLayer.get_list(selected=self.object.get_tilelayer())
+
+    def is_edit_allowed(self):
+        if self.request.user.is_authenticated():
+            allow_edit = self.object.can_edit(self.request.user, self.request)
+        else:
+            # Default to True: display buttons for anonymous, they can
+            # login from action process
+            allow_edit = True
+        return allow_edit
+
+    def get_storage_id(self):
+        return self.object.pk
+
+    def get_short_url(self):
+        shortUrl = None
+        if hasattr(settings, 'SHORT_SITE_URL'):
+            short_url_name = getattr(settings, 'MAP_SHORT_URL_NAME', 'map_short_url')
+            short_path = reverse_lazy(short_url_name, kwargs={'pk': self.object.pk})
+            shortUrl = "%s%s" % (settings.SHORT_SITE_URL, short_path)
+        return shortUrl
+
+    def get_geojson(self):
+        return self.object.settings
+
+
+class MapNew(MapDetailMixin, TemplateView):
+    template_name = "leaflet_storage/map_detail.html"
+
+
+class MapCreate(FormLessEditMixin, CreateView):
+    model = Map
+    form_class = MapSettingsForm
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated():
+            form.instance.owner = self.request.user
+        self.object = form.save()
+        if not self.request.user.is_authenticated():
+            anonymous_url = "%s%s" % (
+                settings.SITE_URL,
+                self.object.get_anonymous_edit_url()
+            )
+            msg = _(
+                "Your map has been created! If you want to edit this map from "
+                "another computer, please use this link: %(anonymous_url)s"
+                % {"anonymous_url": anonymous_url}
+            )
+        else:
+            msg = _("Congratulations, your map has been created!")
+        response = simple_json_response(
+            pk=self.object.pk,
+            url=self.object.get_absolute_url(),
+            info=msg
+        )
+        if not self.request.user.is_authenticated():
+            key, value = self.object.signed_cookie_elements
+            response.set_signed_cookie(key, value)
+        return response
+
+
+class MapUpdate(FormLessEditMixin, UpdateView):
+    model = Map
+    form_class = MapSettingsForm
+    pk_url_kwarg = 'map_id'
+
+    def form_valid(self, form):
+        self.object.settings = form.cleaned_data["settings"]
+        self.object.save()
+        return simple_json_response(
+            pk=self.object.pk,
+            url=self.object.get_absolute_url(),
+            info=_("Map has been updated!")
+        )
 
 
 class MapInfos(DetailView):
@@ -270,23 +366,6 @@ class UpdateMapPermissions(UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return simple_json_response(info=_("Map editors updated with success!"))
-
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-
-class UpdateMapSettings(UpdateView):
-    template_name = "leaflet_storage/map_update_settings.html"
-    model = Map
-    form_class = MapSettingsForm
-    pk_url_kwarg = 'map_id'
-
-    def form_valid(self, form):
-        self.object.settings = form.cleaned_data
-        self.object.save()
-        # We need to reload the page, to make the UI take into account the new
-        # settings
-        return simple_json_response(redirect=self.object.get_absolute_url())
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
