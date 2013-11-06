@@ -8,15 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'DataLayer.data'
-        db.add_column(u'leaflet_storage_datalayer', 'data',
-                      self.gf('leaflet_storage.fields.DictField')(null=True, blank=True),
+        # Adding field 'DataLayer.geojson'
+        db.add_column(u'leaflet_storage_datalayer', 'geojson',
+                      self.gf('django.db.models.fields.files.FileField')(max_length=100, null=True, blank=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Deleting field 'DataLayer.data'
-        db.delete_column(u'leaflet_storage_datalayer', 'data')
+        # Deleting field 'DataLayer.geojson'
+        db.delete_column(u'leaflet_storage_datalayer', 'geojson')
 
 
     models = {
@@ -58,9 +58,9 @@ class Migration(SchemaMigration):
         },
         u'leaflet_storage.datalayer': {
             'Meta': {'ordering': "('name',)", 'object_name': 'DataLayer'},
-            'data': ('leaflet_storage.fields.DictField', [], {'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             'display_on_load': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'geojson': ('django.db.models.fields.files.FileField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'icon_class': ('django.db.models.fields.CharField', [], {'max_length': '32', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'map': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['leaflet_storage.Map']"}),

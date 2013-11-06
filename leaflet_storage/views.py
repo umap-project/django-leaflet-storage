@@ -1,26 +1,29 @@
 # -*- coding:utf-8 -*-
 
+import os
 
 from django.conf import settings
-from django.db import transaction
 from django.contrib import messages
-from django.utils import simplejson
-from django.views.generic import View
-from django.core.signing import Signer, BadSignature
-from django.template import RequestContext
-from django.contrib.auth.models import User
-from django.views.generic import DetailView
-from django.shortcuts import get_object_or_404
-from django.contrib.gis.geos import GEOSGeometry
-from django.core.urlresolvers import reverse_lazy
-from django.utils.translation import ugettext as _
-from django.views.generic.list import BaseListView, ListView
 from django.contrib.auth import logout as do_logout
+from django.contrib.auth.models import User
+from django.contrib.gis.geos import GEOSGeometry
+from django.core.signing import Signer, BadSignature
+from django.core.urlresolvers import reverse_lazy
+from django.db import transaction
+from django.http import (HttpResponse, HttpResponseForbidden, Http404,
+                         HttpResponseRedirect, CompatibleStreamingHttpResponse)
+from django.shortcuts import get_object_or_404
+from django.template import RequestContext
 from django.template.loader import render_to_string
+from django.utils import simplejson
+from django.utils.translation import ugettext as _
+from django.views.generic import View
+from django.views.generic import DetailView
 from django.views.generic.detail import BaseDetailView
+from django.views.generic.list import BaseListView, ListView
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
-from django.http import HttpResponse, HttpResponseForbidden, Http404, HttpResponseRedirect
+from django.utils.http import http_date
 
 from vectorformats.formats import django, geojson
 
@@ -168,7 +171,7 @@ class MapView(MapDetailMixin, DetailView):
 
     def get_datalayers(self):
         datalayers = DataLayer.objects.filter(map=self.object)  # TODO manage state
-        return [l.json for l in datalayers]
+        return [l.metadata for l in datalayers]
 
     def get_tilelayers(self):
         return TileLayer.get_list(selected=self.object.get_tilelayer())
@@ -194,7 +197,7 @@ class MapView(MapDetailMixin, DetailView):
         return shortUrl
 
     def get_geojson(self):
-        return self.object.settings
+        return self.object.geojson
 
 
 class MapNew(MapDetailMixin, TemplateView):
@@ -843,7 +846,19 @@ class DataLayerView(BaseDetailView, GeoJSONMixin):
     model = DataLayer
 
     def render_to_response(self, context, **response_kwargs):
-        return HttpResponse(simplejson.dumps(self.object.to_geojson()))
+        if self.object.geojson:
+            path = self.object.geojson.path
+            statobj = os.stat(path)
+            # TODO IMS
+            response = CompatibleStreamingHttpResponse(
+                open(path, 'rb'),
+                content_type='application/json'
+            )
+            response["Last-Modified"] = http_date(statobj.st_mtime)
+            return response
+        else:
+            # transitional
+            return HttpResponse(simplejson.dumps(self.object.to_geojson()))
 
 
 class DataLayerCreate(CreateView):
@@ -853,7 +868,7 @@ class DataLayerCreate(CreateView):
     def form_valid(self, form):
         form.instance.map = self.kwargs['map_inst']
         self.object = form.save()
-        return simple_json_response(**self.object.json)
+        return simple_json_response(**self.object.metadata)
 
 
 class DataLayerUpdate(UpdateView):
@@ -862,7 +877,7 @@ class DataLayerUpdate(UpdateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return simple_json_response(**self.object.json)
+        return simple_json_response(**self.object.metadata)
 
 
 class DataLayerDelete(DeleteView):

@@ -1,6 +1,6 @@
 from django.core.urlresolvers import get_resolver
 from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
-from django.conf.urls.defaults import patterns
+from django.conf.urls import patterns
 
 from vectorformats.formats import django, geojson
 

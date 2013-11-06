@@ -25,9 +25,9 @@ def leaflet_storage_js():
 @register.inclusion_tag('leaflet_storage/map_fragment.html')
 def map_fragment(map_instance):
     layers = DataLayer.objects.filter(map=map_instance)
-    datalayer_data = [c.json for c in layers]
+    datalayer_data = [c.metadata for c in layers]
     tilelayers = TileLayer.get_list()  # TODO: no need to all
-    map_settings = map_instance.settings
+    map_settings = map_instance.geojson
     if not "properties" in map_settings:
         map_settings['properties'] = {}
     map_settings['properties'].update({

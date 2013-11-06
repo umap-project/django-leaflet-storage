@@ -307,7 +307,7 @@ class DataLayerForm(forms.ModelForm):
 
     class Meta:
         model = DataLayer
-        fields = ('data', 'name')
+        fields = ('geojson', 'name', 'display_on_load')
 
 
 class FeatureForm(OptionsForm):
@@ -356,26 +356,6 @@ class MarkerForm(FeatureForm):
 
 
 class MapSettingsForm(forms.ModelForm):
-
-    # SETTINGS = (
-    #     # name, help_text, default
-    #     ("locateControl", _("Do you want to display the locate control?"), True),
-    #     ("jumpToLocationControl", _("Do you want to display the 'quick search' control?"), True),
-    #     ("homeControl", _("Do you want to display the 'back to home page' control?"), True),
-    #     ("embedControl", _("Do you want to display the embed control?"), True),
-    #     ("scaleControl", _("Do you want to display the scale control?"), True),
-    #     ("locateOnLoad", _("Do you want to locate user on load?"), False),
-    #     ("tileLayersControl", _("Do you want to display a tilelayer switcher?"), True),
-    #     ("displayCaptionOnLoad", _("Do you want to display map caption on load?"), False),
-    #     ("displayDataBrowserOnLoad", _("Do you want to display data browser on load?"), False),
-    #     ("displayPopupFooter", _("Do you want to display popup footer?"), False),
-    #     ("miniMap", _("Do you want to display a minimap?"), False),
-    #     ("scrollWheelZoom", _("Allow scroll wheel zoom?"), True),
-    #     ("editInOSMControl", _("Do you want to display control with links to edit in OSM?"), False),
-    #     ("enableMarkerDraw", _("Do you want to enable Marker drawing?"), True),
-    #     ("enablePolylineDraw", _("Do you want to enable Polyline drawing?"), True),
-    #     ("enablePolygonDraw", _("Do you want to enable Polygon drawing?"), True),
-    # )
 
     def __init__(self, *args, **kwargs):
         super(MapSettingsForm, self).__init__(*args, **kwargs)

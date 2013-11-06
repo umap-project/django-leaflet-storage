@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import simplejson
+
 from itertools import chain
 
 from django.contrib.gis.db import models
@@ -10,6 +12,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.signing import Signer
 from django.contrib import messages
+from django.template.defaultfilters import slugify
 
 from .fields import DictField
 
@@ -126,6 +129,20 @@ class Map(NamedModel):
 
     objects = models.GeoManager()
 
+    @property
+    def geojson(self):
+        #transitional
+        settings = self.settings
+        if not "properties" in settings:
+            settings["properties"] = dict(self.settings)
+            settings['properties']['zoom'] = self.zoom
+            settings['properties']['name'] = self.name
+            settings['properties']['description'] = self.description
+            settings['properties']['tilelayer'] = self.tilelayer.json
+        if not "geometry" in settings:
+            settings["geometry"] = simplejson.loads(self.center.geojson)
+        return settings
+
     def get_absolute_url(self):
         return reverse("map", kwargs={'slug': self.slug, 'pk': self.pk})
 
@@ -235,11 +252,25 @@ class IconConfigMixin(models.Model):
     class Meta:
         abstract = True
 
+    @property
+    def icon(self):
+        # All the features are processed the same way by vectoformats
+        # so they need to share all exported properties
+        return {
+            "iconClass": self.icon_class,
+            "iconUrl": self.pictogram.pictogram.url if self.pictogram else None
+        }
+
 
 class DataLayer(NamedModel, IconConfigMixin):
     """
     Layer to store Features in.
     """
+    def upload_to(instance, filename):
+        return "datalayer/{map_id}/{name}".format(
+            map_id=instance.map.pk,
+            name=slugify(instance.name or "untitled")
+        )
     map = models.ForeignKey(Map)
     description = models.TextField(
         blank=True,
@@ -247,7 +278,7 @@ class DataLayer(NamedModel, IconConfigMixin):
         verbose_name=_("description")
     )
     options = DictField(blank=True, null=True, verbose_name=_("options"))
-    data = DictField(blank=True, null=True)
+    geojson = models.FileField(upload_to=upload_to, blank=True, null=True)
     display_on_load = models.BooleanField(
         default=False,
         verbose_name=_("display on load"),
@@ -255,25 +286,24 @@ class DataLayer(NamedModel, IconConfigMixin):
     )
 
     @property
-    def json(self):
-        if '_storage' in self.data:
-            data = self.data['_storage']
-        else:
-            data = self.options
-        data['pk'] = self.pk
-        if not "name" in data:
-            data['name'] = self.name
-        return data
+    def metadata(self):
+        return {
+            "name": self.name,
+            "id": self.pk,
+            "displayOnLoad": self.display_on_load
+        }
 
     def to_geojson(self):
         # this method is transitional
-        return self.data or {
+        data = self.options
+        data['id'] = self.pk
+        data['name'] = self.name
+        data['description'] = self.description
+        data.update(self.icon)
+        return {
             'type': 'FeatureCollection',
             'features': [f.to_geojson() for f in self.features],
-            '_storage': {
-                'id': self.pk,
-                'name': self.name
-            }
+            '_storage': data
         }
 
     @property
@@ -339,19 +369,19 @@ class BaseFeature(NamedModel):
 
     def to_geojson(self):
         # transitional method
-        options = self.options
-        options.update({'icon': self.icon})
+        properties = self.options
+        properties.update({
+            'name': self.name,
+            'description': self.description,
+        })
+        properties.update(self.icon)
         return {
             'type': 'Feature',
             'geometry': {
                 'type': self.latlng.geom_type,
                 'coordinates': self.latlng.coords
             },
-            'properties': {
-                'name': self.name,
-                'description': self.description,
-                '_storage_options': options
-            }
+            'properties': properties
         }
 
     class Meta:
@@ -363,15 +393,6 @@ class AbstractMarker(BaseFeature, IconConfigMixin):
     Point of interest.
     """
     latlng = models.PointField(geography=True)
-
-    @property
-    def icon(self):
-        # All the features are processed the same way by vectoformats
-        # so they need to share all exported properties
-        return {
-            "class": self.icon_class,
-            "url": self.pictogram.pictogram.url if self.pictogram else None
-        }
 
     class Meta:
         abstract = True
