@@ -6,11 +6,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout as do_logout
 from django.contrib.auth.models import User
-from django.contrib.gis.geos import GEOSGeometry
 from django.core.signing import Signer, BadSignature
 from django.core.urlresolvers import reverse_lazy
-from django.db import transaction
-from django.http import (HttpResponse, HttpResponseForbidden, Http404,
+from django.http import (HttpResponse, HttpResponseForbidden,
                          HttpResponseRedirect, CompatibleStreamingHttpResponse)
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
@@ -20,20 +18,17 @@ from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic import DetailView
 from django.views.generic.detail import BaseDetailView
-from django.views.generic.list import BaseListView, ListView
+from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView, RedirectView
-from django.views.generic.edit import CreateView, UpdateView, FormView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.http import http_date
 
 from vectorformats.formats import django, geojson
 
-from .models import (Map, Marker, DataLayer, Polyline, TileLayer,
-                     Polygon, Pictogram, Licence)
-from .utils import get_uri_template, smart_decode
-from .forms import (QuickMapCreateForm, UpdateMapExtentForm, DataLayerForm,
-                    UploadDataForm, UpdateMapPermissionsForm, MapSettingsForm,
-                    MarkerForm, PolygonForm, PolylineForm, AnonymousMapPermissionsForm,
-                    DownloadDataForm, UpdateMapTileLayerForm, DEFAULT_LATITUDE, 
+from .models import Map, DataLayer, TileLayer, Pictogram, Licence
+from .utils import get_uri_template
+from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
+                    AnonymousMapPermissionsForm, DEFAULT_LATITUDE,
                     DEFAULT_LONGITUDE)
 
 
@@ -250,104 +245,6 @@ class MapUpdate(FormLessEditMixin, UpdateView):
         )
 
 
-class MapInfos(DetailView):
-    model = Map
-    template_name = "leaflet_storage/map_infos.html"
-    pk_url_kwarg = 'map_id'
-
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-
-class QuickMapCreate(CreateView):
-    model = Map
-    form_class = QuickMapCreateForm
-
-    def form_valid(self, form):
-        """
-        Provide default values, to keep form simple.
-        """
-        if self.request.user.is_authenticated():
-            form.instance.owner = self.request.user
-        form.instance.tilelayer = TileLayer.get_default()
-        self.object = form.save()
-        DataLayer.create_default(self.object)
-        response = simple_json_response(redirect=self.get_success_url())
-        if not self.request.user.is_authenticated():
-            key, value = self.object.signed_cookie_elements
-            response.set_signed_cookie(key, value)
-            anonymous_url = "%s%s" % (
-                settings.SITE_URL,
-                self.object.get_anonymous_edit_url()
-            )
-            msg = _(
-                "Your map has been created! If you want to edit this map from "
-                "another computer, please use this link: %(anonymous_url)s"
-                % {"anonymous_url": anonymous_url}
-            )
-        else:
-            msg = _("Congratulations, your map has been created! To start editing, click on the pen icon.")
-        messages.info(self.request, msg)
-        return response
-
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-    def get_context_data(self, **kwargs):
-        kwargs.update({
-            'action_url': reverse_lazy('map_add')
-        })
-        return super(QuickMapCreate, self).get_context_data(**kwargs)
-
-
-# TODO: factorize with QuickCreate!
-class QuickMapUpdate(UpdateView):
-    model = Map
-    form_class = QuickMapCreateForm
-    pk_url_kwarg = 'map_id'
-
-    def form_valid(self, form):
-        self.object = form.save()
-        return simple_json_response(redirect=self.get_success_url())
-
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-    def get_context_data(self, **kwargs):
-        kwargs.update({
-            'action_url': reverse_lazy('map_update', args=[self.object.pk]),
-            'delete_url': reverse_lazy('map_delete', args=[self.object.pk]),
-            'clone_url': reverse_lazy('map_clone', args=[self.object.pk]),
-        })
-        return super(QuickMapUpdate, self).get_context_data(**kwargs)
-
-
-class UpdateMapExtent(UpdateView):
-    model = Map
-    form_class = UpdateMapExtentForm
-    pk_url_kwarg = 'map_id'
-
-    def form_invalid(self, form):
-        return simple_json_response(info=form.errors)
-
-    def form_valid(self, form):
-        self.object = form.save()
-        return simple_json_response(info=_("Zoom and center updated with success!"))
-
-
-class UpdateMapTileLayer(UpdateView):
-    model = Map
-    form_class = UpdateMapTileLayerForm
-    pk_url_kwarg = 'map_id'
-
-    def form_invalid(self, form):
-        return simple_json_response(info=form.errors)
-
-    def form_valid(self, form):
-        self.object = form.save()
-        return simple_json_response(info=_("Map background updated with success!"))
-
-
 class UpdateMapPermissions(UpdateView):
     template_name = "leaflet_storage/map_update_permissions.html"
     model = Map
@@ -369,179 +266,6 @@ class UpdateMapPermissions(UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return simple_json_response(info=_("Map editors updated with success!"))
-
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-
-class UploadData(FormView):
-    template_name = "leaflet_storage/upload_form.html"
-    form_class = UploadDataForm
-    pk_url_kwarg = 'map_id'
-
-    def get_form(self, form_class):
-        form = super(UploadData, self).get_form(form_class)
-        map_inst = self.kwargs['map_inst']
-        form.fields['datalayer'].queryset = DataLayer.objects.filter(map=map_inst)
-        return form
-
-    def get_context_data(self, **kwargs):
-        kwargs.update({
-            'action_url': reverse_lazy('upload_data', kwargs={'map_id': self.kwargs['map_id']})
-        })
-        return super(UploadData, self).get_context_data(**kwargs)
-
-    @transaction.commit_manually
-    def form_valid(self, form):
-        FEATURE_TO_MODEL = {
-            'Point': Marker,
-            'LineString': Polyline,
-            'Polygon': Polygon
-        }
-        # Use a tuple to add more sources possible
-        # first item is field name
-        FIELDS = [
-            ('name', 'title', ),
-            ('description', 'desc', 'text', ),
-            ('color', 'hexcolor', )
-        ]
-        features = (form.cleaned_data.get('data_file')
-                   or form.cleaned_data.get('data_url')
-                   or form.cleaned_data.get('data_raw'))
-        datalayer = form.cleaned_data.get('datalayer')
-        counter = 0
-        for feature in features:
-            sid = transaction.savepoint()
-            klass = FEATURE_TO_MODEL.get(feature.geometry['type'], None)
-            if not klass:
-                continue  # TODO notify user
-            # Remove altitude, if there
-            try:
-                if feature.geometry['type'] == "LineString":
-                    feature.geometry['coordinates'] = map(
-                        lambda x: x[:2],
-                        feature.geometry['coordinates']
-                    )
-                elif feature.geometry['type'] == "Point":
-                    feature.geometry['coordinates'] = feature.geometry['coordinates'][:2]
-                elif feature.geometry['type'] == "Polygon":
-                    feature.geometry['coordinates'] = map(
-                        lambda x: map(lambda y: y[:2], x),
-                        feature.geometry['coordinates']
-                    )
-            except Exception:
-                continue
-            try:
-                latlng = GEOSGeometry(simplejson.dumps(feature.geometry))
-            except Exception:
-                continue  # TODO notify user
-            if latlng.empty:
-                continue  # TODO notify user
-            kwargs = {
-                'latlng': latlng,
-                'datalayer': datalayer,
-                'name': datalayer.name  # Default
-            }
-            for field in FIELDS:
-                if isinstance(field, tuple):
-                    name = field[0]
-                    candidates = field
-                else:
-                    name = field
-                    candidates = [field]
-                for candidate in candidates:
-                    if candidate in feature.properties:
-                        value = feature.properties[candidate]
-                        if not value:
-                            continue
-                        value = smart_decode(value)
-                        if name in klass._meta.get_all_field_names():
-                            kwargs[name] = value
-                        else:
-                            # it's an option
-                            if not "options" in kwargs:
-                                kwargs['options'] = {}
-                            kwargs['options'][name] = value
-                        break
-            try:
-                klass.objects.create(**kwargs)
-            except Exception:
-                transaction.savepoint_rollback(sid)
-                continue  # TODO notify user
-            else:
-                transaction.savepoint_commit(sid)
-            counter += 1
-        transaction.commit()
-        if counter:
-            kwargs = {
-                'datalayer': datalayer.json,
-                'info': _("%d features created!") % counter,
-            }
-        else:
-            kwargs = {
-                'error': _("No valid feature has been found :("),
-            }
-        return simple_json_response(**kwargs)
-
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
-
-class DownloadData(GeoJSONMixin, DetailView):
-
-    model = Map
-    pk_url_kwarg = 'map_id'
-    geojson_fields = ['name', 'datalayer_id', 'options', 'icon', 'description', 'color']
-
-    def get_queryset(self):
-        features = []
-        for datalayer in self.object.datalayer_set.all():
-            features += datalayer.features
-        return features
-
-    def get_object(self):
-        return get_object_or_404(Map, pk=self.kwargs[self.pk_url_kwarg])
-
-    def render_to_response(self, context):
-        response = simple_json_response(**self.geojson(context))
-        response['Content-Type'] = "application/json"
-        response['Content-Disposition'] = 'attachment; filename="features.json"'
-        return response
-
-
-class EmbedMap(DetailView):
-    model = Map
-    template_name = "leaflet_storage/map_embed.html"
-    pk_url_kwarg = 'map_id'
-
-    def get_context_data(self, **kwargs):
-        site_url = (settings.SHORT_SITE_URL if hasattr(settings, 'SHORT_SITE_URL')
-                   else settings.SITE_URL if hasattr(settings, 'SITE_URL')
-                   else 'http://%s' % self.request.META['HTTP_HOST'])
-        iframe_url = map_url = '%s%s' % (site_url, self.object.get_absolute_url())
-        qs_kwargs = {
-            'allowEdit': 0,
-            'embedControl': 0,
-            'homeControl': 0,
-            'locateControl': 0,
-            'jumpToLocationControl': 0,
-            'editInOSMControl': 0,
-            'scaleControl': 0,
-            'miniMap': 0,
-            'tileLayersControl': 0,
-            'scrollWheelZoom': 0,
-        }
-        query_string = "&".join("%s=%s" % (k, v) for k, v in qs_kwargs.iteritems())
-        iframe_url = "%s?%s" % (iframe_url, query_string)
-        short_url_name = getattr(settings, 'MAP_SHORT_URL_NAME', 'map_short_url')
-        map_short_url = "%s%s" % (site_url, reverse_lazy(short_url_name, kwargs={'pk': self.object.pk}))
-        kwargs.update({
-            'map_url': map_url,
-            'iframe_url': iframe_url,
-            'map_short_url': map_short_url,
-            'download_form': DownloadDataForm()
-        })
-        return super(EmbedMap, self).get_context_data(**kwargs)
 
     def render_to_response(self, context, **response_kwargs):
         return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
