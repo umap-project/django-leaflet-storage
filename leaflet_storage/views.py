@@ -220,7 +220,7 @@ class MapCreate(FormLessEditMixin, CreateView):
         else:
             msg = _("Congratulations, your map has been created!")
         response = simple_json_response(
-            pk=self.object.pk,
+            id=self.object.pk,
             url=self.object.get_absolute_url(),
             info=msg
         )
@@ -239,7 +239,7 @@ class MapUpdate(FormLessEditMixin, UpdateView):
         self.object.settings = form.cleaned_data["settings"]
         self.object.save()
         return simple_json_response(
-            pk=self.object.pk,
+            id=self.object.pk,
             url=self.object.get_absolute_url(),
             info=_("Map has been updated!")
         )

@@ -10,19 +10,19 @@ from leaflet_storage.models import Map, TileLayer, Licence, DataLayer, Marker, P
 from leaflet_storage.forms import DEFAULT_CENTER
 
 
-class LicenceFactory(factory.Factory):
+class LicenceFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Licence
     name = "WTFPL"
 
 
-class TileLayerFactory(factory.Factory):
+class TileLayerFactory(factory.DjangoModelFactory):
     FACTORY_FOR = TileLayer
     name = "Test zoom layer"
     url_template = "http://{s}.test.org/{z}/{x}/{y}.png"
     attribution = "Test layer attribution"
 
 
-class UserFactory(factory.Factory):
+class UserFactory(factory.DjangoModelFactory):
     FACTORY_FOR = User
     username = 'Joe'
     email = factory.LazyAttribute(lambda a: '{0}@example.com'.format(a.username).lower())
@@ -38,24 +38,53 @@ class UserFactory(factory.Factory):
         return user
 
 
-class MapFactory(factory.Factory):
+class MapFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Map
     name = "test map"
     slug = "test-map"
     center = DEFAULT_CENTER
+    settings = {
+        'geometry': {
+            'coordinates': [13.447265624999998, 48.94415123418794],
+            'type': 'Point'
+        },
+        'properties': {
+            'datalayersControl': True,
+            'description': 'Which is just the Danube, at the end, I mean, JUST THE DANUBE',
+            'displayCaptionOnLoad': False,
+            'displayDataBrowserOnLoad': False,
+            'displayPopupFooter': False,
+            'licence': '',
+            'miniMap': False,
+            'moreControl': True,
+            'name': 'Cruising on the Donau',
+            'scaleControl': True,
+            'tilelayer': {
+                'attribution': u'\xa9 OSM Contributors - tiles OpenRiverboatMap',
+                'maxZoom': 18,
+                'minZoom': 0,
+                'url_template': 'http://{s}.layers.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png'
+            },
+            'tilelayersControl': True,
+            'zoom': 7,
+            'zoomControl': True},
+            'type': 'Feature'
+        }
+
     licence = factory.SubFactory(LicenceFactory)
     owner = factory.SubFactory(UserFactory)
 
 
-class DataLayerFactory(factory.Factory):
+class DataLayerFactory(factory.DjangoModelFactory):
     FACTORY_FOR = DataLayer
     map = factory.SubFactory(MapFactory)
     name = "test datalayer"
     description = "test description"
     display_on_load = True
+    geojson = factory.django.FileField(data="""{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[13.68896484375,48.55297816440071]},"properties":{"_storage_options":{"color":"DarkCyan","iconClass":"Ball"},"name":"Here","description":"Da place anonymous again 755"}}],"_storage":{"displayOnLoad":true,"name":"Donau","id":926}}""")
 
 
-class BaseFeatureFactory(factory.Factory):
+class BaseFeatureFactory(factory.DjangoModelFactory):
     ABSTRACT_FACTORY = True
     name = "test feature"
     description = "test description"

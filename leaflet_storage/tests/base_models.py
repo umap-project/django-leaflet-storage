@@ -70,7 +70,6 @@ class MapModel(BaseTest):
         self.assertEqual(new_owner, clone.owner)
 
     def test_clone_should_clone_datalayers_and_features_too(self):
-        marker = MarkerFactory(datalayer=self.datalayer)
         clone = self.map.clone()
         self.assertNotEqual(self.map.pk, clone.pk)
         self.assertEqual(self.map.datalayer_set.count(), 1)
@@ -78,11 +77,8 @@ class MapModel(BaseTest):
         self.assertIn(self.datalayer, self.map.datalayer_set.all())
         self.assertNotEqual(self.datalayer.pk, datalayer.pk)
         self.assertEqual(self.datalayer.name, datalayer.name)
-        self.assertEqual(len(datalayer.features), 1)
-        new_marker = datalayer.features[0]
-        self.assertNotEqual(marker.pk, new_marker.pk)
-        self.assertEqual(marker.name, new_marker.name)
-        self.assertEqual(marker.options, new_marker.options)
+        self.assertIsNotNone(datalayer.geojson)
+        self.assertNotEqual(datalayer.geojson.path, self.datalayer.geojson.path)
 
 
 class LicenceModel(BaseTest):
@@ -98,14 +94,6 @@ class LicenceModel(BaseTest):
 
 class DataLayerModel(BaseTest):
 
-    def test_features_should_be_locally_cached(self):
-        MarkerFactory(datalayer=self.datalayer)
-        MarkerFactory(datalayer=self.datalayer)
-        MarkerFactory(datalayer=self.datalayer)
-        self.datalayer.features
-        with self.assertNumQueries(0):
-            self.datalayer.features
-
     def test_datalayers_should_be_ordered_by_name(self):
         c4 = DataLayerFactory(map=self.map, name="eeeeeee")
         c1 = DataLayerFactory(map=self.map, name="1111111")
@@ -114,16 +102,6 @@ class DataLayerModel(BaseTest):
         self.assertEqual(
             list(self.map.datalayer_set.all()),
             [c1, c2, c3, c4, self.datalayer]
-        )
-
-    def test_features_should_be_mixed_and_ordered_by_name(self):
-        f4 = MarkerFactory(datalayer=self.datalayer, name="eeee")
-        f1 = PolygonFactory(datalayer=self.datalayer, name="1111")
-        f3 = PolylineFactory(datalayer=self.datalayer, name="cccc")
-        f2 = MarkerFactory(datalayer=self.datalayer, name="aaaa")
-        self.assertEqual(
-            list(self.datalayer.features),
-            [f1, f2, f3, f4]
         )
 
     def test_clone_should_return_new_instance(self):
@@ -140,32 +118,8 @@ class DataLayerModel(BaseTest):
         self.assertNotEqual(self.datalayer.map, clone.map)
         self.assertEqual(new_map, clone.map)
 
-    def test_clone_should_clone_features_too(self):
-        marker = MarkerFactory(datalayer=self.datalayer)
+    def test_clone_should_clone_geojson_too(self):
         clone = self.datalayer.clone()
         self.assertNotEqual(self.datalayer.pk, clone.pk)
-        self.assertEqual(len(clone.features), 1)
-        cloned_marker = clone.features[0]
-        self.assertNotEqual(marker.pk, cloned_marker.pk)
-        self.assertEqual(marker.name, cloned_marker.name)
-
-
-class MarkerModel(BaseTest):
-
-    def test_clone_should_return_new_instance(self):
-        original = MarkerFactory(datalayer=self.datalayer)
-        clone = original.clone()
-        self.assertNotEqual(original.pk, clone.pk)
-        self.assertEqual(original.name, clone.name)
-        self.assertEqual(original.datalayer, clone.datalayer)
-        self.assertEqual(original.latlng, clone.latlng)
-
-    def test_clone_should_update_datalayer_if_passed(self):
-        datalayer = DataLayerFactory(map=self.map)
-        original = MarkerFactory(datalayer=self.datalayer)
-        clone = original.clone(datalayer=datalayer)
-        self.assertNotEqual(original.pk, clone.pk)
-        self.assertNotEqual(original.datalayer, clone.datalayer)
-        self.assertEqual(datalayer, clone.datalayer)
-        self.assertEqual(original.name, clone.name)
-        self.assertEqual(original.latlng, clone.latlng)
+        self.assertIsNotNone(clone.geojson)
+        self.assertNotEqual(clone.geojson.path, self.datalayer.geojson.path)
