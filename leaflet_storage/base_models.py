@@ -13,6 +13,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.signing import Signer
 from django.contrib import messages
 from django.template.defaultfilters import slugify
+from django.core.files.base import File
 
 from .fields import DictField
 
@@ -331,9 +332,8 @@ class DataLayer(NamedModel, IconConfigMixin):
         new.pk = None
         if map_inst:
             new.map = map_inst
+        new.geojson = File(new.geojson.file.file)
         new.save()
-        for feature in self.features:
-            feature.clone(datalayer=new)
         return new
 
 

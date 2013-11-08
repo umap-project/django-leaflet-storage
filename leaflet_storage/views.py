@@ -275,9 +275,6 @@ class MapDelete(DeleteView):
     model = Map
     pk_url_kwarg = "map_id"
 
-    def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
-
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
         if not self.request.user == self.object.owner:
@@ -285,16 +282,10 @@ class MapDelete(DeleteView):
         self.object.delete()
         return simple_json_response(redirect="/")
 
-    def get_context_data(self, **kwargs):
-        kwargs.update({
-            'action_url': reverse_lazy('map_delete', kwargs={'map_id': self.kwargs['map_id']})
-        })
-        return super(MapDelete, self).get_context_data(**kwargs)
-
 
 class MapClone(View):
 
-    def get(self, *args, **kwargs):
+    def post(self, *args, **kwargs):
         if not getattr(settings, "LEAFLET_STORAGE_ALLOW_ANONYMOUS", False) \
            and not self.request.user.is_authenticated():
             return HttpResponseForbidden('Forbidden')
