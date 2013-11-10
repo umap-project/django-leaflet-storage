@@ -369,7 +369,7 @@ class BaseFeature(NamedModel):
 
     def to_geojson(self):
         # transitional method
-        properties = self.options
+        properties = {'_storage_options': self.options}
         properties.update({
             'name': self.name,
             'description': self.description,
