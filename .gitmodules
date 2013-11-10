@@ -31,3 +31,6 @@
 [submodule "leaflet_storage/static/loading"]
 	path = leaflet_storage/static/loading
 	url = https://github.com/ebrelsford/Leaflet.loading.git
+[submodule "leaflet_storage/static/contextmenu"]
+	path = leaflet_storage/static/contextmenu
+	url = https://github.com/aratcliffe/Leaflet.contextmenu.git
