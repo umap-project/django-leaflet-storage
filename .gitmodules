@@ -28,3 +28,6 @@
 [submodule "leaflet_storage/static/osmtogeojson"]
 	path = leaflet_storage/static/osmtogeojson
 	url = https://github.com/aaronlidman/osm-and-geojson.git
+[submodule "leaflet_storage/static/loading"]
+	path = leaflet_storage/static/loading
+	url = https://github.com/ebrelsford/Leaflet.loading.git
