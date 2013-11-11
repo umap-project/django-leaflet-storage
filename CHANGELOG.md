@@ -1,6 +1,12 @@
 # django-leaflet-storage changelog
 
-## 0.4.x
+## 0.5.x
+- internal storage structure totally reviewed: datalayers are stored as geojson files,
+  instead of being split in features stored in PostGIS
+- upload and download moved to client side (see Leaflet.Storage)
+
+
+## 0.4.0
 - renamed internally category in datalayer
 - add a rank column to tilelayer to control their order in the tilelayer edit box
 - fix description that was not exported in the GeoJSON export
