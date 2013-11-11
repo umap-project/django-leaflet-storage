@@ -109,22 +109,12 @@ class MapDetailMixin(object):
             if hasattr(self.request, "LANGUAGE_CODE"):
                 locale = self.request.LANGUAGE_CODE
             properties['locale'] = locale
-        # Precedence to GET param
-        # allow_edit = self.get_int_from_request("allowEdit", allow_edit) # TODO mv to js
         properties['allowEdit'] = self.is_edit_allowed()
-        # for name, label, default in MapSettingsForm.SETTINGS:
-        #     value = self.get_int_from_request(name, self.object.settings.get(name, default))
-        #     try:
-        #         value = int(value)
-        #     except ValueError:
-        #         value = default
-        #     properties[name] = value
         properties["default_iconUrl"] = "%sstorage/src/img/marker.png" % settings.STATIC_URL
         # properties['center'] = simplejson.loads(self.object.center.geojson)
         properties['storage_id'] = self.get_storage_id()
         # properties['zoom'] = self.object.zoom
         properties['licences'] = dict((l.name, l.json) for l in Licence.objects.all())
-        # properties['licence'] = self.object.licence.json
         # if properties['locateOnLoad']:
         #     properties['locate'] = {
         #         'setView': True,
@@ -135,7 +125,7 @@ class MapDetailMixin(object):
         if not "properties" in map_settings:
             map_settings['properties'] = {}
         map_settings['properties'].update(properties)
-        context['map_settings'] = simplejson.dumps(map_settings)
+        context['map_settings'] = simplejson.dumps(map_settings, indent=settings.DEBUG)
         return context
 
     def get_tilelayers(self):

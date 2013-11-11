@@ -139,7 +139,10 @@ class Map(NamedModel):
             settings['properties']['zoom'] = self.zoom
             settings['properties']['name'] = self.name
             settings['properties']['description'] = self.description
-            settings['properties']['tilelayer'] = self.tilelayer.json
+            if self.tilelayer:
+                settings['properties']['tilelayer'] = self.tilelayer.json
+            if self.licence:
+                settings['properties']['licence'] = self.licence.json
         if not "geometry" in settings:
             settings["geometry"] = simplejson.loads(self.center.geojson)
         return settings
