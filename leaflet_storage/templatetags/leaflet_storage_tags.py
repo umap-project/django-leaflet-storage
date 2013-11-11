@@ -46,6 +46,8 @@ def map_fragment(map_instance):
         'scaleControl': False,
         'miniMap': False,
         'storage_id': map_instance.pk,
+        'displayDataBrowserOnLoad': False,
+        'displayCaptionOnLoad': False,
         'default_iconUrl': "%sstorage/src/img/marker.png" % settings.STATIC_URL,
     })
     return {
