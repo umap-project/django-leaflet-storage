@@ -370,11 +370,11 @@ class BaseFeature(NamedModel):
     def to_geojson(self):
         # transitional method
         properties = {'_storage_options': self.options}
+        properties['_storage_options'].update(self.icon)
         properties.update({
             'name': self.name,
             'description': self.description,
         })
-        properties.update(self.icon)
         return {
             'type': 'Feature',
             'geometry': {
@@ -388,7 +388,7 @@ class BaseFeature(NamedModel):
         abstract = True
 
 
-class AbstractMarker(BaseFeature, IconConfigMixin):
+class AbstractMarker(IconConfigMixin, BaseFeature):
     """
     Point of interest.
     """
