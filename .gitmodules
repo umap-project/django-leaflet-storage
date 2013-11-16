@@ -34,3 +34,6 @@
 [submodule "leaflet_storage/static/contextmenu"]
 	path = leaflet_storage/static/contextmenu
 	url = https://github.com/aratcliffe/Leaflet.contextmenu.git
+[submodule "leaflet_storage/static/markercluster"]
+	path = leaflet_storage/static/markercluster
+	url = https://github.com/Leaflet/Leaflet.markercluster.git
