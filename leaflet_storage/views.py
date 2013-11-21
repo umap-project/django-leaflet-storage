@@ -109,6 +109,7 @@ class MapDetailMixin(object):
             if hasattr(self.request, "LANGUAGE_CODE"):
                 locale = self.request.LANGUAGE_CODE
             properties['locale'] = locale
+            context['locale'] = locale
         properties['allowEdit'] = self.is_edit_allowed()
         properties["default_iconUrl"] = "%sstorage/src/img/marker.png" % settings.STATIC_URL
         # properties['center'] = simplejson.loads(self.object.center.geojson)

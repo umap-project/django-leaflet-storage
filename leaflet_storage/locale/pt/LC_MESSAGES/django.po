@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-27 00:19+0200\n"
+"POT-Creation-Date: 2013-11-21 22:36+0100\n"
 "PO-Revision-Date: 2013-03-10 20:00+0100\n"
 "Last-Translator: Francisco DOS SANTOS <f.dos.santos@free.fr>\n"
 "Language-Team: PT <LL@li.org>\n"
@@ -18,528 +18,187 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: base_models.py:18
+#: base_models.py:22
 msgid "name"
 msgstr "nome"
 
-#: base_models.py:33
+#: base_models.py:37
 msgid "details"
 msgstr "detalhes"
 
-#: base_models.py:34
+#: base_models.py:38
 msgid "Link to a page where the licence is detailed."
 msgstr "Link para uma página detalhando a licença."
 
-#: base_models.py:46
+#: base_models.py:50
 msgid "No licence set"
 msgstr "Nenhuma licença definida"
 
-#: base_models.py:53
+#: base_models.py:64
 msgid "URL template using OSM tile format"
 msgstr "Modelo d'URL no formato OSM"
 
-#: base_models.py:61
+#: base_models.py:72
 msgid "Order of the tilelayers in the edit box"
 msgstr ""
 
-#: base_models.py:97 forms.py:123
+#: base_models.py:108 forms.py:31
 msgid "Everyone can edit"
 msgstr "Todos podem editar"
 
-#: base_models.py:98
+#: base_models.py:109
 msgid "Only editors can edit"
 msgstr "Só editores podem editar"
 
-#: base_models.py:99
+#: base_models.py:110
 msgid "Only owner can edit"
 msgstr "Só o proprietário pode editar"
 
-#: base_models.py:102 base_models.py:240 base_models.py:296
+#: base_models.py:113 base_models.py:282 base_models.py:348
 msgid "description"
 msgstr "descrição"
 
-#: base_models.py:103
+#: base_models.py:114
 msgid "center"
 msgstr "centro"
 
-#: base_models.py:104
+#: base_models.py:115
 msgid "zoom"
 msgstr "zoom"
 
-#: base_models.py:105
+#: base_models.py:116
 msgid "locate"
 msgstr "localizar"
 
-#: base_models.py:105
+#: base_models.py:116
 msgid "Locate user on load?"
 msgstr "Localizar usuário de início?"
 
-#: base_models.py:108
+#: base_models.py:119
 msgid "Choose the map licence."
 msgstr "Escolha uma licença para o mapa."
 
-#: base_models.py:109
+#: base_models.py:120
 msgid "licence"
 msgstr "licença"
 
-#: base_models.py:114
+#: base_models.py:125
 msgid "background"
 msgstr ""
 
-#: base_models.py:115
+#: base_models.py:126
 msgid "owner"
 msgstr "proprietário"
 
-#: base_models.py:116
+#: base_models.py:127
 msgid "editors"
 msgstr "editores"
 
-#: base_models.py:117
+#: base_models.py:128
 msgid "edit status"
 msgstr "estado da edição"
 
-#: base_models.py:118
+#: base_models.py:129
 msgid "settings"
 msgstr "parâmetros"
 
-#: base_models.py:155
+#: base_models.py:183
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr ""
 
-#: base_models.py:217
+#: base_models.py:245
 msgid "pictogram"
 msgstr "pictograma"
 
-#: base_models.py:224
+#: base_models.py:252
 msgid "icon type"
 msgstr "tipo de ícone"
 
-#: base_models.py:225
+#: base_models.py:253
 msgid "Choose the style of the marker."
 msgstr "Escolha marco estilo."
 
-#: base_models.py:242 base_models.py:299
+#: base_models.py:284 base_models.py:351
 msgid "options"
 msgstr "opções"
 
-#: base_models.py:245
+#: base_models.py:288
 msgid "display on load"
 msgstr "mostrar de início"
 
-#: base_models.py:246
+#: base_models.py:289
 #, fuzzy
 msgid "Display this layer on load."
 msgstr "Mostrar esta categoria de início."
 
-#: base_models.py:276
+#: base_models.py:329
 msgid "Layer 1"
 msgstr ""
 
-#: base_models.py:298
+#: base_models.py:350
 msgid "layer"
 msgstr ""
 
-#: forms.py:119
+#: forms.py:27
 #, python-format
 msgid "Secret edit link is %s"
 msgstr ""
 
-#: forms.py:124
+#: forms.py:32
 msgid "Only editable with secret edit link"
 msgstr ""
 
-#: forms.py:150
-msgid "Content type"
-msgstr "Tipo do conteúdo"
-
-#: forms.py:151
-msgid "file"
-msgstr "ficheiro"
-
-#: forms.py:154
-msgid "URL"
-msgstr "URL"
-
-#: forms.py:155
-msgid "Supported values that will dynamically replaced: "
-msgstr "Valores que serão automaticamente substituídos: "
-
-#: forms.py:160
-msgid "Copy/paste"
+#: views.py:87
+msgid "An error occured."
 msgstr ""
 
-#: forms.py:163
-msgid "datalayer"
-msgstr "categoria"
-
-#: forms.py:183
-msgid "Unable to fetch content from URL."
-msgstr "Carregamento impossível do conteúdo deste URL."
-
-#: forms.py:203
-#, fuzzy
-msgid "You must provide one data source."
-msgstr "Tens que indicar URL ou um ficheiro."
-
-#: forms.py:216
-#, python-format
-msgid "Unsupported content_type: %s"
-msgstr "Conteúdo não reconhecido: %s"
-
-#: forms.py:221
-#, python-format
-msgid "Invalid %(content_type)s"
-msgstr "Ficheiro %(content_type)s inválido"
-
-#: forms.py:234
-msgid "Format"
-msgstr ""
-
-#: forms.py:240
-msgid "Path smooth factor"
-msgstr "Fator de simplificação"
-
-#: forms.py:241
-msgid ""
-"How much to simplify the polyline on each zoom level (more = better "
-"performance and smoother look, less = more accurate)"
-msgstr ""
-"Quantia de simplificação de linha para cada nível de zoom (mais = melhor "
-"desempenho e aspecto mais suave, menos = mais certo)"
-
-#: forms.py:248
-msgid "Path opacity"
-msgstr "Opacidade linha"
-
-#: forms.py:249
-msgid "Opacity, from 0.1 to 1.0 (opaque)."
-msgstr "Opacidade, de 0.1 até 1.0 (opaco)."
-
-#: forms.py:254
-msgid "Polygon stroke"
-msgstr "Traço polígono"
-
-#: forms.py:255
-msgid "Whether to display or not the Polygon path."
-msgstr "Desenhar ou não o contorno do polígono."
-
-#: forms.py:261
-msgid "Path weight"
-msgstr "Largura"
-
-#: forms.py:262
-msgid "Path weight in pixels. Max: 10."
-msgstr "Largura do traço em pixel. Max: 10."
-
-#: forms.py:267
-msgid "Path fill"
-msgstr "Preenchimento"
-
-#: forms.py:268
-msgid "Whether to fill the path with color."
-msgstr "Preencher com cor."
-
-#: forms.py:274
-msgid "Fill opacity"
-msgstr "Opacidade preenchimento"
-
-#: forms.py:275
-msgid "Fill opacity, from 0.1 to 1.0 (opaque)."
-msgstr "Opacidade do preenchimento, de 0.1 até 1.0 (opaco)."
-
-#: forms.py:279
-msgid "Fill color"
-msgstr "Cor preenchimento"
-
-#: forms.py:280
-msgid "Optional. Same as color if not set."
-msgstr "Opcional. Mesma cor se não definido."
-
-#: forms.py:284
-msgid "Dash array"
-msgstr "Traço tabela"
-
-#: forms.py:285
-msgid "A string that defines the stroke dash pattern. Ex.: '5, 10, 15'."
-msgstr "Definição das diversas longuras do traço. Ex.: '5, 10, 15'."
-
-#: forms.py:293 forms.py:310
-msgid "color"
-msgstr "cor"
-
-#: forms.py:294
-msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
-msgstr "Tem que ser um valor CSS válido (ex.: DarkBlue ou #123456)"
-
-#: forms.py:311
-#, fuzzy
-msgid "Optional. Layer color is used if not set."
-msgstr "Opcional. Cor da categoria se não definido."
-
-#: forms.py:355
-msgid "Do you want to display the locate control?"
-msgstr "Mostrar o controlo de localização?"
-
-#: forms.py:356
-msgid "Do you want to display the 'quick search' control?"
-msgstr "Mostrar o controlo de 'procura rapida'?"
-
-#: forms.py:357
-msgid "Do you want to display the 'back to home page' control?"
-msgstr "Mostrar o controlo 'voltar a página inicial'?"
-
-#: forms.py:358
-msgid "Do you want to display the embed control?"
-msgstr "Mostrar o controlo 'exportar'?"
-
-#: forms.py:359
-msgid "Do you want to display the scale control?"
-msgstr "Mostrar o controlo 'escala'?"
-
-#: forms.py:360
-msgid "Do you want to locate user on load?"
-msgstr "Localizar o usuário de início?"
-
-#: forms.py:361
-#, fuzzy
-msgid "Do you want to display a tilelayer switcher?"
-msgstr "Mostrar o controlo de localização?"
-
-#: forms.py:362
-#, fuzzy
-msgid "Do you want to display map caption on load?"
-msgstr "Mostrar um 'minimapa'?"
-
-#: forms.py:363
-#, fuzzy
-msgid "Do you want to display data browser on load?"
-msgstr "Mostrar um 'minimapa'?"
-
-#: forms.py:364
-#, fuzzy
-msgid "Do you want to display popup footer?"
-msgstr "Mostrar o controlo de localização?"
-
-#: forms.py:365
-msgid "Do you want to display a minimap?"
-msgstr "Mostrar um 'minimapa'?"
-
-#: forms.py:366
-msgid "Allow scroll wheel zoom?"
-msgstr ""
-
-#: forms.py:367
-msgid "Do you want to display control with links to edit in OSM?"
-msgstr "Mostrar o controlo com link para editar no OSM?"
-
-#: forms.py:368
-msgid "Do you want to enable Marker drawing?"
-msgstr "Ativar o colocamento de Marcos?"
-
-#: forms.py:369
-msgid "Do you want to enable Polyline drawing?"
-msgstr "Ativar o desenho de Linhas?"
-
-#: forms.py:370
-msgid "Do you want to enable Polygon drawing?"
-msgstr "Ativar o desenho de Polígonos?"
-
-#: views.py:173
+#: views.py:207
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:178
-msgid ""
-"Congratulations, your map has been created! To start editing, click on the "
-"pen icon."
+#: views.py:212
+msgid "Congratulations, your map has been created!"
 msgstr ""
 
-#: views.py:224
-msgid "Zoom and center updated with success!"
-msgstr "Zoom e centro foram atualizados com sucesso!"
+#: views.py:235
+msgid "Map has been updated!"
+msgstr ""
 
-#: views.py:237
-#, fuzzy
-msgid "Map background updated with success!"
-msgstr "Editores foram atualizados com sucesso!"
-
-#: views.py:260
+#: views.py:259
 msgid "Map editors updated with success!"
 msgstr "Editores foram atualizados com sucesso!"
 
-#: views.py:384
-#, python-format
-msgid "%d features created!"
-msgstr ""
-
-#: views.py:388
-msgid "No valid feature has been found :("
-msgstr ""
-
-#: views.py:466
+#: views.py:272
 msgid "Only its owner can delete the map."
 msgstr "Só o proprietário pode apagar o mapa."
 
-#: views.py:494
+#: views.py:294
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:499
+#: views.py:299
 msgid "Congratulations, your map has been cloned!"
 msgstr ""
 
-#. Translators: "feature" is a feature type: Marker, Polyline, Polygon
-#: views.py:654
-#, python-format
-msgid "%(feature)s successfully deleted."
-msgstr "Objeto %(feature)s foi apagado com sucesso."
-
-#: views.py:805
+#: views.py:400
 #, fuzzy
 msgid "Layer successfully deleted."
 msgstr "Categoria foi apagada com sucesso."
-
-#: templates/leaflet_storage/datalayer_confirm_delete.html:2
-#: templates/leaflet_storage/datalayer_form.html:7
-#: templates/leaflet_storage/feature_confirm_delete.html:2
-#: templates/leaflet_storage/feature_form.html:8
-#: templates/leaflet_storage/map_confirm_delete.html:2
-#: templates/leaflet_storage/map_form.html:12
-msgid "Delete"
-msgstr "Apagar"
-
-#: templates/leaflet_storage/datalayer_confirm_delete.html:4
-#, fuzzy, python-format
-msgid ""
-"This will also delete all the %(feature_count)s feature(s) of this datalayer."
-msgstr "Vai apagar os %(feature_count)s objeto(s) desta categoria."
-
-#: templates/leaflet_storage/datalayer_confirm_delete.html:9
-#: templates/leaflet_storage/feature_confirm_delete.html:6
-#: templates/leaflet_storage/map_confirm_delete.html:10
-msgid "yes"
-msgstr "sim"
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
 msgstr "Sucesso na identificação. Continuando..."
 
-#: templates/leaflet_storage/map_confirm_delete.html:4
-#, fuzzy, python-format
-msgid ""
-"This will also delete the %(datalayer_count)s layer(s) of this map and all "
-"their features."
-msgstr ""
-"Vai apagar as %(datalayer_count)s categoria(s) deste mapa e todos os seus "
-"objetos."
-
-#: templates/leaflet_storage/map_confirm_delete.html:6
-msgid "This action can't be cancelled."
-msgstr "Esta ação não pode ser cancelada."
-
-#: templates/leaflet_storage/map_embed.html:2
-msgid "Embed this map"
-msgstr "Exportar este mapa"
-
-#: templates/leaflet_storage/map_embed.html:3
-msgid "See full screen"
-msgstr ""
-
-#: templates/leaflet_storage/map_embed.html:4
-msgid "Short URL"
-msgstr "Mini URL"
-
-#: templates/leaflet_storage/map_embed.html:6
-msgid "Download map data"
-msgstr ""
-
-#: templates/leaflet_storage/map_embed.html:7
-#, python-format
-msgid ""
-"The data is published under the <a href=\"%(licence.details)s\">%(licence)s</"
-"a> licence. Please check it before using the data in your own projects."
-msgstr ""
-
-#: templates/leaflet_storage/map_embed.html:10
-msgid "Download"
-msgstr ""
-
-#: templates/leaflet_storage/map_form.html:6
-msgid ""
-"You are creating a map without being authenticated. A cookie will be set on "
-"this browser to make possible for you to edit the map in the future. If you "
-"want to edit the map from another computer, use the \"edit url\" displayed "
-"in the \"permissions\" window. If you log in and load the map, the map will "
-"be attached to your account."
-msgstr ""
-
-#: templates/leaflet_storage/map_form.html:9
-#, fuzzy
-msgid "Clone this map"
-msgstr "Exportar este mapa"
-
-#: templates/leaflet_storage/map_infos.html:8
-msgid "User content credits"
-msgstr "Créditos do conteúdo"
-
-#: templates/leaflet_storage/map_infos.html:9
-#, python-format
-msgid ""
-"Map user content has been published under licence <a href=\"%(url)s\">"
-"%(licence)s</a>"
-msgstr ""
-"O conteúdo do usuário está publicado em licença <a href=\"%(url)s\">"
-"%(licence)s</a>"
-
-#: templates/leaflet_storage/map_infos.html:10
-msgid "Tile layers credits"
-msgstr "Créditos do mapa de fundo"
-
-#: templates/leaflet_storage/map_infos.html:14
-#, fuzzy, python-format
-msgid ""
-"Powered by <a href=\"%(leaflet_url)s\">Leaflet</a> and <a href="
-"\"%(django_url)s\">Django</a>, glued by <a href=\"%(umap_url)s\">uMap "
-"project</a>."
-msgstr ""
-"Propulsado com <a href=\"%(leaflet_url)s\">Leaflet</a> e <a href="
-"\"%(django_url)s\">Django</a>, aglutinado com <a href=\"%(umap_url)s\">u"
-"{Map} projeto</a>."
-
 #: templates/leaflet_storage/map_update_permissions.html:2
 msgid "Map permissions"
 msgstr "Autorizações do mapa"
-
-#: templates/leaflet_storage/map_update_settings.html:2
-msgid "Map settings"
-msgstr "Parâmetros do mapa"
-
-#: templates/leaflet_storage/upload_form.html:2
-msgid "Upload features"
-msgstr "Carregar objetos"
-
-#: templates/leaflet_storage/upload_form.html:3
-msgid "Formats supported (more to come)"
-msgstr "Formatos reconhecidos (por enquanto)"
-
-#: templates/leaflet_storage/upload_form.html:4
-msgid "GeoJSON (properties used: name or title, description, color)"
-msgstr "GeoJSON (uso propriedade: name ou title, description, color)"
-
-#: templates/leaflet_storage/upload_form.html:5
-msgid "KML (properties used: name, description)"
-msgstr "KML (uso propriedade: name, description)"
-
-#: templates/leaflet_storage/upload_form.html:6
-msgid "GPX (properties used: name, desc)"
-msgstr "GPX (uso propriedade: name, desc)"
 
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"
@@ -548,6 +207,229 @@ msgstr "Identifica-se para continuar"
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
 msgstr "Nome de usuário e senha não correspondem. Tenta novamente."
+
+#~ msgid "Delete"
+#~ msgstr "Apagar"
+
+#, fuzzy
+#~ msgid ""
+#~ "This will also delete all the %(feature_count)s feature(s) of this "
+#~ "datalayer."
+#~ msgstr "Vai apagar os %(feature_count)s objeto(s) desta categoria."
+
+#~ msgid "yes"
+#~ msgstr "sim"
+
+#, fuzzy
+#~ msgid ""
+#~ "This will also delete the %(datalayer_count)s layer(s) of this map and "
+#~ "all their features."
+#~ msgstr ""
+#~ "Vai apagar as %(datalayer_count)s categoria(s) deste mapa e todos os seus "
+#~ "objetos."
+
+#~ msgid "This action can't be cancelled."
+#~ msgstr "Esta ação não pode ser cancelada."
+
+#~ msgid "Embed this map"
+#~ msgstr "Exportar este mapa"
+
+#~ msgid "Short URL"
+#~ msgstr "Mini URL"
+
+#, fuzzy
+#~ msgid "Clone this map"
+#~ msgstr "Exportar este mapa"
+
+#~ msgid "User content credits"
+#~ msgstr "Créditos do conteúdo"
+
+#~ msgid ""
+#~ "Map user content has been published under licence <a href=\"%(url)s\">"
+#~ "%(licence)s</a>"
+#~ msgstr ""
+#~ "O conteúdo do usuário está publicado em licença <a href=\"%(url)s\">"
+#~ "%(licence)s</a>"
+
+#~ msgid "Tile layers credits"
+#~ msgstr "Créditos do mapa de fundo"
+
+#, fuzzy
+#~ msgid ""
+#~ "Powered by <a href=\"%(leaflet_url)s\">Leaflet</a> and <a href="
+#~ "\"%(django_url)s\">Django</a>, glued by <a href=\"%(umap_url)s\">uMap "
+#~ "project</a>."
+#~ msgstr ""
+#~ "Propulsado com <a href=\"%(leaflet_url)s\">Leaflet</a> e <a href="
+#~ "\"%(django_url)s\">Django</a>, aglutinado com <a href=\"%(umap_url)s\">u"
+#~ "{Map} projeto</a>."
+
+#~ msgid "Map settings"
+#~ msgstr "Parâmetros do mapa"
+
+#~ msgid "Upload features"
+#~ msgstr "Carregar objetos"
+
+#~ msgid "Formats supported (more to come)"
+#~ msgstr "Formatos reconhecidos (por enquanto)"
+
+#~ msgid "GeoJSON (properties used: name or title, description, color)"
+#~ msgstr "GeoJSON (uso propriedade: name ou title, description, color)"
+
+#~ msgid "KML (properties used: name, description)"
+#~ msgstr "KML (uso propriedade: name, description)"
+
+#~ msgid "GPX (properties used: name, desc)"
+#~ msgstr "GPX (uso propriedade: name, desc)"
+
+#~ msgid "Content type"
+#~ msgstr "Tipo do conteúdo"
+
+#~ msgid "file"
+#~ msgstr "ficheiro"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Supported values that will dynamically replaced: "
+#~ msgstr "Valores que serão automaticamente substituídos: "
+
+#~ msgid "datalayer"
+#~ msgstr "categoria"
+
+#~ msgid "Unable to fetch content from URL."
+#~ msgstr "Carregamento impossível do conteúdo deste URL."
+
+#, fuzzy
+#~ msgid "You must provide one data source."
+#~ msgstr "Tens que indicar URL ou um ficheiro."
+
+#~ msgid "Unsupported content_type: %s"
+#~ msgstr "Conteúdo não reconhecido: %s"
+
+#~ msgid "Invalid %(content_type)s"
+#~ msgstr "Ficheiro %(content_type)s inválido"
+
+#~ msgid "Path smooth factor"
+#~ msgstr "Fator de simplificação"
+
+#~ msgid ""
+#~ "How much to simplify the polyline on each zoom level (more = better "
+#~ "performance and smoother look, less = more accurate)"
+#~ msgstr ""
+#~ "Quantia de simplificação de linha para cada nível de zoom (mais = melhor "
+#~ "desempenho e aspecto mais suave, menos = mais certo)"
+
+#~ msgid "Path opacity"
+#~ msgstr "Opacidade linha"
+
+#~ msgid "Opacity, from 0.1 to 1.0 (opaque)."
+#~ msgstr "Opacidade, de 0.1 até 1.0 (opaco)."
+
+#~ msgid "Polygon stroke"
+#~ msgstr "Traço polígono"
+
+#~ msgid "Whether to display or not the Polygon path."
+#~ msgstr "Desenhar ou não o contorno do polígono."
+
+#~ msgid "Path weight"
+#~ msgstr "Largura"
+
+#~ msgid "Path weight in pixels. Max: 10."
+#~ msgstr "Largura do traço em pixel. Max: 10."
+
+#~ msgid "Path fill"
+#~ msgstr "Preenchimento"
+
+#~ msgid "Whether to fill the path with color."
+#~ msgstr "Preencher com cor."
+
+#~ msgid "Fill opacity"
+#~ msgstr "Opacidade preenchimento"
+
+#~ msgid "Fill opacity, from 0.1 to 1.0 (opaque)."
+#~ msgstr "Opacidade do preenchimento, de 0.1 até 1.0 (opaco)."
+
+#~ msgid "Fill color"
+#~ msgstr "Cor preenchimento"
+
+#~ msgid "Optional. Same as color if not set."
+#~ msgstr "Opcional. Mesma cor se não definido."
+
+#~ msgid "Dash array"
+#~ msgstr "Traço tabela"
+
+#~ msgid "A string that defines the stroke dash pattern. Ex.: '5, 10, 15'."
+#~ msgstr "Definição das diversas longuras do traço. Ex.: '5, 10, 15'."
+
+#~ msgid "color"
+#~ msgstr "cor"
+
+#~ msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
+#~ msgstr "Tem que ser um valor CSS válido (ex.: DarkBlue ou #123456)"
+
+#, fuzzy
+#~ msgid "Optional. Layer color is used if not set."
+#~ msgstr "Opcional. Cor da categoria se não definido."
+
+#~ msgid "Do you want to display the locate control?"
+#~ msgstr "Mostrar o controlo de localização?"
+
+#~ msgid "Do you want to display the 'quick search' control?"
+#~ msgstr "Mostrar o controlo de 'procura rapida'?"
+
+#~ msgid "Do you want to display the 'back to home page' control?"
+#~ msgstr "Mostrar o controlo 'voltar a página inicial'?"
+
+#~ msgid "Do you want to display the embed control?"
+#~ msgstr "Mostrar o controlo 'exportar'?"
+
+#~ msgid "Do you want to display the scale control?"
+#~ msgstr "Mostrar o controlo 'escala'?"
+
+#~ msgid "Do you want to locate user on load?"
+#~ msgstr "Localizar o usuário de início?"
+
+#, fuzzy
+#~ msgid "Do you want to display a tilelayer switcher?"
+#~ msgstr "Mostrar o controlo de localização?"
+
+#, fuzzy
+#~ msgid "Do you want to display map caption on load?"
+#~ msgstr "Mostrar um 'minimapa'?"
+
+#, fuzzy
+#~ msgid "Do you want to display data browser on load?"
+#~ msgstr "Mostrar um 'minimapa'?"
+
+#, fuzzy
+#~ msgid "Do you want to display popup footer?"
+#~ msgstr "Mostrar o controlo de localização?"
+
+#~ msgid "Do you want to display a minimap?"
+#~ msgstr "Mostrar um 'minimapa'?"
+
+#~ msgid "Do you want to display control with links to edit in OSM?"
+#~ msgstr "Mostrar o controlo com link para editar no OSM?"
+
+#~ msgid "Do you want to enable Marker drawing?"
+#~ msgstr "Ativar o colocamento de Marcos?"
+
+#~ msgid "Do you want to enable Polyline drawing?"
+#~ msgstr "Ativar o desenho de Linhas?"
+
+#~ msgid "Do you want to enable Polygon drawing?"
+#~ msgstr "Ativar o desenho de Polígonos?"
+
+#~ msgid "Zoom and center updated with success!"
+#~ msgstr "Zoom e centro foram atualizados com sucesso!"
+
+#, fuzzy
+#~ msgid "Map background updated with success!"
+#~ msgstr "Editores foram atualizados com sucesso!"
+
+#~ msgid "%(feature)s successfully deleted."
+#~ msgstr "Objeto %(feature)s foi apagado com sucesso."
 
 #~ msgid "My data"
 #~ msgstr "Meus dados"

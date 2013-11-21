@@ -1,7 +1,0 @@
-{% load i18n %}
-<h5>{% trans "Delete" %} <em>{{ feature }}</em>?</h5>
-<form method="post" action="{{ action }}" id="feature_delete" onsubmit="return false;">
-    {% csrf_token %}
-    <input type="hidden" name="confirm" value="yes" />
-    <input type="submit" value="{% trans 'yes' %}" class="button" />
-</form>
