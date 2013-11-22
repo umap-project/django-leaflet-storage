@@ -20,7 +20,7 @@ msgstr ""
 
 #: base_models.py:22
 msgid "name"
-msgstr ""
+msgstr "naam"
 
 #: base_models.py:37
 msgid "details"
