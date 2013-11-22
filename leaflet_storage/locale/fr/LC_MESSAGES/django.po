@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-21 22:36+0100\n"
+"POT-Creation-Date: 2013-11-22 12:08+0100\n"
 "PO-Revision-Date: 2012-12-27 11:09+0100\n"
 "Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
 "Language-Team: FR <LL@li.org>\n"
@@ -55,7 +55,7 @@ msgstr "Seuls les éditeurs peuvent éditer"
 msgid "Only owner can edit"
 msgstr "Seul le créateur peut modifier"
 
-#: base_models.py:113 base_models.py:282 base_models.py:348
+#: base_models.py:113 base_models.py:283 base_models.py:349
 msgid "description"
 msgstr "description"
 
@@ -108,35 +108,39 @@ msgstr "réglages"
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "La carte a été associée à votre compte %s"
 
-#: base_models.py:245
+#: base_models.py:205
+msgid "Clone of"
+msgstr "Clone de"
+
+#: base_models.py:246
 msgid "pictogram"
 msgstr "picto"
 
-#: base_models.py:252
+#: base_models.py:253
 msgid "icon type"
 msgstr "Type d'icone"
 
-#: base_models.py:253
+#: base_models.py:254
 msgid "Choose the style of the marker."
 msgstr "Choisir le style du marqueur"
 
-#: base_models.py:284 base_models.py:351
+#: base_models.py:285 base_models.py:352
 msgid "options"
 msgstr "options"
 
-#: base_models.py:288
+#: base_models.py:289
 msgid "display on load"
 msgstr "afficher au chargement."
 
-#: base_models.py:289
+#: base_models.py:290
 msgid "Display this layer on load."
 msgstr "Afficher ce calque au chargement."
 
-#: base_models.py:329
+#: base_models.py:330
 msgid "Layer 1"
 msgstr "Calque 1"
 
-#: base_models.py:350
+#: base_models.py:351
 msgid "layer"
 msgstr "calque"
 
@@ -151,7 +155,7 @@ msgstr "Editable seulement avec le lien d'édition secret"
 
 #: views.py:87
 msgid "An error occured."
-msgstr ""
+msgstr "Une erreur est survenue."
 
 #: views.py:207
 #, python-format
@@ -169,7 +173,7 @@ msgstr "Votre carte a été dupliquée!"
 
 #: views.py:235
 msgid "Map has been updated!"
-msgstr ""
+msgstr "La carte a été mise à jour!"
 
 #: views.py:259
 msgid "Map editors updated with success!"

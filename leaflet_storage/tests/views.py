@@ -89,7 +89,7 @@ class MapViews(BaseTest):
         self.assertEqual(Map.objects.count(), 2)
         clone = Map.objects.latest('pk')
         self.assertNotEqual(clone.pk, self.map.pk)
-        self.assertEqual(clone.name, self.map.name)
+        self.assertEqual(clone.name, u"Clone of " + self.map.name)
 
     def test_clone_map_should_not_be_possible_if_user_is_not_allowed(self):
         self.assertEqual(Map.objects.count(), 1)
@@ -121,7 +121,7 @@ class MapViews(BaseTest):
         self.assertEqual(Map.objects.count(), 2)
         clone = Map.objects.latest('pk')
         self.assertNotEqual(clone.pk, self.map.pk)
-        self.assertEqual(clone.name, self.map.name)
+        self.assertEqual(clone.name, u"Clone of " + self.map.name)
         self.assertEqual(clone.owner, other_user)
 
 
@@ -249,7 +249,7 @@ class AnonymousMapViews(BaseTest):
         self.assertEqual(Map.objects.count(), 3)
         clone = Map.objects.latest('pk')
         self.assertNotEqual(clone.pk, self.map.pk)
-        self.assertEqual(clone.name, self.map.name)
+        self.assertEqual(clone.name, u"Clone of " + self.map.name)
         self.assertEqual(clone.owner, None)
 
 

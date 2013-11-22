@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-21 22:36+0100\n"
+"POT-Creation-Date: 2013-11-22 12:08+0100\n"
 "PO-Revision-Date: 2013-03-10 20:00+0100\n"
 "Last-Translator: Francisco DOS SANTOS <f.dos.santos@free.fr>\n"
 "Language-Team: PT <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr "Só editores podem editar"
 msgid "Only owner can edit"
 msgstr "Só o proprietário pode editar"
 
-#: base_models.py:113 base_models.py:282 base_models.py:348
+#: base_models.py:113 base_models.py:283 base_models.py:349
 msgid "description"
 msgstr "descrição"
 
@@ -107,36 +107,40 @@ msgstr "parâmetros"
 msgid "Your anonymous map has been attached to your account %s"
 msgstr ""
 
-#: base_models.py:245
+#: base_models.py:205
+msgid "Clone of"
+msgstr ""
+
+#: base_models.py:246
 msgid "pictogram"
 msgstr "pictograma"
 
-#: base_models.py:252
+#: base_models.py:253
 msgid "icon type"
 msgstr "tipo de ícone"
 
-#: base_models.py:253
+#: base_models.py:254
 msgid "Choose the style of the marker."
 msgstr "Escolha marco estilo."
 
-#: base_models.py:284 base_models.py:351
+#: base_models.py:285 base_models.py:352
 msgid "options"
 msgstr "opções"
 
-#: base_models.py:288
+#: base_models.py:289
 msgid "display on load"
 msgstr "mostrar de início"
 
-#: base_models.py:289
+#: base_models.py:290
 #, fuzzy
 msgid "Display this layer on load."
 msgstr "Mostrar esta categoria de início."
 
-#: base_models.py:329
+#: base_models.py:330
 msgid "Layer 1"
 msgstr ""
 
-#: base_models.py:350
+#: base_models.py:351
 msgid "layer"
 msgstr ""
 

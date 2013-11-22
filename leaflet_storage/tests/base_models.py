@@ -47,7 +47,7 @@ class MapModel(BaseTest):
     def test_clone_should_return_new_instance(self):
         clone = self.map.clone()
         self.assertNotEqual(self.map.pk, clone.pk)
-        self.assertEqual(self.map.name, clone.name)
+        self.assertEqual(u"Clone of " + self.map.name, clone.name)
         self.assertEqual(self.map.settings, clone.settings)
         self.assertEqual(self.map.center, clone.center)
         self.assertEqual(self.map.zoom, clone.zoom)

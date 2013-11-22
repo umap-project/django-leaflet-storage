@@ -202,6 +202,7 @@ class Map(NamedModel):
     def clone(self, **kwargs):
         new = self.__class__.objects.get(pk=self.pk)
         new.pk = None
+        new.name = u"%s %s" % (_("Clone of"), self.name)
         if "owner" in kwargs:
             # can be None in case of anonymous cloning
             new.owner = kwargs["owner"]

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-21 22:36+0100\n"
+"POT-Creation-Date: 2013-11-22 12:08+0100\n"
 "PO-Revision-Date: 2013-06-24 22:44-0500\n"
 "Last-Translator: Igor Támara <igor@tamarapatino.org>\n"
 "Language-Team: Traducción de umap al español\n"
@@ -53,7 +53,7 @@ msgstr "Solamente los editores pueden editar"
 msgid "Only owner can edit"
 msgstr "Solamente el propietario puede editar"
 
-#: base_models.py:113 base_models.py:282 base_models.py:348
+#: base_models.py:113 base_models.py:283 base_models.py:349
 msgid "description"
 msgstr "descripción"
 
@@ -106,35 +106,39 @@ msgstr "ajustes"
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "Tu mapa anónimo se ha adjuntado a tu cuenta %s"
 
-#: base_models.py:245
+#: base_models.py:205
+msgid "Clone of"
+msgstr ""
+
+#: base_models.py:246
 msgid "pictogram"
 msgstr "pictograma"
 
-#: base_models.py:252
+#: base_models.py:253
 msgid "icon type"
 msgstr "tipo de ícono"
 
-#: base_models.py:253
+#: base_models.py:254
 msgid "Choose the style of the marker."
 msgstr "Elegir el estilo del marcador."
 
-#: base_models.py:284 base_models.py:351
+#: base_models.py:285 base_models.py:352
 msgid "options"
 msgstr "opciones"
 
-#: base_models.py:288
+#: base_models.py:289
 msgid "display on load"
 msgstr "mostrar al cargar"
 
-#: base_models.py:289
+#: base_models.py:290
 msgid "Display this layer on load."
 msgstr "Mostrar esta capa al cargar."
 
-#: base_models.py:329
+#: base_models.py:330
 msgid "Layer 1"
 msgstr "Capa 1"
 
-#: base_models.py:350
+#: base_models.py:351
 msgid "layer"
 msgstr "capa"
 
