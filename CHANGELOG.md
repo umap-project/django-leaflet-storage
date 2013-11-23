@@ -4,6 +4,8 @@
 - internal storage structure totally reviewed: datalayers are stored as geojson files,
   instead of being split in features stored in PostGIS
 - upload and download moved to client side (see Leaflet.Storage)
+- cloned map name is now prefixed by "Clone of "
+- added Transifex config
 
 
 ## 0.4.0
