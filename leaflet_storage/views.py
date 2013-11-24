@@ -23,8 +23,6 @@ from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.http import http_date
 
-from vectorformats.formats import django, geojson
-
 from .models import Map, DataLayer, TileLayer, Pictogram, Licence
 from .utils import get_uri_template
 from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
@@ -69,16 +67,6 @@ def simple_json_response(**kwargs):
 # ############## #
 #      Map       #
 # ############## #
-
-class GeoJSONMixin(object):
-
-    geojson_fields = ['name', 'datalayer_id', 'options', 'icon']
-
-    def geojson(self, context):
-        qs = self.get_queryset()
-        djf = django.Django(geodjango="latlng", properties=self.geojson_fields)
-        geoj = geojson.GeoJSON()
-        return geoj.encode(djf.decode(qs), to_string=False)
 
 
 class FormLessEditMixin(object):
@@ -353,7 +341,7 @@ class MapAnonymousEditUrl(RedirectView):
 #    DataLayer   #
 # ############## #
 
-class DataLayerView(BaseDetailView, GeoJSONMixin):
+class DataLayerView(BaseDetailView):
     model = DataLayer
 
     def render_to_response(self, context, **response_kwargs):
