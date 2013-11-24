@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import simplejson
+import os
 
 from itertools import chain
 
@@ -272,10 +273,12 @@ class DataLayer(NamedModel, IconConfigMixin):
     Layer to store Features in.
     """
     def upload_to(instance, filename):
-        return "datalayer/{map_id}/{name}".format(
-            map_id=instance.map.pk,
-            name=slugify(instance.name or "untitled")
-        )
+        path = ["datalayer", str(instance.map.pk)[-1]]
+        if len(str(instance.map.pk)) > 1:
+            path.append(str(instance.map.pk)[-2])
+        path.append(str(instance.map.pk))
+        path.append("%s.geojson" % (slugify(instance.name) or "untitled"))
+        return os.path.join(*path)
     map = models.ForeignKey(Map)
     description = models.TextField(
         blank=True,

@@ -123,3 +123,19 @@ class DataLayerModel(BaseTest):
         self.assertNotEqual(self.datalayer.pk, clone.pk)
         self.assertIsNotNone(clone.geojson)
         self.assertNotEqual(clone.geojson.path, self.datalayer.geojson.path)
+
+    def test_upload_to_should_split_map_id(self):
+        self.map.pk = 302
+        self.datalayer.name = "a name"
+        self.assertEqual(
+            DataLayer.upload_to(self.datalayer, None),
+            "datalayer/2/0/302/a-name.geojson"
+        )
+
+    def test_upload_to_should_never_has_empty_name(self):
+        self.map.pk = 1
+        self.datalayer.name = ""
+        self.assertEqual(
+            DataLayer.upload_to(self.datalayer, None),
+            "datalayer/1/1/untitled.geojson"
+        )
