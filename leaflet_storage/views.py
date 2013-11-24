@@ -387,6 +387,8 @@ class DataLayerUpdate(UpdateView):
     form_class = DataLayerForm
 
     def form_valid(self, form):
+        if self.object.map != self.kwargs['map_inst']:
+            return HttpResponseForbidden('Route to nowhere')
         self.object = form.save()
         return simple_json_response(**self.object.metadata)
 
@@ -396,6 +398,8 @@ class DataLayerDelete(DeleteView):
 
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
+        if self.object.map != self.kwargs['map_inst']:
+            return HttpResponseForbidden('Route to nowhere')
         self.object.delete()
         return simple_json_response(info=_("Layer successfully deleted."))
 

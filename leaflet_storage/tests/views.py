@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
-import os
-
-from django.test import TransactionTestCase
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.test.utils import override_settings
 from django.core.signing import get_cookie_signer
 
-from leaflet_storage.models import Map, DataLayer, Marker, Polygon, Polyline
+from leaflet_storage.models import Map, DataLayer
 
-from .base import (MapFactory, DataLayerFactory, MarkerFactory,
-                   UserFactory, BaseTest)
+from .base import (MapFactory, UserFactory, BaseTest)
 
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)
@@ -300,6 +296,39 @@ class MapViewsPermissions(ViewsPermissionsTest):
 
 class DataLayerViews(BaseTest):
 
+    def test_update(self):
+        url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
+        self.client.login(username=self.user.username, password="123123")
+        name = "new name"
+        post_data = {
+            "name": name,
+            "display_on_load": True,
+            "geojson": '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-3.1640625,53.014783245859235],[-3.1640625,51.86292391360244],[-0.50537109375,51.385495069223204],[1.16455078125,52.38901106223456],[-0.41748046875,53.91728101547621],[-2.109375,53.85252660044951],[-3.1640625,53.014783245859235]]]},"properties":{"_storage_options":{},"name":"Ho god, sounds like a polygouine"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1.8017578124999998,51.16556659836182],[-0.48339843749999994,49.710272582105695],[-3.1640625,50.0923932109388],[-5.60302734375,51.998410382390325]]},"properties":{"_storage_options":{},"name":"Light line"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[0.63720703125,51.15178610143037]},"properties":{"_storage_options":{},"name":"marker he"}}],"_storage":{"displayOnLoad":true,"name":"new name","id":1668,"remoteData":{},"color":"LightSeaGreen","description":"test"}}'
+        }
+        response = self.client.post(url, post_data, follow=True)
+        self.assertEqual(response.status_code, 200)
+        modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
+        self.assertEqual(modified_datalayer.name, name)
+        # Test response is a json
+        json = simplejson.loads(response.content)
+        self.assertIn("id", json)
+        self.assertEqual(self.datalayer.pk, json['id'])
+
+    def test_should_not_be_possible_to_update_with_wrong_map_id_in_url(self):
+        other_map = MapFactory(owner=self.user)
+        url = reverse('datalayer_update', args=(other_map.pk, self.datalayer.pk))
+        self.client.login(username=self.user.username, password="123123")
+        name = "new name"
+        post_data = {
+            "name": name,
+            "display_on_load": True,
+            "geojson": '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-3.1640625,53.014783245859235],[-3.1640625,51.86292391360244],[-0.50537109375,51.385495069223204],[1.16455078125,52.38901106223456],[-0.41748046875,53.91728101547621],[-2.109375,53.85252660044951],[-3.1640625,53.014783245859235]]]},"properties":{"_storage_options":{},"name":"Ho god, sounds like a polygouine"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1.8017578124999998,51.16556659836182],[-0.48339843749999994,49.710272582105695],[-3.1640625,50.0923932109388],[-5.60302734375,51.998410382390325]]},"properties":{"_storage_options":{},"name":"Light line"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[0.63720703125,51.15178610143037]},"properties":{"_storage_options":{},"name":"marker he"}}],"_storage":{"displayOnLoad":true,"name":"new name","id":1668,"remoteData":{},"color":"LightSeaGreen","description":"test"}}'
+        }
+        response = self.client.post(url, post_data, follow=True)
+        self.assertEqual(response.status_code, 403)
+        modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
+        self.assertEqual(modified_datalayer.name, self.datalayer.name)
+
     def test_delete(self):
         url = reverse('datalayer_delete', args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
@@ -311,3 +340,11 @@ class DataLayerViews(BaseTest):
         # Test response is a json
         json = simplejson.loads(response.content)
         self.assertIn("info", json)
+
+    def test_should_not_be_possible_to_delete_with_wrong_map_id_in_url(self):
+        other_map = MapFactory(owner=self.user)
+        url = reverse('datalayer_delete', args=(other_map.pk, self.datalayer.pk))
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, {}, follow=True)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 1)
