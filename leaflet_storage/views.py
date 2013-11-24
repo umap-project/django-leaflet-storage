@@ -70,6 +70,7 @@ def simple_json_response(**kwargs):
 
 
 class FormLessEditMixin(object):
+    http_method_names = [u'post', ]
 
     def form_invalid(self, form):
         return simple_json_response(errors=form.errors, infos=_("An error occured."))
