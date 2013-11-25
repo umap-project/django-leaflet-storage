@@ -246,7 +246,6 @@ class DataLayer(NamedModel):
         null=True,
         verbose_name=_("description")
     )
-    options = DictField(blank=True, null=True, verbose_name=_("options"))
     geojson = models.FileField(upload_to=upload_to, blank=True, null=True)
     display_on_load = models.BooleanField(
         default=False,
