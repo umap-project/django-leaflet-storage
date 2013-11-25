@@ -346,19 +346,15 @@ class DataLayerView(BaseDetailView):
     model = DataLayer
 
     def render_to_response(self, context, **response_kwargs):
-        if self.object.geojson:
-            path = self.object.geojson.path
-            statobj = os.stat(path)
-            # TODO IMS
-            response = CompatibleStreamingHttpResponse(
-                open(path, 'rb'),
-                content_type='application/json'
-            )
-            response["Last-Modified"] = http_date(statobj.st_mtime)
-            return response
-        else:
-            # transitional
-            return HttpResponse(simplejson.dumps(self.object.to_geojson()))
+        path = self.object.geojson.path
+        statobj = os.stat(path)
+        # TODO IMS
+        response = CompatibleStreamingHttpResponse(
+            open(path, 'rb'),
+            content_type='application/json'
+        )
+        response["Last-Modified"] = http_date(statobj.st_mtime)
+        return response
 
 
 class DataLayerCreate(CreateView):
