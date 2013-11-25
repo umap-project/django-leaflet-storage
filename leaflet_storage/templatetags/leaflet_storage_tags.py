@@ -16,9 +16,10 @@ def leaflet_storage_css():
 
 
 @register.inclusion_tag('leaflet_storage/js.html')
-def leaflet_storage_js():
+def leaflet_storage_js(locale=None):
     return {
-        "STATIC_URL": settings.STATIC_URL
+        "STATIC_URL": settings.STATIC_URL,
+        "locale": locale
     }
 
 

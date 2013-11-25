@@ -6,7 +6,7 @@
 {% block extra_head %}
     {{ block.super }}
     {% leaflet_storage_css %}
-    {% leaflet_storage_js %}
+    {% leaflet_storage_js locale=locale %}
 {% endblock %}
 
 {% block content %}
