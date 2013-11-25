@@ -1,6 +1,5 @@
 from django.contrib.gis import admin
-from .models import Map, Marker, DataLayer, Pictogram, TileLayer, Polyline,\
-                    Licence
+from .models import Map, DataLayer, Pictogram, TileLayer, Licence
 
 
 class TileLayerAdmin(admin.ModelAdmin):
@@ -8,8 +7,6 @@ class TileLayerAdmin(admin.ModelAdmin):
     list_editable = ('rank', )
 
 admin.site.register(Map, admin.OSMGeoAdmin)
-admin.site.register(Marker, admin.OSMGeoAdmin)
-admin.site.register(Polyline, admin.OSMGeoAdmin)
 admin.site.register(DataLayer)
 admin.site.register(Pictogram)
 admin.site.register(TileLayer, TileLayerAdmin)
