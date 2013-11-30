@@ -1,4 +1,5 @@
+{% load leaflet_storage_tags %}
     <div id="map"></div>
     <script type="text/javascript">
-        var MAP = new L.Storage.Map("map", {{ map_settings|safe }});
+        var MAP = new L.Storage.Map("map", {{ map_settings|notag|safe }});
     </script>

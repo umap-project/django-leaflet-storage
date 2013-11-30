@@ -66,3 +66,8 @@ def tilelayer_preview(tilelayer):
     url = tilelayer.url_template.format(s="a", z=9, x=265, y=181)
     output = output.format(src=url, alt=tilelayer.name, title=tilelayer.name)
     return output
+
+
+@register.filter
+def notag(s):
+    return s.replace('<', '&lt;')
