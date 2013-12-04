@@ -238,7 +238,7 @@ class DataLayer(NamedModel):
         if len(str(instance.map.pk)) > 1:
             path.append(str(instance.map.pk)[-2])
         path.append(str(instance.map.pk))
-        path.append("%s.geojson" % (slugify(instance.name) or "untitled"))
+        path.append("%s.geojson" % (slugify(instance.name)[:50] or "untitled"))
         return os.path.join(*path)
     map = models.ForeignKey(Map)
     description = models.TextField(

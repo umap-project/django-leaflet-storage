@@ -135,3 +135,11 @@ class DataLayerModel(BaseTest):
             DataLayer.upload_to(self.datalayer, None),
             "datalayer/1/1/untitled.geojson"
         )
+
+    def test_upload_to_should_cut_too_long_name(self):
+        self.map.pk = 1
+        self.datalayer.name = "name" * 20
+        self.assertEqual(
+            DataLayer.upload_to(self.datalayer, None),
+            "datalayer/1/1/namenamenamenamenamenamenamenamenamenamenamenamena.geojson"
+        )
