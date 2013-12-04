@@ -27,7 +27,7 @@ from .models import Map, DataLayer, TileLayer, Pictogram, Licence
 from .utils import get_uri_template
 from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
                     AnonymousMapPermissionsForm, DEFAULT_LATITUDE,
-                    DEFAULT_LONGITUDE)
+                    DEFAULT_LONGITUDE, FlatErrorList)
 
 
 # ############## #
@@ -73,9 +73,12 @@ class FormLessEditMixin(object):
     http_method_names = [u'post', ]
 
     def form_invalid(self, form):
-        return simple_json_response(errors=form.errors, infos=_("An error occured."))
+        return simple_json_response(errors=form.errors, error=unicode(form.errors))
 
-
+    def get_form(self, form_class):
+        kwargs = self.get_form_kwargs()
+        kwargs['error_class'] = FlatErrorList
+        return form_class(**kwargs)
 
 class MapDetailMixin(object):
 
@@ -357,7 +360,7 @@ class DataLayerView(BaseDetailView):
         return response
 
 
-class DataLayerCreate(CreateView):
+class DataLayerCreate(FormLessEditMixin, CreateView):
     model = DataLayer
     form_class = DataLayerForm
 
@@ -367,7 +370,7 @@ class DataLayerCreate(CreateView):
         return simple_json_response(**self.object.metadata)
 
 
-class DataLayerUpdate(UpdateView):
+class DataLayerUpdate(FormLessEditMixin, UpdateView):
     model = DataLayer
     form_class = DataLayerForm
 

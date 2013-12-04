@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 
 from django import forms
 from django.contrib.gis.geos import Point
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 from django.conf import settings
+from django.forms.util import ErrorList
 
 from .models import Map, DataLayer
 
@@ -11,6 +13,14 @@ DEFAULT_LATITUDE = settings.LEAFLET_LATITUDE if hasattr(settings, "LEAFLET_LATIT
 DEFAULT_LONGITUDE = settings.LEAFLET_LONGITUDE if hasattr(settings, "LEAFLET_LONGITUDE") else 2
 DEFAULT_CENTER = Point(DEFAULT_LONGITUDE, DEFAULT_LATITUDE)
 
+
+
+class FlatErrorList(ErrorList):
+    def __unicode__(self):
+        return self.flat()
+    def flat(self):
+        if not self: return u''
+        return u' — '.join([e for e in self])
 
 class UpdateMapPermissionsForm(forms.ModelForm):
 
