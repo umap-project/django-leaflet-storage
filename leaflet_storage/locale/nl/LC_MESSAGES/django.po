@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 12:08+0100\n"
+"POT-Creation-Date: 2013-12-04 23:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,179 +18,151 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base_models.py:22
-msgid "name"
-msgstr "naam"
-
-#: base_models.py:37
-msgid "details"
-msgstr ""
-
-#: base_models.py:38
-msgid "Link to a page where the licence is detailed."
-msgstr ""
-
-#: base_models.py:50
-msgid "No licence set"
-msgstr ""
-
-#: base_models.py:64
-msgid "URL template using OSM tile format"
-msgstr ""
-
-#: base_models.py:72
-msgid "Order of the tilelayers in the edit box"
-msgstr ""
-
-#: base_models.py:108 forms.py:31
-msgid "Everyone can edit"
-msgstr ""
-
-#: base_models.py:109
-msgid "Only editors can edit"
-msgstr ""
-
-#: base_models.py:110
-msgid "Only owner can edit"
-msgstr ""
-
-#: base_models.py:113 base_models.py:283 base_models.py:349
-msgid "description"
-msgstr ""
-
-#: base_models.py:114
-msgid "center"
-msgstr ""
-
-#: base_models.py:115
-msgid "zoom"
-msgstr ""
-
-#: base_models.py:116
-msgid "locate"
-msgstr ""
-
-#: base_models.py:116
-msgid "Locate user on load?"
-msgstr ""
-
-#: base_models.py:119
-msgid "Choose the map licence."
-msgstr ""
-
-#: base_models.py:120
-msgid "licence"
-msgstr ""
-
-#: base_models.py:125
-msgid "background"
-msgstr ""
-
-#: base_models.py:126
-msgid "owner"
-msgstr ""
-
-#: base_models.py:127
-msgid "editors"
-msgstr ""
-
-#: base_models.py:128
-msgid "edit status"
-msgstr ""
-
-#: base_models.py:129
-msgid "settings"
-msgstr ""
-
-#: base_models.py:183
-#, python-format
-msgid "Your anonymous map has been attached to your account %s"
-msgstr ""
-
-#: base_models.py:205
-msgid "Clone of"
-msgstr ""
-
-#: base_models.py:246
-msgid "pictogram"
-msgstr ""
-
-#: base_models.py:253
-msgid "icon type"
-msgstr ""
-
-#: base_models.py:254
-msgid "Choose the style of the marker."
-msgstr ""
-
-#: base_models.py:285 base_models.py:352
-msgid "options"
-msgstr ""
-
-#: base_models.py:289
-msgid "display on load"
-msgstr ""
-
-#: base_models.py:290
-msgid "Display this layer on load."
-msgstr ""
-
-#: base_models.py:330
-msgid "Layer 1"
-msgstr ""
-
-#: base_models.py:351
-msgid "layer"
-msgstr ""
-
-#: forms.py:27
+#: forms.py:37
 #, python-format
 msgid "Secret edit link is %s"
 msgstr ""
 
-#: forms.py:32
+#: forms.py:41 models.py:106
+msgid "Everyone can edit"
+msgstr ""
+
+#: forms.py:42
 msgid "Only editable with secret edit link"
 msgstr ""
 
-#: views.py:87
-msgid "An error occured."
+#: models.py:20
+msgid "name"
+msgstr "naam"
+
+#: models.py:35
+msgid "details"
 msgstr ""
 
-#: views.py:207
+#: models.py:36
+msgid "Link to a page where the licence is detailed."
+msgstr ""
+
+#: models.py:48
+msgid "No licence set"
+msgstr ""
+
+#: models.py:62
+msgid "URL template using OSM tile format"
+msgstr ""
+
+#: models.py:70
+msgid "Order of the tilelayers in the edit box"
+msgstr ""
+
+#: models.py:107
+msgid "Only editors can edit"
+msgstr ""
+
+#: models.py:108
+msgid "Only owner can edit"
+msgstr ""
+
+#: models.py:111 models.py:247
+msgid "description"
+msgstr ""
+
+#: models.py:112
+msgid "center"
+msgstr ""
+
+#: models.py:113
+msgid "zoom"
+msgstr ""
+
+#: models.py:114
+msgid "locate"
+msgstr ""
+
+#: models.py:114
+msgid "Locate user on load?"
+msgstr ""
+
+#: models.py:117
+msgid "Choose the map licence."
+msgstr ""
+
+#: models.py:118
+msgid "licence"
+msgstr ""
+
+#: models.py:123
+msgid "background"
+msgstr ""
+
+#: models.py:124
+msgid "owner"
+msgstr ""
+
+#: models.py:125
+msgid "editors"
+msgstr ""
+
+#: models.py:126
+msgid "edit status"
+msgstr ""
+
+#: models.py:127
+msgid "settings"
+msgstr ""
+
+#: models.py:181
+#, python-format
+msgid "Your anonymous map has been attached to your account %s"
+msgstr ""
+
+#: models.py:203
+msgid "Clone of"
+msgstr ""
+
+#: models.py:252
+msgid "display on load"
+msgstr ""
+
+#: models.py:253
+msgid "Display this layer on load."
+msgstr ""
+
+#: views.py:199
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:212
+#: views.py:204
 msgid "Congratulations, your map has been created!"
 msgstr ""
 
-#: views.py:235
+#: views.py:227
 msgid "Map has been updated!"
 msgstr ""
 
-#: views.py:259
+#: views.py:251
 msgid "Map editors updated with success!"
 msgstr ""
 
-#: views.py:272
+#: views.py:264
 msgid "Only its owner can delete the map."
 msgstr ""
 
-#: views.py:294
+#: views.py:286
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:299
+#: views.py:291
 msgid "Congratulations, your map has been cloned!"
 msgstr ""
 
-#: views.py:400
+#: views.py:392
 msgid "Layer successfully deleted."
 msgstr ""
 
