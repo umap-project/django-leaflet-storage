@@ -1,22 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.2.0\n"
+"Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 12:08+0100\n"
-"PO-Revision-Date: 2013-03-10 20:00+0100\n"
-"Last-Translator: Francisco DOS SANTOS <f.dos.santos@free.fr>\n"
-"Language-Team: PT <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2013-11-22 14:02+0000\n"
+"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"Language-Team: Portuguese (http://www.transifex.com/projects/p/umap/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: pt\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: base_models.py:22
 msgid "name"
@@ -132,9 +131,8 @@ msgid "display on load"
 msgstr "mostrar de início"
 
 #: base_models.py:290
-#, fuzzy
 msgid "Display this layer on load."
-msgstr "Mostrar esta categoria de início."
+msgstr ""
 
 #: base_models.py:330
 msgid "Layer 1"
@@ -192,9 +190,8 @@ msgid "Congratulations, your map has been cloned!"
 msgstr ""
 
 #: views.py:400
-#, fuzzy
 msgid "Layer successfully deleted."
-msgstr "Categoria foi apagada com sucesso."
+msgstr ""
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
@@ -211,235 +208,3 @@ msgstr "Identifica-se para continuar"
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
 msgstr "Nome de usuário e senha não correspondem. Tenta novamente."
-
-#~ msgid "Delete"
-#~ msgstr "Apagar"
-
-#, fuzzy
-#~ msgid ""
-#~ "This will also delete all the %(feature_count)s feature(s) of this "
-#~ "datalayer."
-#~ msgstr "Vai apagar os %(feature_count)s objeto(s) desta categoria."
-
-#~ msgid "yes"
-#~ msgstr "sim"
-
-#, fuzzy
-#~ msgid ""
-#~ "This will also delete the %(datalayer_count)s layer(s) of this map and "
-#~ "all their features."
-#~ msgstr ""
-#~ "Vai apagar as %(datalayer_count)s categoria(s) deste mapa e todos os seus "
-#~ "objetos."
-
-#~ msgid "This action can't be cancelled."
-#~ msgstr "Esta ação não pode ser cancelada."
-
-#~ msgid "Embed this map"
-#~ msgstr "Exportar este mapa"
-
-#~ msgid "Short URL"
-#~ msgstr "Mini URL"
-
-#, fuzzy
-#~ msgid "Clone this map"
-#~ msgstr "Exportar este mapa"
-
-#~ msgid "User content credits"
-#~ msgstr "Créditos do conteúdo"
-
-#~ msgid ""
-#~ "Map user content has been published under licence <a href=\"%(url)s\">"
-#~ "%(licence)s</a>"
-#~ msgstr ""
-#~ "O conteúdo do usuário está publicado em licença <a href=\"%(url)s\">"
-#~ "%(licence)s</a>"
-
-#~ msgid "Tile layers credits"
-#~ msgstr "Créditos do mapa de fundo"
-
-#, fuzzy
-#~ msgid ""
-#~ "Powered by <a href=\"%(leaflet_url)s\">Leaflet</a> and <a href="
-#~ "\"%(django_url)s\">Django</a>, glued by <a href=\"%(umap_url)s\">uMap "
-#~ "project</a>."
-#~ msgstr ""
-#~ "Propulsado com <a href=\"%(leaflet_url)s\">Leaflet</a> e <a href="
-#~ "\"%(django_url)s\">Django</a>, aglutinado com <a href=\"%(umap_url)s\">u"
-#~ "{Map} projeto</a>."
-
-#~ msgid "Map settings"
-#~ msgstr "Parâmetros do mapa"
-
-#~ msgid "Upload features"
-#~ msgstr "Carregar objetos"
-
-#~ msgid "Formats supported (more to come)"
-#~ msgstr "Formatos reconhecidos (por enquanto)"
-
-#~ msgid "GeoJSON (properties used: name or title, description, color)"
-#~ msgstr "GeoJSON (uso propriedade: name ou title, description, color)"
-
-#~ msgid "KML (properties used: name, description)"
-#~ msgstr "KML (uso propriedade: name, description)"
-
-#~ msgid "GPX (properties used: name, desc)"
-#~ msgstr "GPX (uso propriedade: name, desc)"
-
-#~ msgid "Content type"
-#~ msgstr "Tipo do conteúdo"
-
-#~ msgid "file"
-#~ msgstr "ficheiro"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Supported values that will dynamically replaced: "
-#~ msgstr "Valores que serão automaticamente substituídos: "
-
-#~ msgid "datalayer"
-#~ msgstr "categoria"
-
-#~ msgid "Unable to fetch content from URL."
-#~ msgstr "Carregamento impossível do conteúdo deste URL."
-
-#, fuzzy
-#~ msgid "You must provide one data source."
-#~ msgstr "Tens que indicar URL ou um ficheiro."
-
-#~ msgid "Unsupported content_type: %s"
-#~ msgstr "Conteúdo não reconhecido: %s"
-
-#~ msgid "Invalid %(content_type)s"
-#~ msgstr "Ficheiro %(content_type)s inválido"
-
-#~ msgid "Path smooth factor"
-#~ msgstr "Fator de simplificação"
-
-#~ msgid ""
-#~ "How much to simplify the polyline on each zoom level (more = better "
-#~ "performance and smoother look, less = more accurate)"
-#~ msgstr ""
-#~ "Quantia de simplificação de linha para cada nível de zoom (mais = melhor "
-#~ "desempenho e aspecto mais suave, menos = mais certo)"
-
-#~ msgid "Path opacity"
-#~ msgstr "Opacidade linha"
-
-#~ msgid "Opacity, from 0.1 to 1.0 (opaque)."
-#~ msgstr "Opacidade, de 0.1 até 1.0 (opaco)."
-
-#~ msgid "Polygon stroke"
-#~ msgstr "Traço polígono"
-
-#~ msgid "Whether to display or not the Polygon path."
-#~ msgstr "Desenhar ou não o contorno do polígono."
-
-#~ msgid "Path weight"
-#~ msgstr "Largura"
-
-#~ msgid "Path weight in pixels. Max: 10."
-#~ msgstr "Largura do traço em pixel. Max: 10."
-
-#~ msgid "Path fill"
-#~ msgstr "Preenchimento"
-
-#~ msgid "Whether to fill the path with color."
-#~ msgstr "Preencher com cor."
-
-#~ msgid "Fill opacity"
-#~ msgstr "Opacidade preenchimento"
-
-#~ msgid "Fill opacity, from 0.1 to 1.0 (opaque)."
-#~ msgstr "Opacidade do preenchimento, de 0.1 até 1.0 (opaco)."
-
-#~ msgid "Fill color"
-#~ msgstr "Cor preenchimento"
-
-#~ msgid "Optional. Same as color if not set."
-#~ msgstr "Opcional. Mesma cor se não definido."
-
-#~ msgid "Dash array"
-#~ msgstr "Traço tabela"
-
-#~ msgid "A string that defines the stroke dash pattern. Ex.: '5, 10, 15'."
-#~ msgstr "Definição das diversas longuras do traço. Ex.: '5, 10, 15'."
-
-#~ msgid "color"
-#~ msgstr "cor"
-
-#~ msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
-#~ msgstr "Tem que ser um valor CSS válido (ex.: DarkBlue ou #123456)"
-
-#, fuzzy
-#~ msgid "Optional. Layer color is used if not set."
-#~ msgstr "Opcional. Cor da categoria se não definido."
-
-#~ msgid "Do you want to display the locate control?"
-#~ msgstr "Mostrar o controlo de localização?"
-
-#~ msgid "Do you want to display the 'quick search' control?"
-#~ msgstr "Mostrar o controlo de 'procura rapida'?"
-
-#~ msgid "Do you want to display the 'back to home page' control?"
-#~ msgstr "Mostrar o controlo 'voltar a página inicial'?"
-
-#~ msgid "Do you want to display the embed control?"
-#~ msgstr "Mostrar o controlo 'exportar'?"
-
-#~ msgid "Do you want to display the scale control?"
-#~ msgstr "Mostrar o controlo 'escala'?"
-
-#~ msgid "Do you want to locate user on load?"
-#~ msgstr "Localizar o usuário de início?"
-
-#, fuzzy
-#~ msgid "Do you want to display a tilelayer switcher?"
-#~ msgstr "Mostrar o controlo de localização?"
-
-#, fuzzy
-#~ msgid "Do you want to display map caption on load?"
-#~ msgstr "Mostrar um 'minimapa'?"
-
-#, fuzzy
-#~ msgid "Do you want to display data browser on load?"
-#~ msgstr "Mostrar um 'minimapa'?"
-
-#, fuzzy
-#~ msgid "Do you want to display popup footer?"
-#~ msgstr "Mostrar o controlo de localização?"
-
-#~ msgid "Do you want to display a minimap?"
-#~ msgstr "Mostrar um 'minimapa'?"
-
-#~ msgid "Do you want to display control with links to edit in OSM?"
-#~ msgstr "Mostrar o controlo com link para editar no OSM?"
-
-#~ msgid "Do you want to enable Marker drawing?"
-#~ msgstr "Ativar o colocamento de Marcos?"
-
-#~ msgid "Do you want to enable Polyline drawing?"
-#~ msgstr "Ativar o desenho de Linhas?"
-
-#~ msgid "Do you want to enable Polygon drawing?"
-#~ msgstr "Ativar o desenho de Polígonos?"
-
-#~ msgid "Zoom and center updated with success!"
-#~ msgstr "Zoom e centro foram atualizados com sucesso!"
-
-#, fuzzy
-#~ msgid "Map background updated with success!"
-#~ msgstr "Editores foram atualizados com sucesso!"
-
-#~ msgid "%(feature)s successfully deleted."
-#~ msgstr "Objeto %(feature)s foi apagado com sucesso."
-
-#~ msgid "My data"
-#~ msgstr "Meus dados"
-
-#~ msgid "You already have a map with this name."
-#~ msgstr "Já exista um mapa com este nome."
-
-#~ msgid "You can't provide both a file and an URL."
-#~ msgstr "Não se pode indicar ficheiro e URL ao mesmo tempo."

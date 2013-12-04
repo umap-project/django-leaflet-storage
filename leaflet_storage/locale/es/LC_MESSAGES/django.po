@@ -1,21 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Igor Támara <igor@tamarapatino.org>, 2013.
+# 
+# Translators:
+# Igor Támara <igor@tamarapatino.org>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 12:08+0100\n"
-"PO-Revision-Date: 2013-06-24 22:44-0500\n"
-"Last-Translator: Igor Támara <igor@tamarapatino.org>\n"
-"Language-Team: Traducción de umap al español\n"
-"Language: es\n"
+"PO-Revision-Date: 2013-11-22 14:03+0000\n"
+"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/umap/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
 
 #: base_models.py:22
 msgid "name"
@@ -160,16 +161,11 @@ msgstr ""
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
-"Tu mapa ha sido creado! Si deseas editarlo desde otro computador, por favor "
-"usa este link: %(anonymous_url)s"
+msgstr "Tu mapa ha sido creado! Si deseas editarlo desde otro computador, por favor usa este link: %(anonymous_url)s"
 
 #: views.py:212
-#, fuzzy
 msgid "Congratulations, your map has been created!"
 msgstr ""
-"Felicitaciones, tu mapa ha sido creado! Para comenzar a editar, presiona el "
-"ícono de lápiz."
 
 #: views.py:235
 msgid "Map has been updated!"
@@ -184,20 +180,15 @@ msgid "Only its owner can delete the map."
 msgstr "Solamente el propietario puede borrar el mapa."
 
 #: views.py:294
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
-"Tu mapa ha sido creado! Si deseas editarlo desde otro computador, por favor "
-"usa este link: %(anonymous_url)s"
 
 #: views.py:299
-#, fuzzy
 msgid "Congratulations, your map has been cloned!"
 msgstr ""
-"Felicitaciones, tu mapa ha sido creado! Para comenzar a editar, presiona el "
-"ícono de lápiz."
 
 #: views.py:400
 msgid "Layer successfully deleted."
@@ -217,272 +208,4 @@ msgstr "Por favor ingresa para proceder"
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
-"Tu nombre de usuario y contraseña no coinciden. Por favor. intenta de nuevo."
-
-#~ msgid "Delete"
-#~ msgstr "Borrar"
-
-#~ msgid ""
-#~ "This will also delete all the %(feature_count)s feature(s) of this "
-#~ "datalayer."
-#~ msgstr ""
-#~ "Esto también eliminará la(s) %(feature_count)s característica(s) de esta "
-#~ "capa de datos."
-
-#~ msgid "yes"
-#~ msgstr "sí"
-
-#~ msgid ""
-#~ "This will also delete the %(datalayer_count)s layer(s) of this map and "
-#~ "all their features."
-#~ msgstr ""
-#~ "Esto también borrará la(s) %(datalayer_count)s capa(s) de este mapa y "
-#~ "todas sus características."
-
-#~ msgid "This action can't be cancelled."
-#~ msgstr "Esta acción no puede cancelarse."
-
-#~ msgid "Embed this map"
-#~ msgstr "Incrustar este mapa"
-
-#~ msgid "See full screen"
-#~ msgstr "Ver en pantalla completa"
-
-#~ msgid "Short URL"
-#~ msgstr "URL corta."
-
-#~ msgid "Download map data"
-#~ msgstr "Descargar datos del mapa"
-
-#~ msgid ""
-#~ "The data is published under the <a href=\"%(licence.details)s\">%(licence)"
-#~ "s</a> licence. Please check it before using the data in your own projects."
-#~ msgstr ""
-#~ "Los datos están publicados bajo la licencia <a href=\"%(licence.details)s"
-#~ "\">%(licence)s</a>. Por favor revísela antes de usar los datos en sus "
-#~ "propios proyectos."
-
-#~ msgid "Download"
-#~ msgstr "Descargar"
-
-#~ msgid ""
-#~ "You are creating a map without being authenticated. A cookie will be set "
-#~ "on this browser to make possible for you to edit the map in the future. "
-#~ "If you want to edit the map from another computer, use the \"edit url\" "
-#~ "displayed in the \"permissions\" window. If you log in and load the map, "
-#~ "the map will be attached to your account."
-#~ msgstr ""
-#~ "Estás creando un mapa sin estar autenticado. Se establecerá una cookie en "
-#~ "este navegador para permitirte editar el mapa en el futuro. Si quieres "
-#~ "editar este mapa desde otro computador, usa \"editar url\" de la ventana "
-#~ "\"permisos\". Si ingresas y cargas el mapa, este se adjuntará a tu cuenta."
-
-#, fuzzy
-#~ msgid "Clone this map"
-#~ msgstr "Incrustar este mapa"
-
-#~ msgid "User content credits"
-#~ msgstr "Créditos del usuario"
-
-#~ msgid ""
-#~ "Map user content has been published under licence <a href=\"%(url)s\">"
-#~ "%(licence)s</a>"
-#~ msgstr ""
-#~ "El contenido del mapa ha sido publicado bajo la licencia <a href=\"%(url)s"
-#~ "\">%(licence)s</a>"
-
-#~ msgid "Tile layers credits"
-#~ msgstr "Créditos de la capa"
-
-#~ msgid ""
-#~ "Powered by <a href=\"%(leaflet_url)s\">Leaflet</a> and <a href="
-#~ "\"%(django_url)s\">Django</a>, glued by <a href=\"%(umap_url)s\">uMap "
-#~ "project</a>."
-#~ msgstr ""
-#~ "Creado con <a href=\"%(leaflet_url)s\">Leaflet</a> y <a href="
-#~ "\"%(django_url)s\">Django</a>, unido por el <a href=\"%(umap_url)s"
-#~ "\">proyecto uMap</a>."
-
-#~ msgid "Map settings"
-#~ msgstr "Opciones del mapa"
-
-#~ msgid "Upload features"
-#~ msgstr "Subir características"
-
-#~ msgid "Formats supported (more to come)"
-#~ msgstr "Formatos soportados (habrá más)"
-
-#~ msgid "GeoJSON (properties used: name or title, description, color)"
-#~ msgstr "GeoJSON (propiedades usadas: nombre o título, descripción, color)"
-
-#~ msgid "KML (properties used: name, description)"
-#~ msgstr "KML (propiedades usadas: nombre, descripción)"
-
-#~ msgid "GPX (properties used: name, desc)"
-#~ msgstr "GPX (propiedades usadas: nombre, descripción)"
-
-#~ msgid "Content type"
-#~ msgstr "Tipo de contenido"
-
-#~ msgid "file"
-#~ msgstr "archivo"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "Supported values that will dynamically replaced: "
-#~ msgstr "Valores soportados que serán reemplazados dinámicamente:"
-
-#~ msgid "Copy/paste"
-#~ msgstr "Copiar/pegar"
-
-#~ msgid "datalayer"
-#~ msgstr "capa de datos"
-
-#~ msgid "Unable to fetch content from URL."
-#~ msgstr "Imposible descargar contenidos del URL."
-
-#~ msgid "You must provide one data source."
-#~ msgstr "Debe indicar por lo menos una fuente de datos."
-
-#~ msgid "Unsupported content_type: %s"
-#~ msgstr "Tipo de contenido no soportado: %s"
-
-#~ msgid "Invalid %(content_type)s"
-#~ msgstr "%(content_type)s no válido"
-
-#~ msgid "Format"
-#~ msgstr "Formato"
-
-#~ msgid "Path smooth factor"
-#~ msgstr "factor de suavizado"
-
-#~ msgid ""
-#~ "How much to simplify the polyline on each zoom level (more = better "
-#~ "performance and smoother look, less = more accurate)"
-#~ msgstr ""
-#~ "Cuánto desea simplificar la polilínea en cada nivel de zoom( más = mejor "
-#~ "desempeño y suavizado, menos = más preciso)"
-
-#~ msgid "Path opacity"
-#~ msgstr "Opacidad del camino"
-
-#~ msgid "Opacity, from 0.1 to 1.0 (opaque)."
-#~ msgstr "Opacidad, de 0.1 a 1.0 (opaco)."
-
-#~ msgid "Polygon stroke"
-#~ msgstr "Borde del polígono"
-
-#~ msgid "Whether to display or not the Polygon path."
-#~ msgstr "Mostrar o no el borde del polígono."
-
-#~ msgid "Path weight"
-#~ msgstr "Peso del borde"
-
-#~ msgid "Path weight in pixels. Max: 10."
-#~ msgstr "Peso del borde en pixeles. Máx: 10."
-
-#~ msgid "Path fill"
-#~ msgstr "Relleno de la vía"
-
-#~ msgid "Whether to fill the path with color."
-#~ msgstr "Llenar o no la vía con color."
-
-#~ msgid "Fill opacity"
-#~ msgstr "Opacidad del relleno"
-
-#~ msgid "Fill opacity, from 0.1 to 1.0 (opaque)."
-#~ msgstr "Opacidad del relleno, de 0.1 a 1.0 (opaco)."
-
-#~ msgid "Fill color"
-#~ msgstr "Color de relleno"
-
-#~ msgid "Optional. Same as color if not set."
-#~ msgstr "Opcional. Igual que el color si no se establece."
-
-#~ msgid "Dash array"
-#~ msgstr "Arreglo de guiones"
-
-#~ msgid "A string that defines the stroke dash pattern. Ex.: '5, 10, 15'."
-#~ msgstr ""
-#~ "Una cadena que define el patrón de llenado de guiones. Ej.: '5, 10, 15'."
-
-#~ msgid "color"
-#~ msgstr "color"
-
-#~ msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
-#~ msgstr "Debe ser un nombre CSS válido (ej.: DarkBlue o #123456)"
-
-#~ msgid "Optional. Layer color is used if not set."
-#~ msgstr "Opcional. Se usa el color de la capa si no se establece."
-
-#~ msgid "Do you want to display the locate control?"
-#~ msgstr "Desea mostrar el control de localización?"
-
-#~ msgid "Do you want to display the 'quick search' control?"
-#~ msgstr "Desea mostrar el control de 'búsqueda rápida'?"
-
-#~ msgid "Do you want to display the 'back to home page' control?"
-#~ msgstr "Desea mostrar el control de 'volver a la página inicial'?"
-
-#~ msgid "Do you want to display the embed control?"
-#~ msgstr "Desea mostrar el control de incrustar?"
-
-#~ msgid "Do you want to display the scale control?"
-#~ msgstr "Desea mostrar el control de escala?"
-
-#~ msgid "Do you want to locate user on load?"
-#~ msgstr "Desea localizar al usuario al cargar?"
-
-#~ msgid "Do you want to display a tilelayer switcher?"
-#~ msgstr "Desea permitir el cambio de capas?"
-
-#~ msgid "Do you want to display map caption on load?"
-#~ msgstr "Desea mostrar el título del mapa al cargar?"
-
-#~ msgid "Do you want to display data browser on load?"
-#~ msgstr "Desea mostrar datos del navegador al cargar?"
-
-#~ msgid "Do you want to display popup footer?"
-#~ msgstr "Desea mostrar el pie de página del popup?"
-
-#~ msgid "Do you want to display a minimap?"
-#~ msgstr "Desea mostrar un minimapa?"
-
-#~ msgid "Allow scroll wheel zoom?"
-#~ msgstr "Habilitar la rueda del ratón para zoom?"
-
-#~ msgid "Do you want to display control with links to edit in OSM?"
-#~ msgstr "Desea mostrar el control para editar en OSM?"
-
-#~ msgid "Do you want to enable Marker drawing?"
-#~ msgstr "Desea habilitar dibujo de marcador?"
-
-#~ msgid "Do you want to enable Polyline drawing?"
-#~ msgstr "Desea habilitar el dibujado de polilíneas?"
-
-#~ msgid "Do you want to enable Polygon drawing?"
-#~ msgstr "Desea habilitar el dibujado de polígonos?"
-
-#~ msgid ""
-#~ "Congratulations, your map has been created! To start editing, click on "
-#~ "the pen icon."
-#~ msgstr ""
-#~ "Felicitaciones, tu mapa ha sido creado! Para comenzar a editar, presiona "
-#~ "el ícono de lápiz."
-
-#~ msgid "Zoom and center updated with success!"
-#~ msgstr "Zoom y centrado actualizados con éxito!"
-
-#~ msgid "Map background updated with success!"
-#~ msgstr "Fondo del mapa actualizado exitósamente!"
-
-#~ msgid "%d features created!"
-#~ msgstr "se crearon %d características!"
-
-#~ msgid "No valid feature has been found :("
-#~ msgstr "No se ha encontrado una característica válida :("
-
-#~ msgid "%(feature)s successfully deleted."
-#~ msgstr "Se eliminó la característica %(feature)s."
+msgstr "Tu nombre de usuario y contraseña no coinciden. Por favor. intenta de nuevo."

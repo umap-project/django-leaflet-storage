@@ -1,23 +1,22 @@
-# DJANGO-LEAFLET-STORAGE.
-# Copyleft (C) 2012
-# This file is distributed under the same license as the 
-#  DJANGO-LEAFLET-STORAGE package.
-# YOHAN BONIFACE <yb@enix.org>, 2012.
-#
-#, fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# YOHAN BONIFACE <yb@enix.org>, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.0.8\n"
+"Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 12:08+0100\n"
-"PO-Revision-Date: 2012-12-27 11:09+0100\n"
-"Last-Translator: YOHAN BONIFACE <yb@enix.org>\n"
-"Language-Team: FR <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2013-11-22 14:03+0000\n"
+"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/umap/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: base_models.py:22
 msgid "name"
@@ -133,9 +132,8 @@ msgid "display on load"
 msgstr "Bei dem Laden anzeigen"
 
 #: base_models.py:290
-#, fuzzy
 msgid "Display this layer on load."
-msgstr "Diese Katergorie bereits beim Laden einblenden."
+msgstr ""
 
 #: base_models.py:330
 msgid "Layer 1"
@@ -193,9 +191,8 @@ msgid "Congratulations, your map has been cloned!"
 msgstr ""
 
 #: views.py:400
-#, fuzzy
 msgid "Layer successfully deleted."
-msgstr "Kategorie erfolgreich gelöscht."
+msgstr ""
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
@@ -211,146 +208,4 @@ msgstr "Bitte logge dich ein um fortzufahren."
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
-"Dein Benutzername und Password stimmen nicht überein. Bitte versuche es noch "
-"einmal."
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
-
-#, fuzzy
-#~ msgid ""
-#~ "This will also delete all the %(feature_count)s feature(s) of this "
-#~ "datalayer."
-#~ msgstr ""
-#~ "Dies wird auch alle %(feature_count)s Objekte dieser Kategorie löschen."
-
-#~ msgid "yes"
-#~ msgstr "Ja"
-
-#, fuzzy
-#~ msgid ""
-#~ "This will also delete the %(datalayer_count)s layer(s) of this map and "
-#~ "all their features."
-#~ msgstr ""
-#~ "This will also delete the %(datalayer_count)s datalayer(ies) of this map "
-#~ "and all their features."
-
-#~ msgid "This action can't be cancelled."
-#~ msgstr "Diese Aktion kann nicht Rückgängig gemacht werden"
-
-#~ msgid "Embed this map"
-#~ msgstr "Diese Karte einbinden"
-
-#, fuzzy
-#~ msgid "Clone this map"
-#~ msgstr "Diese Karte einbinden"
-
-#~ msgid "User content credits"
-#~ msgstr "User content credits"
-
-#~ msgid ""
-#~ "Map user content has been published under licence <a href=\"%(url)s\">"
-#~ "%(licence)s</a>"
-#~ msgstr ""
-#~ "Die hinzugefügten Informationen wurden unter der <a href=\"%(url)s\">"
-#~ "%(licence)s</a> veröffentlicht."
-
-#~ msgid "Tile layers credits"
-#~ msgstr "Tile layers credits"
-
-#, fuzzy
-#~ msgid ""
-#~ "Powered by <a href=\"%(leaflet_url)s\">Leaflet</a> and <a href="
-#~ "\"%(django_url)s\">Django</a>, glued by <a href=\"%(umap_url)s\">uMap "
-#~ "project</a>."
-#~ msgstr ""
-#~ "Powered by <a href=\"%(leaflet_url)s\">Leaflet</a> and <a href="
-#~ "\"%(django_url)s\">Django</a>, glued by <a href=\"%(umap_url)s\">u{Map} "
-#~ "project</a>."
-
-#~ msgid "Upload features"
-#~ msgstr "POIs importieren"
-
-#~ msgid "Formats supported (more to come)"
-#~ msgstr "Unterstützte Formate (wird erweitert)"
-
-#~ msgid "GeoJSON (properties used: name or title, description, color)"
-#~ msgstr ""
-#~ "GeoJSON (Benutzte Einstellungen: Name oder Titel, Beschreibung und Farbe"
-
-#~ msgid "KML (properties used: name, description)"
-#~ msgstr "KML (Benutze Einstellungen: Name, Beschreibung)"
-
-#, fuzzy
-#~ msgid "GPX (properties used: name, desc)"
-#~ msgstr "KML (Benutze Einstellungen: Name, Beschreibung)"
-
-#~ msgid "file"
-#~ msgstr "Datei"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "datalayer"
-#~ msgstr "Kategorie"
-
-#~ msgid "Unable to fetch content from URL."
-#~ msgstr "Die verlinkte Datei konnte nicht gelesen werden."
-
-#, fuzzy
-#~ msgid "You must provide one data source."
-#~ msgstr "Du musst eine URL oder eine Datei angeben."
-
-#~ msgid "Unsupported content_type: %s"
-#~ msgstr "Content-Type wird nicht unterstützt: %s"
-
-#, fuzzy
-#~ msgid "Invalid %(content_type)s"
-#~ msgstr "Content-Type wird nicht unterstützt: %s"
-
-#, fuzzy
-#~ msgid "Fill color"
-#~ msgstr "Farbe"
-
-#~ msgid "color"
-#~ msgstr "Farbe"
-
-#~ msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
-#~ msgstr ""
-#~ "Es muss ein gültiger CSS Name verwendet werden (z.B. DarkBlue ou #123456)"
-
-#, fuzzy
-#~ msgid "Do you want to locate user on load?"
-#~ msgstr "Standort des Benutzers bei dem Laden bestimmen?"
-
-#, fuzzy
-#~ msgid "Do you want to display a tilelayer switcher?"
-#~ msgstr "Standort des Benutzers bei dem Laden bestimmen?"
-
-#, fuzzy
-#~ msgid "Do you want to display data browser on load?"
-#~ msgstr "Standort des Benutzers bei dem Laden bestimmen?"
-
-#, fuzzy
-#~ msgid "Do you want to display popup footer?"
-#~ msgstr "Standort des Benutzers bei dem Laden bestimmen?"
-
-#~ msgid "Zoom and center updated with success!"
-#~ msgstr "Zoomstufe und Mittelpunkt erfolgreich geändert!"
-
-#, fuzzy
-#~ msgid "Map background updated with success!"
-#~ msgstr "Bearbeiter erfolgreich geändert"
-
-#~ msgid "%(feature)s successfully deleted."
-#~ msgstr "%(feature)s erfolgreich gelöscht."
-
-#~ msgid "Rank to order the datalayers"
-#~ msgstr "Priorität zum Ordnen der Kategorieren"
-
-#~ msgid "rank"
-#~ msgstr "Priorität"
-
-#~ msgid "My data"
-#~ msgstr "Meine Daten"
+msgstr "Dein Benutzername und Password stimmen nicht überein. Bitte versuche es noch einmal."

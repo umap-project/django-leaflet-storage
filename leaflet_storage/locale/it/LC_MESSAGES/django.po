@@ -1,22 +1,22 @@
-# DJANGO-LEAFLET-STORAGE.
-# Copyleft (C) 2012
-# This file is distributed under the same license as the
-#  DJANGO-LEAFLET-STORAGE package.
-# YOHAN BONIFACE <yb@enix.org>, 2012.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# YOHAN BONIFACE <yb@enix.org>, 2012
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.0.8\n"
+"Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 12:08+0100\n"
-"PO-Revision-Date: 2013-01-07 01:14+0100\n"
-"Last-Translator: Stefano\n"
-"Language-Team: FR <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2013-11-22 14:03+0000\n"
+"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"Language-Team: Italian (http://www.transifex.com/projects/p/umap/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1)\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: base_models.py:22
 msgid "name"
@@ -116,9 +116,8 @@ msgid "pictogram"
 msgstr "pittogramma"
 
 #: base_models.py:253
-#, fuzzy
 msgid "icon type"
-msgstr "Tipo del contenuto"
+msgstr ""
 
 #: base_models.py:254
 msgid "Choose the style of the marker."
@@ -133,9 +132,8 @@ msgid "display on load"
 msgstr "mostra al caricamento"
 
 #: base_models.py:290
-#, fuzzy
 msgid "Display this layer on load."
-msgstr "Mostra questa categoria al caricamento."
+msgstr ""
 
 #: base_models.py:330
 msgid "Layer 1"
@@ -193,9 +191,8 @@ msgid "Congratulations, your map has been cloned!"
 msgstr ""
 
 #: views.py:400
-#, fuzzy
 msgid "Layer successfully deleted."
-msgstr "Categoria cancellata con successo."
+msgstr ""
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
@@ -212,150 +209,3 @@ msgstr "Fai il login per continuare"
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
 msgstr "Il tuo username e la tua password non corrispondono. Riprova."
-
-#~ msgid "Delete"
-#~ msgstr "Cancella"
-
-#, fuzzy
-#~ msgid ""
-#~ "This will also delete all the %(feature_count)s feature(s) of this "
-#~ "datalayer."
-#~ msgstr ""
-#~ "Questo anche cancellerà tutte i %(feature_count)s POI di questa categoria."
-
-#~ msgid "yes"
-#~ msgstr "si"
-
-#, fuzzy
-#~ msgid ""
-#~ "This will also delete the %(datalayer_count)s layer(s) of this map and "
-#~ "all their features."
-#~ msgstr ""
-#~ "Questo cancellerà anche le %(datalayer_count)s categorie di questa mappa "
-#~ "e tutti i POI associati."
-
-#~ msgid "This action can't be cancelled."
-#~ msgstr "Questa azione non può essere cancellata."
-
-#~ msgid "Embed this map"
-#~ msgstr "Esporta questa mappa"
-
-#, fuzzy
-#~ msgid "Clone this map"
-#~ msgstr "Esporta questa mappa"
-
-#~ msgid "User content credits"
-#~ msgstr "Riconoscimenti per il contenuto utente"
-
-#~ msgid ""
-#~ "Map user content has been published under licence <a href=\"%(url)s\">"
-#~ "%(licence)s</a>"
-#~ msgstr ""
-#~ "Il contenuto utente è stato pubblicato sotto licenza <a href=\"%(url)s\">"
-#~ "%(licence)s</a>"
-
-#~ msgid "Tile layers credits"
-#~ msgstr "Riconoscimenti per i livelli di sfondo"
-
-#, fuzzy
-#~ msgid ""
-#~ "Powered by <a href=\"%(leaflet_url)s\">Leaflet</a> and <a href="
-#~ "\"%(django_url)s\">Django</a>, glued by <a href=\"%(umap_url)s\">uMap "
-#~ "project</a>."
-#~ msgstr ""
-#~ "Basato su <a href=\"%(leaflet_url)s\">Leaflet</a> e <a href="
-#~ "\"%(django_url)s\">Django</a>, messi insieme dal <a href=\"%(umap_url)s"
-#~ "\">progetto u{Map}</a>."
-
-#~ msgid "Upload features"
-#~ msgstr "Carica POI"
-
-#~ msgid "Formats supported (more to come)"
-#~ msgstr "Formati supportati (altri saranno resi disponibili)"
-
-#~ msgid "GeoJSON (properties used: name or title, description, color)"
-#~ msgstr "GeoJSON (proprietà utilizzate: name o title, description, color)"
-
-#~ msgid "KML (properties used: name, description)"
-#~ msgstr "KML (proprietà utilizzate: name, description)"
-
-#~ msgid "GPX (properties used: name, desc)"
-#~ msgstr "GPX (proprietà utilizzate: name, desc)"
-
-#~ msgid "Content type"
-#~ msgstr "Tipo del contenuto"
-
-#~ msgid "file"
-#~ msgstr "file"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "datalayer"
-#~ msgstr "categoria"
-
-#~ msgid "Unable to fetch content from URL."
-#~ msgstr "Impossibile caricare il contenuto di questo URL."
-
-#, fuzzy
-#~ msgid "You must provide one data source."
-#~ msgstr "Devi fornire un URL o un file."
-
-#~ msgid "Unsupported content_type: %s"
-#~ msgstr "Tipo di contenuto non supportato: %s"
-
-#~ msgid "Invalid %(content_type)s"
-#~ msgstr "%(content_type)s non valido"
-
-#, fuzzy
-#~ msgid "Fill color"
-#~ msgstr "colore"
-
-#, fuzzy
-#~ msgid "Optional. Same as color if not set."
-#~ msgstr "Opzionale. Usa il colore della categoria se non impostato."
-
-#~ msgid "color"
-#~ msgstr "colore"
-
-#~ msgid "Must be a CSS valid name (eg.: DarkBlue or #123456)"
-#~ msgstr "Dev'essere un nome CSS valido (es. DarkBlud o #123456)"
-
-#, fuzzy
-#~ msgid "Optional. Layer color is used if not set."
-#~ msgstr "Opzionale. Usa il colore della categoria se non impostato."
-
-#, fuzzy
-#~ msgid "Do you want to locate user on load?"
-#~ msgstr "Geolocalizzare l'utente al caricamento?"
-
-#, fuzzy
-#~ msgid "Do you want to display a tilelayer switcher?"
-#~ msgstr "Geolocalizzare l'utente al caricamento?"
-
-#, fuzzy
-#~ msgid "Do you want to display data browser on load?"
-#~ msgstr "Geolocalizzare l'utente al caricamento?"
-
-#, fuzzy
-#~ msgid "Do you want to display popup footer?"
-#~ msgstr "Geolocalizzare l'utente al caricamento?"
-
-#~ msgid "Zoom and center updated with success!"
-#~ msgstr "Zoom e centro aggiornati con successo!"
-
-#, fuzzy
-#~ msgid "Map background updated with success!"
-#~ msgstr "Editor della mappa aggiornati con successo!"
-
-#~ msgid "%(feature)s successfully deleted."
-#~ msgstr "%(feature)s cancellate."
-
-#~ msgid "Rank to order the categories"
-#~ msgstr "Posiziona per ordinare le categorie"
-
-#~ msgid "rank"
-#~ msgstr "posizione"
-
-#~ msgid "My data"
-#~ msgstr "I miei dati"
