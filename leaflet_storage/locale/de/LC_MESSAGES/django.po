@@ -1,175 +1,203 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
+# Klumbumbus <simson.gertrud@gmail.com>, 2013
 # YOHAN BONIFACE <yb@enix.org>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-04 23:31+0100\n"
-"PO-Revision-Date: 2013-11-22 14:03+0000\n"
-"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/umap/language/"
-"de/)\n"
-"Language: de\n"
+"POT-Creation-Date: 2013-11-22 12:08+0100\n"
+"PO-Revision-Date: 2013-12-05 22:14+0000\n"
+"Last-Translator: Klumbumbus <simson.gertrud@gmail.com>\n"
+"Language-Team: German (http://www.transifex.com/projects/p/umap/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: forms.py:37
-#, python-format
-msgid "Secret edit link is %s"
-msgstr ""
-
-#: forms.py:41 models.py:106
-msgid "Everyone can edit"
-msgstr "Jeder kann bearbeiten"
-
-#: forms.py:42
-msgid "Only editable with secret edit link"
-msgstr ""
-
-#: models.py:20
+#: base_models.py:22
 msgid "name"
 msgstr "Name"
 
-#: models.py:35
+#: base_models.py:37
 msgid "details"
 msgstr "Details"
 
-#: models.py:36
+#: base_models.py:38
 msgid "Link to a page where the licence is detailed."
 msgstr "Verlinke auf eine Seite mit der Lizenz."
 
-#: models.py:48
+#: base_models.py:50
 msgid "No licence set"
 msgstr "Keine Lizenz ausgewählt"
 
-#: models.py:62
+#: base_models.py:64
 msgid "URL template using OSM tile format"
 msgstr "Das URL-Template nutzt das OSM Tile Format"
 
-#: models.py:70
+#: base_models.py:72
 msgid "Order of the tilelayers in the edit box"
 msgstr ""
 
-#: models.py:107
+#: base_models.py:108 forms.py:31
+msgid "Everyone can edit"
+msgstr "Jeder kann bearbeiten"
+
+#: base_models.py:109
 msgid "Only editors can edit"
 msgstr "Nur Bearbeiter können bearbeiten."
 
-#: models.py:108
+#: base_models.py:110
 msgid "Only owner can edit"
 msgstr "Nur der Ersteller kann bearbeiten"
 
-#: models.py:111 models.py:247
+#: base_models.py:113 base_models.py:283 base_models.py:349
 msgid "description"
 msgstr "Beschreibung"
 
-#: models.py:112
+#: base_models.py:114
 msgid "center"
 msgstr "Mittelpunkt"
 
-#: models.py:113
+#: base_models.py:115
 msgid "zoom"
 msgstr "zoom"
 
-#: models.py:114
+#: base_models.py:116
 msgid "locate"
 msgstr "lokalisiere"
 
-#: models.py:114
+#: base_models.py:116
 msgid "Locate user on load?"
 msgstr "Standort des Benutzers bei dem Laden bestimmen?"
 
-#: models.py:117
+#: base_models.py:119
 msgid "Choose the map licence."
 msgstr "Kartenlizenz auswählen"
 
-#: models.py:118
+#: base_models.py:120
 msgid "licence"
 msgstr "Lizenz"
 
-#: models.py:123
+#: base_models.py:125
 msgid "background"
-msgstr ""
+msgstr "Hintergrund"
 
-#: models.py:124
+#: base_models.py:126
 msgid "owner"
 msgstr "Ersteller"
 
-#: models.py:125
+#: base_models.py:127
 msgid "editors"
 msgstr "Bearbeiter"
 
-#: models.py:126
+#: base_models.py:128
 msgid "edit status"
 msgstr "Bearbeitungsstatus"
 
-#: models.py:127
+#: base_models.py:129
 msgid "settings"
 msgstr ""
 
-#: models.py:181
+#: base_models.py:183
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr ""
+msgstr "Deine anonyme Karte wurde deinem Account %s zugeordnet."
 
-#: models.py:203
+#: base_models.py:205
 msgid "Clone of"
+msgstr "Kopie von"
+
+#: base_models.py:246
+msgid "pictogram"
+msgstr "pictogram"
+
+#: base_models.py:253
+msgid "icon type"
 msgstr ""
 
-#: models.py:252
+#: base_models.py:254
+msgid "Choose the style of the marker."
+msgstr ""
+
+#: base_models.py:285 base_models.py:352
+msgid "options"
+msgstr ""
+
+#: base_models.py:289
 msgid "display on load"
 msgstr "Bei dem Laden anzeigen"
 
-#: models.py:253
+#: base_models.py:290
 msgid "Display this layer on load."
-msgstr ""
+msgstr "Diese Ebene beim Seitenaufruf anzeigen."
 
-#: views.py:199
+#: base_models.py:330
+msgid "Layer 1"
+msgstr "Ebene 1"
+
+#: base_models.py:351
+msgid "layer"
+msgstr "Ebene"
+
+#: forms.py:27
+#, python-format
+msgid "Secret edit link is %s"
+msgstr "Geheimer Bearbeitungslink ist %s"
+
+#: forms.py:32
+msgid "Only editable with secret edit link"
+msgstr "Nur mit geheimen Bearbeitungslink zu bearbeiten."
+
+#: views.py:87
+msgid "An error occured."
+msgstr "Es ist ein Fehler aufgetreten."
+
+#: views.py:207
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
+msgstr "Deine Karte wurde erstellt! Wenn du diese Karte von einem anderen Computer aus bearbeiten möchtest, benutze bitte diesen Link: %(anonymous_url)s"
 
-#: views.py:204
+#: views.py:212
 msgid "Congratulations, your map has been created!"
-msgstr ""
+msgstr "Glückwunsch, deine Karte wurde erstellt!"
 
-#: views.py:227
+#: views.py:235
 msgid "Map has been updated!"
-msgstr ""
+msgstr "Karte wurde aktualisiert!"
 
-#: views.py:251
+#: views.py:259
 msgid "Map editors updated with success!"
 msgstr "Bearbeiter erfolgreich geändert"
 
-#: views.py:264
+#: views.py:272
 msgid "Only its owner can delete the map."
 msgstr "Nur der Ersteller kann eine Karte löschen."
 
-#: views.py:286
+#: views.py:294
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
+msgstr "Deine Karte wurde kopiert! Wenn du diese Karte von einem anderen Computer aus bearbeiten möchtest, benutze bitte diesen Link: %(anonymous_url)s"
 
-#: views.py:291
+#: views.py:299
 msgid "Congratulations, your map has been cloned!"
-msgstr ""
+msgstr "Glückwunsch, deine Karte wurde kopiert!"
 
-#: views.py:392
+#: views.py:400
 msgid "Layer successfully deleted."
-msgstr ""
+msgstr "Ebene erfolgreich gelöscht."
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
-msgstr ""
+msgstr "Du bist eingeloggt. Weiterleitung..."
 
 #: templates/leaflet_storage/map_update_permissions.html:2
 msgid "Map permissions"
@@ -181,9 +209,4 @@ msgstr "Bitte logge dich ein um fortzufahren."
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
-"Dein Benutzername und Password stimmen nicht überein. Bitte versuche es noch "
-"einmal."
-
-#~ msgid "pictogram"
-#~ msgstr "pictogram"
+msgstr "Dein Benutzername und Password stimmen nicht überein. Bitte versuche es noch einmal."
