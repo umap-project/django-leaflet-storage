@@ -14,13 +14,15 @@ DEFAULT_LONGITUDE = settings.LEAFLET_LONGITUDE if hasattr(settings, "LEAFLET_LON
 DEFAULT_CENTER = Point(DEFAULT_LONGITUDE, DEFAULT_LATITUDE)
 
 
-
 class FlatErrorList(ErrorList):
     def __unicode__(self):
         return self.flat()
+
     def flat(self):
-        if not self: return u''
+        if not self:
+            return u''
         return u' — '.join([e for e in self])
+
 
 class UpdateMapPermissionsForm(forms.ModelForm):
 
@@ -68,7 +70,7 @@ class MapSettingsForm(forms.ModelForm):
         if not slug and name:
             # If name is empty, don't do nothing, validation will raise
             # later on the process because name is required
-            self.cleaned_data['slug'] = slugify(name)
+            self.cleaned_data['slug'] = slugify(name) or "map"
             return self.cleaned_data['slug'][:50]
         else:
             return ""

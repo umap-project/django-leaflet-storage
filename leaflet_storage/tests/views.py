@@ -120,6 +120,27 @@ class MapViews(BaseTest):
         self.assertEqual(clone.name, u"Clone of " + self.map.name)
         self.assertEqual(clone.owner, other_user)
 
+    def test_map_creation_should_allow_unicode_names(self):
+        url = reverse('map_create')
+        # POST only mendatory fields
+        name = u'Академический'
+        post_data = {
+            'name': name,
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
+            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
+        }
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.post(url, post_data)
+        self.assertEqual(response.status_code, 200)
+        json = simplejson.loads(response.content)
+        created_map = Map.objects.latest('pk')
+        self.assertEqual(json['id'], created_map.pk)
+        self.assertEqual(created_map.name, name)
+        # Lower case of the russian original name
+        # self.assertEqual(created_map.slug, u"академический")
+        # for now we fallback to "map", see unicode_name branch
+        self.assertEqual(created_map.slug, u"map")
+
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=True)
 class AnonymousMapViews(BaseTest):
