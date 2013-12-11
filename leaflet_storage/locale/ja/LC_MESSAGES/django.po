@@ -3,211 +3,209 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# acastren, 2013
-# jaakkoh <jaakko@helleranta.com>, 2013
-# jaakkoh <jaakko@helleranta.com>, 2013
+# nyampire <nyampire@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 12:08+0100\n"
-"PO-Revision-Date: 2013-12-08 19:05+0000\n"
-"Last-Translator: acastren\n"
-"Language-Team: Finnish (http://www.transifex.com/projects/p/umap/language/fi/)\n"
+"PO-Revision-Date: 2013-12-10 15:44+0000\n"
+"Last-Translator: nyampire <nyampire@gmail.com>\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/umap/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: base_models.py:22
 msgid "name"
-msgstr "nimi"
+msgstr "名称"
 
 #: base_models.py:37
 msgid "details"
-msgstr "tarkemmat tiedot"
+msgstr "詳細"
 
 #: base_models.py:38
 msgid "Link to a page where the licence is detailed."
-msgstr "Linkki sivulle, jossa lisenssi on määritetty yksityiskohtaisesti."
+msgstr "ライセンス詳細ページへのリンク"
 
 #: base_models.py:50
 msgid "No licence set"
-msgstr "Määrittämätön lisenssi"
+msgstr "ライセンス未設定"
 
 #: base_models.py:64
 msgid "URL template using OSM tile format"
-msgstr "OSM-karttatiiliformaattia mukaileva URL-sapluuna"
+msgstr "OSMタイルフォーマットを利用したURLテンプレート"
 
 #: base_models.py:72
 msgid "Order of the tilelayers in the edit box"
-msgstr "Taustakarttojen järjestys muokkauslaatikossa"
+msgstr "編集ボックス内のタイルレイヤ並び順"
 
 #: base_models.py:108 forms.py:31
 msgid "Everyone can edit"
-msgstr "Kuka tahansa saa muokata"
+msgstr "だれでも編集可能"
 
 #: base_models.py:109
 msgid "Only editors can edit"
-msgstr "Vain julkaisijat saavat muokata"
+msgstr "指定ユーザのみ編集可能"
 
 #: base_models.py:110
 msgid "Only owner can edit"
-msgstr "Vain omistaja saa muokata"
+msgstr "所有者のみ編集可能"
 
 #: base_models.py:113 base_models.py:283 base_models.py:349
 msgid "description"
-msgstr "kuvaus"
+msgstr "概要"
 
 #: base_models.py:114
 msgid "center"
-msgstr "keskitä"
+msgstr "中心点"
 
 #: base_models.py:115
 msgid "zoom"
-msgstr "zoomaa"
+msgstr "ズーム"
 
 #: base_models.py:116
 msgid "locate"
-msgstr "paikanna"
+msgstr "現在地"
 
 #: base_models.py:116
 msgid "Locate user on load?"
-msgstr "Paikanna käyttäjä sivua ladattaessa?"
+msgstr "読み込み時に現在地を表示？"
 
 #: base_models.py:119
 msgid "Choose the map licence."
-msgstr "Valitse kartan lisenssi"
+msgstr "マップのライセンスを選択"
 
 #: base_models.py:120
 msgid "licence"
-msgstr "lisenssi"
+msgstr "ライセンス"
 
 #: base_models.py:125
 msgid "background"
-msgstr "tausta"
+msgstr "背景地図"
 
 #: base_models.py:126
 msgid "owner"
-msgstr "omistaja"
+msgstr "所有者"
 
 #: base_models.py:127
 msgid "editors"
-msgstr "julkaisija"
+msgstr "編集者"
 
 #: base_models.py:128
 msgid "edit status"
-msgstr "muokkaa tilaa"
+msgstr "編集ステータス"
 
 #: base_models.py:129
 msgid "settings"
-msgstr "asetukset"
+msgstr "設定"
 
 #: base_models.py:183
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr "Anonyymi karttasi on liitetty tiliisi %s"
+msgstr "所有者不明のマップがアカウント %s と関連付けられました"
 
 #: base_models.py:205
 msgid "Clone of"
-msgstr "Kloonattu kartasta"
+msgstr "複製元"
 
 #: base_models.py:246
 msgid "pictogram"
-msgstr "piktogrammi"
+msgstr "ピクトグラム"
 
 #: base_models.py:253
 msgid "icon type"
-msgstr "ikoni-tyyppi"
+msgstr "アイコンタイプ"
 
 #: base_models.py:254
 msgid "Choose the style of the marker."
-msgstr "Valitse karttamerkin tyyppi"
+msgstr "マーカーのスタイルを選択"
 
 #: base_models.py:285 base_models.py:352
 msgid "options"
-msgstr "vaihtoehdot"
+msgstr "オプション"
 
 #: base_models.py:289
 msgid "display on load"
-msgstr "näytä ladattaessa"
+msgstr "読み込み時に表示"
 
 #: base_models.py:290
 msgid "Display this layer on load."
-msgstr "Näytä tämä kerros ladattaessa."
+msgstr "読み込み時にこのレイヤを表示"
 
 #: base_models.py:330
 msgid "Layer 1"
-msgstr "Kerros 1"
+msgstr "レイヤ 1"
 
 #: base_models.py:351
 msgid "layer"
-msgstr "kerros"
+msgstr "レイヤ"
 
 #: forms.py:27
 #, python-format
 msgid "Secret edit link is %s"
-msgstr "Salainen muokkauslinkki on %s"
+msgstr "非公開の編集用リンク %s"
 
 #: forms.py:32
 msgid "Only editable with secret edit link"
-msgstr "Muokattavissa vain salaisella muokkauslinkillä"
+msgstr "非公開の編集リンクからのみ編集可能"
 
 #: views.py:87
 msgid "An error occured."
-msgstr "Hupsankeikkaa! Pieni virhe pääsi yllättämään..."
+msgstr "エラーが発生しました"
 
 #: views.py:207
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "Karttasi on luotu! Jos haluat muokata tätä karttaa joltain muulta tietokoneelta, käytä tätä linkkiä: %(anonymous_url)s"
+msgstr "マップの作成が完了しました！ このマップを他の端末から編集する場合、いかのリンクを使用してください: %(anonymous_url)s"
 
 #: views.py:212
 msgid "Congratulations, your map has been created!"
-msgstr "Onneksi olkoon! Uusi karttasi on luotu!"
+msgstr "マップ作成完了です！"
 
 #: views.py:235
 msgid "Map has been updated!"
-msgstr "Kartta on päivitetty!"
+msgstr "マップが更新されました！"
 
 #: views.py:259
 msgid "Map editors updated with success!"
-msgstr "Kartan toimittajat päivitetty onnistuneesti!"
+msgstr "マップ編集者の更新が完了しました！"
 
 #: views.py:272
 msgid "Only its owner can delete the map."
-msgstr "Vain kartan omistaja voi poistaa kartan."
+msgstr "マップを削除できるのは所有者だけです"
 
 #: views.py:294
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "Karttasi on kloonattu! Jos haluat muokata tätä karttaa joltain muulta tietokoneelta, käytä tätä linkkiä: %(anonymous_url)s"
+msgstr "マップの複製が完了しました！ このマップを他の端末から編集する場合、以下のリンクを使用してください: %(anonymous_url)s"
 
 #: views.py:299
 msgid "Congratulations, your map has been cloned!"
-msgstr "Onneksi olkoon! Karttasi on kloonattu!"
+msgstr "マップの複製が完了しました！"
 
 #: views.py:400
 msgid "Layer successfully deleted."
-msgstr "Kerros onnistuneesti poistettu. Pysyvästi."
+msgstr "レイヤ削除完了"
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
-msgstr "Sisäänkirjautumisesi onnistui. Jatketahan..."
+msgstr "ログインしました"
 
 #: templates/leaflet_storage/map_update_permissions.html:2
 msgid "Map permissions"
-msgstr "Kartan oikeudet"
+msgstr "マップ編集許可"
 
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"
-msgstr "Rekisteröidythän jatkaaksesi, jooko?"
+msgstr "ログインが必要です"
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr "Käyttäjätunnuksesi ja salasanasi eivät täsmänneet. Yritä uudestaan ole hyvä."
+msgstr "ユーザ名とパスワードが不一致です。もう一度入力してください。"
