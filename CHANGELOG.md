@@ -6,6 +6,7 @@
 - upload and download moved to client side (see Leaflet.Storage)
 - cloned map name is now prefixed by "Clone of "
 - added Transifex config
+- workaround for non asciiable map names
 
 
 ## 0.4.0
