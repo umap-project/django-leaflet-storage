@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import os
+import hashlib
 
 from django.conf import settings
 from django.contrib import messages
@@ -357,6 +358,7 @@ class DataLayerView(BaseDetailView):
             content_type='application/json'
         )
         response["Last-Modified"] = http_date(statobj.st_mtime)
+        response['ETag'] = '"%s"' % hashlib.md5(response.content).hexdigest()
         return response
 
 

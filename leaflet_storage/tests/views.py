@@ -317,6 +317,17 @@ class MapViewsPermissions(ViewsPermissionsTest):
 
 class DataLayerViews(BaseTest):
 
+    def test_get(self):
+        url = reverse('datalayer_view', args=(self.datalayer.pk, ))
+        response = self.client.get(url)
+        self.assertIsNotNone(response['Etag'])
+        self.assertIsNotNone(response['Last-Modified'])
+        self.assertIsNotNone(response['Cache-Control'])
+        json = simplejson.loads(response.content)
+        self.assertIn('_storage', json)
+        self.assertIn('features', json)
+        self.assertEquals(json['type'], 'FeatureCollection')
+
     def test_update(self):
         url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
