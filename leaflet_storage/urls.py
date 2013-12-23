@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.views import login
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.cache import never_cache
+from django.views.decorators.cache import never_cache, cache_control
 
 from . import views
 from .decorators import jsonize_view, map_permissions_check,\
@@ -15,8 +15,10 @@ urlpatterns = patterns('',
     url(r'^map/(?P<username>[-_\w]+)/(?P<slug>[-_\w]+)/$', views.MapOldUrl.as_view(), name='map_old_url'),
     url(r'^map/anonymous-edit/(?P<signature>.+)$', views.MapAnonymousEditUrl.as_view(), name='map_anonymous_edit_url'),
     url(r'^m/(?P<pk>\d+)/$', views.MapShortUrl.as_view(), name='map_short_url'),
-    url(r'^datalayer/(?P<pk>[\d]+)/$', views.DataLayerView.as_view(), name='datalayer_view'),
     url(r'^pictogram/json/$', views.PictogramJSONList.as_view(), name='pictogram_list_json'),
+)
+urlpatterns += decorated_patterns('', [cache_control(must_revalidate=True), ],
+    url(r'^datalayer/(?P<pk>[\d]+)/$', views.DataLayerView.as_view(), name='datalayer_view'),
 )
 urlpatterns += decorated_patterns('', [ensure_csrf_cookie, ],
     url(r'^map/(?P<slug>[-_\w]+)_(?P<pk>\d+)$', views.MapView.as_view(), name='map'),
