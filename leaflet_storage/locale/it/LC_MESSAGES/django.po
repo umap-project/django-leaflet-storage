@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 12:08+0100\n"
-"PO-Revision-Date: 2013-12-24 22:53+0000\n"
+"PO-Revision-Date: 2013-12-25 18:18+0000\n"
 "Last-Translator: Maurizio Napolitano <maurizio.napolitano@okfn.org>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/umap/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "dettagli"
 
 #: base_models.py:38
 msgid "Link to a page where the licence is detailed."
-msgstr "Link ad una pagina dove con i dettagli della licenza"
+msgstr "Link alla pagina con i dettagli della licenza"
 
 #: base_models.py:50
 msgid "No licence set"
@@ -50,7 +50,7 @@ msgstr "Chiunque può fare modifiche"
 
 #: base_models.py:109
 msgid "Only editors can edit"
-msgstr "Solo gli editor possono modificare"
+msgstr "Solo gli editor possono fare modifiche"
 
 #: base_models.py:110
 msgid "Only owner can edit"
@@ -86,7 +86,7 @@ msgstr "licenza"
 
 #: base_models.py:125
 msgid "background"
-msgstr "background"
+msgstr "sfondo"
 
 #: base_models.py:126
 msgid "owner"
@@ -107,11 +107,11 @@ msgstr "impostazioni"
 #: base_models.py:183
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr "La mappa anonima è stata collegata all'account %s"
+msgstr "La mappa anonima è stata associata all'account %s"
 
 #: base_models.py:205
 msgid "Clone of"
-msgstr "Clonata da "
+msgstr "Duplicata da "
 
 #: base_models.py:246
 msgid "pictogram"
@@ -135,7 +135,7 @@ msgstr "mostra al caricamento"
 
 #: base_models.py:290
 msgid "Display this layer on load."
-msgstr "Visualizza questo layer durante il caricamento"
+msgstr "Visualizza questo layer al caricamento."
 
 #: base_models.py:330
 msgid "Layer 1"
@@ -167,7 +167,7 @@ msgstr "La mappa è stata creata! Per modificarla da un altro computer, si deve 
 
 #: views.py:212
 msgid "Congratulations, your map has been created!"
-msgstr "Congratulazioni, la tua mappa è stata creata!"
+msgstr "Congratulazioni, la mappa è stata creata!"
 
 #: views.py:235
 msgid "Map has been updated!"
@@ -175,7 +175,7 @@ msgstr "La mappa è stata aggiornata!"
 
 #: views.py:259
 msgid "Map editors updated with success!"
-msgstr "Gli editor abilitati alla modifica della mappa sono stati aggiornati!"
+msgstr "Aggiornato l'elenco degli editor abilitati alla modifica della mappa!"
 
 #: views.py:272
 msgid "Only its owner can delete the map."
