@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Maurizio Napolitano <maurizio.napolitano@okfn.org>, 2013
 # claudiamocci <moccicm@gmail.com>, 2013
 # YOHAN BONIFACE <yb@enix.org>, 2012
 msgid ""
@@ -10,8 +11,8 @@ msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 12:08+0100\n"
-"PO-Revision-Date: 2013-12-17 14:54+0000\n"
-"Last-Translator: claudiamocci <moccicm@gmail.com>\n"
+"PO-Revision-Date: 2013-12-24 22:53+0000\n"
+"Last-Translator: Maurizio Napolitano <maurizio.napolitano@okfn.org>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/umap/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +30,7 @@ msgstr "dettagli"
 
 #: base_models.py:38
 msgid "Link to a page where the licence is detailed."
-msgstr "Link ad una pagina dove ci sono i dettagli della licenza."
+msgstr "Link ad una pagina dove con i dettagli della licenza"
 
 #: base_models.py:50
 msgid "No licence set"
@@ -41,11 +42,11 @@ msgstr "Modello dell'URL usando il formato delle tile OSM"
 
 #: base_models.py:72
 msgid "Order of the tilelayers in the edit box"
-msgstr "Ordine degli sfondi nel box di modifica"
+msgstr "Ordine degli sfondi (tilelayers) nel box di modifica"
 
 #: base_models.py:108 forms.py:31
 msgid "Everyone can edit"
-msgstr "Tutti possono modificare"
+msgstr "Chiunque può fare modifiche"
 
 #: base_models.py:109
 msgid "Only editors can edit"
@@ -53,7 +54,7 @@ msgstr "Solo gli editor possono modificare"
 
 #: base_models.py:110
 msgid "Only owner can edit"
-msgstr "Solo il proprietario può modificare"
+msgstr "Solo il proprietario può effettuare modifiche"
 
 #: base_models.py:113 base_models.py:283 base_models.py:349
 msgid "description"
@@ -61,7 +62,7 @@ msgstr "descrizione"
 
 #: base_models.py:114
 msgid "center"
-msgstr "centro"
+msgstr "centra"
 
 #: base_models.py:115
 msgid "zoom"
@@ -106,11 +107,11 @@ msgstr "impostazioni"
 #: base_models.py:183
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr "La vostra mappa anonima è stata allegata sul vostro account %s"
+msgstr "La mappa anonima è stata collegata all'account %s"
 
 #: base_models.py:205
 msgid "Clone of"
-msgstr "clone di"
+msgstr "Clonata da "
 
 #: base_models.py:246
 msgid "pictogram"
@@ -118,11 +119,11 @@ msgstr "pittogramma"
 
 #: base_models.py:253
 msgid "icon type"
-msgstr "icona tipo"
+msgstr "Tipo di icona"
 
 #: base_models.py:254
 msgid "Choose the style of the marker."
-msgstr "Scegli lo stile del marcatore"
+msgstr "Selezionare lo stile del marcatore"
 
 #: base_models.py:285 base_models.py:352
 msgid "options"
@@ -147,22 +148,22 @@ msgstr "layer "
 #: forms.py:27
 #, python-format
 msgid "Secret edit link is %s"
-msgstr "Il link di modifica segreto è %s"
+msgstr "Il link segreto per la modifica %s"
 
 #: forms.py:32
 msgid "Only editable with secret edit link"
-msgstr "Modificabile solo con il link di modifica segreto"
+msgstr "Modificabile solo con il link segreto di modifica"
 
 #: views.py:87
 msgid "An error occured."
-msgstr "Un errore riscontrato."
+msgstr "Si è verificato un errore."
 
 #: views.py:207
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "La tua mappa è stata creata! Se vuoi modificare questa mappa da un altro computer, per favore usa questo link:   %(anonymous_url)s"
+msgstr "La mappa è stata creata! Per modificarla da un altro computer, si deve utilizzare questo link:   %(anonymous_url)s"
 
 #: views.py:212
 msgid "Congratulations, your map has been created!"
@@ -170,26 +171,26 @@ msgstr "Congratulazioni, la tua mappa è stata creata!"
 
 #: views.py:235
 msgid "Map has been updated!"
-msgstr "la vostra mappa è stata creata"
+msgstr "La mappa è stata aggiornata!"
 
 #: views.py:259
 msgid "Map editors updated with success!"
-msgstr "Editor della mappa aggiornati con successo!"
+msgstr "Gli editor abilitati alla modifica della mappa sono stati aggiornati!"
 
 #: views.py:272
 msgid "Only its owner can delete the map."
-msgstr "Solo il proprietario può cancellare la mappa."
+msgstr "Solo il proprietario può eliminare la mappa."
 
 #: views.py:294
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "La tua mappa è stata clonata! Se vuoi modificare questa mappa usando un altro computer, per favore usa questo link: %(anonymous_url)s"
+msgstr "La mappa è stata clonata! Per modificarla usando un altro computer, si deve utilizzare questo link: %(anonymous_url)s"
 
 #: views.py:299
 msgid "Congratulations, your map has been cloned!"
-msgstr "Congratulazioni, la vostra mappa è stata clonata!"
+msgstr "Ottimo, la mappa è stata clonata!"
 
 #: views.py:400
 msgid "Layer successfully deleted."
@@ -197,7 +198,7 @@ msgstr "Layer eliminato correttamente"
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
-msgstr "Ti sei registrato. Continua.."
+msgstr "Utente loggato. Continuare..."
 
 #: templates/leaflet_storage/map_update_permissions.html:2
 msgid "Map permissions"
@@ -205,8 +206,8 @@ msgstr "Permessi della mappa"
 
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"
-msgstr "Fai il login per continuare"
+msgstr "Effettuare il login per continuare"
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr "Il tuo username e la tua password non corrispondono. Riprova."
+msgstr "Username e password non corrispondono. Riprovare."
