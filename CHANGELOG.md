@@ -7,6 +7,7 @@
 - cloned map name is now prefixed by "Clone of "
 - added Transifex config
 - workaround for non asciiable map names
+- add a share_status fielf in Map model
 
 
 ## 0.4.0
