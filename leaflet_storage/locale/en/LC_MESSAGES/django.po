@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-04 23:32+0100\n"
+"POT-Creation-Date: 2014-01-09 23:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,151 +17,171 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: forms.py:37
+#: forms.py:39
 #, python-format
 msgid "Secret edit link is %s"
 msgstr ""
 
-#: forms.py:41 models.py:106
+#: forms.py:43 models.py:110
 msgid "Everyone can edit"
 msgstr ""
 
-#: forms.py:42
+#: forms.py:44
 msgid "Only editable with secret edit link"
 msgstr ""
 
-#: models.py:20
+#: models.py:21
 msgid "name"
 msgstr ""
 
-#: models.py:35
+#: models.py:36
 msgid "details"
 msgstr ""
 
-#: models.py:36
+#: models.py:37
 msgid "Link to a page where the licence is detailed."
 msgstr ""
 
-#: models.py:48
+#: models.py:49
 msgid "No licence set"
 msgstr ""
 
-#: models.py:62
+#: models.py:63
 msgid "URL template using OSM tile format"
 msgstr ""
 
-#: models.py:70
+#: models.py:71
 msgid "Order of the tilelayers in the edit box"
 msgstr ""
 
-#: models.py:107
+#: models.py:111
 msgid "Only editors can edit"
 msgstr ""
 
-#: models.py:108
+#: models.py:112
 msgid "Only owner can edit"
 msgstr ""
 
-#: models.py:111 models.py:247
-msgid "description"
+#: models.py:115
+msgid "everyone (public)"
 msgstr ""
 
-#: models.py:112
-msgid "center"
-msgstr ""
-
-#: models.py:113
-msgid "zoom"
-msgstr ""
-
-#: models.py:114
-msgid "locate"
-msgstr ""
-
-#: models.py:114
-msgid "Locate user on load?"
+#: models.py:116
+msgid "anyone with link"
 msgstr ""
 
 #: models.py:117
-msgid "Choose the map licence."
+msgid "editors only"
 msgstr ""
 
-#: models.py:118
-msgid "licence"
+#: models.py:120 models.py:269
+msgid "description"
+msgstr ""
+
+#: models.py:121
+msgid "center"
+msgstr ""
+
+#: models.py:122
+msgid "zoom"
 msgstr ""
 
 #: models.py:123
-msgid "background"
+msgid "locate"
 msgstr ""
 
-#: models.py:124
-msgid "owner"
-msgstr ""
-
-#: models.py:125
-msgid "editors"
+#: models.py:123
+msgid "Locate user on load?"
 msgstr ""
 
 #: models.py:126
-msgid "edit status"
+msgid "Choose the map licence."
 msgstr ""
 
 #: models.py:127
+msgid "licence"
+msgstr ""
+
+#: models.py:132
+msgid "background"
+msgstr ""
+
+#: models.py:133
+msgid "owner"
+msgstr ""
+
+#: models.py:134
+msgid "editors"
+msgstr ""
+
+#: models.py:135
+msgid "edit status"
+msgstr ""
+
+#: models.py:136
+msgid "share status"
+msgstr ""
+
+#: models.py:137
 msgid "settings"
 msgstr ""
 
-#: models.py:181
+#: models.py:192
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr ""
 
-#: models.py:203
+#: models.py:225
 msgid "Clone of"
 msgstr ""
 
-#: models.py:252
+#: models.py:274
 msgid "display on load"
 msgstr ""
 
-#: models.py:253
+#: models.py:275
 msgid "Display this layer on load."
 msgstr ""
 
-#: views.py:199
+#: views.py:156
+msgid "Forbidden"
+msgstr ""
+
+#: views.py:208
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:204
+#: views.py:213
 msgid "Congratulations, your map has been created!"
 msgstr ""
 
-#: views.py:227
+#: views.py:236
 msgid "Map has been updated!"
 msgstr ""
 
-#: views.py:251
+#: views.py:260
 msgid "Map editors updated with success!"
 msgstr ""
 
-#: views.py:264
+#: views.py:273
 msgid "Only its owner can delete the map."
 msgstr ""
 
-#: views.py:286
+#: views.py:295
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:291
+#: views.py:300
 msgid "Congratulations, your map has been cloned!"
 msgstr ""
 
-#: views.py:392
+#: views.py:402
 msgid "Layer successfully deleted."
 msgstr ""
 

@@ -141,6 +141,54 @@ class MapViews(BaseTest):
         # for now we fallback to "map", see unicode_name branch
         self.assertEqual(created_map.slug, u"map")
 
+    def test_anonymous_can_access_map_with_share_status_public(self):
+        url = reverse('map', args=(self.map.slug, self.map.pk))
+        self.map.share_status = self.map.PUBLIC
+        self.map.save()
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_anonymous_can_access_map_with_share_status_open(self):
+        url = reverse('map', args=(self.map.slug, self.map.pk))
+        self.map.share_status = self.map.OPEN
+        self.map.save()
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_anonymous_cannot_access_map_with_share_status_private(self):
+        url = reverse('map', args=(self.map.slug, self.map.pk))
+        self.map.share_status = self.map.PRIVATE
+        self.map.save()
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 403)
+
+    def test_owner_can_access_map_with_share_status_private(self):
+        url = reverse('map', args=(self.map.slug, self.map.pk))
+        self.map.share_status = self.map.PRIVATE
+        self.map.save()
+        self.client.login(username=self.user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_editors_can_access_map_with_share_status_private(self):
+        url = reverse('map', args=(self.map.slug, self.map.pk))
+        self.map.share_status = self.map.PRIVATE
+        other_user = UserFactory(username="Bob", password="123123")
+        self.map.editors.add(other_user)
+        self.map.save()
+        self.client.login(username=other_user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+
+    def test_non_editor_cannot_access_map_with_share_status_private(self):
+        url = reverse('map', args=(self.map.slug, self.map.pk))
+        self.map.share_status = self.map.PRIVATE
+        other_user = UserFactory(username="Bob", password="123123")
+        self.map.save()
+        self.client.login(username=other_user.username, password="123123")
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 403)
+
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=True)
 class AnonymousMapViews(BaseTest):
@@ -268,6 +316,18 @@ class AnonymousMapViews(BaseTest):
         self.assertNotEqual(clone.pk, self.map.pk)
         self.assertEqual(clone.name, u"Clone of " + self.map.name)
         self.assertEqual(clone.owner, None)
+
+    def test_anyone_can_access_anonymous_map(self):
+        url = reverse('map', args=(self.map.slug, self.map.pk))
+        self.map.share_status = self.map.PUBLIC
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.map.share_status = self.map.OPEN
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
+        self.map.share_status = self.map.PRIVATE
+        response = self.client.get(url)
+        self.assertEquals(response.status_code, 200)
 
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)

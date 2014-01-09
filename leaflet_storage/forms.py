@@ -28,7 +28,7 @@ class UpdateMapPermissionsForm(forms.ModelForm):
 
     class Meta:
         model = Map
-        fields = ('edit_status', 'editors')
+        fields = ('edit_status', 'editors', 'share_status')
 
 
 class AnonymousMapPermissionsForm(forms.ModelForm):

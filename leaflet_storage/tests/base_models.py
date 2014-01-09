@@ -79,6 +79,14 @@ class MapModel(BaseTest):
         self.assertIsNotNone(datalayer.geojson)
         self.assertNotEqual(datalayer.geojson.path, self.datalayer.geojson.path)
 
+    def test_publicmanager_should_get_only_public_maps(self):
+        self.map.share_status = self.map.PUBLIC
+        open_map = MapFactory(owner=self.user, licence=self.licence, share_status=Map.OPEN)
+        private_map = MapFactory(owner=self.user, licence=self.licence, share_status=Map.PRIVATE)
+        self.assertIn(self.map, Map.public.all())
+        self.assertNotIn(open_map, Map.public.all())
+        self.assertNotIn(private_map, Map.public.all())
+
 
 class LicenceModel(BaseTest):
 

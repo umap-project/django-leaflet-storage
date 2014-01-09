@@ -14,6 +14,7 @@ from django.template.defaultfilters import slugify
 from django.core.files.base import File
 
 from .fields import DictField
+from .managers import PublicManager
 
 
 class NamedModel(models.Model):
@@ -102,10 +103,18 @@ class Map(NamedModel):
     ANONYMOUS = 1
     EDITORS = 2
     OWNER = 3
+    PUBLIC = 1
+    OPEN = 2
+    PRIVATE = 3
     EDIT_STATUS = (
         (ANONYMOUS, _('Everyone can edit')),
         (EDITORS, _('Only editors can edit')),
         (OWNER, _('Only owner can edit')),
+    )
+    SHARE_STATUS = (
+        (PUBLIC, _('everyone (public)')),
+        (OPEN, _('anyone with link')),
+        (PRIVATE, _('editors only')),
     )
     slug = models.SlugField(db_index=True)
     description = models.TextField(blank=True, null=True, verbose_name=_("description"))
@@ -124,9 +133,11 @@ class Map(NamedModel):
     owner = models.ForeignKey(User, blank=True, null=True, related_name="owned_maps", verbose_name=_("owner"))
     editors = models.ManyToManyField(User, blank=True, verbose_name=_("editors"))
     edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER, verbose_name=_("edit status"))
+    share_status = models.SmallIntegerField(choices=SHARE_STATUS, default=PUBLIC, verbose_name=_("share status"))
     settings = DictField(blank=True, null=True, verbose_name=_("settings"))
 
     objects = models.GeoManager()
+    public = PublicManager()
 
     @property
     def geojson(self):
@@ -188,6 +199,17 @@ class Map(NamedModel):
             can = True
         elif self.edit_status == self.EDITORS and user in self.editors.all():
             can = True
+        return can
+
+    def can_view(self, request):
+        if self.owner is None:
+            can = True
+        elif self.share_status in [self.PUBLIC, self.OPEN]:
+            can = True
+        elif request.user == self.owner:
+            can = True
+        else:
+            can = not (self.share_status == self.PRIVATE and request.user not in self.editors.all())
         return can
 
     @property

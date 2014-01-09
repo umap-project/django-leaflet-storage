@@ -1,174 +1,191 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Buggi <buggi@filzmail.com>, 2013
+# Buggi <buggi@filzmail.com>, 2013
+# yohanboniface <yohanboniface@free.fr>, 2013-2014
 # YOHAN BONIFACE <yb@enix.org>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-04 23:31+0100\n"
-"PO-Revision-Date: 2013-12-04 21:02+0000\n"
-"Last-Translator: Buggi <buggi@filzmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/umap/language/"
-"fr/)\n"
-"Language: fr\n"
+"POT-Creation-Date: 2014-01-09 23:23+0100\n"
+"PO-Revision-Date: 2014-01-09 22:33+0000\n"
+"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/umap/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: forms.py:37
+#: forms.py:39
 #, python-format
 msgid "Secret edit link is %s"
 msgstr "Lien d'édition secret: %s"
 
-#: forms.py:41 models.py:106
+#: forms.py:43 models.py:110
 msgid "Everyone can edit"
 msgstr "Tout le monde peut éditer"
 
-#: forms.py:42
+#: forms.py:44
 msgid "Only editable with secret edit link"
 msgstr "Editable seulement avec le lien d'édition secret"
 
-#: models.py:20
+#: models.py:21
 msgid "name"
 msgstr "nom"
 
-#: models.py:35
+#: models.py:36
 msgid "details"
 msgstr "détails"
 
-#: models.py:36
+#: models.py:37
 msgid "Link to a page where the licence is detailed."
 msgstr "Lien vers une page détaillant la licence."
 
-#: models.py:48
+#: models.py:49
 msgid "No licence set"
 msgstr "Aucune licence"
 
-#: models.py:62
+#: models.py:63
 msgid "URL template using OSM tile format"
 msgstr "Template d'URL au format OSM"
 
-#: models.py:70
+#: models.py:71
 msgid "Order of the tilelayers in the edit box"
 msgstr "Ordre des calques de tuile dans la zone d'édition"
 
-#: models.py:107
+#: models.py:111
 msgid "Only editors can edit"
 msgstr "Seuls les éditeurs peuvent éditer"
 
-#: models.py:108
+#: models.py:112
 msgid "Only owner can edit"
 msgstr "Seul le créateur peut modifier"
 
-#: models.py:111 models.py:247
+#: models.py:115
+msgid "everyone (public)"
+msgstr "tout le monde (public)"
+
+#: models.py:116
+msgid "anyone with link"
+msgstr "quiconque a le lien"
+
+#: models.py:117
+msgid "editors only"
+msgstr "seulement les éditeurs"
+
+#: models.py:120 models.py:269
 msgid "description"
 msgstr "description"
 
-#: models.py:112
+#: models.py:121
 msgid "center"
 msgstr "centre"
 
-#: models.py:113
+#: models.py:122
 msgid "zoom"
 msgstr "zoom"
 
-#: models.py:114
+#: models.py:123
 msgid "locate"
 msgstr "géolocaliser"
 
-#: models.py:114
+#: models.py:123
 msgid "Locate user on load?"
 msgstr "Géolocaliser l'utilisateur au chargement?"
 
-#: models.py:117
+#: models.py:126
 msgid "Choose the map licence."
 msgstr "Chosir une licence pour la carte"
 
-#: models.py:118
+#: models.py:127
 msgid "licence"
 msgstr "licence"
 
-#: models.py:123
+#: models.py:132
 msgid "background"
-msgstr ""
+msgstr "fond de carte"
 
-#: models.py:124
+#: models.py:133
 msgid "owner"
 msgstr "créateur"
 
-#: models.py:125
+#: models.py:134
 msgid "editors"
 msgstr "éditeurs"
 
-#: models.py:126
+#: models.py:135
 msgid "edit status"
 msgstr "statut d'édition"
 
-#: models.py:127
+#: models.py:136
+msgid "share status"
+msgstr "qui a accès"
+
+#: models.py:137
 msgid "settings"
 msgstr "réglages"
 
-#: models.py:181
+#: models.py:192
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "La carte a été associée à votre compte %s"
 
-#: models.py:203
+#: models.py:225
 msgid "Clone of"
 msgstr "Clone de"
 
-#: models.py:252
+#: models.py:274
 msgid "display on load"
 msgstr "afficher au chargement."
 
-#: models.py:253
+#: models.py:275
 msgid "Display this layer on load."
 msgstr "Afficher ce calque au chargement."
 
-#: views.py:199
+#: views.py:156
+msgid "Forbidden"
+msgstr "Interdit"
+
+#: views.py:208
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
-"Votre carte a été créée! Si vous souhaitez l'éditer depuis un autre "
-"ordinateur, veuillez utiliser ce lien: %(anonymous_url)s"
+msgstr "Votre carte a été créée! Si vous souhaitez l'éditer depuis un autre ordinateur, veuillez utiliser ce lien: %(anonymous_url)s"
 
-#: views.py:204
+#: views.py:213
 msgid "Congratulations, your map has been created!"
 msgstr "Félicitation, Votre carte a bien été créée !"
 
-#: views.py:227
+#: views.py:236
 msgid "Map has been updated!"
 msgstr "La carte a été mise à jour!"
 
-#: views.py:251
+#: views.py:260
 msgid "Map editors updated with success!"
 msgstr "Éditeurs de la carte mis à jour!"
 
-#: views.py:264
+#: views.py:273
 msgid "Only its owner can delete the map."
 msgstr "Seul le créateur de la carte peut la supprimer."
 
-#: views.py:286
+#: views.py:295
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
-"Votre carte a été dupliquée! Si vous souhaitez l'éditer depuis un autre "
-"ordinateur, veuillez utiliser ce lien: %(anonymous_url)s"
+msgstr "Votre carte a été dupliquée! Si vous souhaitez l'éditer depuis un autre ordinateur, veuillez utiliser ce lien: %(anonymous_url)s"
 
-#: views.py:291
+#: views.py:300
 msgid "Congratulations, your map has been cloned!"
 msgstr "Votre carte a été dupliquée!"
 
-#: views.py:392
+#: views.py:402
 msgid "Layer successfully deleted."
 msgstr "Calque supprimé."
 
@@ -187,24 +204,3 @@ msgstr "Merci de vous identifier pour continuer"
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
 msgstr "Nom d'utilisateur ou mot de passe incorrect. Merci de corriger."
-
-#~ msgid "pictogram"
-#~ msgstr "picto"
-
-#~ msgid "icon type"
-#~ msgstr "Type d'icone"
-
-#~ msgid "Choose the style of the marker."
-#~ msgstr "Choisir le style du marqueur"
-
-#~ msgid "options"
-#~ msgstr "options"
-
-#~ msgid "Layer 1"
-#~ msgstr "Calque 1"
-
-#~ msgid "layer"
-#~ msgstr "calque"
-
-#~ msgid "An error occured."
-#~ msgstr "Une erreur est survenue."

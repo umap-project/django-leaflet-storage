@@ -150,6 +150,12 @@ class MapDetailMixin(object):
 
 class MapView(MapDetailMixin, DetailView):
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.object.can_view(request):
+            return HttpResponseForbidden('Forbidden')
+        return super(MapView, self).get(request, *args, **kwargs)
+
     def get_datalayers(self):
         datalayers = DataLayer.objects.filter(map=self.object)  # TODO manage state
         return [l.metadata for l in datalayers]
