@@ -81,6 +81,7 @@ class FormLessEditMixin(object):
         kwargs['error_class'] = FlatErrorList
         return form_class(**kwargs)
 
+
 class MapDetailMixin(object):
 
     model = Map
@@ -90,6 +91,7 @@ class MapDetailMixin(object):
         properties = {}
         properties['datalayers'] = self.get_datalayers()
         properties['urls'] = _urls_for_js()
+        properties['urls'].update(getattr(settings, 'LEAFLET_STORAGE_EXTRA_URLS', {}))
         properties['tilelayers'] = self.get_tilelayers()
         # properties['name'] = self.object.name
         # properties['description'] = self.object.description
