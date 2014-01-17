@@ -5,14 +5,15 @@
 # Translators:
 # Maurizio Napolitano <maurizio.napolitano@okfn.org>, 2013
 # claudiamocci <moccicm@gmail.com>, 2013
+# simone_italy <simone@cortesi.com>, 2014
 # YOHAN BONIFACE <yb@enix.org>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-09 23:23+0100\n"
-"PO-Revision-Date: 2014-01-09 22:25+0000\n"
-"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"PO-Revision-Date: 2014-01-16 15:04+0000\n"
+"Last-Translator: simone_italy <simone@cortesi.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/umap/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,15 +68,15 @@ msgstr "Solo il proprietario può effettuare modifiche"
 
 #: models.py:115
 msgid "everyone (public)"
-msgstr ""
+msgstr "chiunque (pubblico)"
 
 #: models.py:116
 msgid "anyone with link"
-msgstr ""
+msgstr "chiunque abbia il ilnk"
 
 #: models.py:117
 msgid "editors only"
-msgstr ""
+msgstr "solo autori"
 
 #: models.py:120 models.py:269
 msgid "description"
@@ -123,7 +124,7 @@ msgstr "stato della modifica"
 
 #: models.py:136
 msgid "share status"
-msgstr ""
+msgstr "stato condivisione"
 
 #: models.py:137
 msgid "settings"
@@ -148,7 +149,7 @@ msgstr "Visualizza questo layer al caricamento."
 
 #: views.py:156
 msgid "Forbidden"
-msgstr ""
+msgstr "Vietato"
 
 #: views.py:208
 #, python-format
