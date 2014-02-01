@@ -3,201 +3,201 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# nyampire <nyampire@gmail.com>, 2013-2014
+# ramunasd <ieskok@ramuno.lt>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-09 23:23+0100\n"
-"PO-Revision-Date: 2014-01-20 11:46+0000\n"
-"Last-Translator: nyampire <nyampire@gmail.com>\n"
-"Language-Team: Japanese (http://www.transifex.com/projects/p/umap/language/ja/)\n"
+"PO-Revision-Date: 2014-01-22 20:14+0000\n"
+"Last-Translator: ramunasd <ieskok@ramuno.lt>\n"
+"Language-Team: Lithuanian (http://www.transifex.com/projects/p/umap/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: forms.py:39
 #, python-format
 msgid "Secret edit link is %s"
-msgstr "非公開の編集用リンク %s"
+msgstr "Slapta redagavimo nuoroda %s"
 
 #: forms.py:43 models.py:110
 msgid "Everyone can edit"
-msgstr "だれでも編集可能"
+msgstr "Visi gali redaguoti"
 
 #: forms.py:44
 msgid "Only editable with secret edit link"
-msgstr "非公開の編集リンクからのみ編集可能"
+msgstr "Redaguojamas tik su slapta nuoroda"
 
 #: models.py:21
 msgid "name"
-msgstr "名称"
+msgstr "vardas"
 
 #: models.py:36
 msgid "details"
-msgstr "詳細"
+msgstr "išsamiau"
 
 #: models.py:37
 msgid "Link to a page where the licence is detailed."
-msgstr "ライセンス詳細ページへのリンク"
+msgstr "Licenzijos aprašymo nuoroda."
 
 #: models.py:49
 msgid "No licence set"
-msgstr "ライセンス未設定"
+msgstr "Nenustatyta licenzija"
 
 #: models.py:63
 msgid "URL template using OSM tile format"
-msgstr "OSMタイルフォーマットを利用したURLテンプレート"
+msgstr "URL šablonas OSM kaladėlių formatui"
 
 #: models.py:71
 msgid "Order of the tilelayers in the edit box"
-msgstr "編集ボックス内のタイルレイヤ並び順"
+msgstr "Žemėlapio sluoksnių tvarka redagavimo lange"
 
 #: models.py:111
 msgid "Only editors can edit"
-msgstr "指定ユーザのみ編集可能"
+msgstr "Tik redaktoriai gali keisti"
 
 #: models.py:112
 msgid "Only owner can edit"
-msgstr "所有者のみ編集可能"
+msgstr "Tik savininkas gali keisti"
 
 #: models.py:115
 msgid "everyone (public)"
-msgstr "制限なし (公開)"
+msgstr "visi (viešai)"
 
 #: models.py:116
 msgid "anyone with link"
-msgstr "リンクを知っている人全員"
+msgstr "visi su nuoroda"
 
 #: models.py:117
 msgid "editors only"
-msgstr "編集者のみ"
+msgstr "tik keitėjai"
 
 #: models.py:120 models.py:269
 msgid "description"
-msgstr "概要"
+msgstr "aprašymas"
 
 #: models.py:121
 msgid "center"
-msgstr "中心点"
+msgstr "centras"
 
 #: models.py:122
 msgid "zoom"
-msgstr "ズーム"
+msgstr "mastelis"
 
 #: models.py:123
 msgid "locate"
-msgstr "現在地"
+msgstr "nustatyti padėtį"
 
 #: models.py:123
 msgid "Locate user on load?"
-msgstr "読み込み時に現在地を表示？"
+msgstr "Nustatyti padėti užsikrovus?"
 
 #: models.py:126
 msgid "Choose the map licence."
-msgstr "マップのライセンスを選択"
+msgstr "Pasirinkite žemėlapio licenziją."
 
 #: models.py:127
 msgid "licence"
-msgstr "ライセンス"
+msgstr "licenzija"
 
 #: models.py:132
 msgid "background"
-msgstr "背景地図"
+msgstr "fonas"
 
 #: models.py:133
 msgid "owner"
-msgstr "所有者"
+msgstr "savininkas"
 
 #: models.py:134
 msgid "editors"
-msgstr "編集者"
+msgstr "redaktoriai"
 
 #: models.py:135
 msgid "edit status"
-msgstr "編集ステータス"
+msgstr "keisti būseną"
 
 #: models.py:136
 msgid "share status"
-msgstr "共有状況"
+msgstr "pasidalinti būsena"
 
 #: models.py:137
 msgid "settings"
-msgstr "設定"
+msgstr "nustatymai"
 
 #: models.py:192
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr "所有者不明のマップがアカウント %s と関連付けられました"
+msgstr "Jūsų anoniminis žemėlapis prijungtas prie Jūsų paskyros %s"
 
 #: models.py:225
 msgid "Clone of"
-msgstr "複製元"
+msgstr "Kopija"
 
 #: models.py:274
 msgid "display on load"
-msgstr "読み込み時に表示"
+msgstr "rodyti pasikrovus"
 
 #: models.py:275
 msgid "Display this layer on load."
-msgstr "読み込み時にこのレイヤを表示"
+msgstr "Rodyti šį sluoksnį pasrikrovus."
 
 #: views.py:156
 msgid "Forbidden"
-msgstr "禁止"
+msgstr "Uždrausta"
 
 #: views.py:208
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "マップの作成が完了しました！ このマップを他の端末から編集する場合、いかのリンクを使用してください: %(anonymous_url)s"
+msgstr "Jūsų žemėlapis sėkmingai sukurtas! Jei norite redaguoti jį iš kito kompiuterio, pasinaudokite šia nuoroda: %(anonymous_url)s"
 
 #: views.py:213
 msgid "Congratulations, your map has been created!"
-msgstr "マップ作成完了です！"
+msgstr "Sveikinam, Jūsų žemėlapis sukurtas!"
 
 #: views.py:236
 msgid "Map has been updated!"
-msgstr "マップが更新されました！"
+msgstr "Žemėlapis atnaujintas!"
 
 #: views.py:260
 msgid "Map editors updated with success!"
-msgstr "マップ編集者の更新が完了しました！"
+msgstr "Žemėlapio keitėjai atnaujinti!"
 
 #: views.py:273
 msgid "Only its owner can delete the map."
-msgstr "マップを削除できるのは所有者だけです"
+msgstr "Tik savininkas gali ištrinti žemėlapį."
 
 #: views.py:295
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "マップの複製が完了しました！ このマップを他の端末から編集する場合、以下のリンクを使用してください: %(anonymous_url)s"
+msgstr "Jūsų žemėlapis nukopijuotas! Jei norite redaguoti jį iš kito kompiuterio, pasinaudokite šia nuoroda: %(anonymous_url)s"
 
 #: views.py:300
 msgid "Congratulations, your map has been cloned!"
-msgstr "マップの複製が完了しました！"
+msgstr "Sveikinam, Jūsų žemėlapis buvo nukopijuotas!"
 
 #: views.py:402
 msgid "Layer successfully deleted."
-msgstr "レイヤ削除完了"
+msgstr "Sluoksnis sėkmingai ištrintas."
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
-msgstr "ログインしました"
+msgstr "Sėkmingai prisijungėte. Kraunasi..."
 
 #: templates/leaflet_storage/map_update_permissions.html:2
 msgid "Map permissions"
-msgstr "マップ編集許可"
+msgstr "Žemėlapio leidimai"
 
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"
-msgstr "ログインが必要です"
+msgstr "Prisijunkite, kad tęsti"
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr "ユーザ名とパスワードが不一致です。もう一度入力してください。"
+msgstr "Jūsų vardas ir slaptažodis yra neteisingi. Prašom pabandyti iš naujo."
