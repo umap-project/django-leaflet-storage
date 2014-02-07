@@ -24,7 +24,7 @@ def leaflet_storage_js(locale=None):
 
 
 @register.inclusion_tag('leaflet_storage/map_fragment.html')
-def map_fragment(map_instance):
+def map_fragment(map_instance, **kwargs):
     layers = DataLayer.objects.filter(map=map_instance)
     datalayer_data = [c.metadata for c in layers]
     tilelayers = TileLayer.get_list()  # TODO: no need to all
@@ -51,6 +51,7 @@ def map_fragment(map_instance):
         'displayCaptionOnLoad': False,
         'default_iconUrl': "%sstorage/src/img/marker.png" % settings.STATIC_URL,
     })
+    map_settings['properties'].update(kwargs)
     return {
         "map_settings": simplejson.dumps(map_settings),
         "map": map_instance
