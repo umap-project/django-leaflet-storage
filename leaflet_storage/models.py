@@ -157,7 +157,7 @@ class Map(NamedModel):
         return settings
 
     def get_absolute_url(self):
-        return reverse("map", kwargs={'slug': self.slug, 'pk': self.pk})
+        return reverse("map", kwargs={'slug': self.slug or "map", 'pk': self.pk})
 
     def get_anonymous_edit_url(self):
         signer = Signer()
