@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 23:23+0100\n"
-"PO-Revision-Date: 2014-01-09 22:33+0000\n"
+"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"PO-Revision-Date: 2014-02-10 13:32+0000\n"
 "Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/umap/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,7 @@ msgstr "quiconque a le lien"
 msgid "editors only"
 msgstr "seulement les éditeurs"
 
-#: models.py:120 models.py:269
+#: models.py:120 models.py:252
 msgid "description"
 msgstr "description"
 
@@ -130,26 +130,22 @@ msgstr "qui a accès"
 msgid "settings"
 msgstr "réglages"
 
-#: models.py:192
+#: models.py:175
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "La carte a été associée à votre compte %s"
 
-#: models.py:225
+#: models.py:208
 msgid "Clone of"
 msgstr "Clone de"
 
-#: models.py:274
+#: models.py:257
 msgid "display on load"
 msgstr "afficher au chargement."
 
-#: models.py:275
+#: models.py:258
 msgid "Display this layer on load."
 msgstr "Afficher ce calque au chargement."
-
-#: views.py:156
-msgid "Forbidden"
-msgstr "Interdit"
 
 #: views.py:208
 #, python-format
@@ -166,26 +162,26 @@ msgstr "Félicitation, Votre carte a bien été créée !"
 msgid "Map has been updated!"
 msgstr "La carte a été mise à jour!"
 
-#: views.py:260
+#: views.py:261
 msgid "Map editors updated with success!"
 msgstr "Éditeurs de la carte mis à jour!"
 
-#: views.py:273
+#: views.py:274
 msgid "Only its owner can delete the map."
 msgstr "Seul le créateur de la carte peut la supprimer."
 
-#: views.py:295
+#: views.py:296
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr "Votre carte a été dupliquée! Si vous souhaitez l'éditer depuis un autre ordinateur, veuillez utiliser ce lien: %(anonymous_url)s"
 
-#: views.py:300
+#: views.py:301
 msgid "Congratulations, your map has been cloned!"
 msgstr "Votre carte a été dupliquée!"
 
-#: views.py:402
+#: views.py:403
 msgid "Layer successfully deleted."
 msgstr "Calque supprimé."
 

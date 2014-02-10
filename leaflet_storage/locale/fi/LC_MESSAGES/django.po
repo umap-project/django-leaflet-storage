@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 23:23+0100\n"
-"PO-Revision-Date: 2014-01-09 22:25+0000\n"
+"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"PO-Revision-Date: 2014-02-10 13:32+0000\n"
 "Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/umap/language/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "editors only"
 msgstr ""
 
-#: models.py:120 models.py:269
+#: models.py:120 models.py:252
 msgid "description"
 msgstr "kuvaus"
 
@@ -129,26 +129,22 @@ msgstr ""
 msgid "settings"
 msgstr "asetukset"
 
-#: models.py:192
+#: models.py:175
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "Anonyymi karttasi on liitetty tiliisi %s"
 
-#: models.py:225
+#: models.py:208
 msgid "Clone of"
 msgstr "Kloonattu kartasta"
 
-#: models.py:274
+#: models.py:257
 msgid "display on load"
 msgstr "näytä ladattaessa"
 
-#: models.py:275
+#: models.py:258
 msgid "Display this layer on load."
 msgstr "Näytä tämä kerros ladattaessa."
-
-#: views.py:156
-msgid "Forbidden"
-msgstr ""
 
 #: views.py:208
 #, python-format
@@ -165,26 +161,26 @@ msgstr "Onneksi olkoon! Uusi karttasi on luotu!"
 msgid "Map has been updated!"
 msgstr "Kartta on päivitetty!"
 
-#: views.py:260
+#: views.py:261
 msgid "Map editors updated with success!"
 msgstr "Kartan toimittajat päivitetty onnistuneesti!"
 
-#: views.py:273
+#: views.py:274
 msgid "Only its owner can delete the map."
 msgstr "Vain kartan omistaja voi poistaa kartan."
 
-#: views.py:295
+#: views.py:296
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr "Karttasi on kloonattu! Jos haluat muokata tätä karttaa joltain muulta tietokoneelta, käytä tätä linkkiä: %(anonymous_url)s"
 
-#: views.py:300
+#: views.py:301
 msgid "Congratulations, your map has been cloned!"
 msgstr "Onneksi olkoon! Karttasi on kloonattu!"
 
-#: views.py:402
+#: views.py:403
 msgid "Layer successfully deleted."
 msgstr "Kerros onnistuneesti poistettu. Pysyvästi."
 

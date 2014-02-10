@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 23:23+0100\n"
-"PO-Revision-Date: 2014-01-16 15:04+0000\n"
-"Last-Translator: simone_italy <simone@cortesi.com>\n"
+"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"PO-Revision-Date: 2014-02-10 13:32+0000\n"
+"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/umap/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,7 +78,7 @@ msgstr "chiunque abbia il ilnk"
 msgid "editors only"
 msgstr "solo autori"
 
-#: models.py:120 models.py:269
+#: models.py:120 models.py:252
 msgid "description"
 msgstr "descrizione"
 
@@ -130,26 +130,22 @@ msgstr "stato condivisione"
 msgid "settings"
 msgstr "impostazioni"
 
-#: models.py:192
+#: models.py:175
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "La mappa anonima è stata associata all'account %s"
 
-#: models.py:225
+#: models.py:208
 msgid "Clone of"
 msgstr "Duplicata da "
 
-#: models.py:274
+#: models.py:257
 msgid "display on load"
 msgstr "mostra al caricamento"
 
-#: models.py:275
+#: models.py:258
 msgid "Display this layer on load."
 msgstr "Visualizza questo layer al caricamento."
-
-#: views.py:156
-msgid "Forbidden"
-msgstr "Vietato"
 
 #: views.py:208
 #, python-format
@@ -166,26 +162,26 @@ msgstr "Congratulazioni, la mappa è stata creata!"
 msgid "Map has been updated!"
 msgstr "La mappa è stata aggiornata!"
 
-#: views.py:260
+#: views.py:261
 msgid "Map editors updated with success!"
 msgstr "Aggiornato l'elenco degli editor abilitati alla modifica della mappa!"
 
-#: views.py:273
+#: views.py:274
 msgid "Only its owner can delete the map."
 msgstr "Solo il proprietario può eliminare la mappa."
 
-#: views.py:295
+#: views.py:296
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr "La mappa è stata clonata! Per modificarla usando un altro computer, si deve utilizzare questo link: %(anonymous_url)s"
 
-#: views.py:300
+#: views.py:301
 msgid "Congratulations, your map has been cloned!"
 msgstr "Ottimo, la mappa è stata clonata!"
 
-#: views.py:402
+#: views.py:403
 msgid "Layer successfully deleted."
 msgstr "Layer eliminato correttamente"
 

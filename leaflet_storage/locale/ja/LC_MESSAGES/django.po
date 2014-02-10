@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 23:23+0100\n"
-"PO-Revision-Date: 2014-01-20 11:46+0000\n"
-"Last-Translator: nyampire <nyampire@gmail.com>\n"
+"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"PO-Revision-Date: 2014-02-10 13:32+0000\n"
+"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
 "Language-Team: Japanese (http://www.transifex.com/projects/p/umap/language/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,7 +75,7 @@ msgstr "リンクを知っている人全員"
 msgid "editors only"
 msgstr "編集者のみ"
 
-#: models.py:120 models.py:269
+#: models.py:120 models.py:252
 msgid "description"
 msgstr "概要"
 
@@ -127,26 +127,22 @@ msgstr "共有状況"
 msgid "settings"
 msgstr "設定"
 
-#: models.py:192
+#: models.py:175
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "所有者不明のマップがアカウント %s と関連付けられました"
 
-#: models.py:225
+#: models.py:208
 msgid "Clone of"
 msgstr "複製元"
 
-#: models.py:274
+#: models.py:257
 msgid "display on load"
 msgstr "読み込み時に表示"
 
-#: models.py:275
+#: models.py:258
 msgid "Display this layer on load."
 msgstr "読み込み時にこのレイヤを表示"
-
-#: views.py:156
-msgid "Forbidden"
-msgstr "禁止"
 
 #: views.py:208
 #, python-format
@@ -163,26 +159,26 @@ msgstr "マップ作成完了です！"
 msgid "Map has been updated!"
 msgstr "マップが更新されました！"
 
-#: views.py:260
+#: views.py:261
 msgid "Map editors updated with success!"
 msgstr "マップ編集者の更新が完了しました！"
 
-#: views.py:273
+#: views.py:274
 msgid "Only its owner can delete the map."
 msgstr "マップを削除できるのは所有者だけです"
 
-#: views.py:295
+#: views.py:296
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr "マップの複製が完了しました！ このマップを他の端末から編集する場合、以下のリンクを使用してください: %(anonymous_url)s"
 
-#: views.py:300
+#: views.py:301
 msgid "Congratulations, your map has been cloned!"
 msgstr "マップの複製が完了しました！"
 
-#: views.py:402
+#: views.py:403
 msgid "Layer successfully deleted."
 msgstr "レイヤ削除完了"
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-09 23:23+0100\n"
-"PO-Revision-Date: 2014-01-09 22:25+0000\n"
+"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"PO-Revision-Date: 2014-02-10 13:32+0000\n"
 "Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/umap/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid "editors only"
 msgstr ""
 
-#: models.py:120 models.py:269
+#: models.py:120 models.py:252
 msgid "description"
 msgstr "descrição"
 
@@ -126,25 +126,21 @@ msgstr ""
 msgid "settings"
 msgstr "parâmetros"
 
-#: models.py:192
+#: models.py:175
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr ""
 
-#: models.py:225
+#: models.py:208
 msgid "Clone of"
 msgstr ""
 
-#: models.py:274
+#: models.py:257
 msgid "display on load"
 msgstr "mostrar de início"
 
-#: models.py:275
+#: models.py:258
 msgid "Display this layer on load."
-msgstr ""
-
-#: views.py:156
-msgid "Forbidden"
 msgstr ""
 
 #: views.py:208
@@ -162,26 +158,26 @@ msgstr ""
 msgid "Map has been updated!"
 msgstr ""
 
-#: views.py:260
+#: views.py:261
 msgid "Map editors updated with success!"
 msgstr "Editores foram atualizados com sucesso!"
 
-#: views.py:273
+#: views.py:274
 msgid "Only its owner can delete the map."
 msgstr "Só o proprietário pode apagar o mapa."
 
-#: views.py:295
+#: views.py:296
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:300
+#: views.py:301
 msgid "Congratulations, your map has been cloned!"
 msgstr ""
 
-#: views.py:402
+#: views.py:403
 msgid "Layer successfully deleted."
 msgstr ""
 
