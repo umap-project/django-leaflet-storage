@@ -139,23 +139,6 @@ class Map(NamedModel):
     objects = models.GeoManager()
     public = PublicManager()
 
-    @property
-    def geojson(self):
-        #transitional
-        settings = self.settings
-        if not "properties" in settings:
-            settings["properties"] = dict(self.settings)
-            settings['properties']['zoom'] = self.zoom
-            settings['properties']['name'] = self.name
-            settings['properties']['description'] = self.description
-            if self.tilelayer:
-                settings['properties']['tilelayer'] = self.tilelayer.json
-            if self.licence:
-                settings['properties']['licence'] = self.licence.json
-        if not "geometry" in settings:
-            settings["geometry"] = simplejson.loads(self.center.geojson)
-        return settings
-
     def get_absolute_url(self):
         return reverse("map", kwargs={'slug': self.slug or "map", 'pk': self.pk})
 

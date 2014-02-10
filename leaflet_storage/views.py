@@ -184,7 +184,7 @@ class MapView(MapDetailMixin, DetailView):
         return shortUrl
 
     def get_geojson(self):
-        return self.object.geojson
+        return self.object.settings
 
 
 class MapNew(MapDetailMixin, TemplateView):
