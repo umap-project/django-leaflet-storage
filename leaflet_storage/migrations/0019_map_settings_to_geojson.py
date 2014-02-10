@@ -2,6 +2,7 @@
 import simplejson
 
 from south.v2 import DataMigration
+from leaflet_storage.models import Map
 
 
 class Migration(DataMigration):
@@ -24,7 +25,7 @@ class Migration(DataMigration):
                 settings["geometry"] = simplejson.loads(m.center.geojson)
             return settings
 
-        for m in orm['leaflet_storage.Map'].objects.order_by('modified_at'):
+        for m in Map.objects.order_by('modified_at'):
             m.settings = geojson(m)
             m.save()
 
