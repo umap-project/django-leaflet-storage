@@ -4,15 +4,15 @@
 # 
 # Translators:
 # hno2 <hno2@gmx.net>, 2013-2014
-# Klumbumbus <simson.gertrud@gmail.com>, 2013
+# Klumbumbus <simson.gertrud@gmail.com>, 2013-2014
 # YOHAN BONIFACE <yb@enix.org>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-10 14:31+0100\n"
-"PO-Revision-Date: 2014-02-10 13:32+0000\n"
-"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"PO-Revision-Date: 2014-02-28 00:29+0000\n"
+"Last-Translator: Klumbumbus <simson.gertrud@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/umap/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -140,11 +140,11 @@ msgstr "Kopie von"
 
 #: models.py:257
 msgid "display on load"
-msgstr "Beim Seitenaufruf anzeigen"
+msgstr "Beim Seitenaufruf einblenden"
 
 #: models.py:258
 msgid "Display this layer on load."
-msgstr "Diese Ebene beim Seitenaufruf anzeigen."
+msgstr "Diese Ebene beim Seitenaufruf einblenden."
 
 #: views.py:208
 #, python-format

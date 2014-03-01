@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import simplejson
 import os
 
 from django.contrib.gis.db import models
