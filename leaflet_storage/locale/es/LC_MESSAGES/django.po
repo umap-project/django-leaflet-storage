@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Igor Támara <igor@tamarapatino.org>, 2013
+# ravila <ravilacoya@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-10 14:31+0100\n"
-"PO-Revision-Date: 2014-02-10 13:32+0000\n"
-"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"PO-Revision-Date: 2014-03-20 13:11+0000\n"
+"Last-Translator: ravila <ravilacoya@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/umap/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +42,7 @@ msgstr "detalles"
 
 #: models.py:37
 msgid "Link to a page where the licence is detailed."
-msgstr "Enlace a una página donde se detalle la licencia."
+msgstr "Enlace a una página donde se detalla la licencia."
 
 #: models.py:49
 msgid "No licence set"
@@ -49,11 +50,11 @@ msgstr "No se ha especificado la licencia"
 
 #: models.py:63
 msgid "URL template using OSM tile format"
-msgstr "URL template para usar tiles de formato OSM"
+msgstr "URL modelo para usar teselas en formato OSM"
 
 #: models.py:71
 msgid "Order of the tilelayers in the edit box"
-msgstr "Orden de los capas en la caja de edición"
+msgstr "Orden de las capas de teselas en la caja de edición"
 
 #: models.py:111
 msgid "Only editors can edit"
@@ -65,15 +66,15 @@ msgstr "Solamente el propietario puede editar"
 
 #: models.py:115
 msgid "everyone (public)"
-msgstr ""
+msgstr "todo el mundo (público)"
 
 #: models.py:116
 msgid "anyone with link"
-msgstr ""
+msgstr "cualquiera que tenga el enlace"
 
 #: models.py:117
 msgid "editors only"
-msgstr ""
+msgstr "sólo editores"
 
 #: models.py:120 models.py:252
 msgid "description"
@@ -109,7 +110,7 @@ msgstr "fondo"
 
 #: models.py:133
 msgid "owner"
-msgstr "dueño"
+msgstr "propietario"
 
 #: models.py:134
 msgid "editors"
@@ -117,11 +118,11 @@ msgstr "editores"
 
 #: models.py:135
 msgid "edit status"
-msgstr "estado de edición"
+msgstr "estado de la edición"
 
 #: models.py:136
 msgid "share status"
-msgstr ""
+msgstr "compartir estado"
 
 #: models.py:137
 msgid "settings"
@@ -134,7 +135,7 @@ msgstr "Tu mapa anónimo se ha adjuntado a tu cuenta %s"
 
 #: models.py:208
 msgid "Clone of"
-msgstr ""
+msgstr "Clon de"
 
 #: models.py:257
 msgid "display on load"
@@ -149,42 +150,42 @@ msgstr "Mostrar esta capa al cargar."
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "Tu mapa ha sido creado! Si deseas editarlo desde otro computador, por favor usa este link: %(anonymous_url)s"
+msgstr "Tu mapa ha sido creado! Si deseas editarlo desde otro ordenador, por favor usa este link: %(anonymous_url)s"
 
 #: views.py:213
 msgid "Congratulations, your map has been created!"
-msgstr ""
+msgstr "¡Enhorabuena! ¡Tu mapa ha sido creado!"
 
 #: views.py:236
 msgid "Map has been updated!"
-msgstr ""
+msgstr "¡El mapa ha sido actualizado!"
 
 #: views.py:261
 msgid "Map editors updated with success!"
-msgstr "Acutalizados editores de mapas exitósamente"
+msgstr "¡Los editores de mapas han sido actualizados con éxito!"
 
 #: views.py:274
 msgid "Only its owner can delete the map."
-msgstr "Solamente el propietario puede borrar el mapa."
+msgstr "Sólo puede borrar el mapa su propietario."
 
 #: views.py:296
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
+msgstr "¡Tu mapa ha sido clonado! Si quieres editar este mapa desde otro ordenador, usa este enlace: %(anonymous_url)s"
 
 #: views.py:301
 msgid "Congratulations, your map has been cloned!"
-msgstr ""
+msgstr "¡Enhorabuena! ¡Tu mapa ha sido clonado!"
 
 #: views.py:403
 msgid "Layer successfully deleted."
-msgstr "Se eliminó la capa exitósamente."
+msgstr "Se eliminó la capa con éxito."
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
-msgstr "Has ingresado. Continuando..."
+msgstr "Has iniciado sesión. Continuando..."
 
 #: templates/leaflet_storage/map_update_permissions.html:2
 msgid "Map permissions"
@@ -192,8 +193,8 @@ msgstr "Permisos del mapa"
 
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"
-msgstr "Por favor ingresa para proceder"
+msgstr "Por favor, inicia sesión para poder continuar"
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr "Tu nombre de usuario y contraseña no coinciden. Por favor. intenta de nuevo."
+msgstr "Tu nombre de usuario y contraseña no coinciden. Por favor, inténtalo de nuevo."
