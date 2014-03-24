@@ -360,14 +360,22 @@ class DataLayerView(BaseDetailView):
 
     def render_to_response(self, context, **response_kwargs):
         path = self.object.geojson.path
-        statobj = os.stat(path)
-        # TODO IMS
-        response = CompatibleStreamingHttpResponse(
-            open(path, 'rb'),
-            content_type='application/json'
-        )
-        response["Last-Modified"] = http_date(statobj.st_mtime)
-        response['ETag'] = '"%s"' % hashlib.md5(response.content).hexdigest()
+        response = None
+        if getattr(settings, 'LEAFLET_STORAGE_ACCEL_REDIRECT', False):
+            response = HttpResponse()
+            response['X-Accel-Redirect'] = path
+        elif getattr(settings, 'LEAFLET_STORAGE_X_SEND_FILE', False):
+            response = HttpResponse()
+            response['X-Sendfile'] = path
+        else:
+            statobj = os.stat(path)
+            # TODO IMS
+            response = CompatibleStreamingHttpResponse(
+                open(path, 'rb'),
+                content_type='application/json'
+            )
+            response["Last-Modified"] = http_date(statobj.st_mtime)
+            response['ETag'] = '"%s"' % hashlib.md5(response.content).hexdigest()
         return response
 
 
