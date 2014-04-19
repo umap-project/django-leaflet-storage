@@ -43,7 +43,9 @@ def _urls_for_js(urls=None):
         # prevent circular import
         from .urls import urlpatterns
         urls = [url.name for url in urlpatterns if getattr(url, 'name', None)]
-    return dict(zip(urls, [get_uri_template(url) for url in urls]))
+    urls = dict(zip(urls, [get_uri_template(url) for url in urls]))
+    urls.update(getattr(settings, 'LEAFLET_STORAGE_EXTRA_URLS', {}))
+    return urls
 
 
 def render_to_json(templates, response_kwargs, context, request):
@@ -91,7 +93,6 @@ class MapDetailMixin(object):
         properties = {}
         properties['datalayers'] = self.get_datalayers()
         properties['urls'] = _urls_for_js()
-        properties['urls'].update(getattr(settings, 'LEAFLET_STORAGE_EXTRA_URLS', {}))
         properties['tilelayers'] = self.get_tilelayers()
         # properties['name'] = self.object.name
         # properties['description'] = self.object.description
