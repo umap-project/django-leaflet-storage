@@ -188,6 +188,12 @@ class MapView(MapDetailMixin, DetailView):
         return self.object.settings
 
 
+class MapViewGeoJSON(MapView):
+
+    def render_to_response(self, context, *args, **kwargs):
+        return HttpResponse(context['map_settings'])
+
+
 class MapNew(MapDetailMixin, TemplateView):
     template_name = "leaflet_storage/map_detail.html"
 
