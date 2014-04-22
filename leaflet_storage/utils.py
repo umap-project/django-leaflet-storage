@@ -1,3 +1,5 @@
+import gzip
+
 from django.core.urlresolvers import get_resolver
 from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
 from django.conf.urls import patterns
@@ -125,3 +127,9 @@ def smart_decode(s):
         else:
             break
     return s
+
+
+def gzip_file(from_path, to_path):
+    with open(from_path, 'rb') as f_in:
+        with gzip.open(to_path, 'wb') as f_out:
+            f_out.writelines(f_in)

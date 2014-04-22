@@ -23,9 +23,10 @@ from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.http import http_date
+from django.middleware.gzip import re_accepts_gzip
 
 from .models import Map, DataLayer, TileLayer, Pictogram, Licence
-from .utils import get_uri_template
+from .utils import get_uri_template, gzip_file
 from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
                     AnonymousMapPermissionsForm, DEFAULT_LATITUDE,
                     DEFAULT_LONGITUDE, FlatErrorList)
@@ -367,7 +368,24 @@ class DataLayerView(BaseDetailView):
 
     def render_to_response(self, context, **response_kwargs):
         path = self.object.geojson.path
+        statobj = os.stat(path)
         response = None
+        ext = '.gz'
+
+        ae = self.request.META.get('HTTP_ACCEPT_ENCODING', '')
+        if re_accepts_gzip.search(ae) and getattr(settings, 'LEAFLET_STORAGE_GZIP', True):
+            gzip_path = "{path}{ext}".format(path=path, ext=ext)
+            up_to_date = True
+            if not os.path.exists(gzip_path):
+                up_to_date = False
+            else:
+                gzip_statobj = os.stat(gzip_path)
+                if statobj.st_mtime > gzip_statobj.st_mtime:
+                    up_to_date = False
+            if not up_to_date:
+                gzip_file(path, gzip_path)
+            path = gzip_path
+
         if getattr(settings, 'LEAFLET_STORAGE_ACCEL_REDIRECT', False):
             response = HttpResponse()
             response['X-Accel-Redirect'] = path
@@ -375,7 +393,6 @@ class DataLayerView(BaseDetailView):
             response = HttpResponse()
             response['X-Sendfile'] = path
         else:
-            statobj = os.stat(path)
             # TODO IMS
             response = CompatibleStreamingHttpResponse(
                 open(path, 'rb'),
@@ -383,6 +400,9 @@ class DataLayerView(BaseDetailView):
             )
             response["Last-Modified"] = http_date(statobj.st_mtime)
             response['ETag'] = '"%s"' % hashlib.md5(response.content).hexdigest()
+            response['Content-Length'] = str(len(response.content))
+            if path.endswith(ext):
+                response['Content-Encoding'] = 'gzip'
         return response
 
 

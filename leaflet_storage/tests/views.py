@@ -383,6 +383,7 @@ class DataLayerViews(BaseTest):
         self.assertIsNotNone(response['Etag'])
         self.assertIsNotNone(response['Last-Modified'])
         self.assertIsNotNone(response['Cache-Control'])
+        self.assertNotIn('Content-Encoding', response)
         json = simplejson.loads(response.content)
         self.assertIn('_storage', json)
         self.assertIn('features', json)
@@ -440,3 +441,12 @@ class DataLayerViews(BaseTest):
         response = self.client.post(url, {}, follow=True)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 1)
+
+    def test_get_gzipped(self):
+        url = reverse('datalayer_view', args=(self.datalayer.pk, ))
+        response = self.client.get(url, HTTP_ACCEPT_ENCODING="gzip")
+        self.assertIsNotNone(response['Etag'])
+        self.assertIsNotNone(response['Last-Modified'])
+        self.assertIsNotNone(response['Cache-Control'])
+        self.assertIn('Content-Encoding', response)
+        self.assertEquals(response['Content-Encoding'], 'gzip')
