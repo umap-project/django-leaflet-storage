@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import logout as do_logout
 from django.contrib.auth.models import User
 from django.core.signing import Signer, BadSignature
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import (HttpResponse, HttpResponseForbidden,
                          HttpResponseRedirect, CompatibleStreamingHttpResponse)
 from django.shortcuts import get_object_or_404
@@ -95,8 +95,6 @@ class MapDetailMixin(object):
         properties['datalayers'] = self.get_datalayers()
         properties['urls'] = _urls_for_js()
         properties['tilelayers'] = self.get_tilelayers()
-        # properties['name'] = self.object.name
-        # properties['description'] = self.object.description
         if self.get_short_url():
             properties['shortUrl'] = self.get_short_url()
 
@@ -109,9 +107,7 @@ class MapDetailMixin(object):
             context['locale'] = locale
         properties['allowEdit'] = self.is_edit_allowed()
         properties["default_iconUrl"] = "%sstorage/src/img/marker.png" % settings.STATIC_URL
-        # properties['center'] = simplejson.loads(self.object.center.geojson)
         properties['storage_id'] = self.get_storage_id()
-        # properties['zoom'] = self.object.zoom
         properties['licences'] = dict((l.name, l.json) for l in Licence.objects.all())
         # if properties['locateOnLoad']:
         #     properties['locate'] = {
@@ -186,7 +182,15 @@ class MapView(MapDetailMixin, DetailView):
         return shortUrl
 
     def get_geojson(self):
-        return self.object.settings
+        settings = self.object.settings
+        if not "properties" in settings:
+            settings['properties'] = {}
+        if self.object.owner:
+            settings['properties']['author'] = {
+                'name': self.object.owner.get_username(),
+                'link': reverse('user_maps', args=(self.object.owner.get_username(), ))
+            }
+        return settings
 
 
 class MapViewGeoJSON(MapView):
