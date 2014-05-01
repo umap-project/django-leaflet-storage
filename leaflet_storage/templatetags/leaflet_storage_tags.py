@@ -48,7 +48,7 @@ def map_fragment(map_instance, **kwargs):
         'miniMap': False,
         'storage_id': map_instance.pk,
         'onLoadPanel': "none",
-        'titleBar': False,
+        'captionBar': False,
         'default_iconUrl': "%sstorage/src/img/marker.png" % settings.STATIC_URL,
     })
     map_settings['properties'].update(kwargs)
