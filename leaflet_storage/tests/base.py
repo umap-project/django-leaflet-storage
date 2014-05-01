@@ -66,9 +66,10 @@ class MapFactory(factory.DjangoModelFactory):
             },
             'tilelayersControl': True,
             'zoom': 7,
-            'zoomControl': True},
-            'type': 'Feature'
-        }
+            'zoomControl': True
+        },
+        'type': 'Feature'
+    }
 
     licence = factory.SubFactory(LicenceFactory)
     owner = factory.SubFactory(UserFactory)

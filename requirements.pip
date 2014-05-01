@@ -1,5 +1,5 @@
-Django==1.5.5
-psycopg2==2.5.1
-pillow==2.0.0
+Django==1.6.4
+psycopg2==2.5.2
+pillow==2.4.0
 South
 simplejson
