@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Neogeografen <soren.johannessen@gmail.com>, 2013
+# Neogeografen <soren.johannessen@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-10 14:31+0100\n"
-"PO-Revision-Date: 2014-02-10 13:32+0000\n"
-"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"PO-Revision-Date: 2014-06-02 15:14+0000\n"
+"Last-Translator: Neogeografen <soren.johannessen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/umap/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,7 @@ msgstr "Er kun redigerbart med et hemmeligt link"
 
 #: models.py:21
 msgid "name"
-msgstr "Navn"
+msgstr "navn"
 
 #: models.py:36
 msgid "details"
@@ -65,15 +65,15 @@ msgstr "Kun ejeren kan redigere"
 
 #: models.py:115
 msgid "everyone (public)"
-msgstr ""
+msgstr "alle (fuldt offentlig)"
 
 #: models.py:116
 msgid "anyone with link"
-msgstr ""
+msgstr "alle med et link"
 
 #: models.py:117
 msgid "editors only"
-msgstr ""
+msgstr "kun redaktører "
 
 #: models.py:120 models.py:252
 msgid "description"
@@ -85,7 +85,7 @@ msgstr "center"
 
 #: models.py:122
 msgid "zoom"
-msgstr "Zoom"
+msgstr "zoom"
 
 #: models.py:123
 msgid "locate"
@@ -93,7 +93,7 @@ msgstr "lokalisere"
 
 #: models.py:123
 msgid "Locate user on load?"
-msgstr "lokaliserer bruger ved indlæsning?"
+msgstr "Lokaliserer brugeren ved indlæsning?"
 
 #: models.py:126
 msgid "Choose the map licence."
@@ -113,7 +113,7 @@ msgstr "ejer"
 
 #: models.py:134
 msgid "editors"
-msgstr "Redaktører"
+msgstr "redaktører"
 
 #: models.py:135
 msgid "edit status"
@@ -121,7 +121,7 @@ msgstr "ret status"
 
 #: models.py:136
 msgid "share status"
-msgstr ""
+msgstr "Delestatus"
 
 #: models.py:137
 msgid "settings"
@@ -134,7 +134,7 @@ msgstr "Dit anonyme kort er blevet tilføjet til din konto %s"
 
 #: models.py:208
 msgid "Clone of"
-msgstr "klonet kopi af"
+msgstr "Klonet kopi af"
 
 #: models.py:257
 msgid "display on load"
