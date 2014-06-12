@@ -61,6 +61,12 @@ class MapViews(BaseTest):
         json = simplejson.loads(response.content)
         self.assertIn("redirect", json)
 
+    def test_wrong_slug_should_redirect_to_canonical(self):
+        url = reverse('map', kwargs={'pk': self.map.pk, 'slug': 'wrong-slug'})
+        canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
+        response = self.client.get(url)
+        self.assertRedirects(response, canonical, status_code=301)
+
     def test_short_url_should_redirect_to_canonical(self):
         url = reverse('map_short_url', kwargs={'pk': self.map.pk})
         canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})

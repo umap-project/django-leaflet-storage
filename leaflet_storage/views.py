@@ -10,7 +10,8 @@ from django.contrib.auth.models import User
 from django.core.signing import Signer, BadSignature
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import (HttpResponse, HttpResponseForbidden,
-                         HttpResponseRedirect, CompatibleStreamingHttpResponse)
+                         HttpResponseRedirect, CompatibleStreamingHttpResponse,
+                         HttpResponsePermanentRedirect)
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -150,6 +151,8 @@ class MapView(MapDetailMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if self.object.get_absolute_url() != request.get_full_path():
+            return HttpResponsePermanentRedirect(self.object.get_absolute_url())
         if not self.object.can_view(request):
             return HttpResponseForbidden('Forbidden')
         return super(MapView, self).get(request, *args, **kwargs)
