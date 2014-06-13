@@ -152,7 +152,7 @@ class MapView(MapDetailMixin, DetailView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         canonical = self.get_canonical_url()
-        if not request.get_full_path() == canonical:
+        if not request.path == canonical:
             return HttpResponsePermanentRedirect(self.object.get_absolute_url())
         if not self.object.can_view(request):
             return HttpResponseForbidden('Forbidden')

@@ -67,6 +67,12 @@ class MapViews(BaseTest):
         response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=301)
 
+    def test_should_not_take_the_query_string_into_account_for_canonical_check(self):
+        url = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
+        url = "{0}?allowEdit=0".format(url)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
     def test_short_url_should_redirect_to_canonical(self):
         url = reverse('map_short_url', kwargs={'pk': self.map.pk})
         canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
