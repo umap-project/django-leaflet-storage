@@ -243,10 +243,7 @@ class AnonymousMapViews(BaseTest):
             'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
         }
         response = self.client.post(url, post_data)
-        self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
-        self.assertNotIn("id", json)
-        self.assertIn("login_required", json)
+        self.assertEqual(response.status_code, 403)
 
     def test_update_with_cookie(self):
         url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})
@@ -263,6 +260,22 @@ class AnonymousMapViews(BaseTest):
         json = simplejson.loads(response.content)
         updated_map = Map.objects.get(pk=self.anonymous_map.pk)
         self.assertEqual(json['id'], updated_map.pk)
+
+    def test_delete(self):
+        url = reverse('map_delete', args=(self.anonymous_map.pk, ))
+        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value
+        response = self.client.post(url, {}, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Map.objects.filter(pk=self.anonymous_map.pk).count(), 0)
+        # Test response is a json
+        json = simplejson.loads(response.content)
+        self.assertIn("redirect", json)
+
+    def test_no_cookie_cant_delete(self):
+        url = reverse('map_delete', args=(self.anonymous_map.pk, ))
+        response = self.client.post(url, {}, follow=True)
+        print(response)
+        self.assertEqual(response.status_code, 403)
 
     def test_anonymous_edit_url(self):
         url = self.anonymous_map.get_anonymous_edit_url()

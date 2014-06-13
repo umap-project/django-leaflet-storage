@@ -35,7 +35,7 @@ def map_permissions_check(view_func):
         if map_inst.edit_status >= map_inst.EDITORS:
             can_edit = map_inst.can_edit(user=user, request=request)
             if not can_edit:
-                if not user.is_authenticated():
+                if map_inst.owner and not user.is_authenticated():
                     return simple_json_response(login_required=str(LOGIN_URL))
                 else:
                     return HttpResponseForbidden('Action not allowed for user.')

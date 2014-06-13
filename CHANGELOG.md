@@ -6,6 +6,7 @@
 - support for gzip for datalayer geojson
 - support for X-Senfile/Accel-Redirect
 - more translations
+- fix anonymous map owner not able to delete their map
 
 ## 0.5.x
 - internal storage structure totally reviewed: datalayers are stored as geojson files,

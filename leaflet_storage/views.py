@@ -292,8 +292,10 @@ class MapDelete(DeleteView):
 
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
-        if not self.request.user == self.object.owner:
+        if self.object.owner and self.request.user != self.object.owner:
             return HttpResponseForbidden(_('Only its owner can delete the map.'))
+        if not self.object.owner and not self.object.is_anonymous_owner(self.request):
+            return HttpResponseForbidden('Forbidden.')
         self.object.delete()
         return simple_json_response(redirect="/")
 
