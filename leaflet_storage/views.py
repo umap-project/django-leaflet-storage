@@ -151,11 +151,15 @@ class MapView(MapDetailMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.get_absolute_url() != request.get_full_path():
+        canonical = self.get_canonical_url()
+        if not request.get_full_path() == canonical:
             return HttpResponsePermanentRedirect(self.object.get_absolute_url())
         if not self.object.can_view(request):
             return HttpResponseForbidden('Forbidden')
         return super(MapView, self).get(request, *args, **kwargs)
+
+    def get_canonical_url(self):
+        return self.object.get_absolute_url()
 
     def get_datalayers(self):
         datalayers = DataLayer.objects.filter(map=self.object)  # TODO manage state
@@ -197,6 +201,9 @@ class MapView(MapDetailMixin, DetailView):
 
 
 class MapViewGeoJSON(MapView):
+
+    def get_canonical_url(self):
+        return reverse('map_geojson', args=(self.object.pk, ))
 
     def render_to_response(self, context, *args, **kwargs):
         return HttpResponse(context['map_settings'])

@@ -195,6 +195,12 @@ class MapViews(BaseTest):
         response = self.client.get(url)
         self.assertEquals(response.status_code, 403)
 
+    def test_map_geojson_view(self):
+        url = reverse('map_geojson', args=(self.map.pk, ))
+        response = self.client.get(url)
+        json = simplejson.loads(response.content)
+        self.assertIn('type', json)
+
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=True)
 class AnonymousMapViews(BaseTest):
