@@ -7,3 +7,4 @@ test_publish:
 publish:
 	twine upload dist/*
 	rm dist/*
+	rm -rf build/*
