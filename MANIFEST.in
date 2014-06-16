@@ -1,5 +1,7 @@
 include README.rst
 include requirements.pip
-recursive-include leaflet_storage/static *
+recursive-include leaflet_storage/static/storage/src *
+recursive-include leaflet_storage/static/storage/reqs *
+recursive-include leaflet_storage/static/storage/contrib *
 recursive-include leaflet_storage/templates *
 recursive-include leaflet_storage/locale *

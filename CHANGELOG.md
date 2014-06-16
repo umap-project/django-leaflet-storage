@@ -1,12 +1,14 @@
 # django-leaflet-storage changelog
 
-## dev
+## 0.6.x
 - upgrade to django 1.6
 - sesql replaced by django-pgindex
 - support for gzip for datalayer geojson
 - support for X-Senfile/Accel-Redirect
 - more translations
 - fix anonymous map owner not able to delete their map
+- fix missing vendors assets
+- reset South migrations (some were bugged); to be back again with django 1.7
 
 ## 0.5.x
 - internal storage structure totally reviewed: datalayers are stored as geojson files,
