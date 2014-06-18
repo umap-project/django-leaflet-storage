@@ -50,6 +50,7 @@ def map_fragment(map_instance, **kwargs):
         'onLoadPanel': "none",
         'captionBar': False,
         'default_iconUrl': "%sstorage/src/img/marker.png" % settings.STATIC_URL,
+        'slideshow': {}
     })
     map_settings['properties'].update(kwargs)
     return {
