@@ -6,5 +6,7 @@ test_publish:
 	twine upload -r testpypi dist/*
 publish:
 	twine upload dist/*
-	rm dist/*
+	make clean
+clean:
+	rm -f dist/*
 	rm -rf build/*

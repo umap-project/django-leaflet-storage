@@ -277,6 +277,7 @@ class UpdateMapPermissions(UpdateView):
         if self.object.owner and not user == self.object.owner:
             del form.fields['edit_status']
             del form.fields['share_status']
+            del form.fields['owner']
         return form
 
     def form_valid(self, form):

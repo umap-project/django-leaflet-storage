@@ -7,7 +7,7 @@ from django.template.defaultfilters import slugify
 from django.conf import settings
 from django.forms.util import ErrorList
 
-from .models import Map, DataLayer
+from .models import Map, DataLayer, User
 
 DEFAULT_LATITUDE = settings.LEAFLET_LATITUDE if hasattr(settings, "LEAFLET_LATITUDE") else 51
 DEFAULT_LONGITUDE = settings.LEAFLET_LONGITUDE if hasattr(settings, "LEAFLET_LONGITUDE") else 2
@@ -25,10 +25,11 @@ class FlatErrorList(ErrorList):
 
 
 class UpdateMapPermissionsForm(forms.ModelForm):
+    owner = forms.ModelChoiceField(User.objects, required=True)
 
     class Meta:
         model = Map
-        fields = ('edit_status', 'editors', 'share_status')
+        fields = ('edit_status', 'editors', 'share_status', 'owner')
 
 
 class AnonymousMapPermissionsForm(forms.ModelForm):

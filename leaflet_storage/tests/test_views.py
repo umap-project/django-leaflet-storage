@@ -402,8 +402,12 @@ class MapViewsPermissions(ViewsPermissionsTest):
         response = self.client.post(url, {})
         self.assertLoginRequired(response)
 
-    def test_map_update_permissions(self):
+    def test_map_update(self):
         url = reverse('map_update', kwargs={'map_id': self.map.pk})
+        self.check_url_permissions(url)
+
+    def test_map_update_permissions(self):
+        url = reverse('map_update_permissions', kwargs={'map_id': self.map.pk})
         self.check_url_permissions(url)
 
     def test_only_owner_can_delete(self):
@@ -412,6 +416,15 @@ class MapViewsPermissions(ViewsPermissionsTest):
         self.client.login(username=self.other_user.username, password="123123")
         response = self.client.post(url, {}, follow=True)
         self.assertEqual(response.status_code, 403)
+
+    def test_map_editors_do_not_see_owner_change_input(self):
+        self.map.editors.add(self.other_user)
+        self.map.edit_status = self.map.EDITORS
+        self.map.save()
+        url = reverse('map_update_permissions', kwargs={'map_id': self.map.pk})
+        self.client.login(username=self.other_user.username, password="123123")
+        response = self.client.get(url)
+        self.assertNotContains(response, "id_owner")
 
 
 class DataLayerViews(BaseTest):
