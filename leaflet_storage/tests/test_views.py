@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.test.utils import override_settings
 from django.core.signing import get_cookie_signer
 
 from leaflet_storage.models import Map, DataLayer
 
 from .base import (MapFactory, UserFactory, BaseTest)
+
+User = get_user_model()
 
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=False)

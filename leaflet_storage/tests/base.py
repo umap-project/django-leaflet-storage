@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 
@@ -7,6 +7,8 @@ import factory
 
 from leaflet_storage.models import Map, TileLayer, Licence, DataLayer
 from leaflet_storage.forms import DEFAULT_CENTER
+
+User = get_user_model()
 
 
 class LicenceFactory(factory.DjangoModelFactory):

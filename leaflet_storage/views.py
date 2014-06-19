@@ -6,7 +6,7 @@ import hashlib
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import logout as do_logout
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.signing import Signer, BadSignature
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import (HttpResponse, HttpResponseForbidden,
@@ -31,6 +31,8 @@ from .utils import get_uri_template, gzip_file
 from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
                     AnonymousMapPermissionsForm, DEFAULT_LATITUDE,
                     DEFAULT_LONGITUDE, FlatErrorList)
+
+User = get_user_model()
 
 
 # ############## #

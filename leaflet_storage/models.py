@@ -5,13 +5,6 @@ import os
 from django.contrib.gis.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
-try:
-    # Not using a custom User
-    from django.contrib.auth.models import User
-except AttributeError:
-    # Using a custom User
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
 from django.utils.translation import ugettext, ugettext_lazy as _
 from django.core.signing import Signer
 from django.contrib import messages
@@ -135,8 +128,8 @@ class Map(NamedModel):
     )
     modified_at = models.DateTimeField(auto_now=True)
     tilelayer = models.ForeignKey(TileLayer, blank=True, null=True, related_name="maps",  verbose_name=_("background"))
-    owner = models.ForeignKey(User, blank=True, null=True, related_name="owned_maps", verbose_name=_("owner"))
-    editors = models.ManyToManyField(User, blank=True, verbose_name=_("editors"))
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name="owned_maps", verbose_name=_("owner"))
+    editors = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, verbose_name=_("editors"))
     edit_status = models.SmallIntegerField(choices=EDIT_STATUS, default=OWNER, verbose_name=_("edit status"))
     share_status = models.SmallIntegerField(choices=SHARE_STATUS, default=PUBLIC, verbose_name=_("share status"))
     settings = DictField(blank=True, null=True, verbose_name=_("settings"))
