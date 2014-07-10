@@ -419,7 +419,7 @@ class DataLayerView(BaseDetailView):
                 content_type='application/json'
             )
             response["Last-Modified"] = http_date(statobj.st_mtime)
-            response['ETag'] = '"%s"' % hashlib.md5(response.content).hexdigest()
+            response['ETag'] = '%s' % hashlib.md5(response.content).hexdigest()
             response['Content-Length'] = str(len(response.content))
             if path.endswith(ext):
                 response['Content-Encoding'] = 'gzip'
@@ -443,8 +443,20 @@ class DataLayerUpdate(FormLessEditMixin, UpdateView):
     def form_valid(self, form):
         if self.object.map != self.kwargs['map_inst']:
             return HttpResponseForbidden('Route to nowhere')
+        if not self.if_match():
+            return HttpResponse(status=412)
         self.object = form.save()
         return simple_json_response(**self.object.metadata)
+
+    def if_match(self):
+        """Optimistic concurrency control."""
+        match = True
+        if 'IF_MATCH' in self.request.META:
+            with open(self.object.geojson.path) as f:
+                etag = hashlib.md5(f.read()).hexdigest()
+                if etag != self.request.META['IF_MATCH']:
+                    match = False
+        return match
 
 
 class DataLayerDelete(DeleteView):
