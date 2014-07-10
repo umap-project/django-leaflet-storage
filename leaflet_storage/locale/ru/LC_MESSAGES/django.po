@@ -1,0 +1,199 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# ilis_krou <ilis@inbox.ru>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: uMap\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"PO-Revision-Date: 2014-07-10 11:02+0000\n"
+"Last-Translator: ilis_krou <ilis@inbox.ru>\n"
+"Language-Team: Russian (http://www.transifex.com/projects/p/umap/language/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: forms.py:39
+#, python-format
+msgid "Secret edit link is %s"
+msgstr "Секретная ссылка для редактирования: %s"
+
+#: forms.py:43 models.py:110
+msgid "Everyone can edit"
+msgstr "Все могут редактировать"
+
+#: forms.py:44
+msgid "Only editable with secret edit link"
+msgstr "Редактирование возможно только при наличии секретной ссылки"
+
+#: models.py:21
+msgid "name"
+msgstr "название"
+
+#: models.py:36
+msgid "details"
+msgstr "подробности"
+
+#: models.py:37
+msgid "Link to a page where the licence is detailed."
+msgstr "Ссылка на страницу с описанием лицензии"
+
+#: models.py:49
+msgid "No licence set"
+msgstr "Лицензия не задана"
+
+#: models.py:63
+msgid "URL template using OSM tile format"
+msgstr "шаблон ссылки использует формат слоя OSM"
+
+#: models.py:71
+msgid "Order of the tilelayers in the edit box"
+msgstr "Расположите слои карт в окне редактирования"
+
+#: models.py:111
+msgid "Only editors can edit"
+msgstr "Только редакторы могут редактировать"
+
+#: models.py:112
+msgid "Only owner can edit"
+msgstr "Только владелец может редактировать"
+
+#: models.py:115
+msgid "everyone (public)"
+msgstr "все (без ограничений)"
+
+#: models.py:116
+msgid "anyone with link"
+msgstr "все, у кого есть ссылка"
+
+#: models.py:117
+msgid "editors only"
+msgstr "только редакторы"
+
+#: models.py:120 models.py:252
+msgid "description"
+msgstr "описание"
+
+#: models.py:121
+msgid "center"
+msgstr "центр"
+
+#: models.py:122
+msgid "zoom"
+msgstr "масштаб"
+
+#: models.py:123
+msgid "locate"
+msgstr "геолокация"
+
+#: models.py:123
+msgid "Locate user on load?"
+msgstr "Использовать геолокацию при загрузке?"
+
+#: models.py:126
+msgid "Choose the map licence."
+msgstr "Выберите лицензию для карты."
+
+#: models.py:127
+msgid "licence"
+msgstr "лицензия"
+
+#: models.py:132
+msgid "background"
+msgstr "фоновый слой"
+
+#: models.py:133
+msgid "owner"
+msgstr "владелец"
+
+#: models.py:134
+msgid "editors"
+msgstr "редакторы"
+
+#: models.py:135
+msgid "edit status"
+msgstr "статус редактирования"
+
+#: models.py:136
+msgid "share status"
+msgstr "статус совместного использования"
+
+#: models.py:137
+msgid "settings"
+msgstr "настройки"
+
+#: models.py:175
+#, python-format
+msgid "Your anonymous map has been attached to your account %s"
+msgstr "Ваша анонимная карта была присоединена к вашей учётной записи %s"
+
+#: models.py:208
+msgid "Clone of"
+msgstr "Копия"
+
+#: models.py:257
+msgid "display on load"
+msgstr "показывать при загрузке"
+
+#: models.py:258
+msgid "Display this layer on load."
+msgstr "Показать этот слой при загрузке."
+
+#: views.py:208
+#, python-format
+msgid ""
+"Your map has been created! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr "Ваша карта готова! Если вы хотите редактировать её на другом компьютере, используйте эту ссылку:: %(anonymous_url)s"
+
+#: views.py:213
+msgid "Congratulations, your map has been created!"
+msgstr "Поздравляем, ваша карта готова!"
+
+#: views.py:236
+msgid "Map has been updated!"
+msgstr "Карта обновлена!"
+
+#: views.py:261
+msgid "Map editors updated with success!"
+msgstr "Редакторы карты успешно обновлены!"
+
+#: views.py:274
+msgid "Only its owner can delete the map."
+msgstr "Только владелец карты может удалить её."
+
+#: views.py:296
+#, python-format
+msgid ""
+"Your map has been cloned! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr "Карта была скопирована. Если вы хотите редактировать её на другом компьютере, используйте эту ссылку: %(anonymous_url)s"
+
+#: views.py:301
+msgid "Congratulations, your map has been cloned!"
+msgstr "Поздравляем, ваша карта скопирована!"
+
+#: views.py:403
+msgid "Layer successfully deleted."
+msgstr "Слой удалён."
+
+#: templates/leaflet_storage/login_popup_end.html:2
+msgid "You are logged in. Continuing..."
+msgstr "Вы вошли. Продолжим..."
+
+#: templates/leaflet_storage/map_update_permissions.html:2
+msgid "Map permissions"
+msgstr "Разрешения для карты"
+
+#: templates/registration/login.html:2
+msgid "Please log in to proceed"
+msgstr "Чтобы продолжить, выполните вход"
+
+#: templates/registration/login.html:4
+msgid "Your username and password didn't match. Please try again."
+msgstr "Имя пользователя или пароль неверные. Попробуйте ещё раз."
