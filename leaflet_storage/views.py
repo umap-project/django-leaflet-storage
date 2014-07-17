@@ -451,10 +451,11 @@ class DataLayerUpdate(FormLessEditMixin, UpdateView):
     def if_match(self):
         """Optimistic concurrency control."""
         match = True
-        if 'IF_MATCH' in self.request.META:
+        if_match = self.request.META.get('IF_MATCH')
+        if if_match:
             with open(self.object.geojson.path) as f:
                 etag = hashlib.md5(f.read()).hexdigest()
-                if etag != self.request.META['IF_MATCH']:
+                if etag != if_match:
                     match = False
         return match
 

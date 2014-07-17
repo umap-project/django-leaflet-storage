@@ -10,6 +10,7 @@
 - fix missing vendors assets
 - reset South migrations (some were bugged); to be back again with django 1.7
 - added russian locale
+- http optimistic concurrency control
 
 ## 0.5.x
 - internal storage structure totally reviewed: datalayers are stored as geojson files,
