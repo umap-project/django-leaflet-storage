@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
+from django.core.files import temp
 
 import factory
 
@@ -122,3 +123,10 @@ class BaseTest(TestCase):
         json = simplejson.loads(response.content)
         self.assertIn("html", json)
         self.assertIn("form", json['html'])
+
+    def temp_file(self, content):
+        tdir = temp.gettempdir()
+        f = temp.NamedTemporaryFile(dir=tdir)
+        f.write(content)
+        f.seek(0)
+        return f

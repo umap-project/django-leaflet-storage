@@ -383,18 +383,21 @@ class MapAnonymousEditUrl(RedirectView):
 #    DataLayer   #
 # ############## #
 
-class DataLayerView(BaseDetailView):
-    model = DataLayer
 
-    def render_to_response(self, context, **response_kwargs):
+class GZipMixin(object):
+
+    EXT = '.gz'
+
+    def path(self):
+        """
+        Serve gzip file if client accept it.
+        Generate or update the gzip file if needed.
+        """
         path = self.object.geojson.path
         statobj = os.stat(path)
-        response = None
-        ext = '.gz'
-
         ae = self.request.META.get('HTTP_ACCEPT_ENCODING', '')
         if re_accepts_gzip.search(ae) and getattr(settings, 'LEAFLET_STORAGE_GZIP', True):
-            gzip_path = "{path}{ext}".format(path=path, ext=ext)
+            gzip_path = "{path}{ext}".format(path=path, ext=self.EXT)
             up_to_date = True
             if not os.path.exists(gzip_path):
                 up_to_date = False
@@ -405,15 +408,22 @@ class DataLayerView(BaseDetailView):
             if not up_to_date:
                 gzip_file(path, gzip_path)
             path = gzip_path
+        return path
 
-        if getattr(settings, 'LEAFLET_STORAGE_ACCEL_REDIRECT', False):
+
+class DataLayerView(GZipMixin, BaseDetailView):
+    model = DataLayer
+
+    def render_to_response(self, context, **response_kwargs):
+        response = None
+        path = self.path()
+
+        if getattr(settings, 'LEAFLET_STORAGE_XSENDFILE_HEADER', None):
             response = HttpResponse()
-            response['X-Accel-Redirect'] = path
-        elif getattr(settings, 'LEAFLET_STORAGE_X_SEND_FILE', False):
-            response = HttpResponse()
-            response['X-Sendfile'] = path
+            response[settings.LEAFLET_STORAGE_XSENDFILE_HEADER] = path
         else:
             # TODO IMS
+            statobj = os.stat(path)
             response = CompatibleStreamingHttpResponse(
                 open(path, 'rb'),
                 content_type='application/json'
@@ -421,8 +431,8 @@ class DataLayerView(BaseDetailView):
             response["Last-Modified"] = http_date(statobj.st_mtime)
             response['ETag'] = '%s' % hashlib.md5(response.content).hexdigest()
             response['Content-Length'] = str(len(response.content))
-            if path.endswith(ext):
-                response['Content-Encoding'] = 'gzip'
+        if path.endswith(self.EXT):
+            response['Content-Encoding'] = 'gzip'
         return response
 
 
@@ -436,28 +446,39 @@ class DataLayerCreate(FormLessEditMixin, CreateView):
         return simple_json_response(**self.object.metadata)
 
 
-class DataLayerUpdate(FormLessEditMixin, UpdateView):
+class DataLayerUpdate(FormLessEditMixin, GZipMixin, UpdateView):
     model = DataLayer
     form_class = DataLayerForm
 
     def form_valid(self, form):
-        if self.object.map != self.kwargs['map_inst']:
-            return HttpResponseForbidden('Route to nowhere')
-        if not self.if_match():
-            return HttpResponse(status=412)
         self.object = form.save()
-        return simple_json_response(**self.object.metadata)
+        response = simple_json_response(**self.object.metadata)
+        response['ETag'] = self.etag()
+        return response
 
     def if_match(self):
         """Optimistic concurrency control."""
         match = True
-        if_match = self.request.META.get('IF_MATCH')
+        if_match = self.request.META.get('HTTP_IF_MATCH')
         if if_match:
-            with open(self.object.geojson.path) as f:
-                etag = hashlib.md5(f.read()).hexdigest()
+                etag = self.etag()
                 if etag != if_match:
+                    print(etag, if_match)
                     match = False
         return match
+
+    def etag(self):
+        path = self.path()
+        with open(path) as f:
+            return hashlib.md5(f.read()).hexdigest()
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.map != self.kwargs['map_inst']:
+            return HttpResponseForbidden('Route to nowhere')
+        if not self.if_match():
+            return HttpResponse(status=412)
+        return super(DataLayerUpdate, self).post(request, *args, **kwargs)
 
 
 class DataLayerDelete(DeleteView):

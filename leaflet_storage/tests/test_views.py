@@ -434,7 +434,7 @@ class DataLayerViews(BaseTest):
     def test_get(self):
         url = reverse('datalayer_view', args=(self.datalayer.pk, ))
         response = self.client.get(url)
-        self.assertIsNotNone(response['Etag'])
+        self.assertIsNotNone(response['ETag'])
         self.assertIsNotNone(response['Last-Modified'])
         self.assertIsNotNone(response['Cache-Control'])
         self.assertNotIn('Content-Encoding', response)
@@ -499,7 +499,7 @@ class DataLayerViews(BaseTest):
     def test_get_gzipped(self):
         url = reverse('datalayer_view', args=(self.datalayer.pk, ))
         response = self.client.get(url, HTTP_ACCEPT_ENCODING="gzip")
-        self.assertIsNotNone(response['Etag'])
+        self.assertIsNotNone(response['ETag'])
         self.assertIsNotNone(response['Last-Modified'])
         self.assertIsNotNone(response['Cache-Control'])
         self.assertIn('Content-Encoding', response)
@@ -518,13 +518,12 @@ class DataLayerViews(BaseTest):
             "display_on_load": True,
             "geojson": '{"type":"FeatureCollection","features":[]}'
         }
-        response = self.client.post(url, post_data, follow=True, IF_MATCH=etag)
+        response = self.client.post(url, post_data, follow=True, HTTP_IF_MATCH=etag)
         self.assertEqual(response.status_code, 200)
         modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
         self.assertEqual(modified_datalayer.name, name)
 
     def test_optimistic_concurrency_control_with_bad_etag(self):
-        # Get Etag
         url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         name = "new name"
@@ -533,13 +532,12 @@ class DataLayerViews(BaseTest):
             "display_on_load": True,
             "geojson": '{"type":"FeatureCollection","features":[]}'
         }
-        response = self.client.post(url, post_data, follow=True, IF_MATCH="xxx")
+        response = self.client.post(url, post_data, follow=True, HTTP_IF_MATCH="xxx")
         self.assertEqual(response.status_code, 412)
         modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
         self.assertNotEqual(modified_datalayer.name, name)
 
     def test_optimistic_concurrency_control_with_empty_etag(self):
-        # Get Etag
         url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         name = "new name"
@@ -548,7 +546,7 @@ class DataLayerViews(BaseTest):
             "display_on_load": True,
             "geojson": '{"type":"FeatureCollection","features":[]}'
         }
-        response = self.client.post(url, post_data, follow=True, IF_MATCH=None)
+        response = self.client.post(url, post_data, follow=True, HTTP_IF_MATCH=None)
         self.assertEqual(response.status_code, 200)
         modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
         self.assertEqual(modified_datalayer.name, name)
