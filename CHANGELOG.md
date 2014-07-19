@@ -11,6 +11,7 @@
 - reset South migrations (some were bugged); to be back again with django 1.7
 - added russian locale
 - http optimistic concurrency control
+- longer anonymous cookie max_age (one month instead of session only)
 
 ## 0.5.x
 - internal storage structure totally reviewed: datalayers are stored as geojson files,

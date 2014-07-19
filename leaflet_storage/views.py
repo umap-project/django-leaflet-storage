@@ -33,6 +33,7 @@ from .forms import (DataLayerForm, UpdateMapPermissionsForm, MapSettingsForm,
                     DEFAULT_LONGITUDE, FlatErrorList)
 
 User = get_user_model()
+ANONYMOUS_COOKIE_MAX_AGE = 60 * 60 * 24 * 30  # One month
 
 
 # ############## #
@@ -243,7 +244,11 @@ class MapCreate(FormLessEditMixin, CreateView):
         )
         if not self.request.user.is_authenticated():
             key, value = self.object.signed_cookie_elements
-            response.set_signed_cookie(key, value)
+            response.set_signed_cookie(
+                key=key,
+                value=value,
+                max_age=ANONYMOUS_COOKIE_MAX_AGE
+            )
         return response
 
 
@@ -315,7 +320,11 @@ class MapClone(View):
         response = simple_json_response(redirect=self.object.get_absolute_url())
         if not self.request.user.is_authenticated():
             key, value = self.object.signed_cookie_elements
-            response.set_signed_cookie(key, value)
+            response.set_signed_cookie(
+                key=key,
+                value=value,
+                max_age=ANONYMOUS_COOKIE_MAX_AGE
+            )
             anonymous_url = "%s%s" % (
                 settings.SITE_URL,
                 self.object.get_anonymous_edit_url()
@@ -375,7 +384,11 @@ class MapAnonymousEditUrl(RedirectView):
             response = HttpResponseRedirect(url)
             if not map_inst.owner:
                 key, value = map_inst.signed_cookie_elements
-                response.set_signed_cookie(key, value)
+                response.set_signed_cookie(
+                    key=key,
+                    value=value,
+                    max_age=ANONYMOUS_COOKIE_MAX_AGE
+                )
             return response
 
 
@@ -463,7 +476,6 @@ class DataLayerUpdate(FormLessEditMixin, GZipMixin, UpdateView):
         if if_match:
                 etag = self.etag()
                 if etag != if_match:
-                    print(etag, if_match)
                     match = False
         return match
 
