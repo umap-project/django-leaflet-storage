@@ -1,0 +1,199 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# lillyvip <lillyvalpi@gmail.com>, 2013-2014
+msgid ""
+msgstr ""
+"Project-Id-Version: uMap\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"PO-Revision-Date: 2014-02-28 05:57+0000\n"
+"Last-Translator: lillyvip <lillyvalpi@gmail.com>\n"
+"Language-Team: Bulgarian (http://www.transifex.com/projects/p/umap/language/bg/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bg\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forms.py:39
+#, python-format
+msgid "Secret edit link is %s"
+msgstr "Тайно редактиране на линк е %s"
+
+#: forms.py:43 models.py:110
+msgid "Everyone can edit"
+msgstr "Всеки може да редактира"
+
+#: forms.py:44
+msgid "Only editable with secret edit link"
+msgstr "Само може да се редактира с тайно редактиран линк"
+
+#: models.py:21
+msgid "name"
+msgstr "име"
+
+#: models.py:36
+msgid "details"
+msgstr "детайли"
+
+#: models.py:37
+msgid "Link to a page where the licence is detailed."
+msgstr "Линк към страницата с подробно описание за лиценза."
+
+#: models.py:49
+msgid "No licence set"
+msgstr "Няма избран лиценз"
+
+#: models.py:63
+msgid "URL template using OSM tile format"
+msgstr "URL шаблон, използван формат OSM плочи"
+
+#: models.py:71
+msgid "Order of the tilelayers in the edit box"
+msgstr "Поръчка на tilelayers в полето за редактиране"
+
+#: models.py:111
+msgid "Only editors can edit"
+msgstr "Само редактори могат да редактират"
+
+#: models.py:112
+msgid "Only owner can edit"
+msgstr "Само притежателят може да редактира"
+
+#: models.py:115
+msgid "everyone (public)"
+msgstr "всеки (публично)"
+
+#: models.py:116
+msgid "anyone with link"
+msgstr "всеки които има линк"
+
+#: models.py:117
+msgid "editors only"
+msgstr "само редакторите"
+
+#: models.py:120 models.py:252
+msgid "description"
+msgstr "описание"
+
+#: models.py:121
+msgid "center"
+msgstr "център"
+
+#: models.py:122
+msgid "zoom"
+msgstr "мащаб"
+
+#: models.py:123
+msgid "locate"
+msgstr "локализирай"
+
+#: models.py:123
+msgid "Locate user on load?"
+msgstr "Локализирай потребител при зареждане?"
+
+#: models.py:126
+msgid "Choose the map licence."
+msgstr "Избери лиценз за картата."
+
+#: models.py:127
+msgid "licence"
+msgstr "лиценз"
+
+#: models.py:132
+msgid "background"
+msgstr "фон"
+
+#: models.py:133
+msgid "owner"
+msgstr "притежател"
+
+#: models.py:134
+msgid "editors"
+msgstr "редактори"
+
+#: models.py:135
+msgid "edit status"
+msgstr "статус на редактиране"
+
+#: models.py:136
+msgid "share status"
+msgstr "сподели статус"
+
+#: models.py:137
+msgid "settings"
+msgstr "настройки"
+
+#: models.py:175
+#, python-format
+msgid "Your anonymous map has been attached to your account %s"
+msgstr "Вашата анонимна карта е прикрепена към вашия акаунт %s"
+
+#: models.py:208
+msgid "Clone of"
+msgstr "Клониране на"
+
+#: models.py:257
+msgid "display on load"
+msgstr "покажи при зареждане"
+
+#: models.py:258
+msgid "Display this layer on load."
+msgstr "Покажи този слой при зареждане"
+
+#: views.py:208
+#, python-format
+msgid ""
+"Your map has been created! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr "Вашата карта е създадена! Ако искате да редактирате тази карта от друг компютър, моля използвайте този линк : %(anonymous_url)s"
+
+#: views.py:213
+msgid "Congratulations, your map has been created!"
+msgstr "Поздравления, вашата карта е създадена!"
+
+#: views.py:236
+msgid "Map has been updated!"
+msgstr "Карта е актуализирана!"
+
+#: views.py:261
+msgid "Map editors updated with success!"
+msgstr "Редакторите на картата актуализират с успех!"
+
+#: views.py:274
+msgid "Only its owner can delete the map."
+msgstr "Само собственикът може да изтрие картата."
+
+#: views.py:296
+#, python-format
+msgid ""
+"Your map has been cloned! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr "Вашата карта е клонирана! Ако искате да редактирате тази карта от друг компютър, моля използвайте този линк:  %(anonymous_url)s"
+
+#: views.py:301
+msgid "Congratulations, your map has been cloned!"
+msgstr "Поздравления, вашата карта е клонирана!"
+
+#: views.py:403
+msgid "Layer successfully deleted."
+msgstr "Слоят е изтрит успешно."
+
+#: templates/leaflet_storage/login_popup_end.html:2
+msgid "You are logged in. Continuing..."
+msgstr "В процес на включване. Продължение..."
+
+#: templates/leaflet_storage/map_update_permissions.html:2
+msgid "Map permissions"
+msgstr "Разрешения за картата"
+
+#: templates/registration/login.html:2
+msgid "Please log in to proceed"
+msgstr "Моля, включете се за да осъществите тази процедура"
+
+#: templates/registration/login.html:4
+msgid "Your username and password didn't match. Please try again."
+msgstr "Вашето потребителско име и парола не съвпадат. Моля, опитайте отново."
