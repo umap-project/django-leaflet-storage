@@ -423,6 +423,11 @@ class GZipMixin(object):
             path = gzip_path
         return path
 
+    def etag(self):
+        path = self.path()
+        with open(path) as f:
+            return hashlib.md5(f.read()).hexdigest()
+
 
 class DataLayerView(GZipMixin, BaseDetailView):
     model = DataLayer
@@ -449,14 +454,16 @@ class DataLayerView(GZipMixin, BaseDetailView):
         return response
 
 
-class DataLayerCreate(FormLessEditMixin, CreateView):
+class DataLayerCreate(FormLessEditMixin, GZipMixin, CreateView):
     model = DataLayer
     form_class = DataLayerForm
 
     def form_valid(self, form):
         form.instance.map = self.kwargs['map_inst']
         self.object = form.save()
-        return simple_json_response(**self.object.metadata)
+        response = simple_json_response(**self.object.metadata)
+        response['ETag'] = self.etag()
+        return response
 
 
 class DataLayerUpdate(FormLessEditMixin, GZipMixin, UpdateView):
@@ -478,11 +485,6 @@ class DataLayerUpdate(FormLessEditMixin, GZipMixin, UpdateView):
                 if etag != if_match:
                     match = False
         return match
-
-    def etag(self):
-        path = self.path()
-        with open(path) as f:
-            return hashlib.md5(f.read()).hexdigest()
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
