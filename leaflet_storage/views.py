@@ -143,6 +143,9 @@ class MapDetailMixin(object):
             "geometry": {
                 "coordinates": [DEFAULT_LONGITUDE, DEFAULT_LATITUDE],
                 "type": "Point"
+            },
+            "properties": {
+                "zoom": getattr(settings, 'LEAFLET_ZOOM', 6)
             }
         }
 

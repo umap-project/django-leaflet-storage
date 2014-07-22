@@ -12,6 +12,7 @@
 - added russian locale
 - http optimistic concurrency control
 - longer anonymous cookie max_age (one month instead of session only)
+- add possibility to override default zoom with LEAFLET_ZOOM setting
 
 ## 0.5.x
 - internal storage structure totally reviewed: datalayers are stored as geojson files,
