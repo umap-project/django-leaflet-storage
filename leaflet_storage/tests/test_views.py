@@ -428,6 +428,21 @@ class MapViewsPermissions(ViewsPermissionsTest):
         response = self.client.get(url)
         self.assertNotContains(response, "id_owner")
 
+    def test_logged_in_user_can_edit_map_editable_by_anonymous(self):
+        self.map.owner = None
+        self.map.edit_status = self.map.ANONYMOUS
+        self.map.save()
+        self.client.login(username=self.other_user.username, password="123123")
+        url = reverse('map_update', kwargs={'map_id': self.map.pk})
+        new_name = 'this is my new name'
+        data = {
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
+            'name': new_name
+        }
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Map.objects.get(pk=self.map.pk).name, new_name)
+
 
 class DataLayerViews(BaseTest):
 

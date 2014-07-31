@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AnonymousUser
+from django.core.urlresolvers import reverse
 
 from leaflet_storage.models import Map, DataLayer
 from .base import BaseTest, UserFactory, DataLayerFactory, MapFactory
@@ -42,6 +43,16 @@ class MapModel(BaseTest):
         self.map.editors.add(editor)
         self.map.save()
         self.assertTrue(self.map.can_edit(editor))
+
+    def test_logged_in_user_should_be_allowed_for_anonymous_map_with_anonymous_edit_status(self):
+        self.map.owner = None
+        self.map.edit_status = self.map.ANONYMOUS
+        self.map.save()
+        editor = UserFactory(username="John", password="123123")
+        url = reverse('map_update', kwargs={'map_id': self.map.pk})
+        request = self.request_factory.get(url)
+        request.user = editor
+        self.assertTrue(self.map.can_edit(editor, request))
 
     def test_clone_should_return_new_instance(self):
         clone = self.map.clone()

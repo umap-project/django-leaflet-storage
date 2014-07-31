@@ -172,7 +172,7 @@ class Map(NamedModel):
                     self.save()
                     msg = _("Your anonymous map has been attached to your account %s" % user)
                     messages.info(request, msg)
-        elif self.edit_status == self.ANONYMOUS:
+        if self.edit_status == self.ANONYMOUS:
             can = True
         elif not user.is_authenticated():
             pass

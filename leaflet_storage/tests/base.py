@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.core.files import temp
+from django.test.client import RequestFactory
 
 import factory
 
@@ -105,6 +106,7 @@ class BaseTest(TestCase):
         self.map = MapFactory(owner=self.user, licence=self.licence)
         self.datalayer = DataLayerFactory(map=self.map)
         self.tilelayer = TileLayerFactory()
+        self.request_factory = RequestFactory()
 
     def tearDown(self):
         self.user.delete()
