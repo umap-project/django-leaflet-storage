@@ -1,5 +1,8 @@
 # django-leaflet-storage changelog
 
+## 0.7.0
+- update Leaflet.Storage to 0.7.0
+
 ## 0.6.x
 - upgrade to django 1.6
 - sesql replaced by django-pgindex
