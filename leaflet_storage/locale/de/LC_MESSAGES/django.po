@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-10 14:31+0100\n"
-"PO-Revision-Date: 2014-07-27 20:53+0000\n"
+"PO-Revision-Date: 2014-08-04 14:25+0000\n"
 "Last-Translator: Klumbumbus\n"
 "Language-Team: German (http://www.transifex.com/projects/p/umap/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Jeder kann bearbeiten"
 
 #: forms.py:44
 msgid "Only editable with secret edit link"
-msgstr "Nur mit geheimen Bearbeitungslink zu bearbeiten."
+msgstr "Nur mit geheimen Bearbeitungslink zu bearbeiten"
 
 #: models.py:21
 msgid "name"
@@ -59,7 +59,7 @@ msgstr "Reihenfolge der Karten-Ebenen in der Bearbeiten-Box"
 
 #: models.py:111
 msgid "Only editors can edit"
-msgstr "Nur Bearbeiter können bearbeiten."
+msgstr "Nur Bearbeiter können bearbeiten"
 
 #: models.py:112
 msgid "Only owner can edit"
@@ -67,15 +67,15 @@ msgstr "Nur der Ersteller kann bearbeiten"
 
 #: models.py:115
 msgid "everyone (public)"
-msgstr "Jeden (Öffentlich)"
+msgstr "Jeder (Öffentlich)"
 
 #: models.py:116
 msgid "anyone with link"
-msgstr "Jeden mit Link"
+msgstr "Jeder mit Link"
 
 #: models.py:117
 msgid "editors only"
-msgstr "nur Bearbeiter "
+msgstr "Nur Bearbeiter "
 
 #: models.py:120 models.py:252
 msgid "description"
@@ -167,7 +167,7 @@ msgstr "Bearbeiter erfolgreich geändert"
 
 #: views.py:274
 msgid "Only its owner can delete the map."
-msgstr "Nur der Ersteller kann eine Karte löschen."
+msgstr "Nur der Ersteller kann die Karte löschen."
 
 #: views.py:296
 #, python-format
