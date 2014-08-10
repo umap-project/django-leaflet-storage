@@ -1,0 +1,192 @@
+# Copyright (C) 2014
+# This file is distributed under the same license as the PACKAGE package.
+# Thanh Le Viet <lethanhx2k@gmail.com>, 2014.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-10 21:32+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Thanh Le Viet <lethanhx2k@gmail.com>\n"
+"Language-Team: Vietnamese\n"
+"Language: Vietnamese\n"
+#: forms.py:39
+#, python-format
+msgid "Secret edit link is %s"
+msgstr "Link chỉnh sửa bí mật là %s"
+
+#: forms.py:43 models.py:110
+msgid "Everyone can edit"
+msgstr "Ai cũng có thể chỉnh sửa"
+
+#: forms.py:44
+msgid "Only editable with secret edit link"
+msgstr "Chỉ có thể sửa với liên kết chỉnh sửa bí mật"
+
+#: models.py:21
+msgid "name"
+msgstr "tên"
+
+#: models.py:36
+msgid "details"
+msgstr "chi tiết"
+
+#: models.py:37
+msgid "Link to a page where the licence is detailed."
+msgstr "Liên kết đến trang có chi tiết về bản quyền"
+
+#: models.py:49
+msgid "No licence set"
+msgstr "Bản quyền không được đặt"
+
+#: models.py:63
+msgid "URL template using OSM tile format"
+msgstr "Mẫu URL sử dụng định dạng tile của OSM"
+
+#: models.py:71
+msgid "Order of the tilelayers in the edit box"
+msgstr "Thứ tự các titlelayer trong hộp chỉnh sửa"
+
+#: models.py:111
+msgid "Only editors can edit"
+msgstr "Chỉ chỉnh sửa bởi người có quyền"
+
+#: models.py:112
+msgid "Only owner can edit"
+msgstr "Chỉ người sở hữu có thể chỉnh sửa"
+
+#: models.py:115
+msgid "everyone (public)"
+msgstr "mọi người"
+
+#: models.py:116
+msgid "anyone with link"
+msgstr "bất kì ai với liên kết"
+
+#: models.py:117
+msgid "editors only"
+msgstr "chỉ người có quyền"
+
+#: models.py:120 models.py:252
+msgid "description"
+msgstr "mô tả"
+
+#: models.py:121
+msgid "center"
+msgstr "trung tâm"
+
+#: models.py:122
+msgid "zoom"
+msgstr "thu phóng"
+
+#: models.py:123
+msgid "locate"
+msgstr "xác định"
+
+#: models.py:123
+msgid "Locate user on load?"
+msgstr "Xác định người dùng khi tải trang?"
+
+#: models.py:126
+msgid "Choose the map licence."
+msgstr "Chọn bản quyền cho bản đồ"
+
+#: models.py:127
+msgid "licence"
+msgstr "bản quyền"
+
+#: models.py:132
+msgid "background"
+msgstr "nền"
+
+#: models.py:133
+msgid "owner"
+msgstr "chủ nhân"
+
+#: models.py:134
+msgid "editors"
+msgstr "người chỉnh sửa"
+
+#: models.py:135
+msgid "edit status"
+msgstr "trạng thái chỉnh sửa"
+
+#: models.py:136
+msgid "share status"
+msgstr "chia sẻ trạng thái"
+
+#: models.py:137
+msgid "settings"
+msgstr "thiết lập"
+
+#: models.py:175
+#, python-format
+msgid "Your anonymous map has been attached to your account %s"
+msgstr "Bản đồ chưa đặt tên của bản đã được đính kèm vào tài khoản của bạn"
+
+#: models.py:208
+msgid "Clone of"
+msgstr "Sao chép của"
+
+#: models.py:257
+msgid "display on load"
+msgstr "hiển thị khi tải trang"
+
+#: models.py:258
+msgid "Display this layer on load."
+msgstr "Hiển thị layer này khi tải trang"
+
+#: views.py:208
+#, python-format
+msgid ""
+"Your map has been created! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr "Bản đồ của bạn đã được tạo! Nếu bạn muốn chỉnh sửa bản đồ từ máy tính khác, vui lòng sử dụng liên kết này %(anonymous_url)s"
+
+#: views.py:213
+msgid "Congratulations, your map has been created!"
+msgstr "Chúc mừng, bản đồ của bạn đã được tạo!"
+
+#: views.py:236
+msgid "Map has been updated!"
+msgstr "Bản đồ đã được cập nhật!"
+
+#: views.py:261
+msgid "Map editors updated with success!"
+msgstr "Bản đồ được cập nhật thành công!"
+
+#: views.py:274
+msgid "Only its owner can delete the map."
+msgstr "Chỉ chủ nhân của bản đồ mới có quyền xóa."
+
+#: views.py:296
+#, python-format
+msgid ""
+"Your map has been cloned! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr "Bản đồ của bạn đã được sao chép. Nếu bạn muốn chỉnh sửa bản đồ từ máy tính khác, vui lòng sử dụng liên kết này %(anonymous_url)s"
+
+#: views.py:301
+msgid "Congratulations, your map has been cloned!"
+msgstr "Chúc mừng, bản đồ của bạn đã được sao chép!"
+
+#: views.py:403
+msgid "Layer successfully deleted."
+msgstr "Đã xóa layer"
+
+#: templates/leaflet_storage/login_popup_end.html:2
+msgid "You are logged in. Continuing..."
+msgstr "Bạn đã đăng nhập, Đang tiếp tục..."
+
+#: templates/leaflet_storage/map_update_permissions.html:2
+msgid "Map permissions"
+msgstr "Quyền hạn"
+
+#: templates/registration/login.html:2
+msgid "Please log in to proceed"
+msgstr "Vui lòng đăng nhập để thực thi"
+
+#: templates/registration/login.html:4
+msgid "Your username and password didn't match. Please try again."
+msgstr "Tên truy cập hoặc mật khẩu không đúng. Vui lòng thử lại."
