@@ -11,6 +11,8 @@ msgstr ""
 "Last-Translator: Thanh Le Viet <lethanhx2k@gmail.com>\n"
 "Language-Team: Vietnamese\n"
 "Language: Vietnamese\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
 #: forms.py:39
 #, python-format
 msgid "Secret edit link is %s"
@@ -123,7 +125,7 @@ msgstr "thiết lập"
 #: models.py:175
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr "Bản đồ chưa đặt tên của bản đã được đính kèm vào tài khoản của bạn"
+msgstr "Bản đồ chưa đặt tên của bản đã được đính kèm vào tài khoản của bạn %s"
 
 #: models.py:208
 msgid "Clone of"
