@@ -176,12 +176,12 @@ class MapView(MapDetailMixin, DetailView):
         return TileLayer.get_list(selected=self.object.get_tilelayer())
 
     def is_edit_allowed(self):
-        if self.request.user.is_authenticated():
+        if self.object.edit_status == self.object.ANONYMOUS:
+            allow_edit = True
+        elif self.request.user.is_authenticated():
             allow_edit = self.object.can_edit(self.request.user, self.request)
         else:
-            # Default to True: display buttons for anonymous, they can
-            # login from action process
-            allow_edit = True
+            allow_edit = False
         return allow_edit
 
     def get_storage_id(self):
