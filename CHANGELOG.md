@@ -2,6 +2,8 @@
 
 ## 0.7.0
 - update Leaflet.Storage to 0.7.0
+- added Vietnamese
+- by default, allow_edit is now false
 
 ## 0.6.x
 - upgrade to django 1.6
