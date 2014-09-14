@@ -176,13 +176,7 @@ class MapView(MapDetailMixin, DetailView):
         return TileLayer.get_list(selected=self.object.get_tilelayer())
 
     def is_edit_allowed(self):
-        if self.object.edit_status == self.object.ANONYMOUS:
-            allow_edit = True
-        elif self.request.user.is_authenticated():
-            allow_edit = self.object.can_edit(self.request.user, self.request)
-        else:
-            allow_edit = False
-        return allow_edit
+        return self.object.can_edit(self.request.user, self.request)
 
     def get_storage_id(self):
         return self.object.pk
