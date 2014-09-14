@@ -1,5 +1,8 @@
 # django-leaflet-storage changelog
 
+## 0.7.4
+- fix anonymous not able to edit map anymore
+
 ## 0.7.0
 - update Leaflet.Storage to 0.7.0
 - added Vietnamese
