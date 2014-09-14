@@ -1,5 +1,5 @@
 "Create collaborative maps on top of Geodjango and Leaflet."
-VERSION = (0, 7, 4)
+VERSION = (0, 7, 5)
 
 __author__ = 'Yohan Boniface'
 __contact__ = "yb@enix.fr"
