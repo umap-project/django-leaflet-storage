@@ -25,6 +25,7 @@ from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.http import http_date
 from django.middleware.gzip import re_accepts_gzip
+from django.utils.translation import to_locale
 
 from .models import Map, DataLayer, TileLayer, Pictogram, Licence
 from .utils import get_uri_template, gzip_file
@@ -107,6 +108,7 @@ class MapDetailMixin(object):
             # Check attr in case the middleware is not active
             if hasattr(self.request, "LANGUAGE_CODE"):
                 locale = self.request.LANGUAGE_CODE
+            locale = to_locale(locale)
             properties['locale'] = locale
             context['locale'] = locale
         properties['allowEdit'] = self.is_edit_allowed()
