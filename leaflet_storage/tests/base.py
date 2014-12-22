@@ -1,6 +1,7 @@
+import json
+
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from django.utils import simplejson
 from django.core.urlresolvers import reverse
 from django.core.files import temp
 from django.test.client import RequestFactory
@@ -115,16 +116,16 @@ class BaseTest(TestCase):
 
     def assertLoginRequired(self, response):
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
-        self.assertIn("login_required", json)
+        j = json.loads(response.content)
+        self.assertIn("login_required", j)
         redirect_url = reverse('login')
-        self.assertEqual(json['login_required'], redirect_url)
+        self.assertEqual(j['login_required'], redirect_url)
 
     def assertHasForm(self, response):
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
-        self.assertIn("html", json)
-        self.assertIn("form", json['html'])
+        j = json.loads(response.content)
+        self.assertIn("html", j)
+        self.assertIn("form", j['html'])
 
     def temp_file(self, content):
         tdir = temp.gettempdir()

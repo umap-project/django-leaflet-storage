@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.utils import simplejson
-from django.core.urlresolvers import reverse
+import json
+
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.test.utils import override_settings
 from django.core.signing import get_cookie_signer
+from django.core.urlresolvers import reverse
+from django.test.utils import override_settings
 
 from leaflet_storage.models import Map, DataLayer
 
@@ -27,9 +29,9 @@ class MapViews(BaseTest):
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
+        j = json.loads(response.content)
         created_map = Map.objects.latest('pk')
-        self.assertEqual(json['id'], created_map.pk)
+        self.assertEqual(j['id'], created_map.pk)
         self.assertEqual(created_map.name, name)
 
     def test_update(self):
@@ -44,10 +46,10 @@ class MapViews(BaseTest):
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
-        self.assertNotIn("html", json)
+        j = json.loads(response.content)
+        self.assertNotIn("html", j)
         updated_map = Map.objects.get(pk=self.map.pk)
-        self.assertEqual(json['id'], updated_map.pk)
+        self.assertEqual(j['id'], updated_map.pk)
         self.assertEqual(updated_map.name, new_name)
 
     def test_delete(self):
@@ -60,8 +62,8 @@ class MapViews(BaseTest):
         # Check that user has not been impacted
         self.assertEqual(User.objects.filter(pk=self.user.pk).count(), 1)
         # Test response is a json
-        json = simplejson.loads(response.content)
-        self.assertIn("redirect", json)
+        j = json.loads(response.content)
+        self.assertIn("redirect", j)
 
     def test_wrong_slug_should_redirect_to_canonical(self):
         url = reverse('map', kwargs={'pk': self.map.pk, 'slug': 'wrong-slug'})
@@ -154,9 +156,9 @@ class MapViews(BaseTest):
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
+        j = json.loads(response.content)
         created_map = Map.objects.latest('pk')
-        self.assertEqual(json['id'], created_map.pk)
+        self.assertEqual(j['id'], created_map.pk)
         self.assertEqual(created_map.name, name)
         # Lower case of the russian original name
         # self.assertEqual(created_map.slug, u"академический")
@@ -214,8 +216,8 @@ class MapViews(BaseTest):
     def test_map_geojson_view(self):
         url = reverse('map_geojson', args=(self.map.pk, ))
         response = self.client.get(url)
-        json = simplejson.loads(response.content)
-        self.assertIn('type', json)
+        j = json.loads(response.content)
+        self.assertIn('type', j)
 
 
 @override_settings(LEAFLET_STORAGE_ALLOW_ANONYMOUS=True)
@@ -242,9 +244,9 @@ class AnonymousMapViews(BaseTest):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
+        j = json.loads(response.content)
         created_map = Map.objects.latest('pk')
-        self.assertEqual(json['id'], created_map.pk)
+        self.assertEqual(j['id'], created_map.pk)
         self.assertEqual(created_map.name, name)
         key, value = created_map.signed_cookie_elements
         self.assertIn(key, self.client.cookies)
@@ -273,9 +275,9 @@ class AnonymousMapViews(BaseTest):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
+        j = json.loads(response.content)
         updated_map = Map.objects.get(pk=self.anonymous_map.pk)
-        self.assertEqual(json['id'], updated_map.pk)
+        self.assertEqual(j['id'], updated_map.pk)
 
     def test_delete(self):
         url = reverse('map_delete', args=(self.anonymous_map.pk, ))
@@ -284,8 +286,8 @@ class AnonymousMapViews(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Map.objects.filter(pk=self.anonymous_map.pk).count(), 0)
         # Test response is a json
-        json = simplejson.loads(response.content)
-        self.assertIn("redirect", json)
+        j = json.loads(response.content)
+        self.assertIn("redirect", j)
 
     def test_no_cookie_cant_delete(self):
         url = reverse('map_delete', args=(self.anonymous_map.pk, ))
@@ -327,9 +329,9 @@ class AnonymousMapViews(BaseTest):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        json = simplejson.loads(response.content)
+        j = json.loads(response.content)
         updated_map = Map.objects.get(pk=self.anonymous_map.pk)
-        self.assertEqual(json['id'], updated_map.pk)
+        self.assertEqual(j['id'], updated_map.pk)
         self.assertEqual(updated_map.owner.pk, self.user.pk)
 
     def test_clone_map_should_not_be_possible_if_user_is_not_allowed(self):
@@ -449,14 +451,15 @@ class DataLayerViews(BaseTest):
     def test_get(self):
         url = reverse('datalayer_view', args=(self.datalayer.pk, ))
         response = self.client.get(url)
-        self.assertIsNotNone(response['ETag'])
+        if getattr(settings, 'LEAFLET_STORAGE_XSENDFILE_HEADER'):
+            self.assertIsNotNone(response['ETag'])
         self.assertIsNotNone(response['Last-Modified'])
         self.assertIsNotNone(response['Cache-Control'])
         self.assertNotIn('Content-Encoding', response)
-        json = simplejson.loads(response.content)
-        self.assertIn('_storage', json)
-        self.assertIn('features', json)
-        self.assertEquals(json['type'], 'FeatureCollection')
+        j = json.loads(response.content)
+        self.assertIn('_storage', j)
+        self.assertIn('features', j)
+        self.assertEquals(j['type'], 'FeatureCollection')
 
     def test_update(self):
         url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
@@ -472,9 +475,9 @@ class DataLayerViews(BaseTest):
         modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
         self.assertEqual(modified_datalayer.name, name)
         # Test response is a json
-        json = simplejson.loads(response.content)
-        self.assertIn("id", json)
-        self.assertEqual(self.datalayer.pk, json['id'])
+        j = json.loads(response.content)
+        self.assertIn("id", j)
+        self.assertEqual(self.datalayer.pk, j['id'])
 
     def test_should_not_be_possible_to_update_with_wrong_map_id_in_url(self):
         other_map = MapFactory(owner=self.user)
@@ -500,8 +503,8 @@ class DataLayerViews(BaseTest):
         # Check that map has not been impacted
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
         # Test response is a json
-        json = simplejson.loads(response.content)
-        self.assertIn("info", json)
+        j = json.loads(response.content)
+        self.assertIn("info", j)
 
     def test_should_not_be_possible_to_delete_with_wrong_map_id_in_url(self):
         other_map = MapFactory(owner=self.user)
@@ -514,7 +517,8 @@ class DataLayerViews(BaseTest):
     def test_get_gzipped(self):
         url = reverse('datalayer_view', args=(self.datalayer.pk, ))
         response = self.client.get(url, HTTP_ACCEPT_ENCODING="gzip")
-        self.assertIsNotNone(response['ETag'])
+        if getattr(settings, 'LEAFLET_STORAGE_XSENDFILE_HEADER'):
+            self.assertIsNotNone(response['ETag'])
         self.assertIsNotNone(response['Last-Modified'])
         self.assertIsNotNone(response['Cache-Control'])
         self.assertIn('Content-Encoding', response)
