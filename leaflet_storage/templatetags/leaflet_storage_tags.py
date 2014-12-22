@@ -1,4 +1,5 @@
-from django.utils import simplejson
+import json
+
 from django import template
 from django.conf import settings
 
@@ -54,7 +55,7 @@ def map_fragment(map_instance, **kwargs):
     })
     map_settings['properties'].update(kwargs)
     return {
-        "map_settings": simplejson.dumps(map_settings),
+        "map_settings": json.dumps(map_settings),
         "map": map_instance
     }
 

@@ -2,6 +2,7 @@
 
 import os
 import hashlib
+import json
 
 from django.conf import settings
 from django.contrib import messages
@@ -10,12 +11,11 @@ from django.contrib.auth import get_user_model
 from django.core.signing import Signer, BadSignature
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import (HttpResponse, HttpResponseForbidden,
-                         HttpResponseRedirect, CompatibleStreamingHttpResponse,
+                         HttpResponseRedirect, StreamingHttpResponse,
                          HttpResponsePermanentRedirect)
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
-from django.utils import simplejson
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.views.generic import DetailView
@@ -63,14 +63,14 @@ def render_to_json(templates, response_kwargs, context, request):
         response_kwargs,
         RequestContext(request, context)
     )
-    _json = simplejson.dumps({
+    _json = json.dumps({
         "html": html
     })
     return HttpResponse(_json)
 
 
 def simple_json_response(**kwargs):
-    return HttpResponse(simplejson.dumps(kwargs))
+    return HttpResponse(json.dumps(kwargs))
 
 
 # ############## #
@@ -125,7 +125,7 @@ class MapDetailMixin(object):
         if not "properties" in map_settings:
             map_settings['properties'] = {}
         map_settings['properties'].update(properties)
-        context['map_settings'] = simplejson.dumps(map_settings, indent=settings.DEBUG)
+        context['map_settings'] = json.dumps(map_settings, indent=settings.DEBUG)
         return context
 
     def get_tilelayers(self):
@@ -437,17 +437,17 @@ class DataLayerView(GZipMixin, BaseDetailView):
 
         if getattr(settings, 'LEAFLET_STORAGE_XSENDFILE_HEADER', None):
             response = HttpResponse()
+            path = path.replace(settings.MEDIA_ROOT, '/internal')
             response[settings.LEAFLET_STORAGE_XSENDFILE_HEADER] = path
         else:
             # TODO IMS
             statobj = os.stat(path)
-            response = CompatibleStreamingHttpResponse(
+            response = StreamingHttpResponse(
                 open(path, 'rb'),
                 content_type='application/json'
             )
             response["Last-Modified"] = http_date(statobj.st_mtime)
-            response['ETag'] = '%s' % hashlib.md5(response.content).hexdigest()
-            response['Content-Length'] = str(len(response.content))
+            # response['Content-Length'] = str(len(response.streaming_content))
         if path.endswith(self.EXT):
             response['Content-Encoding'] = 'gzip'
         return response
