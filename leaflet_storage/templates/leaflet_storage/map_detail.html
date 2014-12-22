@@ -7,6 +7,9 @@
     {{ block.super }}
     {% leaflet_storage_css %}
     {% leaflet_storage_js locale=locale %}
+    {% if object.share_status != object.PUBLIC %}
+        <meta name="robots" content="noindex">
+    {% endif %}
 {% endblock %}
 
 {% block content %}
