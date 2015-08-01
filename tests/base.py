@@ -15,19 +15,22 @@ User = get_user_model()
 
 
 class LicenceFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Licence
     name = "WTFPL"
+
+    class Meta:
+        model = Licence
 
 
 class TileLayerFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = TileLayer
     name = "Test zoom layer"
     url_template = "http://{s}.test.org/{z}/{x}/{y}.png"
     attribution = "Test layer attribution"
 
+    class Meta:
+        model = TileLayer
+
 
 class UserFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = User
     username = 'Joe'
     email = factory.LazyAttribute(lambda a: '{0}@example.com'.format(a.username).lower())
 
@@ -41,9 +44,11 @@ class UserFactory(factory.DjangoModelFactory):
                 user.save()
         return user
 
+    class Meta:
+        model = User
+
 
 class MapFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = Map
     name = "test map"
     slug = "test-map"
     center = DEFAULT_CENTER
@@ -79,21 +84,19 @@ class MapFactory(factory.DjangoModelFactory):
     licence = factory.SubFactory(LicenceFactory)
     owner = factory.SubFactory(UserFactory)
 
+    class Meta:
+        model = Map
+
 
 class DataLayerFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = DataLayer
     map = factory.SubFactory(MapFactory)
     name = "test datalayer"
     description = "test description"
     display_on_load = True
     geojson = factory.django.FileField(data="""{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[13.68896484375,48.55297816440071]},"properties":{"_storage_options":{"color":"DarkCyan","iconClass":"Ball"},"name":"Here","description":"Da place anonymous again 755"}}],"_storage":{"displayOnLoad":true,"name":"Donau","id":926}}""")
 
-
-class BaseFeatureFactory(factory.DjangoModelFactory):
-    ABSTRACT_FACTORY = True
-    name = "test feature"
-    description = "test description"
-    datalayer = factory.SubFactory(DataLayerFactory)
+    class Meta:
+        model = DataLayer
 
 
 class BaseTest(TestCase):

@@ -82,12 +82,13 @@ class FormLessEditMixin(object):
     http_method_names = [u'post', ]
 
     def form_invalid(self, form):
-        return simple_json_response(errors=form.errors, error=unicode(form.errors))
+        return simple_json_response(errors=form.errors,
+                                    error=unicode(form.errors))
 
-    def get_form(self, form_class):
+    def get_form(self):
         kwargs = self.get_form_kwargs()
         kwargs['error_class'] = FlatErrorList
-        return form_class(**kwargs)
+        return self.get_form_class()(**kwargs)
 
 
 class MapDetailMixin(object):
@@ -171,7 +172,7 @@ class MapView(MapDetailMixin, DetailView):
         return self.object.get_absolute_url()
 
     def get_datalayers(self):
-        datalayers = DataLayer.objects.filter(map=self.object)  # TODO manage state
+        datalayers = DataLayer.objects.filter(map=self.object)
         return [l.metadata for l in datalayers]
 
     def get_tilelayers(self):
@@ -193,12 +194,13 @@ class MapView(MapDetailMixin, DetailView):
 
     def get_geojson(self):
         settings = self.object.settings
-        if not "properties" in settings:
+        if "properties" not in settings:
             settings['properties'] = {}
-        if self.object.owner:
+        if self.object.owner and hasattr(settings, 'USER_MAPS_URL'):
             settings['properties']['author'] = {
                 'name': self.object.owner.get_username(),
-                'link': reverse('user_maps', args=(self.object.owner.get_username(), ))
+                'link': reverse(settings.USER_MAPS_URL,
+                                args=(self.object.owner.get_username(), ))
             }
         return settings
 
@@ -277,7 +279,7 @@ class UpdateMapPermissions(UpdateView):
         else:
             return AnonymousMapPermissionsForm
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
         form = super(UpdateMapPermissions, self).get_form(form_class)
         user = self.request.user
         if self.object.owner and not user == self.object.owner:
@@ -288,10 +290,12 @@ class UpdateMapPermissions(UpdateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return simple_json_response(info=_("Map editors updated with success!"))
+        return simple_json_response(
+            info=_("Map editors updated with success!"))
 
     def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs, context, self.request)
+        return render_to_json(self.get_template_names(), response_kwargs,
+                              context, self.request)
 
 
 class MapDelete(DeleteView):
@@ -301,8 +305,10 @@ class MapDelete(DeleteView):
     def delete(self, *args, **kwargs):
         self.object = self.get_object()
         if self.object.owner and self.request.user != self.object.owner:
-            return HttpResponseForbidden(_('Only its owner can delete the map.'))
-        if not self.object.owner and not self.object.is_anonymous_owner(self.request):
+            return HttpResponseForbidden(
+                _('Only its owner can delete the map.'))
+        if not self.object.owner\
+           and not self.object.is_anonymous_owner(self.request):
             return HttpResponseForbidden('Forbidden.')
         self.object.delete()
         return simple_json_response(redirect="/")
@@ -341,6 +347,7 @@ class MapClone(View):
 
 class MapShortUrl(RedirectView):
     query_string = True
+    permanent = True
 
     def get_redirect_url(self, **kwargs):
         map_inst = get_object_or_404(Map, pk=kwargs['pk'])
@@ -357,10 +364,12 @@ class MapOldUrl(RedirectView):
     Handle map URLs from before anonymous allowing.
     """
     query_string = True
+    permanent = True
 
     def get_redirect_url(self, **kwargs):
         owner = get_object_or_404(User, username=self.kwargs['username'])
-        map_inst = get_object_or_404(Map, slug=self.kwargs['slug'], owner=owner)
+        map_inst = get_object_or_404(Map, slug=self.kwargs['slug'],
+                                     owner=owner)
         url = map_inst.get_absolute_url()
         if self.query_string:
             args = self.request.META.get('QUERY_STRING', '')
@@ -370,6 +379,8 @@ class MapOldUrl(RedirectView):
 
 
 class MapAnonymousEditUrl(RedirectView):
+
+    permanent = False
 
     def get(self, request, *args, **kwargs):
         signer = Signer()
@@ -391,9 +402,9 @@ class MapAnonymousEditUrl(RedirectView):
             return response
 
 
-# ############## #
+# ############## #
 #    DataLayer   #
-# ############## #
+# ############## #
 
 
 class GZipMixin(object):
@@ -440,14 +451,16 @@ class DataLayerView(GZipMixin, BaseDetailView):
             path = path.replace(settings.MEDIA_ROOT, '/internal')
             response[settings.LEAFLET_STORAGE_XSENDFILE_HEADER] = path
         else:
-            # TODO IMS
+            # TODO IMS
             statobj = os.stat(path)
-            response = StreamingHttpResponse(
-                open(path, 'rb'),
-                content_type='application/json'
-            )
+            with open(path, 'rb') as f:
+                response = HttpResponse(
+                    f.read(),  # should not be used in production!
+                    content_type='application/json'
+                )
             response["Last-Modified"] = http_date(statobj.st_mtime)
-            # response['Content-Length'] = str(len(response.streaming_content))
+            response['ETag'] = '%s' % hashlib.md5(response.content).hexdigest()
+            response['Content-Length'] = len(response.content)
         if path.endswith(self.EXT):
             response['Content-Encoding'] = 'gzip'
         return response

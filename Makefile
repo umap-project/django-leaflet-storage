@@ -1,3 +1,5 @@
+test:
+	django-admin.py test --settings tests.test_settings
 assets:
 	cd leaflet_storage/static/storage/ && git pull && make install && make vendors
 distfile:

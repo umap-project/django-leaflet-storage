@@ -12,3 +12,4 @@ doc/_build/*
 dist/
 build/
 *.egg-info
+datalayer/

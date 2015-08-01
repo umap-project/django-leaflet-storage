@@ -67,7 +67,8 @@ class MapViews(BaseTest):
 
     def test_wrong_slug_should_redirect_to_canonical(self):
         url = reverse('map', kwargs={'pk': self.map.pk, 'slug': 'wrong-slug'})
-        canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
+        canonical = reverse('map', kwargs={'pk': self.map.pk,
+                                           'slug': self.map.slug})
         response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=301)
 
@@ -438,7 +439,7 @@ class MapViewsPermissions(ViewsPermissionsTest):
         url = reverse('map_update', kwargs={'map_id': self.map.pk})
         new_name = 'this is my new name'
         data = {
-            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',  # noqa
             'name': new_name
         }
         response = self.client.post(url, data)
@@ -451,7 +452,7 @@ class DataLayerViews(BaseTest):
     def test_get(self):
         url = reverse('datalayer_view', args=(self.datalayer.pk, ))
         response = self.client.get(url)
-        if getattr(settings, 'LEAFLET_STORAGE_XSENDFILE_HEADER'):
+        if getattr(settings, 'LEAFLET_STORAGE_XSENDFILE_HEADER', None):
             self.assertIsNotNone(response['ETag'])
         self.assertIsNotNone(response['Last-Modified'])
         self.assertIsNotNone(response['Cache-Control'])
@@ -462,13 +463,14 @@ class DataLayerViews(BaseTest):
         self.assertEquals(j['type'], 'FeatureCollection')
 
     def test_update(self):
-        url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
+        url = reverse('datalayer_update', args=(self.map.pk,
+                                                self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         name = "new name"
         post_data = {
             "name": name,
             "display_on_load": True,
-            "geojson": '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-3.1640625,53.014783245859235],[-3.1640625,51.86292391360244],[-0.50537109375,51.385495069223204],[1.16455078125,52.38901106223456],[-0.41748046875,53.91728101547621],[-2.109375,53.85252660044951],[-3.1640625,53.014783245859235]]]},"properties":{"_storage_options":{},"name":"Ho god, sounds like a polygouine"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1.8017578124999998,51.16556659836182],[-0.48339843749999994,49.710272582105695],[-3.1640625,50.0923932109388],[-5.60302734375,51.998410382390325]]},"properties":{"_storage_options":{},"name":"Light line"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[0.63720703125,51.15178610143037]},"properties":{"_storage_options":{},"name":"marker he"}}],"_storage":{"displayOnLoad":true,"name":"new name","id":1668,"remoteData":{},"color":"LightSeaGreen","description":"test"}}'
+            "geojson": '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-3.1640625,53.014783245859235],[-3.1640625,51.86292391360244],[-0.50537109375,51.385495069223204],[1.16455078125,52.38901106223456],[-0.41748046875,53.91728101547621],[-2.109375,53.85252660044951],[-3.1640625,53.014783245859235]]]},"properties":{"_storage_options":{},"name":"Ho god, sounds like a polygouine"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1.8017578124999998,51.16556659836182],[-0.48339843749999994,49.710272582105695],[-3.1640625,50.0923932109388],[-5.60302734375,51.998410382390325]]},"properties":{"_storage_options":{},"name":"Light line"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[0.63720703125,51.15178610143037]},"properties":{"_storage_options":{},"name":"marker he"}}],"_storage":{"displayOnLoad":true,"name":"new name","id":1668,"remoteData":{},"color":"LightSeaGreen","description":"test"}}'  # noqa
         }
         response = self.client.post(url, post_data, follow=True)
         self.assertEqual(response.status_code, 200)
@@ -481,13 +483,14 @@ class DataLayerViews(BaseTest):
 
     def test_should_not_be_possible_to_update_with_wrong_map_id_in_url(self):
         other_map = MapFactory(owner=self.user)
-        url = reverse('datalayer_update', args=(other_map.pk, self.datalayer.pk))
+        url = reverse('datalayer_update', args=(other_map.pk,
+                                                self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         name = "new name"
         post_data = {
             "name": name,
             "display_on_load": True,
-            "geojson": '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-3.1640625,53.014783245859235],[-3.1640625,51.86292391360244],[-0.50537109375,51.385495069223204],[1.16455078125,52.38901106223456],[-0.41748046875,53.91728101547621],[-2.109375,53.85252660044951],[-3.1640625,53.014783245859235]]]},"properties":{"_storage_options":{},"name":"Ho god, sounds like a polygouine"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1.8017578124999998,51.16556659836182],[-0.48339843749999994,49.710272582105695],[-3.1640625,50.0923932109388],[-5.60302734375,51.998410382390325]]},"properties":{"_storage_options":{},"name":"Light line"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[0.63720703125,51.15178610143037]},"properties":{"_storage_options":{},"name":"marker he"}}],"_storage":{"displayOnLoad":true,"name":"new name","id":1668,"remoteData":{},"color":"LightSeaGreen","description":"test"}}'
+            "geojson": '{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Polygon","coordinates":[[[-3.1640625,53.014783245859235],[-3.1640625,51.86292391360244],[-0.50537109375,51.385495069223204],[1.16455078125,52.38901106223456],[-0.41748046875,53.91728101547621],[-2.109375,53.85252660044951],[-3.1640625,53.014783245859235]]]},"properties":{"_storage_options":{},"name":"Ho god, sounds like a polygouine"}},{"type":"Feature","geometry":{"type":"LineString","coordinates":[[1.8017578124999998,51.16556659836182],[-0.48339843749999994,49.710272582105695],[-3.1640625,50.0923932109388],[-5.60302734375,51.998410382390325]]},"properties":{"_storage_options":{},"name":"Light line"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[0.63720703125,51.15178610143037]},"properties":{"_storage_options":{},"name":"marker he"}}],"_storage":{"displayOnLoad":true,"name":"new name","id":1668,"remoteData":{},"color":"LightSeaGreen","description":"test"}}'  # noqa
         }
         response = self.client.post(url, post_data, follow=True)
         self.assertEqual(response.status_code, 403)
@@ -517,7 +520,7 @@ class DataLayerViews(BaseTest):
     def test_get_gzipped(self):
         url = reverse('datalayer_view', args=(self.datalayer.pk, ))
         response = self.client.get(url, HTTP_ACCEPT_ENCODING="gzip")
-        if getattr(settings, 'LEAFLET_STORAGE_XSENDFILE_HEADER'):
+        if getattr(settings, 'LEAFLET_STORAGE_XSENDFILE_HEADER', None):
             self.assertIsNotNone(response['ETag'])
         self.assertIsNotNone(response['Last-Modified'])
         self.assertIsNotNone(response['Cache-Control'])

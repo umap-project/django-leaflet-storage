@@ -26,6 +26,19 @@ class NamedModel(models.Model):
         return self.name
 
 
+def get_default_licence():
+    """
+    Returns a default Licence, creates it if it doesn't exist.
+    Needed to prevent a licence deletion from deleting all the linked
+    maps.
+    """
+    return Licence.objects.get_or_create(
+        # can't use ugettext_lazy for database storage, see #13965
+        name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_LICENCE_NAME",
+                     ugettext('No licence set'))
+    )[0]
+
+
 class Licence(NamedModel):
     """
     The licence one map is published on.
@@ -34,18 +47,6 @@ class Licence(NamedModel):
         verbose_name=_('details'),
         help_text=_('Link to a page where the licence is detailed.')
     )
-
-    @classmethod
-    def get_default(cls):
-        """
-        Returns a default Licence, creates it if it doesn't exist.
-        Needed to prevent a licence deletion from deleting all the linked
-        maps.
-        """
-        return cls.objects.get_or_create(
-            # can't use ugettext_lazy for database storage, see #13965
-            name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_LICENCE_NAME", ugettext('No licence set'))
-        )[0]
 
     @property
     def json(self):
@@ -124,7 +125,7 @@ class Map(NamedModel):
         help_text=_("Choose the map licence."),
         verbose_name=_('licence'),
         on_delete=models.SET_DEFAULT,
-        default=Licence.get_default
+        default=get_default_licence
     )
     modified_at = models.DateTimeField(auto_now=True)
     tilelayer = models.ForeignKey(TileLayer, blank=True, null=True, related_name="maps",  verbose_name=_("background"))
@@ -232,17 +233,21 @@ class Pictogram(NamedModel):
         }
 
 
+# Must be out of Datalayer for Django migration to run, because of python 2
+# serialize limitations.
+def upload_to(instance, filename):
+    path = ["datalayer", str(instance.map.pk)[-1]]
+    if len(str(instance.map.pk)) > 1:
+        path.append(str(instance.map.pk)[-2])
+    path.append(str(instance.map.pk))
+    path.append("%s.geojson" % (slugify(instance.name)[:50] or "untitled"))
+    return os.path.join(*path)
+
+
 class DataLayer(NamedModel):
     """
     Layer to store Features in.
     """
-    def upload_to(instance, filename):
-        path = ["datalayer", str(instance.map.pk)[-1]]
-        if len(str(instance.map.pk)) > 1:
-            path.append(str(instance.map.pk)[-2])
-        path.append(str(instance.map.pk))
-        path.append("%s.geojson" % (slugify(instance.name)[:50] or "untitled"))
-        return os.path.join(*path)
     map = models.ForeignKey(Map)
     description = models.TextField(
         blank=True,

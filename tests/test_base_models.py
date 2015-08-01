@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AnonymousUser
 from django.core.urlresolvers import reverse
 
-from leaflet_storage.models import Map, DataLayer
+from leaflet_storage.models import Map, DataLayer, upload_to
 from .base import BaseTest, UserFactory, DataLayerFactory, MapFactory
 
 
@@ -143,7 +143,7 @@ class DataLayerModel(BaseTest):
         self.map.pk = 302
         self.datalayer.name = "a name"
         self.assertEqual(
-            DataLayer.upload_to(self.datalayer, None),
+            upload_to(self.datalayer, None),
             "datalayer/2/0/302/a-name.geojson"
         )
 
@@ -151,7 +151,7 @@ class DataLayerModel(BaseTest):
         self.map.pk = 1
         self.datalayer.name = ""
         self.assertEqual(
-            DataLayer.upload_to(self.datalayer, None),
+            upload_to(self.datalayer, None),
             "datalayer/1/1/untitled.geojson"
         )
 
@@ -159,6 +159,6 @@ class DataLayerModel(BaseTest):
         self.map.pk = 1
         self.datalayer.name = "name" * 20
         self.assertEqual(
-            DataLayer.upload_to(self.datalayer, None),
+            upload_to(self.datalayer, None),
             "datalayer/1/1/namenamenamenamenamenamenamenamenamenamenamenamena.geojson"
         )

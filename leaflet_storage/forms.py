@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import slugify
 from django.conf import settings
-from django.forms.util import ErrorList
+from django.forms.utils import ErrorList
 
 from .models import Map, DataLayer
 

@@ -1,7 +1,6 @@
-import simplejson
+import json
 
 from django.db import models
-from django.conf import settings
 
 
 class DictField(models.TextField):
@@ -12,16 +11,12 @@ class DictField(models.TextField):
     __metaclass__ = models.SubfieldBase
 
     def get_prep_value(self, value):
-        return simplejson.dumps(value)
+        return json.dumps(value)
 
     def to_python(self, value):
         if not value:
             value = {}
         if isinstance(value, basestring):
-            return simplejson.loads(value)
+            return json.loads(value)
         else:
             return value
-
-if "south" in settings.INSTALLED_APPS:
-    from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^leaflet_storage\.fields\.DictField"])
