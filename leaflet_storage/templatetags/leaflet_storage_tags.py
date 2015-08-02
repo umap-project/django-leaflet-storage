@@ -30,7 +30,7 @@ def map_fragment(map_instance, **kwargs):
     datalayer_data = [c.metadata for c in layers]
     tilelayers = TileLayer.get_list()  # TODO: no need to all
     map_settings = map_instance.settings
-    if not "properties" in map_settings:
+    if "properties" not in map_settings:
         map_settings['properties'] = {}
     map_settings['properties'].update({
         'tilelayers': tilelayers,

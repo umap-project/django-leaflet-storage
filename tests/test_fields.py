@@ -31,3 +31,11 @@ class DictFieldTest(BaseTest):
             Map.objects.get(pk=self.map.pk).settings,
             {}
         )
+
+    def test_should_not_double_dumps(self):
+        self.map.settings = '{"locate": true}'
+        self.map.save()
+        self.assertEqual(
+            Map.objects.get(pk=self.map.pk).settings,
+            {"locate": True}
+        )

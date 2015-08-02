@@ -12,7 +12,9 @@ class DictField(models.TextField):
     def get_prep_value(self, value):
         if not value:
             value = {}
-        return json.dumps(value)
+        if not isinstance(value, six.string_types):
+            value = json.dumps(value)
+        return value
 
     def from_db_value(self, value, expression, connection, context):
         return self.to_python(value)
