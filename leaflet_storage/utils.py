@@ -3,6 +3,7 @@ import gzip
 from django.core.urlresolvers import get_resolver
 from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
 from django.conf.urls import patterns
+from django.utils import six
 
 
 def get_uri_template(urlname, args=None, prefix=""):
@@ -112,7 +113,7 @@ def decorated_patterns(prefix, func, *args):
 
 def smart_decode(s):
     """Convert a str to unicode when you cannot be sure of its encoding."""
-    if isinstance(s, unicode):
+    if isinstance(s, six.string_types):
         return s
     attempts = [
         ('utf-8', 'strict', ),

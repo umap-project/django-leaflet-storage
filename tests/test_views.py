@@ -29,7 +29,7 @@ class MapViews(BaseTest):
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         created_map = Map.objects.latest('pk')
         self.assertEqual(j['id'], created_map.pk)
         self.assertEqual(created_map.name, name)
@@ -46,7 +46,7 @@ class MapViews(BaseTest):
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertNotIn("html", j)
         updated_map = Map.objects.get(pk=self.map.pk)
         self.assertEqual(j['id'], updated_map.pk)
@@ -62,7 +62,7 @@ class MapViews(BaseTest):
         # Check that user has not been impacted
         self.assertEqual(User.objects.filter(pk=self.user.pk).count(), 1)
         # Test response is a json
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertIn("redirect", j)
 
     def test_wrong_slug_should_redirect_to_canonical(self):
@@ -157,7 +157,7 @@ class MapViews(BaseTest):
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         created_map = Map.objects.latest('pk')
         self.assertEqual(j['id'], created_map.pk)
         self.assertEqual(created_map.name, name)
@@ -217,7 +217,7 @@ class MapViews(BaseTest):
     def test_map_geojson_view(self):
         url = reverse('map_geojson', args=(self.map.pk, ))
         response = self.client.get(url)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertIn('type', j)
 
 
@@ -245,7 +245,7 @@ class AnonymousMapViews(BaseTest):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         created_map = Map.objects.latest('pk')
         self.assertEqual(j['id'], created_map.pk)
         self.assertEqual(created_map.name, name)
@@ -276,7 +276,7 @@ class AnonymousMapViews(BaseTest):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         updated_map = Map.objects.get(pk=self.anonymous_map.pk)
         self.assertEqual(j['id'], updated_map.pk)
 
@@ -287,7 +287,7 @@ class AnonymousMapViews(BaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Map.objects.filter(pk=self.anonymous_map.pk).count(), 0)
         # Test response is a json
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertIn("redirect", j)
 
     def test_no_cookie_cant_delete(self):
@@ -330,7 +330,7 @@ class AnonymousMapViews(BaseTest):
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         updated_map = Map.objects.get(pk=self.anonymous_map.pk)
         self.assertEqual(j['id'], updated_map.pk)
         self.assertEqual(updated_map.owner.pk, self.user.pk)
@@ -457,7 +457,7 @@ class DataLayerViews(BaseTest):
         self.assertIsNotNone(response['Last-Modified'])
         self.assertIsNotNone(response['Cache-Control'])
         self.assertNotIn('Content-Encoding', response)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertIn('_storage', j)
         self.assertIn('features', j)
         self.assertEquals(j['type'], 'FeatureCollection')
@@ -477,7 +477,7 @@ class DataLayerViews(BaseTest):
         modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
         self.assertEqual(modified_datalayer.name, name)
         # Test response is a json
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertIn("id", j)
         self.assertEqual(self.datalayer.pk, j['id'])
 
@@ -506,7 +506,7 @@ class DataLayerViews(BaseTest):
         # Check that map has not been impacted
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
         # Test response is a json
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertIn("info", j)
 
     def test_should_not_be_possible_to_delete_with_wrong_map_id_in_url(self):

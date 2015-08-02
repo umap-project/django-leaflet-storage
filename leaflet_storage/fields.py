@@ -1,5 +1,6 @@
 import json
 
+from django.utils import six
 from django.db import models
 
 
@@ -8,15 +9,18 @@ class DictField(models.TextField):
     A very simple field to store JSON in db.
     """
 
-    __metaclass__ = models.SubfieldBase
-
     def get_prep_value(self, value):
+        if not value:
+            value = {}
         return json.dumps(value)
+
+    def from_db_value(self, value, expression, connection, context):
+        return self.to_python(value)
 
     def to_python(self, value):
         if not value:
             value = {}
-        if isinstance(value, basestring):
+        if isinstance(value, six.string_types):
             return json.loads(value)
         else:
             return value

@@ -32,7 +32,8 @@ class TileLayerFactory(factory.DjangoModelFactory):
 
 class UserFactory(factory.DjangoModelFactory):
     username = 'Joe'
-    email = factory.LazyAttribute(lambda a: '{0}@example.com'.format(a.username).lower())
+    email = factory.LazyAttribute(
+        lambda a: '{0}@example.com'.format(a.username).lower())
 
     @classmethod
     def _prepare(cls, create, **kwargs):
@@ -59,7 +60,7 @@ class MapFactory(factory.DjangoModelFactory):
         },
         'properties': {
             'datalayersControl': True,
-            'description': 'Which is just the Danube, at the end, I mean, JUST THE DANUBE',
+            'description': 'Which is just the Danube, at the end',
             'displayCaptionOnLoad': False,
             'displayDataBrowserOnLoad': False,
             'displayPopupFooter': False,
@@ -69,10 +70,10 @@ class MapFactory(factory.DjangoModelFactory):
             'name': 'Cruising on the Donau',
             'scaleControl': True,
             'tilelayer': {
-                'attribution': u'\xa9 OSM Contributors - tiles OpenRiverboatMap',
+                'attribution': u'\xa9 OSM Contributors',
                 'maxZoom': 18,
                 'minZoom': 0,
-                'url_template': 'http://{s}.layers.openstreetmap.fr/openriverboatmap/{z}/{x}/{y}.png'
+                'url_template': 'http://{s}.osm.fr/{z}/{x}/{y}.png'
             },
             'tilelayersControl': True,
             'zoom': 7,
@@ -93,7 +94,7 @@ class DataLayerFactory(factory.DjangoModelFactory):
     name = "test datalayer"
     description = "test description"
     display_on_load = True
-    geojson = factory.django.FileField(data="""{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[13.68896484375,48.55297816440071]},"properties":{"_storage_options":{"color":"DarkCyan","iconClass":"Ball"},"name":"Here","description":"Da place anonymous again 755"}}],"_storage":{"displayOnLoad":true,"name":"Donau","id":926}}""")
+    geojson = factory.django.FileField(data="""{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[13.68896484375,48.55297816440071]},"properties":{"_storage_options":{"color":"DarkCyan","iconClass":"Ball"},"name":"Here","description":"Da place anonymous again 755"}}],"_storage":{"displayOnLoad":true,"name":"Donau","id":926}}""")  # noqa
 
     class Meta:
         model = DataLayer
@@ -119,14 +120,14 @@ class BaseTest(TestCase):
 
     def assertLoginRequired(self, response):
         self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertIn("login_required", j)
         redirect_url = reverse('login')
         self.assertEqual(j['login_required'], redirect_url)
 
     def assertHasForm(self, response):
         self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content)
+        j = json.loads(response.content.decode())
         self.assertIn("html", j)
         self.assertIn("form", j['html'])
 

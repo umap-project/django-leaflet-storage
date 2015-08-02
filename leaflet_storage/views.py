@@ -11,8 +11,7 @@ from django.contrib.auth import get_user_model
 from django.core.signing import Signer, BadSignature
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import (HttpResponse, HttpResponseForbidden,
-                         HttpResponseRedirect, StreamingHttpResponse,
-                         HttpResponsePermanentRedirect)
+                         HttpResponseRedirect, HttpResponsePermanentRedirect)
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from django.template.loader import render_to_string
@@ -23,6 +22,7 @@ from django.views.generic.detail import BaseDetailView
 from django.views.generic.list import ListView
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.utils.encoding import force_bytes
 from django.utils.http import http_date
 from django.middleware.gzip import re_accepts_gzip
 from django.utils.translation import to_locale
@@ -436,7 +436,7 @@ class GZipMixin(object):
     def etag(self):
         path = self.path()
         with open(path) as f:
-            return hashlib.md5(f.read()).hexdigest()
+            return hashlib.md5(force_bytes(f.read())).hexdigest()
 
 
 class DataLayerView(GZipMixin, BaseDetailView):
@@ -459,7 +459,7 @@ class DataLayerView(GZipMixin, BaseDetailView):
                     content_type='application/json'
                 )
             response["Last-Modified"] = http_date(statobj.st_mtime)
-            response['ETag'] = '%s' % hashlib.md5(response.content).hexdigest()
+            response['ETag'] = '%s' % hashlib.md5(force_bytes(response.content)).hexdigest()  # noqa
             response['Content-Length'] = len(response.content)
         if path.endswith(self.EXT):
             response['Content-Encoding'] = 'gzip'
