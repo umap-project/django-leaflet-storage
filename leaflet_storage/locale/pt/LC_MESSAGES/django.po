@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Joao Ponce de Leao Paulouro <joao.ponceleao@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-10 14:31+0100\n"
-"PO-Revision-Date: 2014-02-10 13:32+0000\n"
-"Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
+"PO-Revision-Date: 2014-09-21 13:21+0000\n"
+"Last-Translator: Joao Ponce de Leao Paulouro <joao.ponceleao@gmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/umap/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 #: forms.py:39
 #, python-format
 msgid "Secret edit link is %s"
-msgstr ""
+msgstr "Link secreto para edição é %s"
 
 #: forms.py:43 models.py:110
 msgid "Everyone can edit"
@@ -28,7 +29,7 @@ msgstr "Todos podem editar"
 
 #: forms.py:44
 msgid "Only editable with secret edit link"
-msgstr ""
+msgstr "Unicamente editável através de link secreto"
 
 #: models.py:21
 msgid "name"
@@ -52,7 +53,7 @@ msgstr "Modelo d'URL no formato OSM"
 
 #: models.py:71
 msgid "Order of the tilelayers in the edit box"
-msgstr ""
+msgstr "Ordem das camadas na caixa de edição"
 
 #: models.py:111
 msgid "Only editors can edit"
@@ -64,15 +65,15 @@ msgstr "Só o proprietário pode editar"
 
 #: models.py:115
 msgid "everyone (public)"
-msgstr ""
+msgstr "todos (público)"
 
 #: models.py:116
 msgid "anyone with link"
-msgstr ""
+msgstr "pessoas com link"
 
 #: models.py:117
 msgid "editors only"
-msgstr ""
+msgstr "só editores"
 
 #: models.py:120 models.py:252
 msgid "description"
@@ -104,7 +105,7 @@ msgstr "licença"
 
 #: models.py:132
 msgid "background"
-msgstr ""
+msgstr "fundo"
 
 #: models.py:133
 msgid "owner"
@@ -120,7 +121,7 @@ msgstr "estado da edição"
 
 #: models.py:136
 msgid "share status"
-msgstr ""
+msgstr "estatuto de partilha"
 
 #: models.py:137
 msgid "settings"
@@ -129,11 +130,11 @@ msgstr "parâmetros"
 #: models.py:175
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr ""
+msgstr "O seu mapa anónimo foi anexado à sua conta %s"
 
 #: models.py:208
 msgid "Clone of"
-msgstr ""
+msgstr "Clone de"
 
 #: models.py:257
 msgid "display on load"
@@ -141,22 +142,22 @@ msgstr "mostrar de início"
 
 #: models.py:258
 msgid "Display this layer on load."
-msgstr ""
+msgstr "Apresentar esta camada após carregamento."
 
 #: views.py:208
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
+msgstr "O seu mapa foi criado! Se quiser editar este mapa noutro computador, por favor utilize este link: %(anonymous_url)s"
 
 #: views.py:213
 msgid "Congratulations, your map has been created!"
-msgstr ""
+msgstr "Parabéns, o seu mapa foi criado!"
 
 #: views.py:236
 msgid "Map has been updated!"
-msgstr ""
+msgstr "Mapa foi actualizado!"
 
 #: views.py:261
 msgid "Map editors updated with success!"
@@ -171,15 +172,15 @@ msgstr "Só o proprietário pode apagar o mapa."
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
+msgstr "O seu mapa foi clonado! Se quiser editar este mapa noutro computador, por favor utilize este link: %(anonymous_url)s"
 
 #: views.py:301
 msgid "Congratulations, your map has been cloned!"
-msgstr ""
+msgstr "Parabéns, o seu mapa foi clonado!"
 
 #: views.py:403
 msgid "Layer successfully deleted."
-msgstr ""
+msgstr "Camada apagada com sucesso."
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
