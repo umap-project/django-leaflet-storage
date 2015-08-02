@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # hno2 <hno2@gmx.net>, 2013-2014
 # Klumbumbus, 2013-2014
@@ -10,179 +10,142 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"POT-Creation-Date: 2015-08-02 22:17+0200\n"
 "PO-Revision-Date: 2014-08-04 14:25+0000\n"
 "Last-Translator: Klumbumbus\n"
-"Language-Team: German (http://www.transifex.com/projects/p/umap/language/de/)\n"
+"Language-Team: German (http://www.transifex.com/projects/p/umap/language/"
+"de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: forms.py:39
+#: forms.py:43
 #, python-format
 msgid "Secret edit link is %s"
 msgstr "Geheimer Bearbeitungslink ist %s"
 
-#: forms.py:43 models.py:110
+#: forms.py:47 models.py:109
 msgid "Everyone can edit"
 msgstr "Jeder kann bearbeiten"
 
-#: forms.py:44
+#: forms.py:48
 msgid "Only editable with secret edit link"
 msgstr "Nur mit geheimen Bearbeitungslink zu bearbeiten"
 
-#: models.py:21
+#: models.py:19
 msgid "name"
 msgstr "Name"
 
-#: models.py:36
-msgid "details"
-msgstr "Details"
-
-#: models.py:37
-msgid "Link to a page where the licence is detailed."
-msgstr "Verlinke auf eine Seite mit der Lizenz."
-
-#: models.py:49
+#: models.py:38
 msgid "No licence set"
 msgstr "Keine Lizenz ausgewählt"
 
-#: models.py:63
+#: models.py:47
+msgid "details"
+msgstr "Details"
+
+#: models.py:48
+msgid "Link to a page where the licence is detailed."
+msgstr "Verlinke auf eine Seite mit der Lizenz."
+
+#: models.py:62
 msgid "URL template using OSM tile format"
 msgstr "Das URL-Template nutzt das OSM Tile Format"
 
-#: models.py:71
+#: models.py:70
 msgid "Order of the tilelayers in the edit box"
 msgstr "Reihenfolge der Karten-Ebenen in der Bearbeiten-Box"
 
-#: models.py:111
+#: models.py:110
 msgid "Only editors can edit"
 msgstr "Nur Bearbeiter können bearbeiten"
 
-#: models.py:112
+#: models.py:111
 msgid "Only owner can edit"
 msgstr "Nur der Ersteller kann bearbeiten"
 
-#: models.py:115
+#: models.py:114
 msgid "everyone (public)"
 msgstr "Jeder (Öffentlich)"
 
-#: models.py:116
+#: models.py:115
 msgid "anyone with link"
 msgstr "Jeder mit Link"
 
-#: models.py:117
+#: models.py:116
 msgid "editors only"
 msgstr "Nur Bearbeiter "
 
-#: models.py:120 models.py:252
+#: models.py:119 models.py:255
 msgid "description"
 msgstr "Beschreibung"
 
-#: models.py:121
+#: models.py:120
 msgid "center"
 msgstr "Mittelpunkt"
 
-#: models.py:122
+#: models.py:121
 msgid "zoom"
 msgstr "Zoom"
 
-#: models.py:123
+#: models.py:122
 msgid "locate"
 msgstr "lokalisiere"
 
-#: models.py:123
+#: models.py:122
 msgid "Locate user on load?"
 msgstr "Standort des Benutzers beim Seitenaufruf bestimmen?"
 
-#: models.py:126
+#: models.py:125
 msgid "Choose the map licence."
 msgstr "Kartenlizenz auswählen"
 
-#: models.py:127
+#: models.py:126
 msgid "licence"
 msgstr "Lizenz"
 
-#: models.py:132
+#: models.py:131
 msgid "background"
 msgstr "Hintergrund"
 
-#: models.py:133
+#: models.py:132
 msgid "owner"
 msgstr "Ersteller"
 
-#: models.py:134
+#: models.py:133
 msgid "editors"
 msgstr "Bearbeiter"
 
-#: models.py:135
+#: models.py:134
 msgid "edit status"
 msgstr "Bearbeitungsstatus"
 
-#: models.py:136
+#: models.py:135
 msgid "share status"
 msgstr "Teilen-Status"
 
-#: models.py:137
+#: models.py:136
 msgid "settings"
 msgstr "Einstellungen"
 
-#: models.py:175
+#: models.py:174
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "Deine anonyme Karte wurde deinem Account %s zugeordnet."
 
-#: models.py:208
+#: models.py:207
 msgid "Clone of"
 msgstr "Duplicat von"
 
-#: models.py:257
+#: models.py:260
 msgid "display on load"
 msgstr "Beim Seitenaufruf einblenden"
 
-#: models.py:258
+#: models.py:261
 msgid "Display this layer on load."
 msgstr "Diese Ebene beim Seitenaufruf einblenden."
-
-#: views.py:208
-#, python-format
-msgid ""
-"Your map has been created! If you want to edit this map from another "
-"computer, please use this link: %(anonymous_url)s"
-msgstr "Deine Karte wurde erstellt! Wenn du diese Karte von einem anderen Computer aus bearbeiten möchtest, benutze bitte diesen Link: %(anonymous_url)s"
-
-#: views.py:213
-msgid "Congratulations, your map has been created!"
-msgstr "Glückwunsch, deine Karte wurde erstellt!"
-
-#: views.py:236
-msgid "Map has been updated!"
-msgstr "Karte wurde aktualisiert!"
-
-#: views.py:261
-msgid "Map editors updated with success!"
-msgstr "Bearbeiter erfolgreich geändert"
-
-#: views.py:274
-msgid "Only its owner can delete the map."
-msgstr "Nur der Ersteller kann die Karte löschen."
-
-#: views.py:296
-#, python-format
-msgid ""
-"Your map has been cloned! If you want to edit this map from another "
-"computer, please use this link: %(anonymous_url)s"
-msgstr "Deine Karte wurde kopiert! Wenn du diese Karte von einem anderen Computer aus bearbeiten möchtest, benutze bitte diesen Link: %(anonymous_url)s"
-
-#: views.py:301
-msgid "Congratulations, your map has been cloned!"
-msgstr "Glückwunsch, deine Karte wurde kopiert!"
-
-#: views.py:403
-msgid "Layer successfully deleted."
-msgstr "Ebene erfolgreich gelöscht."
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
@@ -198,4 +161,48 @@ msgstr "Bitte logge dich ein um fortzufahren."
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr "Dein Benutzername und Password stimmen nicht überein. Bitte versuche es noch einmal."
+msgstr ""
+"Dein Benutzername und Password stimmen nicht überein. Bitte versuche es noch "
+"einmal."
+
+#: views.py:235
+#, python-format
+msgid ""
+"Your map has been created! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr ""
+"Deine Karte wurde erstellt! Wenn du diese Karte von einem anderen Computer "
+"aus bearbeiten möchtest, benutze bitte diesen Link: %(anonymous_url)s"
+
+#: views.py:240
+msgid "Congratulations, your map has been created!"
+msgstr "Glückwunsch, deine Karte wurde erstellt!"
+
+#: views.py:267
+msgid "Map has been updated!"
+msgstr "Karte wurde aktualisiert!"
+
+#: views.py:294
+msgid "Map editors updated with success!"
+msgstr "Bearbeiter erfolgreich geändert"
+
+#: views.py:309
+msgid "Only its owner can delete the map."
+msgstr "Nur der Ersteller kann die Karte löschen."
+
+#: views.py:338
+#, python-format
+msgid ""
+"Your map has been cloned! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr ""
+"Deine Karte wurde kopiert! Wenn du diese Karte von einem anderen Computer "
+"aus bearbeiten möchtest, benutze bitte diesen Link: %(anonymous_url)s"
+
+#: views.py:343
+msgid "Congratulations, your map has been cloned!"
+msgstr "Glückwunsch, deine Karte wurde kopiert!"
+
+#: views.py:518
+msgid "Layer successfully deleted."
+msgstr "Ebene erfolgreich gelöscht."

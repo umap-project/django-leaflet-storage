@@ -1,186 +1,150 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
+#
 # Translators:
 # ramunasd <ieskok@ramuno.lt>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-10 14:31+0100\n"
+"POT-Creation-Date: 2015-08-02 22:17+0200\n"
 "PO-Revision-Date: 2014-02-10 13:32+0000\n"
 "Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
-"Language-Team: Lithuanian (http://www.transifex.com/projects/p/umap/language/lt/)\n"
+"Language-Team: Lithuanian (http://www.transifex.com/projects/p/umap/language/"
+"lt/)\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: forms.py:39
+#: forms.py:43
 #, python-format
 msgid "Secret edit link is %s"
 msgstr "Slapta redagavimo nuoroda %s"
 
-#: forms.py:43 models.py:110
+#: forms.py:47 models.py:109
 msgid "Everyone can edit"
 msgstr "Visi gali redaguoti"
 
-#: forms.py:44
+#: forms.py:48
 msgid "Only editable with secret edit link"
 msgstr "Redaguojamas tik su slapta nuoroda"
 
-#: models.py:21
+#: models.py:19
 msgid "name"
 msgstr "vardas"
 
-#: models.py:36
-msgid "details"
-msgstr "išsamiau"
-
-#: models.py:37
-msgid "Link to a page where the licence is detailed."
-msgstr "Licenzijos aprašymo nuoroda."
-
-#: models.py:49
+#: models.py:38
 msgid "No licence set"
 msgstr "Nenustatyta licenzija"
 
-#: models.py:63
+#: models.py:47
+msgid "details"
+msgstr "išsamiau"
+
+#: models.py:48
+msgid "Link to a page where the licence is detailed."
+msgstr "Licenzijos aprašymo nuoroda."
+
+#: models.py:62
 msgid "URL template using OSM tile format"
 msgstr "URL šablonas OSM kaladėlių formatui"
 
-#: models.py:71
+#: models.py:70
 msgid "Order of the tilelayers in the edit box"
 msgstr "Žemėlapio sluoksnių tvarka redagavimo lange"
 
-#: models.py:111
+#: models.py:110
 msgid "Only editors can edit"
 msgstr "Tik redaktoriai gali keisti"
 
-#: models.py:112
+#: models.py:111
 msgid "Only owner can edit"
 msgstr "Tik savininkas gali keisti"
 
-#: models.py:115
+#: models.py:114
 msgid "everyone (public)"
 msgstr "visi (viešai)"
 
-#: models.py:116
+#: models.py:115
 msgid "anyone with link"
 msgstr "visi su nuoroda"
 
-#: models.py:117
+#: models.py:116
 msgid "editors only"
 msgstr "tik keitėjai"
 
-#: models.py:120 models.py:252
+#: models.py:119 models.py:255
 msgid "description"
 msgstr "aprašymas"
 
-#: models.py:121
+#: models.py:120
 msgid "center"
 msgstr "centras"
 
-#: models.py:122
+#: models.py:121
 msgid "zoom"
 msgstr "mastelis"
 
-#: models.py:123
+#: models.py:122
 msgid "locate"
 msgstr "nustatyti padėtį"
 
-#: models.py:123
+#: models.py:122
 msgid "Locate user on load?"
 msgstr "Nustatyti padėti užsikrovus?"
 
-#: models.py:126
+#: models.py:125
 msgid "Choose the map licence."
 msgstr "Pasirinkite žemėlapio licenziją."
 
-#: models.py:127
+#: models.py:126
 msgid "licence"
 msgstr "licenzija"
 
-#: models.py:132
+#: models.py:131
 msgid "background"
 msgstr "fonas"
 
-#: models.py:133
+#: models.py:132
 msgid "owner"
 msgstr "savininkas"
 
-#: models.py:134
+#: models.py:133
 msgid "editors"
 msgstr "redaktoriai"
 
-#: models.py:135
+#: models.py:134
 msgid "edit status"
 msgstr "keisti būseną"
 
-#: models.py:136
+#: models.py:135
 msgid "share status"
 msgstr "pasidalinti būsena"
 
-#: models.py:137
+#: models.py:136
 msgid "settings"
 msgstr "nustatymai"
 
-#: models.py:175
+#: models.py:174
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
 msgstr "Jūsų anoniminis žemėlapis prijungtas prie Jūsų paskyros %s"
 
-#: models.py:208
+#: models.py:207
 msgid "Clone of"
 msgstr "Kopija"
 
-#: models.py:257
+#: models.py:260
 msgid "display on load"
 msgstr "rodyti pasikrovus"
 
-#: models.py:258
+#: models.py:261
 msgid "Display this layer on load."
 msgstr "Rodyti šį sluoksnį pasrikrovus."
-
-#: views.py:208
-#, python-format
-msgid ""
-"Your map has been created! If you want to edit this map from another "
-"computer, please use this link: %(anonymous_url)s"
-msgstr "Jūsų žemėlapis sėkmingai sukurtas! Jei norite redaguoti jį iš kito kompiuterio, pasinaudokite šia nuoroda: %(anonymous_url)s"
-
-#: views.py:213
-msgid "Congratulations, your map has been created!"
-msgstr "Sveikinam, Jūsų žemėlapis sukurtas!"
-
-#: views.py:236
-msgid "Map has been updated!"
-msgstr "Žemėlapis atnaujintas!"
-
-#: views.py:261
-msgid "Map editors updated with success!"
-msgstr "Žemėlapio keitėjai atnaujinti!"
-
-#: views.py:274
-msgid "Only its owner can delete the map."
-msgstr "Tik savininkas gali ištrinti žemėlapį."
-
-#: views.py:296
-#, python-format
-msgid ""
-"Your map has been cloned! If you want to edit this map from another "
-"computer, please use this link: %(anonymous_url)s"
-msgstr "Jūsų žemėlapis nukopijuotas! Jei norite redaguoti jį iš kito kompiuterio, pasinaudokite šia nuoroda: %(anonymous_url)s"
-
-#: views.py:301
-msgid "Congratulations, your map has been cloned!"
-msgstr "Sveikinam, Jūsų žemėlapis buvo nukopijuotas!"
-
-#: views.py:403
-msgid "Layer successfully deleted."
-msgstr "Sluoksnis sėkmingai ištrintas."
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
@@ -197,3 +161,45 @@ msgstr "Prisijunkite, kad tęsti"
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
 msgstr "Jūsų vardas ir slaptažodis yra neteisingi. Prašom pabandyti iš naujo."
+
+#: views.py:235
+#, python-format
+msgid ""
+"Your map has been created! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr ""
+"Jūsų žemėlapis sėkmingai sukurtas! Jei norite redaguoti jį iš kito "
+"kompiuterio, pasinaudokite šia nuoroda: %(anonymous_url)s"
+
+#: views.py:240
+msgid "Congratulations, your map has been created!"
+msgstr "Sveikinam, Jūsų žemėlapis sukurtas!"
+
+#: views.py:267
+msgid "Map has been updated!"
+msgstr "Žemėlapis atnaujintas!"
+
+#: views.py:294
+msgid "Map editors updated with success!"
+msgstr "Žemėlapio keitėjai atnaujinti!"
+
+#: views.py:309
+msgid "Only its owner can delete the map."
+msgstr "Tik savininkas gali ištrinti žemėlapį."
+
+#: views.py:338
+#, python-format
+msgid ""
+"Your map has been cloned! If you want to edit this map from another "
+"computer, please use this link: %(anonymous_url)s"
+msgstr ""
+"Jūsų žemėlapis nukopijuotas! Jei norite redaguoti jį iš kito kompiuterio, "
+"pasinaudokite šia nuoroda: %(anonymous_url)s"
+
+#: views.py:343
+msgid "Congratulations, your map has been cloned!"
+msgstr "Sveikinam, Jūsų žemėlapis buvo nukopijuotas!"
+
+#: views.py:518
+msgid "Layer successfully deleted."
+msgstr "Sluoksnis sėkmingai ištrintas."
