@@ -435,8 +435,8 @@ class GZipMixin(object):
 
     def etag(self):
         path = self.path()
-        with open(path) as f:
-            return hashlib.md5(force_bytes(f.read())).hexdigest()
+        with open(path, mode='rb') as f:
+            return hashlib.md5(f.read()).hexdigest()
 
 
 class DataLayerView(GZipMixin, BaseDetailView):
