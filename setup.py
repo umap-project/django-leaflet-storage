@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 
 import leaflet_storage
 
-long_description = codecs.open('README.rst', "r", "utf-8").read()
+long_description = codecs.open('README.md', "r", "utf-8").read()
 
 with open('requirements.txt') as reqs:
     install_requires = [
