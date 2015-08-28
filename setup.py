@@ -9,7 +9,7 @@ import leaflet_storage
 
 long_description = codecs.open('README.rst', "r", "utf-8").read()
 
-with open('requirements.pip') as reqs:
+with open('requirements.txt') as reqs:
     install_requires = [
         line for line in reqs.read().split('\n') if (line and not
                                                      line.startswith(('--', 'git')))
