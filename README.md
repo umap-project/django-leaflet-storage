@@ -10,7 +10,7 @@ Check the demo [here](http://umap.fluv.io)
 
 ## Installation
 
-You will need a geo aware database. See `Geodjango doc <https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/>`_ for backend installation.
+You will need a geo aware database. See [Geodjango doc](https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/) for backend installation.
 
 Then you can pip install the app:
 
