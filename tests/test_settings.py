@@ -11,7 +11,7 @@ INSTALLED_APPS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'django-leaflet-storage',
+        'NAME': 'testdb',
     }
 }
 ROOT_URLCONF = 'leaflet_storage.urls'
