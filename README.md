@@ -26,7 +26,7 @@ Add `leaflet_storage` to you apps:
 
 Include `leaflet_storage` urls:
 
-   (r'', include('leaflet_storage.urls')),
+    (r'', include('leaflet_storage.urls')),
 
 Create tables:
 
