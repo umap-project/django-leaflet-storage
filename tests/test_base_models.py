@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AnonymousUser
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse
 
-from leaflet_storage.models import Map, DataLayer, upload_to
+from leaflet_storage.models import Map, DataLayer
 from .base import BaseTest, UserFactory, DataLayerFactory, MapFactory
 
 
@@ -88,12 +89,15 @@ class MapModel(BaseTest):
         self.assertNotEqual(self.datalayer.pk, datalayer.pk)
         self.assertEqual(self.datalayer.name, datalayer.name)
         self.assertIsNotNone(datalayer.geojson)
-        self.assertNotEqual(datalayer.geojson.path, self.datalayer.geojson.path)
+        self.assertNotEqual(datalayer.geojson.path,
+                            self.datalayer.geojson.path)
 
     def test_publicmanager_should_get_only_public_maps(self):
         self.map.share_status = self.map.PUBLIC
-        open_map = MapFactory(owner=self.user, licence=self.licence, share_status=Map.OPEN)
-        private_map = MapFactory(owner=self.user, licence=self.licence, share_status=Map.PRIVATE)
+        open_map = MapFactory(owner=self.user, licence=self.licence,
+                              share_status=Map.OPEN)
+        private_map = MapFactory(owner=self.user, licence=self.licence,
+                                 share_status=Map.PRIVATE)
         self.assertIn(self.map, Map.public.all())
         self.assertNotIn(open_map, Map.public.all())
         self.assertNotIn(private_map, Map.public.all())
@@ -104,7 +108,8 @@ class LicenceModel(BaseTest):
     def test_licence_delete_should_not_remove_linked_maps(self):
         self.licence.delete()
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
-        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 1)
+        self.assertEqual(
+            DataLayer.objects.filter(pk=self.datalayer.pk).count(), 1)
 
 
 class DataLayerModel(BaseTest):
@@ -118,6 +123,22 @@ class DataLayerModel(BaseTest):
             list(self.map.datalayer_set.all()),
             [c1, c2, c3, c4, self.datalayer]
         )
+
+    def test_upload_to(self):
+        self.map.pk = 302
+        self.datalayer.pk = 17
+        self.assertTrue(
+            self.datalayer.upload_to().startswith("datalayer/2/0/302/17_"))
+
+    def test_save_should_use_pk_as_name(self):
+        datalayer = DataLayerFactory(map=self.map, name="xxx")
+        self.assertIn("/%s_" % datalayer.pk, datalayer.geojson.name)
+
+    def test_same_geojson_file_name_will_be_suffixed(self):
+        before = self.datalayer.geojson.name
+        self.datalayer.geojson.save(before, ContentFile("{}"))
+        self.assertNotEqual(self.datalayer.geojson.name, before)
+        self.assertIn("/%s_" % self.datalayer.pk, self.datalayer.geojson.name)
 
     def test_clone_should_return_new_instance(self):
         clone = self.datalayer.clone()
@@ -138,27 +159,3 @@ class DataLayerModel(BaseTest):
         self.assertNotEqual(self.datalayer.pk, clone.pk)
         self.assertIsNotNone(clone.geojson)
         self.assertNotEqual(clone.geojson.path, self.datalayer.geojson.path)
-
-    def test_upload_to_should_split_map_id(self):
-        self.map.pk = 302
-        self.datalayer.name = "a name"
-        self.assertEqual(
-            upload_to(self.datalayer, None),
-            "datalayer/2/0/302/a-name.geojson"
-        )
-
-    def test_upload_to_should_never_has_empty_name(self):
-        self.map.pk = 1
-        self.datalayer.name = ""
-        self.assertEqual(
-            upload_to(self.datalayer, None),
-            "datalayer/1/1/untitled.geojson"
-        )
-
-    def test_upload_to_should_cut_too_long_name(self):
-        self.map.pk = 1
-        self.datalayer.name = "name" * 20
-        self.assertEqual(
-            upload_to(self.datalayer, None),
-            "datalayer/1/1/namenamenamenamenamenamenamenamenamenamenamenamena.geojson"
-        )

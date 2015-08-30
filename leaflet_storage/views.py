@@ -37,9 +37,9 @@ User = get_user_model()
 ANONYMOUS_COOKIE_MAX_AGE = 60 * 60 * 24 * 30  # One month
 
 
-# ############## #
+# ############## #
 #     Utils      #
-# ############## #
+# ############## #
 
 def _urls_for_js(urls=None):
     """
@@ -73,9 +73,9 @@ def simple_json_response(**kwargs):
     return HttpResponse(json.dumps(kwargs))
 
 
-# ############## #
+# ############## #
 #      Map       #
-# ############## #
+# ############## #
 
 
 class FormLessEditMixin(object):
@@ -123,10 +123,11 @@ class MapDetailMixin(object):
         #         'timeout': 3000
         #     }
         map_settings = self.get_geojson()
-        if not "properties" in map_settings:
+        if "properties" not in map_settings:
             map_settings['properties'] = {}
         map_settings['properties'].update(properties)
-        context['map_settings'] = json.dumps(map_settings, indent=settings.DEBUG)
+        context['map_settings'] = json.dumps(map_settings,
+                                             indent=settings.DEBUG)
         return context
 
     def get_tilelayers(self):
@@ -411,12 +412,15 @@ class GZipMixin(object):
 
     EXT = '.gz'
 
+    def _path(self):
+        return self.object.geojson.path
+
     def path(self):
         """
         Serve gzip file if client accept it.
         Generate or update the gzip file if needed.
         """
-        path = self.object.geojson.path
+        path = self._path()
         statobj = os.stat(path)
         ae = self.request.META.get('HTTP_ACCEPT_ENCODING', '')
         if re_accepts_gzip.search(ae) and getattr(settings, 'LEAFLET_STORAGE_GZIP', True):
@@ -464,6 +468,14 @@ class DataLayerView(GZipMixin, BaseDetailView):
         if path.endswith(self.EXT):
             response['Content-Encoding'] = 'gzip'
         return response
+
+
+class DataLayerVersion(DataLayerView):
+
+    def _path(self):
+        return '{root}/{path}'.format(
+            root=settings.MEDIA_ROOT,
+            path=self.object.get_version_path(self.kwargs['name']))
 
 
 class DataLayerCreate(FormLessEditMixin, GZipMixin, CreateView):
@@ -518,9 +530,16 @@ class DataLayerDelete(DeleteView):
         return simple_json_response(info=_("Layer successfully deleted."))
 
 
-# ############## #
+class DataLayerVersions(BaseDetailView):
+    model = DataLayer
+
+    def render_to_response(self, context, **response_kwargs):
+        return simple_json_response(versions=self.object.versions)
+
+
+# ############## #
 #     Picto      #
-# ############## #
+# ############## #
 
 class PictogramJSONList(ListView):
     model = Pictogram
@@ -530,9 +549,9 @@ class PictogramJSONList(ListView):
         return simple_json_response(pictogram_list=content)
 
 
-# ############## #
+# ############## #
 #     Generic    #
-# ############## #
+# ############## #
 
 def logout(request):
     do_logout(request)

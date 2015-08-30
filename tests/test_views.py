@@ -3,6 +3,7 @@ import json
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.files.base import ContentFile
 from django.core.signing import get_cookie_signer
 from django.core.urlresolvers import reverse
 from django.test.utils import override_settings
@@ -23,8 +24,8 @@ class MapViews(BaseTest):
         name = 'test-map-with-new-name'
         post_data = {
             'name': name,
-            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
-            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',  # noqa
+            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'  # noqa
         }
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
@@ -40,8 +41,8 @@ class MapViews(BaseTest):
         new_name = 'new map name'
         post_data = {
             'name': new_name,
-            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
-            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',  # noqa
+            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'  # noqa
         }
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
@@ -58,7 +59,8 @@ class MapViews(BaseTest):
         response = self.client.post(url, {}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 0)
-        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 0)
+        self.assertEqual(
+            DataLayer.objects.filter(pk=self.datalayer.pk).count(), 0)
         # Check that user has not been impacted
         self.assertEqual(User.objects.filter(pk=self.user.pk).count(), 1)
         # Test response is a json
@@ -75,12 +77,13 @@ class MapViews(BaseTest):
     def test_wrong_slug_should_redirect_with_query_string(self):
         url = reverse('map', kwargs={'pk': self.map.pk, 'slug': 'wrong-slug'})
         url = "{0}?allowEdit=0".format(url)
-        canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
+        canonical = reverse('map', kwargs={'pk': self.map.pk,
+                                           'slug': self.map.slug})
         canonical = "{0}?allowEdit=0".format(canonical)
         response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=301)
 
-    def test_should_not_take_the_query_string_into_account_for_canonical_check(self):
+    def test_should_not_consider_the_query_string_for_canonical_check(self):
         url = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
         url = "{0}?allowEdit=0".format(url)
         response = self.client.get(url)
@@ -88,7 +91,8 @@ class MapViews(BaseTest):
 
     def test_short_url_should_redirect_to_canonical(self):
         url = reverse('map_short_url', kwargs={'pk': self.map.pk})
-        canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
+        canonical = reverse('map', kwargs={'pk': self.map.pk,
+                                           'slug': self.map.slug})
         response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=301)
 
@@ -97,7 +101,8 @@ class MapViews(BaseTest):
             'map_old_url',
             kwargs={'username': self.map.owner.username, 'slug': self.map.slug}
         )
-        canonical = reverse('map', kwargs={'pk': self.map.pk, 'slug': self.map.slug})
+        canonical = reverse('map', kwargs={'pk': self.map.pk,
+                                           'slug': self.map.slug})
         response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=301)
 
@@ -151,8 +156,8 @@ class MapViews(BaseTest):
         name = u'Академический'
         post_data = {
             'name': name,
-            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
-            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',  # noqa
+            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'  # noqa
         }
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, post_data)
@@ -240,8 +245,8 @@ class AnonymousMapViews(BaseTest):
         name = 'test-map-with-new-name'
         post_data = {
             'name': name,
-            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
-            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',  # noqa
+            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'  # noqa
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
@@ -258,21 +263,21 @@ class AnonymousMapViews(BaseTest):
         new_name = 'new map name'
         post_data = {
             'name': new_name,
-            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
-            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',  # noqa
+            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'  # noqa
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 403)
 
     def test_update_with_cookie(self):
         url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})
-        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value
+        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value  # noqa
         # POST only mendatory fields
         new_name = 'new map name'
         post_data = {
             'name': new_name,
-            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
-            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',  # noqa
+            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'  # noqa
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
@@ -282,10 +287,11 @@ class AnonymousMapViews(BaseTest):
 
     def test_delete(self):
         url = reverse('map_delete', args=(self.anonymous_map.pk, ))
-        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value
+        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value  # noqa
         response = self.client.post(url, {}, follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Map.objects.filter(pk=self.anonymous_map.pk).count(), 0)
+        self.assertEqual(
+            Map.objects.filter(pk=self.anonymous_map.pk).count(), 0)
         # Test response is a json
         j = json.loads(response.content.decode())
         self.assertIn("redirect", j)
@@ -293,15 +299,12 @@ class AnonymousMapViews(BaseTest):
     def test_no_cookie_cant_delete(self):
         url = reverse('map_delete', args=(self.anonymous_map.pk, ))
         response = self.client.post(url, {}, follow=True)
-        print(response)
         self.assertEqual(response.status_code, 403)
 
     def test_anonymous_edit_url(self):
         url = self.anonymous_map.get_anonymous_edit_url()
-        canonical = reverse(
-            'map',
-            kwargs={'pk': self.anonymous_map.pk, 'slug': self.anonymous_map.slug}
-        )
+        canonical = reverse('map', kwargs={'pk': self.anonymous_map.pk,
+                                           'slug': self.anonymous_map.slug})
         response = self.client.get(url)
         self.assertRedirects(response, canonical, status_code=302)
         key, value = self.anonymous_map.signed_cookie_elements
@@ -318,15 +321,15 @@ class AnonymousMapViews(BaseTest):
 
     def test_authenticated_user_with_cookie_is_attached_as_owner(self):
         url = reverse('map_update', kwargs={'map_id': self.anonymous_map.pk})
-        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value
+        self.client.cookies[self.anonymous_cookie_key] = self.anonymous_cookie_value  # noqa
         self.client.login(username=self.user.username, password="123123")
         self.assertEqual(self.anonymous_map.owner, None)
         # POST only mendatory fields
         new_name = 'new map name for authenticated user'
         post_data = {
             'name': new_name,
-            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',
-            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'
+            'center': '{"type":"Point","coordinates":[13.447265624999998,48.94415123418794]}',  # noqa
+            'settings': '{"type":"Feature","geometry":{"type":"Point","coordinates":[5.0592041015625,52.05924589011585]},"properties":{"tilelayer":{"maxZoom":20,"url_template":"http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png","minZoom":0,"attribution":"HOT and friends"},"licence":"","description":"","name":"test enrhûmé","tilelayersControl":true,"displayDataBrowserOnLoad":false,"displayPopupFooter":true,"displayCaptionOnLoad":false,"miniMap":true,"moreControl":true,"scaleControl":true,"zoomControl":true,"datalayersControl":true,"zoom":8}}'  # noqa
         }
         response = self.client.post(url, post_data)
         self.assertEqual(response.status_code, 200)
@@ -498,11 +501,13 @@ class DataLayerViews(BaseTest):
         self.assertEqual(modified_datalayer.name, self.datalayer.name)
 
     def test_delete(self):
-        url = reverse('datalayer_delete', args=(self.map.pk, self.datalayer.pk))
+        url = reverse('datalayer_delete',
+                      args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, {}, follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 0)
+        self.assertEqual(
+            DataLayer.objects.filter(pk=self.datalayer.pk).count(), 0)
         # Check that map has not been impacted
         self.assertEqual(Map.objects.filter(pk=self.map.pk).count(), 1)
         # Test response is a json
@@ -511,11 +516,13 @@ class DataLayerViews(BaseTest):
 
     def test_should_not_be_possible_to_delete_with_wrong_map_id_in_url(self):
         other_map = MapFactory(owner=self.user)
-        url = reverse('datalayer_delete', args=(other_map.pk, self.datalayer.pk))
+        url = reverse('datalayer_delete',
+                      args=(other_map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         response = self.client.post(url, {}, follow=True)
         self.assertEqual(response.status_code, 403)
-        self.assertEqual(DataLayer.objects.filter(pk=self.datalayer.pk).count(), 1)
+        self.assertEqual(
+            DataLayer.objects.filter(pk=self.datalayer.pk).count(), 1)
 
     def test_get_gzipped(self):
         url = reverse('datalayer_view', args=(self.datalayer.pk, ))
@@ -532,7 +539,8 @@ class DataLayerViews(BaseTest):
         url = reverse('datalayer_view', args=(self.datalayer.pk, ))
         response = self.client.get(url)
         etag = response['ETag']
-        url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
+        url = reverse('datalayer_update',
+                      args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         name = "new name"
         post_data = {
@@ -540,13 +548,15 @@ class DataLayerViews(BaseTest):
             "display_on_load": True,
             "geojson": '{"type":"FeatureCollection","features":[]}'
         }
-        response = self.client.post(url, post_data, follow=True, HTTP_IF_MATCH=etag)
+        response = self.client.post(url, post_data, follow=True,
+                                    HTTP_IF_MATCH=etag)
         self.assertEqual(response.status_code, 200)
         modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
         self.assertEqual(modified_datalayer.name, name)
 
     def test_optimistic_concurrency_control_with_bad_etag(self):
-        url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
+        url = reverse('datalayer_update',
+                      args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         name = "new name"
         post_data = {
@@ -554,13 +564,15 @@ class DataLayerViews(BaseTest):
             "display_on_load": True,
             "geojson": '{"type":"FeatureCollection","features":[]}'
         }
-        response = self.client.post(url, post_data, follow=True, HTTP_IF_MATCH="xxx")
+        response = self.client.post(url, post_data, follow=True,
+                                    HTTP_IF_MATCH="xxx")
         self.assertEqual(response.status_code, 412)
         modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
         self.assertNotEqual(modified_datalayer.name, name)
 
     def test_optimistic_concurrency_control_with_empty_etag(self):
-        url = reverse('datalayer_update', args=(self.map.pk, self.datalayer.pk))
+        url = reverse('datalayer_update',
+                      args=(self.map.pk, self.datalayer.pk))
         self.client.login(username=self.user.username, password="123123")
         name = "new name"
         post_data = {
@@ -568,7 +580,35 @@ class DataLayerViews(BaseTest):
             "display_on_load": True,
             "geojson": '{"type":"FeatureCollection","features":[]}'
         }
-        response = self.client.post(url, post_data, follow=True, HTTP_IF_MATCH=None)
+        response = self.client.post(url, post_data, follow=True,
+                                    HTTP_IF_MATCH=None)
         self.assertEqual(response.status_code, 200)
         modified_datalayer = DataLayer.objects.get(pk=self.datalayer.pk)
         self.assertEqual(modified_datalayer.name, name)
+
+    def test_versions_should_return_versions(self):
+        root = self.datalayer.storage_root()
+        self.datalayer.geojson.storage.save(
+            '%s/%s_1440924889.geojson' % (root, self.datalayer.pk),
+            ContentFile("{}"))
+        self.datalayer.geojson.storage.save(
+            '%s/%s_1440923687.geojson' % (root, self.datalayer.pk),
+            ContentFile("{}"))
+        self.datalayer.geojson.storage.save(
+            '%s/%s_1440918637.geojson' % (root, self.datalayer.pk),
+            ContentFile("{}"))
+        url = reverse('datalayer_versions', args=(self.datalayer.pk, ))
+        versions = json.loads(self.client.get(url).content.decode())
+        self.assertEqual(len(versions['versions']), 4)
+        self.assertIn(
+            {"name": "%s_1440918637.geojson" % self.datalayer.pk,
+             "size": 2, "at": "1440918637"},
+            versions['versions'])
+
+    def test_version_should_return_one_version_geojson(self):
+        root = self.datalayer.storage_root()
+        name = '%s_1440924889.geojson' % self.datalayer.pk
+        self.datalayer.geojson.storage.save('%s/%s' % (root, name),
+                                            ContentFile("{}"))
+        url = reverse('datalayer_version', args=(self.datalayer.pk, name))
+        self.assertEqual(self.client.get(url).content.decode(), "{}")

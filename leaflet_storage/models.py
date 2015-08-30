@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import time
 
 from django.contrib.gis.db import models
 from django.conf import settings
@@ -236,12 +237,10 @@ class Pictogram(NamedModel):
 # Must be out of Datalayer for Django migration to run, because of python 2
 # serialize limitations.
 def upload_to(instance, filename):
-    path = ["datalayer", str(instance.map.pk)[-1]]
-    if len(str(instance.map.pk)) > 1:
-        path.append(str(instance.map.pk)[-2])
-    path.append(str(instance.map.pk))
-    path.append("%s.geojson" % (slugify(instance.name)[:50] or "untitled"))
-    return os.path.join(*path)
+    if instance.pk:
+        return instance.upload_to()
+    name = "%s.geojson" % slugify(instance.name)[:50] or "untitled"
+    return os.path.join(instance.storage_root(), name)
 
 
 class DataLayer(NamedModel):
@@ -261,6 +260,34 @@ class DataLayer(NamedModel):
         help_text=_("Display this layer on load.")
     )
 
+    def save(self, force_insert=False, force_update=False, **kwargs):
+        if not self.pk:
+            is_new = True
+        else:
+            is_new = False
+        super(DataLayer, self).save(force_insert, force_update, **kwargs)
+
+        if is_new:
+            force_insert, force_update = False, True
+            filename = self.upload_to()
+            old_name = self.geojson.name
+            new_name = self.geojson.storage.save(filename, self.geojson)
+            self.geojson.storage.delete(old_name)
+            self.geojson.name = new_name
+            super(DataLayer, self).save(force_insert, force_update, **kwargs)
+
+    def upload_to(self):
+        root = self.storage_root()
+        name = '%s_%s.geojson' % (self.pk, int(time.time()))
+        return os.path.join(root, name)
+
+    def storage_root(self):
+        path = ["datalayer", str(self.map.pk)[-1]]
+        if len(str(self.map.pk)) > 1:
+            path.append(str(self.map.pk)[-2])
+        path.append(str(self.map.pk))
+        return os.path.join(*path)
+
     @property
     def metadata(self):
         return {
@@ -277,3 +304,30 @@ class DataLayer(NamedModel):
         new.geojson = File(new.geojson.file.file)
         new.save()
         return new
+
+    def is_valid_version(self, name):
+        return name.startswith('%s_' % self.pk) and name.endswith('.geojson')
+
+    def version_metadata(self, name):
+        els = name.split('.')[0].split('_')
+        return {
+            "name": name,
+            "at": els[1],
+            "size": self.geojson.storage.size(self.get_version_path(name))
+        }
+
+    @property
+    def versions(self):
+        root = self.storage_root()
+        names = self.geojson.storage.listdir(root)[1]
+        names = [name for name in names if self.is_valid_version(name)]
+        names.sort(reverse=True)  # Recent first.
+        return [self.version_metadata(name) for name in names]
+
+    def get_version(self, name):
+        path = self.get_version_path(name)
+        with self.geojson.storage.open(path, 'r') as f:
+            return f.read()
+
+    def get_version_path(self, name):
+        return '{root}/{name}'.format(root=self.storage_root(), name=name)

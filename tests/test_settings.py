@@ -29,3 +29,4 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 )
 LOGIN_URL = '/login/'
 SITE_URL = 'http://domain.org'
+TEST_RUNNER = 'leaflet_storage.runner.Runner'
