@@ -97,10 +97,16 @@ class MapDetailMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super(MapDetailMixin, self).get_context_data(**kwargs)
-        properties = {}
-        properties['datalayers'] = self.get_datalayers()
-        properties['urls'] = _urls_for_js()
-        properties['tilelayers'] = self.get_tilelayers()
+        properties = {
+            'mapquest_key': getattr(settings, 'MAPQUEST_KEY', ''),
+            'datalayers': self.get_datalayers(),
+            'urls': _urls_for_js(),
+            'tilelayers': self.get_tilelayers(),
+            'allowEdit': self.is_edit_allowed(),
+            'default_iconUrl': "%sstorage/src/img/marker.png" % settings.STATIC_URL,  # noqa
+            'storage_id': self.get_storage_id(),
+            'licences': dict((l.name, l.json) for l in Licence.objects.all()),
+        }
         if self.get_short_url():
             properties['shortUrl'] = self.get_short_url()
 
@@ -112,10 +118,6 @@ class MapDetailMixin(object):
             locale = to_locale(locale)
             properties['locale'] = locale
             context['locale'] = locale
-        properties['allowEdit'] = self.is_edit_allowed()
-        properties["default_iconUrl"] = "%sstorage/src/img/marker.png" % settings.STATIC_URL
-        properties['storage_id'] = self.get_storage_id()
-        properties['licences'] = dict((l.name, l.json) for l in Licence.objects.all())
         # if properties['locateOnLoad']:
         #     properties['locate'] = {
         #         'setView': True,
