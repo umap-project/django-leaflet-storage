@@ -1,5 +1,6 @@
-include README.rst
-include requirements.pip
+include README.md
+include requirements.txt
+include requirements-dev.txt
 recursive-include leaflet_storage/static/storage/src *
 recursive-include leaflet_storage/static/storage/reqs *
 recursive-include leaflet_storage/static/storage/contrib *
