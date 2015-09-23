@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/umap-project/django-leaflet-storage.svg)](https://travis-ci.org/umap-project/django-leaflet-storage)
+[![Requirements Status](https://requires.io/github/umap-project/django-leaflet-storage/requirements.svg?branch=master)](https://requires.io/github/umap-project/django-leaflet-storage/requirements/?branch=master)
+
 # Django-Leaflet-Storage
 
 Provide collaborative maps for your Django project.
