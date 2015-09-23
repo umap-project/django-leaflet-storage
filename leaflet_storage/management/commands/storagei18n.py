@@ -13,13 +13,14 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for code, name in settings.LANGUAGES:
             code = to_locale(code)
-            print "Processing", name
-            path = finders.find('storage/src/locale/{code}.json'.format(code=code))
+            print("Processing", name)
+            path = finders.find('storage/src/locale/{code}.json'.format(
+                                                                    code=code))
             if not path:
-                print "No file for", code, "Skipping"
+                print("No file for", code, "Skipping")
             else:
                 with io.open(path, "r", encoding="utf-8") as f:
-                    print "Found file", path
+                    print("Found file", path)
                     self.render(code, f.read())
 
     def render(self, code, json):
@@ -33,5 +34,5 @@ class Command(BaseCommand):
                 "locale": json,
                 "locale_code": code
             })
-            print "Exporting to", path
+            print("Exporting to", path)
             f.write(content)
