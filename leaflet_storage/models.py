@@ -26,6 +26,9 @@ class NamedModel(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.name
+
 
 def get_default_licence():
     """
