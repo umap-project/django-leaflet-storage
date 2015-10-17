@@ -2,6 +2,8 @@ test:
 	django-admin.py test --settings tests.test_settings --pythonpath .
 assets:
 	cd leaflet_storage/static/storage/ && git pull && make install && make vendors
+cleanassets:
+	rm -rf leaflet_storage/static/storage/node_modules
 distfile:
 	python setup.py sdist bdist_wheel
 test_publish:
@@ -14,9 +16,9 @@ clean:
 	rm -rf build/*
 tx_pull:
 	tx pull
-tx_pull:
+tx_push:
 	tx push -s
 compilemessages:
-	cd leaflet_storage && django-admin.py compilemessage
+	cd leaflet_storage && django-admin.py compilemessages --settings tests.test_settings
 makemessages:
 	cd leaflet_storage && django-admin.py makemessages -a
