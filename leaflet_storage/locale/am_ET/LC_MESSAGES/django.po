@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-17 08:40+0200\n"
-"PO-Revision-Date: 2015-11-14 16:36+0000\n"
+"PO-Revision-Date: 2015-11-15 14:21+0000\n"
 "Last-Translator: Alazar Tekle <al3may3hu@gmail.com>\n"
 "Language-Team: Amharic (Ethiopia) (http://www.transifex.com/yohanboniface/umap/language/am_ET/)\n"
 "MIME-Version: 1.0\n"
@@ -130,7 +130,7 @@ msgstr "ሁኔታዎች"
 #: models.py:178
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr "በግልፅ ያልተቀመጠው ካርታዎ %s አካውንትዎ ጋር ተያይዟል"
+msgstr "በግልፅ ያልተቀመጠው ካርታዎ ከ %s አካውንትዎ ጋር ተያይዟል"
 
 #: models.py:211
 msgid "Clone of"
