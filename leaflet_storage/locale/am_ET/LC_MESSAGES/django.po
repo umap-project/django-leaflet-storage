@@ -3,201 +3,197 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# lucacorsato <lucors@gmail.com>, 2014
-# Maurizio Napolitano <maurizio.napolitano@okfn.org>, 2013
-# claudiamocci <moccicm@gmail.com>, 2013
-# Simone Cortesi <simone@cortesi.com>, 2014
-# YOHAN BONIFACE <yb@enix.org>, 2012
+# Alazar Tekle <al3may3hu@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-17 08:40+0200\n"
-"PO-Revision-Date: 2015-11-02 09:10+0000\n"
-"Last-Translator: Maurizio Napolitano <maurizio.napolitano@okfn.org>\n"
-"Language-Team: Italian (http://www.transifex.com/yohanboniface/umap/language/it/)\n"
+"PO-Revision-Date: 2015-11-14 16:36+0000\n"
+"Last-Translator: Alazar Tekle <al3may3hu@gmail.com>\n"
+"Language-Team: Amharic (Ethiopia) (http://www.transifex.com/yohanboniface/umap/language/am_ET/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: it\n"
+"Language: am_ET\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: forms.py:43
 #, python-format
 msgid "Secret edit link is %s"
-msgstr "Il link segreto per la modifica %s"
+msgstr "የሚስጥር የማረሚያ መስመሩ %s"
 
 #: forms.py:47 models.py:113
 msgid "Everyone can edit"
-msgstr "Chiunque può modificare"
+msgstr "ሁሉም ማረም ይችላል"
 
 #: forms.py:48
 msgid "Only editable with secret edit link"
-msgstr "Modificabile solo con il link segreto di modifica"
+msgstr "በሚስጥር የመረሚያ መስመሩ ብቻ የሚታረም"
 
 #: models.py:20
 msgid "name"
-msgstr "nome"
+msgstr "ስም"
 
 #: models.py:42
 msgid "No licence set"
-msgstr "Nessuna licenza definita"
+msgstr "ምንም ፈቃድ አልተሰጠም"
 
 #: models.py:51
 msgid "details"
-msgstr "dettagli"
+msgstr "ዝርዝሮች"
 
 #: models.py:52
 msgid "Link to a page where the licence is detailed."
-msgstr "Link alla pagina con i dettagli della licenza"
+msgstr "ፈቃዱ በዝርዝር ከተቀመጠ ገፅ ጛር አገናኝ"
 
 #: models.py:66
 msgid "URL template using OSM tile format"
-msgstr "Modello dell'URL usando il formato delle tile OSM"
+msgstr "የድረ-ገፅ አድራሻ ተምሳሌ በኦ.ኤስ.ኤም. የታይል ፎርማት"
 
 #: models.py:74
 msgid "Order of the tilelayers in the edit box"
-msgstr "Ordine degli sfondi (tilelayers) nel box di modifica"
+msgstr "በማረሚያ ሳጥኑ ውስጥ የታይል ሌየሮቹ ቅደም ተከተል"
 
 #: models.py:114
 msgid "Only editors can edit"
-msgstr "Solo gli editor possono fare modifiche"
+msgstr "አራሚዎች ብቻ ማረም ይችላሉ"
 
 #: models.py:115
 msgid "Only owner can edit"
-msgstr "Solo il proprietario può effettuare modifiche"
+msgstr "ባለቤት ብቻ ማረም ይችላል"
 
 #: models.py:118
 msgid "everyone (public)"
-msgstr "chiunque (pubblico)"
+msgstr "ሁሉም (የህዝብ)"
 
 #: models.py:119
 msgid "anyone with link"
-msgstr "chiunque abbia il ilnk"
+msgstr "አድራሻው ያለው ሁሉ"
 
 #: models.py:120
 msgid "editors only"
-msgstr "solo autori"
+msgstr "አራሚዎች ብቻ"
 
 #: models.py:123 models.py:257
 msgid "description"
-msgstr "descrizione"
+msgstr "መገለጫ"
 
 #: models.py:124
 msgid "center"
-msgstr "centra"
+msgstr "መሀከል"
 
 #: models.py:125
 msgid "zoom"
-msgstr "zoom"
+msgstr "ዙም"
 
 #: models.py:126
 msgid "locate"
-msgstr "localizza"
+msgstr "ጠቁም"
 
 #: models.py:126
 msgid "Locate user on load?"
-msgstr "Geolocalizzare l'utente al caricamento?"
+msgstr "በመጫን ላይ ያለውን ተጠቃሚ ጠቁም?"
 
 #: models.py:129
 msgid "Choose the map licence."
-msgstr "Scegliere una licenza per la mappa."
+msgstr "የካርታውን ፈቃድ ከልስ"
 
 #: models.py:130
 msgid "licence"
-msgstr "licenza"
+msgstr "ፈቃድ"
 
 #: models.py:135
 msgid "background"
-msgstr "sfondo"
+msgstr "ጀርባ"
 
 #: models.py:136
 msgid "owner"
-msgstr "proprietario"
+msgstr "ባለቤት"
 
 #: models.py:137
 msgid "editors"
-msgstr "editor"
+msgstr "አራሚዎች"
 
 #: models.py:138
 msgid "edit status"
-msgstr "stato della modifica"
+msgstr "ያለበትን ሁኔታ አርም"
 
 #: models.py:139
 msgid "share status"
-msgstr "stato condivisione"
+msgstr "ያለበትን ሁኔታ አጋራ"
 
 #: models.py:140
 msgid "settings"
-msgstr "impostazioni"
+msgstr "ሁኔታዎች"
 
 #: models.py:178
 #, python-format
 msgid "Your anonymous map has been attached to your account %s"
-msgstr "La mappa anonima è stata associata all'account %s"
+msgstr "በግልፅ ያልተቀመጠው ካርታዎ %s አካውንትዎ ጋር ተያይዟል"
 
 #: models.py:211
 msgid "Clone of"
-msgstr "Duplicata da "
+msgstr "ድቃይ"
 
 #: models.py:262
 msgid "display on load"
-msgstr "mostra al caricamento"
+msgstr "በመጫን ላይ አሳይ"
 
 #: models.py:263
 msgid "Display this layer on load."
-msgstr "Visualizza questo layer al caricamento."
+msgstr "ሌየሩ በመጫን ላይ አሳይ"
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
-msgstr "Utente loggato. Continuare..."
+msgstr "ገብተዋል። በመቀጠል ላይ ..."
 
 #: templates/leaflet_storage/map_update_permissions.html:2
 msgid "Map permissions"
-msgstr "Permessi della mappa"
+msgstr "የካርታ ፍቃዶች"
 
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"
-msgstr "Effettuare il login per continuare"
+msgstr "እባክዎ ለመቀጠል ይግቡ"
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr "Username e password non corrispondono. Riprovare."
+msgstr "የተገልጋይ ስምዎ እና የይለፍ ቃልዎ አልተዛመደም። እባክዎ እንደገና ይሞክሩ።"
 
 #: views.py:238
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "La mappa è stata creata! Per modificarla da un altro computer, si deve utilizzare questo link:   %(anonymous_url)s"
+msgstr "ካርታዎ ተፈጥሯል! ይህንን ካርታ ከሌላ ኮምፒውተር ላይ ሆነው ለማረም ከፈለጉ የሚከተለውን አድራሻ ይጠቀሙ %(anonymous_url)s"
 
 #: views.py:243
 msgid "Congratulations, your map has been created!"
-msgstr "Congratulazioni, la mappa è stata creata!"
+msgstr "እንኳን ደስ አለዎ ካርታዎ ተፈጥሯል!"
 
 #: views.py:270
 msgid "Map has been updated!"
-msgstr "La mappa è stata aggiornata!"
+msgstr "ካርታው ታድሷል!"
 
 #: views.py:297
 msgid "Map editors updated with success!"
-msgstr "Aggiornato l'elenco degli editor abilitati alla modifica della mappa!"
+msgstr "የካርታ አራሚዎች በትክክል ታድሰዋል!"
 
 #: views.py:312
 msgid "Only its owner can delete the map."
-msgstr "Solo il proprietario può eliminare la mappa."
+msgstr "ካርታውን የሚሰርዘው ባለቤቱ ብቻ ነው።"
 
 #: views.py:341
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr "La mappa è stata clonata! Per modificarla usando un altro computer, si deve utilizzare questo link: %(anonymous_url)s"
+msgstr "ካርታዎ ተዳቅሏል! ይህንን ካርታ ከሌላ ኮምፒውተር ላይ ሆነው ለማረም ከፈለጉ የሚከተለውን አድራሻ ይጠቀሙ %(anonymous_url)s"
 
 #: views.py:346
 msgid "Congratulations, your map has been cloned!"
-msgstr "Ottimo, la mappa è stata clonata!"
+msgstr "እንኳን ደስ አለዎ ካርታዎ ተዳቅሏል!"
 
 #: views.py:532
 msgid "Layer successfully deleted."
-msgstr "Layer eliminato correttamente"
+msgstr "ሌየሩ በትክክል ተሰርዟ"
