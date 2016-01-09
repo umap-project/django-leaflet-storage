@@ -27,7 +27,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     platforms=["any"],
-    zip_safe=True,
+    zip_safe=False,
     install_requires=install_requires,
     long_description=long_description,
 
