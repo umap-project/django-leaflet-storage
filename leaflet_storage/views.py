@@ -13,7 +13,6 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import (HttpResponse, HttpResponseForbidden,
                          HttpResponseRedirect, HttpResponsePermanentRedirect)
 from django.shortcuts import get_object_or_404
-from django.template import RequestContext
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext as _
 from django.views.generic import View
@@ -54,14 +53,14 @@ def _urls_for_js(urls=None):
     return urls
 
 
-def render_to_json(templates, response_kwargs, context, request):
+def render_to_json(templates, context, request):
     """
     Generate a JSON HttpResponse with rendered template HTML.
     """
     html = render_to_string(
         templates,
-        response_kwargs,
-        RequestContext(request, context)
+        context=context,
+        request=request
     )
     _json = json.dumps({
         "html": html
@@ -165,7 +164,8 @@ class MapView(MapDetailMixin, DetailView):
         self.object = self.get_object()
         canonical = self.get_canonical_url()
         if not request.path == canonical:
-            canonical = "?".join([canonical, request.META['QUERY_STRING']])
+            if request.META.get('QUERY_STRING'):
+                canonical = "?".join([canonical, request.META['QUERY_STRING']])
             return HttpResponsePermanentRedirect(canonical)
         if not self.object.can_view(request):
             return HttpResponseForbidden('Forbidden')
@@ -297,8 +297,8 @@ class UpdateMapPermissions(UpdateView):
             info=_("Map editors updated with success!"))
 
     def render_to_response(self, context, **response_kwargs):
-        return render_to_json(self.get_template_names(), response_kwargs,
-                              context, self.request)
+        context.update(response_kwargs)
+        return render_to_json(self.get_template_names(), context, self.request)
 
 
 class MapDelete(DeleteView):

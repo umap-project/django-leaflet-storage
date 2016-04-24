@@ -70,7 +70,7 @@ class DecoratedURLPattern(RegexURLPattern):
         return result
 
 
-def decorated_patterns(prefix, func, *args):
+def decorated_patterns(func, *urls):
     """
     Utility function to decorate a group of url in urls.py
 
@@ -78,36 +78,32 @@ def decorated_patterns(prefix, func, *args):
     See also http://friendpaste.com/6afByRiBB9CMwPft3a6lym
 
     Example:
-    urlpatterns = patterns('',
-        url(r'^language/(?P<lang_code>[a-z]+)$', 'ops.common.views.change_language', name='change_language'),
-
-        ) + decorated_patterns('', login_required, url(r'^', include('cms.urls')),
-    )
+    urlpatterns = [
+        url(r'^language/(?P<lang_code>[a-z]+)$', views.MyView, name='name'),
+    ] + decorated_patterns(login_required, url(r'^', include('cms.urls')),
     """
-    result = patterns(prefix, *args)
 
-    def decorate(result, func):
-        for p in result:
-            if isinstance(p, RegexURLPattern):
-                p.__class__ = DecoratedURLPattern
-                if not hasattr(p, "_decorate_with"):
-                    setattr(p, "_decorate_with", [])
-                p._decorate_with.append(func)
-            elif isinstance(p, RegexURLResolver):
-                for pp in p.url_patterns:
+    def decorate(urls, func):
+        for url in urls:
+            if isinstance(url, RegexURLPattern):
+                url.__class__ = DecoratedURLPattern
+                if not hasattr(url, "_decorate_with"):
+                    setattr(url, "_decorate_with", [])
+                url._decorate_with.append(func)
+            elif isinstance(url, RegexURLResolver):
+                for pp in url.url_patterns:
                     if isinstance(pp, RegexURLPattern):
                         pp.__class__ = DecoratedURLPattern
                         if not hasattr(pp, "_decorate_with"):
                             setattr(pp, "_decorate_with", [])
                         pp._decorate_with.append(func)
     if func:
-        if isinstance(func, (list, tuple)):
-            for f in func:
-                decorate(result, f)
-        else:
-            decorate(result, func)
+        if not isinstance(func, (list, tuple)):
+            func = [func]
+        for f in func:
+            decorate(urls, f)
 
-    return result
+    return urls
 
 
 def gzip_file(from_path, to_path):

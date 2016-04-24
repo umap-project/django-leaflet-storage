@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.contrib.auth.views import login
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.cache import never_cache, cache_control
@@ -8,7 +8,7 @@ from .decorators import jsonize_view, map_permissions_check,\
     login_required_if_not_anonymous_allowed
 from .utils import decorated_patterns
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^login/$', jsonize_view(login), name='login'),  # noqa
     url(r'^login/popup/end/$', views.LoginPopupEnd.as_view(),
         name='login_popup_end'),
@@ -23,22 +23,23 @@ urlpatterns = patterns('',
         name='map_short_url'),
     url(r'^pictogram/json/$', views.PictogramJSONList.as_view(),
         name='pictogram_list_json'),
-)
-urlpatterns += decorated_patterns('', [cache_control(must_revalidate=True)],
+]
+urlpatterns += decorated_patterns(cache_control(must_revalidate=True),
     url(r'^datalayer/(?P<pk>[\d]+)/$', views.DataLayerView.as_view(), name='datalayer_view'),  # noqa
     url(r'^datalayer/(?P<pk>[\d]+)/versions/$', views.DataLayerVersions.as_view(), name='datalayer_versions'),  # noqa
     url(r'^datalayer/(?P<pk>[\d]+)/(?P<name>[_\w]+.geojson)$', views.DataLayerVersion.as_view(), name='datalayer_version'),  # noqa
 )
-urlpatterns += decorated_patterns('', [ensure_csrf_cookie, ],
+urlpatterns += decorated_patterns([ensure_csrf_cookie],
     url(r'^map/(?P<slug>[-_\w]+)_(?P<pk>\d+)$', views.MapView.as_view(), name='map'),  # noqa
     url(r'^map/new/$', views.MapNew.as_view(), name='map_new'),
 )
-urlpatterns += decorated_patterns('',
-    [login_required_if_not_anonymous_allowed, never_cache],  # noqa
+urlpatterns += decorated_patterns(
+    [login_required_if_not_anonymous_allowed, never_cache],
     url(r'^map/create/$', views.MapCreate.as_view(), name='map_create'),
 )
-urlpatterns += decorated_patterns('', [map_permissions_check, never_cache, ],
-    url(r'^map/(?P<map_id>[\d]+)/update/settings/$', views.MapUpdate.as_view(),  # noqa
+urlpatterns += decorated_patterns(
+    [map_permissions_check, never_cache],
+    url(r'^map/(?P<map_id>[\d]+)/update/settings/$', views.MapUpdate.as_view(),
         name='map_update'),
     url(r'^map/(?P<map_id>[\d]+)/update/permissions/$',
         views.UpdateMapPermissions.as_view(), name='map_update_permissions'),

@@ -24,9 +24,24 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.http.ConditionalGetMiddleware',
 )
-TEMPLATE_CONTEXT_PROCESSORS += (
-    'django.template.context_processors.request',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': (),
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages'
+            ]
+        }
+    },
+]
 LOGIN_URL = '/login/'
 SITE_URL = 'http://domain.org'
 TEST_RUNNER = 'leaflet_storage.runner.Runner'
