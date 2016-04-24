@@ -9,12 +9,6 @@ import leaflet_storage
 
 long_description = codecs.open('README.md', "r", "utf-8").read()
 
-with open('requirements.txt') as reqs:
-    install_requires = [
-        line for line in reqs.read().split('\n') if (line and not
-                                                     line.startswith(('--', 'git')))
-    ]
-
 setup(
     name="django-leaflet-storage",
     version=leaflet_storage.__version__,
@@ -28,7 +22,6 @@ setup(
     include_package_data=True,
     platforms=["any"],
     zip_safe=False,
-    install_requires=install_requires,
     long_description=long_description,
 
     classifiers=[
