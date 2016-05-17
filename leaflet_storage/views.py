@@ -97,8 +97,6 @@ class MapDetailMixin(object):
     def get_context_data(self, **kwargs):
         context = super(MapDetailMixin, self).get_context_data(**kwargs)
         properties = {
-            'mapquest_key': getattr(settings, 'MAPQUEST_KEY', ''),
-            'datalayers': self.get_datalayers(),
             'urls': _urls_for_js(),
             'tilelayers': self.get_tilelayers(),
             'allowEdit': self.is_edit_allowed(),
@@ -127,6 +125,10 @@ class MapDetailMixin(object):
         if "properties" not in map_settings:
             map_settings['properties'] = {}
         map_settings['properties'].update(properties)
+        if 'datalayers' not in map_settings['properties']:
+            # Retrocompat. This map has not been saved since uMap 0.8.0
+            # release.
+            map_settings['properties']['datalayers'] = self.get_datalayers()
         context['map_settings'] = json.dumps(map_settings,
                                              indent=settings.DEBUG)
         return context
@@ -150,7 +152,8 @@ class MapDetailMixin(object):
                 "type": "Point"
             },
             "properties": {
-                "zoom": getattr(settings, 'LEAFLET_ZOOM', 6)
+                "zoom": getattr(settings, 'LEAFLET_ZOOM', 6),
+                "datalayers": [],
             }
         }
 
@@ -507,9 +510,9 @@ class DataLayerUpdate(FormLessEditMixin, GZipMixin, UpdateView):
         match = True
         if_match = self.request.META.get('HTTP_IF_MATCH')
         if if_match:
-                etag = self.etag()
-                if etag != if_match:
-                    match = False
+            etag = self.etag()
+            if etag != if_match:
+                match = False
         return match
 
     def post(self, request, *args, **kwargs):
