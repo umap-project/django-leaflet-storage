@@ -115,20 +115,11 @@ class MapDetailMixin(object):
             locale = to_locale(locale)
             properties['locale'] = locale
             context['locale'] = locale
-        # if properties['locateOnLoad']:
-        #     properties['locate'] = {
-        #         'setView': True,
-        #         'enableHighAccuracy': True,
-        #         'timeout': 3000
-        #     }
         map_settings = self.get_geojson()
         if "properties" not in map_settings:
             map_settings['properties'] = {}
         map_settings['properties'].update(properties)
-        if 'datalayers' not in map_settings['properties']:
-            # Retrocompat. This map has not been saved since uMap 0.8.0
-            # release.
-            map_settings['properties']['datalayers'] = self.get_datalayers()
+        map_settings['properties']['datalayers'] = self.get_datalayers()
         context['map_settings'] = json.dumps(map_settings,
                                              indent=settings.DEBUG)
         return context

@@ -262,6 +262,10 @@ class DataLayer(NamedModel):
         verbose_name=_("display on load"),
         help_text=_("Display this layer on load.")
     )
+    rank = models.SmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ('rank',)
 
     def save(self, force_insert=False, force_update=False, **kwargs):
         if not self.pk:
