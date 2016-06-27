@@ -1,5 +1,5 @@
 {% load leaflet_storage_tags %}
-    <div id="map_{{ map.pk }}" class="map_fragment"></div>
+    <div id="{{ prefix }}{{ map.pk }}" class="map_fragment"></div>
     <script type="text/javascript">
-        new L.Storage.Map("map_{{ map.pk }}", {{ map_settings|notag|safe }});
+        new L.Storage.Map("{{ prefix }}{{ map.pk }}", {{ map_settings|notag|safe }});
     </script>

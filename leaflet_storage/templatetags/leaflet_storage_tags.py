@@ -50,9 +50,11 @@ def map_fragment(map_instance, **kwargs):
         'slideshow': {}
     })
     map_settings['properties'].update(kwargs)
+    prefix = kwargs.pop('prefix', None) or 'map_'
     return {
         "map_settings": json.dumps(map_settings),
-        "map": map_instance
+        "map": map_instance,
+        "prefix": prefix
     }
 
 
