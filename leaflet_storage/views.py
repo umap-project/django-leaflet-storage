@@ -82,7 +82,7 @@ class FormLessEditMixin(object):
 
     def form_invalid(self, form):
         return simple_json_response(errors=form.errors,
-                                    error=unicode(form.errors))
+                                    error=str(form.errors))
 
     def get_form(self):
         kwargs = self.get_form_kwargs()
