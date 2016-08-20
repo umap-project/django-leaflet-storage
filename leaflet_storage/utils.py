@@ -2,7 +2,6 @@ import gzip
 
 from django.core.urlresolvers import get_resolver
 from django.core.urlresolvers import RegexURLPattern, RegexURLResolver
-from django.conf.urls import patterns
 
 
 def get_uri_template(urlname, args=None, prefix=""):
