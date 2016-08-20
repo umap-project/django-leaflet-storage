@@ -1,4 +1,7 @@
+-e .
 Django
 psycopg2
 pillow
-factory-boy==2.5.2
+factory-boy
+pytest
+pytest-django

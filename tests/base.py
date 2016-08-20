@@ -1,15 +1,11 @@
 import json
 
-from django.test import TestCase
+import factory
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
-from django.core.files import temp
-from django.test.client import RequestFactory
 
-import factory
-
-from leaflet_storage.models import Map, TileLayer, Licence, DataLayer
 from leaflet_storage.forms import DEFAULT_CENTER
+from leaflet_storage.models import DataLayer, Licence, Map, TileLayer
 
 User = get_user_model()
 
@@ -100,40 +96,10 @@ class DataLayerFactory(factory.DjangoModelFactory):
         model = DataLayer
 
 
-class BaseTest(TestCase):
-    """
-    Provide miminal data need in tests.
-    """
-
-    def setUp(self):
-        self.user = UserFactory(password="123123")
-        self.licence = LicenceFactory()
-        self.map = MapFactory(owner=self.user, licence=self.licence)
-        self.datalayer = DataLayerFactory(map=self.map)
-        self.tilelayer = TileLayerFactory()
-        self.request_factory = RequestFactory()
-
-    def tearDown(self):
-        self.user.delete()
-        self.map.delete()
-        self.datalayer.delete()
-
-    def assertLoginRequired(self, response):
-        self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content.decode())
-        self.assertIn("login_required", j)
-        redirect_url = reverse('login')
-        self.assertEqual(j['login_required'], redirect_url)
-
-    def assertHasForm(self, response):
-        self.assertEqual(response.status_code, 200)
-        j = json.loads(response.content.decode())
-        self.assertIn("html", j)
-        self.assertIn("form", j['html'])
-
-    def temp_file(self, content):
-        tdir = temp.gettempdir()
-        f = temp.NamedTemporaryFile(dir=tdir)
-        f.write(content)
-        f.seek(0)
-        return f
+def login_required(response):
+    assert response.status_code == 200
+    j = json.loads(response.content.decode())
+    assert 'login_required' in j
+    redirect_url = reverse('login')
+    assert j['login_required'] == redirect_url
+    return True
