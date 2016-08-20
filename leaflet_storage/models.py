@@ -268,10 +268,7 @@ class DataLayer(NamedModel):
         ordering = ('rank',)
 
     def save(self, force_insert=False, force_update=False, **kwargs):
-        if not self.pk:
-            is_new = True
-        else:
-            is_new = False
+        is_new = not bool(self.pk)
         super(DataLayer, self).save(force_insert, force_update, **kwargs)
 
         if is_new:
@@ -282,10 +279,11 @@ class DataLayer(NamedModel):
             self.geojson.storage.delete(old_name)
             self.geojson.name = new_name
             super(DataLayer, self).save(force_insert, force_update, **kwargs)
+        self.purge_old_versions()
 
     def upload_to(self):
         root = self.storage_root()
-        name = '%s_%s.geojson' % (self.pk, int(time.time()))
+        name = '%s_%s.geojson' % (self.pk, int(time.time() * 1000))
         return os.path.join(root, name)
 
     def storage_root(self):
@@ -323,12 +321,16 @@ class DataLayer(NamedModel):
             "size": self.geojson.storage.size(self.get_version_path(name))
         }
 
-    @property
-    def versions(self):
+    def get_versions(self):
         root = self.storage_root()
         names = self.geojson.storage.listdir(root)[1]
         names = [name for name in names if self.is_valid_version(name)]
         names.sort(reverse=True)  # Recent first.
+        return names
+
+    @property
+    def versions(self):
+        names = self.get_versions()
         return [self.version_metadata(name) for name in names]
 
     def get_version(self, name):
@@ -338,3 +340,14 @@ class DataLayer(NamedModel):
 
     def get_version_path(self, name):
         return '{root}/{name}'.format(root=self.storage_root(), name=name)
+
+    def purge_old_versions(self):
+        root = self.storage_root()
+        names = self.get_versions()[settings.LEAFLET_STORAGE_KEEP_VERSIONS:]
+        for name in names:
+            for ext in ['', '.gz']:
+                path = os.path.join(root, name + ext)
+                try:
+                    self.geojson.storage.delete(path)
+                except FileNotFoundError:
+                    pass

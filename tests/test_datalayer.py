@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from django.core.files.base import ContentFile
 
@@ -54,3 +56,26 @@ def test_clone_should_clone_geojson_too(datalayer):
     assert datalayer.pk != clone.pk
     assert clone.geojson is not None
     assert clone.geojson.path != datalayer.geojson.path
+
+
+def test_should_remove_old_versions_on_save(datalayer, map, settings):
+    settings.LEAFLET_STORAGE_KEEP_VERSIONS = 3
+    root = datalayer.storage_root()
+    before = len(datalayer.geojson.storage.listdir(root)[1])
+    newer = '%s/%s_1440924889.geojson' % (root, datalayer.pk)
+    medium = '%s/%s_1440923687.geojson' % (root, datalayer.pk)
+    older = '%s/%s_1440918637.geojson' % (root, datalayer.pk)
+    for path in [medium, newer, older]:
+        datalayer.geojson.storage.save(path, ContentFile("{}"))
+        datalayer.geojson.storage.save(path + '.gz', ContentFile("{}"))
+    assert len(datalayer.geojson.storage.listdir(root)[1]) == 6 + before
+    datalayer.save()
+    files = datalayer.geojson.storage.listdir(root)[1]
+    assert len(files) == 5
+    assert os.path.basename(newer) in files
+    assert os.path.basename(newer + '.gz') in files
+    assert os.path.basename(medium) in files
+    assert os.path.basename(medium + '.gz') in files
+    assert os.path.basename(datalayer.geojson.path) in files
+    assert os.path.basename(older) not in files
+    assert os.path.basename(older + '.gz') not in files

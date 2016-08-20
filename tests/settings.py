@@ -46,3 +46,4 @@ TEMPLATES = [
 LOGIN_URL = '/login/'
 SITE_URL = 'http://domain.org'
 TEST_RUNNER = 'leaflet_storage.runner.Runner'
+LEAFLET_STORAGE_KEEP_VERSIONS = 10
