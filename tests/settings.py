@@ -1,4 +1,5 @@
-from django.conf.global_settings import *   # noqa
+from django.conf.global_settings import *  # noqa
+
 SECRET_KEY = 'fake-key'
 INSTALLED_APPS = [
     "django.contrib.auth",

@@ -1,5 +1,5 @@
 test:
-	django-admin.py test --settings tests.test_settings --pythonpath .
+	py.test
 assets:
 	cd leaflet_storage/static/storage/ && git pull && make install && make vendors
 cleanassets:

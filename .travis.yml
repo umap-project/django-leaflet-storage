@@ -3,6 +3,7 @@ language: python
 python:
 - "2.7"
 - "3.4"
+- "3.5"
 services:
 - postgresql
 install: "pip install -r requirements-dev.txt"
@@ -16,3 +17,6 @@ notifications:
     on_success: change
     on_failure: always
   email: false
+branches:
+  only:
+  - master
