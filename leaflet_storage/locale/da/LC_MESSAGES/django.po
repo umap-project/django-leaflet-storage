@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 08:40+0200\n"
+"POT-Creation-Date: 2016-09-09 21:36+0200\n"
 "PO-Revision-Date: 2014-06-02 15:14+0000\n"
 "Last-Translator: Neogeografen <soren.johannessen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/umap/language/"
@@ -161,7 +161,7 @@ msgstr "Login ind for at fortsætte"
 msgid "Your username and password didn't match. Please try again."
 msgstr "Dit brugernavn og adgangskode passer ikke. Prøv igen."
 
-#: views.py:238
+#: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
@@ -170,23 +170,23 @@ msgstr ""
 "Dit kort er blevet lavet! Hvis du ønsker at rette dette kort fra en anden "
 "computer, så brug dette link: %(anonymous_url)s"
 
-#: views.py:243
+#: views.py:237
 msgid "Congratulations, your map has been created!"
 msgstr "Tillykke dit kort er nu blevet lavet!"
 
-#: views.py:270
+#: views.py:264
 msgid "Map has been updated!"
 msgstr "Kortet er blevet opdateret!"
 
-#: views.py:297
+#: views.py:291
 msgid "Map editors updated with success!"
 msgstr "Kortredaktører blev opdateret med succes!"
 
-#: views.py:312
+#: views.py:306
 msgid "Only its owner can delete the map."
 msgstr "Kun ejer kan slettet kortet."
 
-#: views.py:341
+#: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
@@ -195,10 +195,10 @@ msgstr ""
 "Dit kort er blevet klonet! Hvis du ønsker at rette dette kort fra en anden "
 "computer, så brug dette link: %(anonymous_url)s"
 
-#: views.py:346
+#: views.py:340
 msgid "Congratulations, your map has been cloned!"
 msgstr "Tillykke dit kort er blevet klonet!"
 
-#: views.py:532
+#: views.py:526
 msgid "Layer successfully deleted."
 msgstr "Lag blev slettet med succes."

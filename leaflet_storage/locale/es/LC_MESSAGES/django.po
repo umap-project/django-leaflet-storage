@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 08:40+0200\n"
+"POT-Creation-Date: 2016-09-09 21:36+0200\n"
 "PO-Revision-Date: 2014-08-06 19:57+0000\n"
 "Last-Translator: Marco Antonio Frias Butrón <marcoantoniofrias@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/umap/language/"
@@ -163,7 +163,7 @@ msgstr "Por favor, inicia sesión para poder continuar"
 msgid "Your username and password didn't match. Please try again."
 msgstr "Tu nombre de usuario y contraseña no coinciden. Inténtalo de nuevo."
 
-#: views.py:238
+#: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
@@ -172,23 +172,23 @@ msgstr ""
 "¡Tu mapa ha sido creado! Si deseas editarlo desde otro ordenador, por favor "
 "usa este enlace: %(anonymous_url)s"
 
-#: views.py:243
+#: views.py:237
 msgid "Congratulations, your map has been created!"
 msgstr "¡Enhorabuena! ¡Tu mapa ha sido creado!"
 
-#: views.py:270
+#: views.py:264
 msgid "Map has been updated!"
 msgstr "¡El mapa ha sido actualizado!"
 
-#: views.py:297
+#: views.py:291
 msgid "Map editors updated with success!"
 msgstr "¡Los editores del mapas han sido actualizados con éxito!"
 
-#: views.py:312
+#: views.py:306
 msgid "Only its owner can delete the map."
 msgstr "Sólo el propietario puede borrar el mapa."
 
-#: views.py:341
+#: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
@@ -197,10 +197,10 @@ msgstr ""
 "¡Tu mapa ha sido clonado! Si quieres editar este mapa desde otro ordenador, "
 "usa este enlace: %(anonymous_url)s"
 
-#: views.py:346
+#: views.py:340
 msgid "Congratulations, your map has been cloned!"
 msgstr "¡Enhorabuena! ¡Tu mapa ha sido clonado!"
 
-#: views.py:532
+#: views.py:526
 msgid "Layer successfully deleted."
 msgstr "Se eliminó la capa con éxito."

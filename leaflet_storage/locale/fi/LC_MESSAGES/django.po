@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 08:40+0200\n"
+"POT-Creation-Date: 2016-09-09 21:36+0200\n"
 "PO-Revision-Date: 2014-03-04 21:48+0000\n"
 "Last-Translator: acastren\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/umap/language/"
@@ -164,7 +164,7 @@ msgid "Your username and password didn't match. Please try again."
 msgstr ""
 "Käyttäjätunnuksesi ja salasanasi eivät täsmänneet. Yritä uudestaan ole hyvä."
 
-#: views.py:238
+#: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
@@ -173,23 +173,23 @@ msgstr ""
 "Karttasi on luotu! Jos haluat muokata tätä karttaa joltain muulta "
 "tietokoneelta, käytä tätä linkkiä: %(anonymous_url)s"
 
-#: views.py:243
+#: views.py:237
 msgid "Congratulations, your map has been created!"
 msgstr "Onneksi olkoon! Uusi karttasi on luotu!"
 
-#: views.py:270
+#: views.py:264
 msgid "Map has been updated!"
 msgstr "Kartta on päivitetty!"
 
-#: views.py:297
+#: views.py:291
 msgid "Map editors updated with success!"
 msgstr "Kartan toimittajat päivitetty onnistuneesti!"
 
-#: views.py:312
+#: views.py:306
 msgid "Only its owner can delete the map."
 msgstr "Vain kartan omistaja voi poistaa kartan."
 
-#: views.py:341
+#: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
@@ -198,10 +198,10 @@ msgstr ""
 "Karttasi on kloonattu! Jos haluat muokata tätä karttaa joltain muulta "
 "tietokoneelta, käytä tätä linkkiä: %(anonymous_url)s"
 
-#: views.py:346
+#: views.py:340
 msgid "Congratulations, your map has been cloned!"
 msgstr "Onneksi olkoon! Karttasi on kloonattu!"
 
-#: views.py:532
+#: views.py:526
 msgid "Layer successfully deleted."
 msgstr "Kerros onnistuneesti poistettu. Pysyvästi."

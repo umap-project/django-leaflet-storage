@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 08:40+0200\n"
+"POT-Creation-Date: 2016-09-09 21:36+0200\n"
 "PO-Revision-Date: 2014-08-04 14:25+0000\n"
 "Last-Translator: Klumbumbus\n"
 "Language-Team: German (http://www.transifex.com/projects/p/umap/language/"
@@ -165,7 +165,7 @@ msgstr ""
 "Dein Benutzername und Password stimmen nicht überein. Bitte versuche es noch "
 "einmal."
 
-#: views.py:238
+#: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
@@ -174,23 +174,23 @@ msgstr ""
 "Deine Karte wurde erstellt! Wenn du diese Karte von einem anderen Computer "
 "aus bearbeiten möchtest, benutze bitte diesen Link: %(anonymous_url)s"
 
-#: views.py:243
+#: views.py:237
 msgid "Congratulations, your map has been created!"
 msgstr "Glückwunsch, deine Karte wurde erstellt!"
 
-#: views.py:270
+#: views.py:264
 msgid "Map has been updated!"
 msgstr "Karte wurde aktualisiert!"
 
-#: views.py:297
+#: views.py:291
 msgid "Map editors updated with success!"
 msgstr "Bearbeiter erfolgreich geändert"
 
-#: views.py:312
+#: views.py:306
 msgid "Only its owner can delete the map."
 msgstr "Nur der Ersteller kann die Karte löschen."
 
-#: views.py:341
+#: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
@@ -199,10 +199,10 @@ msgstr ""
 "Deine Karte wurde kopiert! Wenn du diese Karte von einem anderen Computer "
 "aus bearbeiten möchtest, benutze bitte diesen Link: %(anonymous_url)s"
 
-#: views.py:346
+#: views.py:340
 msgid "Congratulations, your map has been cloned!"
 msgstr "Glückwunsch, deine Karte wurde kopiert!"
 
-#: views.py:532
+#: views.py:526
 msgid "Layer successfully deleted."
 msgstr "Ebene erfolgreich gelöscht."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 08:40+0200\n"
+"POT-Creation-Date: 2016-09-09 21:36+0200\n"
 "PO-Revision-Date: 2014-02-10 13:32+0000\n"
 "Last-Translator: yohanboniface <yohanboniface@free.fr>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/projects/p/umap/language/"
@@ -162,7 +162,7 @@ msgstr "Prisijunkite, kad tęsti"
 msgid "Your username and password didn't match. Please try again."
 msgstr "Jūsų vardas ir slaptažodis yra neteisingi. Prašom pabandyti iš naujo."
 
-#: views.py:238
+#: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
@@ -171,23 +171,23 @@ msgstr ""
 "Jūsų žemėlapis sėkmingai sukurtas! Jei norite redaguoti jį iš kito "
 "kompiuterio, pasinaudokite šia nuoroda: %(anonymous_url)s"
 
-#: views.py:243
+#: views.py:237
 msgid "Congratulations, your map has been created!"
 msgstr "Sveikinam, Jūsų žemėlapis sukurtas!"
 
-#: views.py:270
+#: views.py:264
 msgid "Map has been updated!"
 msgstr "Žemėlapis atnaujintas!"
 
-#: views.py:297
+#: views.py:291
 msgid "Map editors updated with success!"
 msgstr "Žemėlapio keitėjai atnaujinti!"
 
-#: views.py:312
+#: views.py:306
 msgid "Only its owner can delete the map."
 msgstr "Tik savininkas gali ištrinti žemėlapį."
 
-#: views.py:341
+#: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
@@ -196,10 +196,10 @@ msgstr ""
 "Jūsų žemėlapis nukopijuotas! Jei norite redaguoti jį iš kito kompiuterio, "
 "pasinaudokite šia nuoroda: %(anonymous_url)s"
 
-#: views.py:346
+#: views.py:340
 msgid "Congratulations, your map has been cloned!"
 msgstr "Sveikinam, Jūsų žemėlapis buvo nukopijuotas!"
 
-#: views.py:532
+#: views.py:526
 msgid "Layer successfully deleted."
 msgstr "Sluoksnis sėkmingai ištrintas."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 08:40+0200\n"
+"POT-Creation-Date: 2016-09-09 21:36+0200\n"
 "PO-Revision-Date: 2014-09-17 06:06+0000\n"
 "Last-Translator: Сергій Дубик <dubyk@ukr.net>\n"
 "Language-Team: Ukrainian (Ukraine) (http://www.transifex.com/projects/p/umap/"
@@ -162,7 +162,7 @@ msgstr "Щоб продовжити, виконайте вхід"
 msgid "Your username and password didn't match. Please try again."
 msgstr "Ім’я користувача або пароль невірні.  Спробуйте ще раз."
 
-#: views.py:238
+#: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
@@ -171,23 +171,23 @@ msgstr ""
 "Ваша мапа готова!  Якщо Ви хочете редагувати її на іншому комп’ютері, "
 "використовуйте це посилання: %(anonymous_url)s"
 
-#: views.py:243
+#: views.py:237
 msgid "Congratulations, your map has been created!"
 msgstr "Вітаємо, Ваша мапа готова!"
 
-#: views.py:270
+#: views.py:264
 msgid "Map has been updated!"
 msgstr "Мапа оновлена!"
 
-#: views.py:297
+#: views.py:291
 msgid "Map editors updated with success!"
 msgstr "Редактори мапи успішно оновлені!"
 
-#: views.py:312
+#: views.py:306
 msgid "Only its owner can delete the map."
 msgstr "Лише власник мапи може вилучити її."
 
-#: views.py:341
+#: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
@@ -196,10 +196,10 @@ msgstr ""
 "Карта була скопійована.  Якщо Ви хочете редагувати її на іншому комп’ютері, "
 "використовуйте це посилання: %(anonymous_url)s"
 
-#: views.py:346
+#: views.py:340
 msgid "Congratulations, your map has been cloned!"
 msgstr "Вітаємо, Ваша мапа скопійована!"
 
-#: views.py:532
+#: views.py:526
 msgid "Layer successfully deleted."
 msgstr "Шар вилучено."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 08:40+0200\n"
+"POT-Creation-Date: 2016-09-09 21:36+0200\n"
 "PO-Revision-Date: 2014-04-13 23:24+0000\n"
 "Last-Translator: gorn\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/"
@@ -161,7 +161,7 @@ msgstr "Pro pokračování se musíte přihlásit"
 msgid "Your username and password didn't match. Please try again."
 msgstr "Jméno či heslo nesouhlasí. Zkuste to prosím znovu."
 
-#: views.py:238
+#: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
@@ -170,23 +170,23 @@ msgstr ""
 "Vaše mapa byla vytvořena! Pokud chcete upravovat tuto mapu z jiného "
 "počítače, použijte tento odkaz: %(anonymous_url)s"
 
-#: views.py:243
+#: views.py:237
 msgid "Congratulations, your map has been created!"
 msgstr "Gratulujeme, vaše mapa byla vytvořena!"
 
-#: views.py:270
+#: views.py:264
 msgid "Map has been updated!"
 msgstr "Mapa byla aktualizována!"
 
-#: views.py:297
+#: views.py:291
 msgid "Map editors updated with success!"
 msgstr "Seznam přispěvovatelů byl úspěšně upraven!"
 
-#: views.py:312
+#: views.py:306
 msgid "Only its owner can delete the map."
 msgstr "Jen vlastník může vymzat tuto mapu."
 
-#: views.py:341
+#: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
@@ -195,10 +195,10 @@ msgstr ""
 "Byla vytvořena kopie mapy! Pokud chcete upravovat tuto mapu z jiného "
 "počítače, použijte tento odkaz: %(anonymous_url)s"
 
-#: views.py:346
+#: views.py:340
 msgid "Congratulations, your map has been cloned!"
 msgstr "Gratulujeme, byla vytvořena kopie mapy!"
 
-#: views.py:532
+#: views.py:526
 msgid "Layer successfully deleted."
 msgstr "Vrstva úspěšně vymazána."

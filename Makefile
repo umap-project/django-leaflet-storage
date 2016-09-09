@@ -19,6 +19,6 @@ tx_pull:
 tx_push:
 	tx push -s
 compilemessages:
-	cd leaflet_storage && django-admin.py compilemessages --settings tests.test_settings
+	cd leaflet_storage && django-admin.py compilemessages --settings tests.settings
 makemessages:
 	cd leaflet_storage && django-admin.py makemessages -a

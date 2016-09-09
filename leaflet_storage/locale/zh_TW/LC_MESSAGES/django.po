@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 08:40+0200\n"
+"POT-Creation-Date: 2016-09-09 21:36+0200\n"
 "PO-Revision-Date: 2014-08-22 17:33+0000\n"
 "Last-Translator: coop.shen <coop.shen@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/umap/"
@@ -162,40 +162,40 @@ msgstr "請先登入"
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
 
-#: views.py:238
+#: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:243
+#: views.py:237
 msgid "Congratulations, your map has been created!"
 msgstr "恭喜您的地圖已經新增完成"
 
-#: views.py:270
+#: views.py:264
 msgid "Map has been updated!"
 msgstr "地圖已經更新"
 
-#: views.py:297
+#: views.py:291
 msgid "Map editors updated with success!"
 msgstr "地圖編輯者更新完成"
 
-#: views.py:312
+#: views.py:306
 msgid "Only its owner can delete the map."
 msgstr "只有擁有者可以刪除此地圖"
 
-#: views.py:341
+#: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
 msgstr ""
 
-#: views.py:346
+#: views.py:340
 msgid "Congratulations, your map has been cloned!"
 msgstr ""
 
-#: views.py:532
+#: views.py:526
 msgid "Layer successfully deleted."
 msgstr "圖層已刪除"
