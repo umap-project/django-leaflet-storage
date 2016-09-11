@@ -39,7 +39,7 @@ def get_default_licence():
     return Licence.objects.get_or_create(
         # can't use ugettext_lazy for database storage, see #13965
         name=getattr(settings, "LEAFLET_STORAGE_DEFAULT_LICENCE_NAME",
-                     ugettext('No licence set'))
+                     'No licence set')
     )[0]
 
 
