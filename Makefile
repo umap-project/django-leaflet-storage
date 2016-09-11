@@ -1,5 +1,7 @@
 test:
 	py.test
+initassets:
+	git submodule update --init
 assets:
 	cd leaflet_storage/static/storage/ && git pull && make install && make vendors
 cleanassets:
