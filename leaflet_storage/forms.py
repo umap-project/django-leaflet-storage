@@ -59,7 +59,7 @@ class DataLayerForm(forms.ModelForm):
 
     class Meta:
         model = DataLayer
-        fields = ('geojson', 'name', 'display_on_load')
+        fields = ('geojson', 'name', 'display_on_load', 'rank')
 
 
 class MapSettingsForm(forms.ModelForm):

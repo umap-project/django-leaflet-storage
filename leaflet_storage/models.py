@@ -6,7 +6,7 @@ import time
 from django.contrib.gis.db import models
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext, ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _
 from django.core.signing import Signer
 from django.contrib import messages
 from django.template.defaultfilters import slugify
@@ -76,7 +76,8 @@ class TileLayer(NamedModel):
 
     @property
     def json(self):
-        return dict((field.name, getattr(self, field.name)) for field in self._meta.fields)
+        return dict((field.name, getattr(self, field.name))
+                    for field in self._meta.fields)
 
     @classmethod
     def get_default(cls):
