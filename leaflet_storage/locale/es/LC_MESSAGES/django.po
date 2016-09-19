@@ -1,24 +1,24 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Igor Támara <igor@tamarapatino.org>, 2013
-# Marco Antonio Frias Butrón <marcoantoniofrias@gmail.com>, 2014
+# Marco Antonio <marcoantoniofrias@gmail.com>, 2014
+# Marco Antonio <marcoantoniofrias@gmail.com>, 2016
 # Rafael Ávila Coya <ravilacoya@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-09 21:36+0200\n"
-"PO-Revision-Date: 2014-08-06 19:57+0000\n"
-"Last-Translator: Marco Antonio Frias Butrón <marcoantoniofrias@gmail.com>\n"
-"Language-Team: Spanish (http://www.transifex.com/projects/p/umap/language/"
-"es/)\n"
-"Language: es\n"
+"PO-Revision-Date: 2016-09-17 19:57+0000\n"
+"Last-Translator: Marco Antonio <marcoantoniofrias@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/yohanboniface/umap/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: forms.py:43
@@ -40,7 +40,7 @@ msgstr "nombre"
 
 #: models.py:42
 msgid "No licence set"
-msgstr "Ningún conjunto de licencias"
+msgstr "Sin conjunto de licencias"
 
 #: models.py:51
 msgid "details"
@@ -168,9 +168,7 @@ msgstr "Tu nombre de usuario y contraseña no coinciden. Inténtalo de nuevo."
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
-"¡Tu mapa ha sido creado! Si deseas editarlo desde otro ordenador, por favor "
-"usa este enlace: %(anonymous_url)s"
+msgstr "¡Tu mapa ha sido creado! Si deseas editarlo desde otro ordenador, por favor usa este enlace: %(anonymous_url)s"
 
 #: views.py:237
 msgid "Congratulations, your map has been created!"
@@ -193,9 +191,7 @@ msgstr "Sólo el propietario puede borrar el mapa."
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
-"¡Tu mapa ha sido clonado! Si quieres editar este mapa desde otro ordenador, "
-"usa este enlace: %(anonymous_url)s"
+msgstr "¡Tu mapa ha sido clonado! Si quieres editar este mapa desde otro ordenador, usa este enlace: %(anonymous_url)s"
 
 #: views.py:340
 msgid "Congratulations, your map has been cloned!"
