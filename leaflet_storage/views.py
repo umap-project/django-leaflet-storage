@@ -192,16 +192,16 @@ class MapView(MapDetailMixin, DetailView):
         return shortUrl
 
     def get_geojson(self):
-        settings = self.object.settings
-        if "properties" not in settings:
-            settings['properties'] = {}
+        map_settings = self.object.settings
+        if "properties" not in map_settings:
+            map_settings['properties'] = {}
         if self.object.owner and hasattr(settings, 'USER_MAPS_URL'):
-            settings['properties']['author'] = {
+            map_settings['properties']['author'] = {
                 'name': self.object.owner.get_username(),
                 'link': reverse(settings.USER_MAPS_URL,
                                 args=(self.object.owner.get_username(), ))
             }
-        return settings
+        return map_settings
 
 
 class MapViewGeoJSON(MapView):
