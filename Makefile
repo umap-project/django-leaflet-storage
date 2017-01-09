@@ -1,5 +1,5 @@
 test:
-	py.test
+	py.test tests
 initassets:
 	git submodule update --init
 assets:
