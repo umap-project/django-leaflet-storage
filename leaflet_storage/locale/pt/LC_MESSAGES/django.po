@@ -1,22 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-#
+# 
 # Translators:
 # Joao Ponce de Leao Paulouro <joao.ponceleao@gmail.com>, 2014
+# Rui <xymarior@yandex.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: uMap\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-09-09 21:36+0200\n"
-"PO-Revision-Date: 2014-09-21 13:21+0000\n"
-"Last-Translator: Joao Ponce de Leao Paulouro <joao.ponceleao@gmail.com>\n"
-"Language-Team: Portuguese (http://www.transifex.com/projects/p/umap/language/"
-"pt/)\n"
-"Language: pt\n"
+"PO-Revision-Date: 2016-12-22 03:19+0000\n"
+"Last-Translator: Rui <xymarior@yandex.com>\n"
+"Language-Team: Portuguese (http://www.transifex.com/yohanboniface/umap/language/pt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: forms.py:43
@@ -50,7 +50,7 @@ msgstr "Link para uma página detalhando a licença."
 
 #: models.py:66
 msgid "URL template using OSM tile format"
-msgstr "Modelo d'URL no formato OSM"
+msgstr "Modelo de URL no formato de telas OSM"
 
 #: models.py:74
 msgid "Order of the tilelayers in the edit box"
@@ -70,7 +70,7 @@ msgstr "todos (público)"
 
 #: models.py:119
 msgid "anyone with link"
-msgstr "pessoas com link"
+msgstr "qualquer um com o link"
 
 #: models.py:120
 msgid "editors only"
@@ -94,7 +94,7 @@ msgstr "localizar"
 
 #: models.py:126
 msgid "Locate user on load?"
-msgstr "Localizar usuário de início?"
+msgstr "Localizar usuário no início?"
 
 #: models.py:129
 msgid "Choose the map licence."
@@ -118,11 +118,11 @@ msgstr "editores"
 
 #: models.py:138
 msgid "edit status"
-msgstr "estado da edição"
+msgstr "editar estado"
 
 #: models.py:139
 msgid "share status"
-msgstr "estatuto de partilha"
+msgstr "partilhar estado"
 
 #: models.py:140
 msgid "settings"
@@ -139,11 +139,11 @@ msgstr "Clone de"
 
 #: models.py:262
 msgid "display on load"
-msgstr "mostrar de início"
+msgstr "mostrar no início"
 
 #: models.py:263
 msgid "Display this layer on load."
-msgstr "Apresentar esta camada após carregamento."
+msgstr "Apresentar esta camada ao carregar."
 
 #: templates/leaflet_storage/login_popup_end.html:2
 msgid "You are logged in. Continuing..."
@@ -151,24 +151,22 @@ msgstr "Sucesso na identificação. Continuando..."
 
 #: templates/leaflet_storage/map_update_permissions.html:2
 msgid "Map permissions"
-msgstr "Autorizações do mapa"
+msgstr "Permissões do mapa"
 
 #: templates/registration/login.html:2
 msgid "Please log in to proceed"
-msgstr "Identifica-se para continuar"
+msgstr "Por favor entre na sua conta para continuar"
 
 #: templates/registration/login.html:4
 msgid "Your username and password didn't match. Please try again."
-msgstr "Nome de usuário e senha não correspondem. Tenta novamente."
+msgstr "O nome de usuário e senha não correspondem. Tente novamente."
 
 #: views.py:232
 #, python-format
 msgid ""
 "Your map has been created! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
-"O seu mapa foi criado! Se quiser editar este mapa noutro computador, por "
-"favor utilize este link: %(anonymous_url)s"
+msgstr "O seu mapa foi criado! Se quiser editar este mapa noutro computador, por favor utilize este link: %(anonymous_url)s"
 
 #: views.py:237
 msgid "Congratulations, your map has been created!"
@@ -176,24 +174,22 @@ msgstr "Parabéns, o seu mapa foi criado!"
 
 #: views.py:264
 msgid "Map has been updated!"
-msgstr "Mapa foi actualizado!"
+msgstr "O mapa foi atualizado!"
 
 #: views.py:291
 msgid "Map editors updated with success!"
-msgstr "Editores foram atualizados com sucesso!"
+msgstr "Os editores do mapa foram atualizados com sucesso!"
 
 #: views.py:306
 msgid "Only its owner can delete the map."
-msgstr "Só o proprietário pode apagar o mapa."
+msgstr "Só o proprietário pode eliminar o mapa."
 
 #: views.py:335
 #, python-format
 msgid ""
 "Your map has been cloned! If you want to edit this map from another "
 "computer, please use this link: %(anonymous_url)s"
-msgstr ""
-"O seu mapa foi clonado! Se quiser editar este mapa noutro computador, por "
-"favor utilize este link: %(anonymous_url)s"
+msgstr "O seu mapa foi clonado! Se quiser editar este mapa noutro computador, por favor utilize este link: %(anonymous_url)s"
 
 #: views.py:340
 msgid "Congratulations, your map has been cloned!"
@@ -201,4 +197,4 @@ msgstr "Parabéns, o seu mapa foi clonado!"
 
 #: views.py:526
 msgid "Layer successfully deleted."
-msgstr "Camada apagada com sucesso."
+msgstr "Camada eliminada com sucesso."
