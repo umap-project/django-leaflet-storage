@@ -1,5 +1,16 @@
 # django-leaflet-storage changelog
 
+## 0.8.0
+- upgraded to Leaflet.Storage 0.8.0, which bumps to Leaflet 1.0.x
+- added am_ET, pl and sk_SK locales
+- fixed default licence being created in every available languages
+- switch to pytest for unit tests
+- Django 1.10 compatibility
+- add DataLayer.rank
+- Expose DataLayer versions
+- python3 support
+- add nofollow meta when map is not public
+
 ## 0.7.4
 - fix anonymous not able to edit map anymore
 
