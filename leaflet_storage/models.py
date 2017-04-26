@@ -73,6 +73,8 @@ class TileLayer(NamedModel):
         null=True,
         help_text=_('Order of the tilelayers in the edit box')
     )
+    # See https://wiki.openstreetmap.org/wiki/TMS#The_Y_coordinate
+    tms = models.BooleanField(default=False)
 
     @property
     def json(self):
