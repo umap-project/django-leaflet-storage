@@ -1,3 +1,5 @@
+import json
+
 import pytest
 
 from leaflet_storage.models import Map
@@ -31,3 +33,11 @@ def test_should_not_double_dumps(map):
     map.settings = '{"locate": true}'
     map.save()
     assert Map.objects.get(pk=map.pk).settings == {'locate': True}
+
+
+def test_value_to_string(map):
+    d = {'locateControl': True}
+    map.settings = d
+    map.save()
+    field = Map._meta.get_field('settings')
+    assert json.loads(field.value_to_string(map)) == d
